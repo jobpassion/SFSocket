@@ -31,28 +31,28 @@ class SSAdapter:Adapter {
         
         //        let  buf:bufferRef = bufferRef.alloc(1)
         //        balloc(buf,BUF_SIZE)
-        let  request_atyp:SOCKS5HostType = targetHost.validateIpAddr()
+        let  request_atyp:SOCKS5HostType = realHost.validateIpAddr()
         var atype:UInt8 = SOCKS_IPV4
         if  request_atyp  == .IPV4{
             
             header.append(SOCKS_IPV4)
             addr_len += 1
             //AxLogger.log("\(cIDString) target host use ip \(targetHost) ",level: .Debug)
-            let i :UInt32 = inet_addr(targetHost.cString(using: .utf8)!)
+            let i :UInt32 = inet_addr(realHost.cString(using: .utf8)!)
             header.append(i)
-            header.append(targetPort.byteSwapped)
+            header.append(realPort.byteSwapped)
             addr_len  +=  MemoryLayout<UInt32>.size + 2
             
         }else if request_atyp == .DOMAIN{
             atype = SOCKS_DOMAIN
             header.append(SOCKS_DOMAIN)
             addr_len += 1
-            let name_len = targetHost.characters.count
+            let name_len = realHost.characters.count
             header.append(UInt8(name_len))
             addr_len += 1
-            header.append(targetHost.data(using: .utf8)!)
+            header.append(realHost.data(using: .utf8)!)
             addr_len += name_len
-            let x = targetPort.byteSwapped
+            let x = realPort.byteSwapped
             //let v = UnsafeBufferPointer(start: &x, count: 2)
             header.append(x)
             addr_len += 2
@@ -63,7 +63,7 @@ class SSAdapter:Adapter {
             addr_len += 1
             if let data =  toIPv6Addr(ipString: targetHost) {
                 
-                
+                //not work
                 //AxLogger.log("\(cIDString) convert \(targetHost) to Data:\(data)",level: .Info)
                 header.append(data)
                 let x = targetPort.byteSwapped
@@ -94,6 +94,7 @@ class SSAdapter:Adapter {
         
     }
     override func recv(_ data: Data) -> Data {
+        //crash here
         return engine.decrypt(encrypt_bytes: data)!
         
     }

@@ -22,11 +22,19 @@ class CSocks5Connector: Socks5Connector {
         return c
     }
     override func readCallback(data: Data?, tag: Int) {
+        if stage != .Connected {
+            super.readCallback(data: data, tag: tag)
+            return
+        }
         guard let  adapter = adapter else { return  }
         let newdata = adapter.recv(data!)
         super.readCallback(data: newdata, tag: tag)
     }
     public override func sendData(data: Data, withTag tag: Int) {
+        if tag == Socks5Connector.ReadTag {
+            super.sendData(data: data , withTag: tag)
+            return
+        }
         guard let  adapter = adapter else { return  }
         let newdata = adapter.send(data)
         super.sendData(data: newdata , withTag: tag)

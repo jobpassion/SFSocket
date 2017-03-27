@@ -49,7 +49,7 @@ public class SocketFactory {
                 case .HTTP:
                     let connector = CHTTPProxConnector.create(targetHostname: adapter.targetHost, targetPort: adapter.targetPort, p: chain,adapter:adapter)
                     let data = SFHTTPRequestHeader.buildCONNECTHead(adapter.targetHost, port: String(adapter.targetPort),proxy: chain)
-                    let message = String.init(format:"http proxy %@ %d", adapter.targetPort,adapter.targetPort )
+                    let message = String.init(format:"http proxy %@ %d", adapter.targetHost,adapter.targetPort )
                     AxLogger.log(message,level: .Trace)
                     //let c = connector as! HTTPProxyConnector
                     connector.reqHeader = SFHTTPRequestHeader(data: data)

@@ -490,7 +490,7 @@ public class SSEncrypt {
         //debugLog(message: "use iv create ctx \(iv)")
         if SSEncrypt.have_iv(i: iv,m:m)  && !testenable{
             AxLogger.log("cryto iv dup error",level: .Error)
-            
+            recv_ctx = enc_ctx.init(key: ramdonKey!, iv: iv, encrypt: false,method:m)
         }else {
             recv_ctx = enc_ctx.init(key: ramdonKey!, iv: iv, encrypt: false,method:m)
             
