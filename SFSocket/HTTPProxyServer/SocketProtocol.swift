@@ -33,7 +33,7 @@ public enum SocketStatus {
 /// - warning: It is expected that the instance is accessed on the `queue` only.
 public protocol SocketProtocol: class {
     /// The underlying TCP socket transmitting data.
-    var socket: RawTCPSocketProtocol! { get }
+    var socket: RawSocketProtocol! { get }
 
     /// The delegate instance.
     var delegate: SocketDelegate? { get set }

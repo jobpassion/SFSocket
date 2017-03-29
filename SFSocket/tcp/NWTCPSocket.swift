@@ -4,7 +4,7 @@ import NetworkExtension
 import AxLogger
 var NWTCPSocketID:Int = 0
 //import CocoaLumberjackSwift
-var SFConnectorID:Int = 0
+var SFTCPSocketID:Int = 0
 /// The TCP socket build upon `NWTCPConnection`.
 ///
 /// - warning: This class is not thread-safe, it is expected that the instance is accessed on the `queue` only.
@@ -22,7 +22,7 @@ extension NWTCPConnectionState: CustomStringConvertible {
     }
 }
 
-public class NWTCPSocket: NSObject, RawTCPSocketProtocol {
+public class NWTCPSocket: NSObject, RawSocketProtocol {
     static let ScannerReadTag = 10000
     public  var connection: NWTCPConnection?
 
@@ -43,10 +43,15 @@ public class NWTCPSocket: NSObject, RawTCPSocketProtocol {
             }
         }
     }
-    // MARK: RawTCPSocketProtocol implemention
+    public var tcp: Bool{
+        get {
+            return true
+        }
+    }
+    // MARK: RawSocketProtocol implemention
 
-    /// The `RawTCPSocketDelegate` instance.
-    weak public var delegate: RawTCPSocketDelegate?
+    /// The `RawSocketDelegate` instance.
+    weak public var delegate: RawSocketDelegate?
     
     /// Every method call and variable access must operated on this queue. And all delegate methods will be called on this queue.
     ///
@@ -74,13 +79,14 @@ public class NWTCPSocket: NSObject, RawTCPSocketProtocol {
     var cIDString:String {
         get {
             
-            return "Socket-\(cID)"
+            return "RawTCPSocket-\(cID)"
             //return "[" + objectClassString(self) + "-\(cID)" + "]" //self.classSFName()
         }
     }
     override init() {
-        SFConnectorID += 1
-        cID = SFConnectorID
+        
+        cID = SFTCPSocketID
+        SFTCPSocketID += 1
         super.init()
         
     }
@@ -182,7 +188,7 @@ public class NWTCPSocket: NSObject, RawTCPSocketProtocol {
      */
     public func disconnect() {
         if connection!.state == .cancelled {
-            delegate?.didDisconnect(self)
+            delegate?.didDisconnect(self, error: nil)
         } else {
             closeAfterWriting = true
             checkStatus()
@@ -194,7 +200,7 @@ public class NWTCPSocket: NSObject, RawTCPSocketProtocol {
      */
     public func forceDisconnect() {
         if connection!.state == .cancelled {
-            delegate?.didDisconnect(self)
+            delegate?.didDisconnect(self, error: nil)
         } else {
             cancel()
         }
@@ -365,7 +371,7 @@ public class NWTCPSocket: NSObject, RawTCPSocketProtocol {
         case .cancelled:
             queueCall {
                 if let delegate = self.delegate{
-                    delegate.didDisconnect(self)
+                    delegate.didDisconnect(self, error: nil)
                 }
                 
                 //self.delegate = nil
@@ -433,7 +439,7 @@ public class NWTCPSocket: NSObject, RawTCPSocketProtocol {
                 
                 strong.queueCall { autoreleasepool {
                     strong.delegate?.didWriteData(data, withTag: tag, from: strong)
-                    }}
+                }}
                 strong.checkStatus()
             }
 

@@ -8,22 +8,33 @@
 
 import Foundation
 //For TCP Connection
-open class SFConnection :RawTCPSocketDelegate{
-    
-    
-    
-    open func didDisconnect(_ socket: RawTCPSocketProtocol){
+open class SFConnection :RawSocketDelegate{
+    public /**
+     The socket did disconnect.
+     
+     This should only be called once in the entire lifetime of a socket. After this is called, the delegate will not receive any other events from that socket and the socket should be released.
+     
+     - parameter socket: The socket which did disconnect.
+     */
+    func didDisconnect(_ socket: RawSocketProtocol, error: Error?) {
         
     }
-    open func didReadData(_ data: Data, withTag: Int, from: RawTCPSocketProtocol){
+
+    
+    
+    
+    open func didDisconnect(_ socket: RawSocketProtocol){
+        
+    }
+    open func didReadData(_ data: Data, withTag: Int, from: RawSocketProtocol){
         
     }
     
-    open func didWriteData(_ data: Data?, withTag: Int, from: RawTCPSocketProtocol){
+    open func didWriteData(_ data: Data?, withTag: Int, from: RawSocketProtocol){
         
     }
     
-    open func didConnect(_ socket: RawTCPSocketProtocol){
+    open func didConnect(_ socket: RawSocketProtocol){
         
     }
 }

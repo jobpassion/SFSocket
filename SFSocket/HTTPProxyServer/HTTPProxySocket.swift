@@ -60,7 +60,7 @@ open class HTTPProxySocket: ProxySocket {
      - parameter withTag: The tag given when calling the `readData` method.
      - parameter from:    The socket where the data is read from.
      */
-    override open func didReadData(_ data: Data, withTag tag: Int, from: RawTCPSocketProtocol) {
+    override open func didReadData(_ data: Data, withTag tag: Int, from: RawSocketProtocol) {
         super.didReadData(data, withTag: tag, from: from)
 
         switch tag {
@@ -104,7 +104,7 @@ open class HTTPProxySocket: ProxySocket {
      - parameter withTag: The tag given when calling the `writeData` method.
      - parameter from:    The socket where the data is sent out.
      */
-    override open func didWriteData(_ data: Data?, withTag tag: Int, from: RawTCPSocketProtocol) {
+    override open func didWriteData(_ data: Data?, withTag tag: Int, from: RawSocketProtocol) {
         super.didWriteData(data, withTag: tag, from: from)
 
         if tag >= 0 {

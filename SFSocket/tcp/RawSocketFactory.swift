@@ -25,7 +25,8 @@ public class RawSocketFactory {
 
      - returns: The created socket instance.
      */
-    public static func getRawSocket(type: SocketBaseType? = nil) -> RawTCPSocketProtocol {
+    // 
+    public static func getRawSocket(type: SocketBaseType? = nil) -> RawSocketProtocol {
         switch type {
         case .some(.NW):
             return NWTCPSocket()

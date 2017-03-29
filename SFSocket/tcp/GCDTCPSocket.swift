@@ -4,7 +4,7 @@ import CocoaAsyncSocket
 /// The TCP socket build upon `GCDAsyncSocket`.
 ///
 /// - warning: This class is not thread-safe, it is expected that the instance is accessed on the `queue` only.
-open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawTCPSocketProtocol {
+open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawSocketProtocol {
     public var writePending: Bool = false
     public var readPending: Bool = false
     /// cell or wifi 
@@ -13,7 +13,9 @@ open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawTCPSocketProtocol 
             return false
         }
     }
-
+    public var tcp:Bool {
+        return true
+    }
     /**
      Connect to remote host.
      
@@ -43,10 +45,10 @@ open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawTCPSocketProtocol 
         super.init()
     }
     
-    // MARK: RawTCPSocketProtocol implemention
+    // MARK: RawSocketProtocol implemention
     
     /// The `RawTCPSocketDelegate` instance.
-    weak open var delegate: RawTCPSocketDelegate?
+    weak open var delegate: RawSocketDelegate?
     
     /// Every method call and variable access must operated on this queue. And all delegate methods will be called on this queue.
     ///
@@ -252,7 +254,7 @@ open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawTCPSocketProtocol 
     }
     
     open func socketDidDisconnect(_ socket: GCDAsyncSocket, withError err: Error?) {
-        delegate?.didDisconnect(self)
+        delegate?.didDisconnect(self, error: nil)
         delegate = nil
         socket.setDelegate(nil, delegateQueue: nil)
     }

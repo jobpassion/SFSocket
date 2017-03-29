@@ -203,7 +203,7 @@ public  class HTTPProxyConnector:ProxyConnector {
         case .cancelled:
             queueCall {
                 if let delegate = self.delegate{
-                    delegate.didDisconnect(self)
+                    delegate.didDisconnect(self, error: nil)
                 }
                 
                 //self.delegate = nil
