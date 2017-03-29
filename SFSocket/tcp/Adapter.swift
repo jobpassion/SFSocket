@@ -8,10 +8,11 @@
 
 import Foundation
 
-protocol AdapterProtocol {
+protocol AdapterProtocol:Hashable {
     var streaming:Bool{ get }
     func send(_ data:Data) ->Data
     func recv(_ data:Data) ->Data
+    var hashValue: Int { get }
 }
 class Adapter:AdapterProtocol {
     func recv(_ data: Data) -> Data {
@@ -55,5 +56,12 @@ class Adapter:AdapterProtocol {
             return nil
         }
     }
-    
+    var hashValue: Int {
+        get {
+            return (realHost + "\(realPort)").hash
+        }
+    }
+    static func ==(lhs: Adapter, rhs: Adapter) -> Bool {
+        return lhs.realHost == rhs.realHost && lhs.realPort == rhs.realPort
+    }
 }

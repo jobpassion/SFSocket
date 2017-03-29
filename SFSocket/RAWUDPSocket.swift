@@ -231,7 +231,7 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
      - note: The socket should disconnect as soon as possible.
      */
     public func forceDisconnect(){
-        
+        self.disconnect()
     }
     
     /**

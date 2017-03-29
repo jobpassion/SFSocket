@@ -234,6 +234,15 @@ public class TCPSession:RawSocketDelegate {
         }
         // UDP don't need read func
     }
+    public  func forceDisconnect(){
+        if let t = tcp{
+            t.forceDisconnect()
+        }else {
+            if let u = udp {
+                u.forceDisconnect()
+            }
+        }
+    }
     
     
 }

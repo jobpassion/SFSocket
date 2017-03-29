@@ -11,10 +11,17 @@
 import Foundation
 import NetworkExtension
 import AxLogger
+//应该是shared
 class KCPTunSocket: RAWUDPSocket {
     
-    var adapter:Adapter?
+    var adapter:Adapter! //ss/socks5/http obfs
+    
+    static var sharedTuns :[KCPTunSocket] = [] //多tun 设计
     var tun:KCPTun = KCPTun()
+    var channels:[Channel] = []
+    var config:TunConfig = TunConfig()
+    var block:BlockCrypt!
+    var smuxConfig:Config = Config()
     /**
      Connect to remote host.
      
@@ -52,12 +59,31 @@ class KCPTunSocket: RAWUDPSocket {
     }
     
     static func create(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy) ->KCPTunSocket? {
-        let c = KCPTunSocket.init()
-        if let port  = Int(p.serverPort){
-            guard let adapter = Adapter.createAdapter(p, host: hostname, port: UInt16(port)) else  {
-                return nil
+        //new channel 
+        // channel layer
+        guard let adapter = Adapter.createAdapter(p, host: hostname, port: UInt16(port)) else  {
+            return nil
+        }
+        var c:KCPTunSocket
+        for cc in KCPTunSocket.sharedTuns {
+            if cc.adapter == adapter {
+                //find 
+                //MARK: to do create channel?
+                
+                return cc
+                
             }
+        }
+        
+        if let port  = Int(p.serverPort){
+            c = KCPTunSocket.init()
             c.adapter = adapter
+            c.smuxConfig.MaxReceiveBuffer = c.config.SockBuf
+            c.smuxConfig.KeepAliveInterval =  UInt64(c.config.KeepAlive) //time.Duration(config.KeepAlive) * time.Second
+            let pass = c.config.pkbdf2Key(pass: p.key)
+            c.block =  BlockCrypt.init(type: p.cryptoType, key: pass)
+
+            KCPTunSocket.sharedTuns.append(c)
             try! c.connectTo(p.serverAddress, port: port, enableTLS: false, tlsSettings: nil)
             return c
         }else {
@@ -141,4 +167,5 @@ class KCPTunSocket: RAWUDPSocket {
     func outputCallBackSocket(_ data:Data){
         delegate?.didReadData(data, withTag: 0, from: self)
     }
+    
 }

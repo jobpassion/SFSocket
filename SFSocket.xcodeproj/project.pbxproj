@@ -150,6 +150,9 @@
 		69E470AF1E67AADE00AE11FB /* SocksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E470AE1E67AADE00AE11FB /* SocksTest.swift */; };
 		69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; };
 		69E55AF71E8BACDB0006F02E /* Socks5Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */; };
+		69F2D8691E8BF96100BBDB9D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D8681E8BF96100BBDB9D /* Config.swift */; };
+		69F2D86B1E8BFFD400BBDB9D /* BlockCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */; };
+		69F2D86D1E8C08E700BBDB9D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86C1E8C08E700BBDB9D /* Channel.swift */; };
 		69F698E71DDC151800966272 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; };
 		69F698E81DDC151800966272 /* CommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69FAE4C81E82478400FE91CD /* KCPTunSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FAE4C71E82478400FE91CD /* KCPTunSocket.swift */; };
@@ -289,6 +292,9 @@
 		69E470AE1E67AADE00AE11FB /* SocksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocksTest.swift; sourceTree = "<group>"; };
 		69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDZSwiftCommonCrypto.framework; path = Carthage/Build/iOS/IDZSwiftCommonCrypto.framework; sourceTree = "<group>"; };
 		69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Socks5Adapter.swift; sourceTree = "<group>"; };
+		69F2D8681E8BF96100BBDB9D /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockCrypt.swift; sourceTree = "<group>"; };
+		69F2D86C1E8C08E700BBDB9D /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		69FAE4C71E82478400FE91CD /* KCPTunSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KCPTunSocket.swift; path = udp/KCPTunSocket.swift; sourceTree = "<group>"; };
 		69FC1AFD1DDBFAB000EF8AAC /* SFSocketTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFSocketTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69FC1AFF1DDBFAB000EF8AAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -348,6 +354,7 @@
 				6914F2151E8A5C0D0033A46D /* Stream.swift */,
 			);
 			name = smux;
+			path = udp;
 			sourceTree = "<group>";
 		};
 		697B7C411DE067A200584179 /* Framework */ = {
@@ -534,6 +541,7 @@
 		69C298901DD593FF00E4C3BD /* SFSocket */ = {
 			isa = PBXGroup;
 			children = (
+				69F2D8651E8BF8D400BBDB9D /* kcptun */,
 				697CEDC01E8B8EA5002D1ECD /* session */,
 				697CEDB91E8B7E00002D1ECD /* proxy */,
 				69BF6C241DE57AC4000ABF09 /* HTTPProxyServer */,
@@ -567,7 +575,6 @@
 		69C2989A1DD5946E00E4C3BD /* udp */ = {
 			isa = PBXGroup;
 			children = (
-				6914F20E1E8A4F390033A46D /* smux */,
 				69C1ED751DF5A4DD0019AFFC /* DNSSessionMatchResult.swift */,
 				6994E0191DEFBEB6009394F9 /* DNSSessionMatchType.swift */,
 				6994E0161DEFBE9E009394F9 /* Rule.swift */,
@@ -598,6 +605,41 @@
 				69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */,
 			);
 			path = state;
+			sourceTree = "<group>";
+		};
+		69F2D8651E8BF8D400BBDB9D /* kcptun */ = {
+			isa = PBXGroup;
+			children = (
+				69F2D86E1E8C147800BBDB9D /* ickp */,
+				69F2D8671E8BF8F300BBDB9D /* tun */,
+				69F2D8661E8BF8E700BBDB9D /* kcp */,
+				6914F20E1E8A4F390033A46D /* smux */,
+			);
+			name = kcptun;
+			sourceTree = "<group>";
+		};
+		69F2D8661E8BF8E700BBDB9D /* kcp */ = {
+			isa = PBXGroup;
+			children = (
+				69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */,
+				69F2D86C1E8C08E700BBDB9D /* Channel.swift */,
+			);
+			name = kcp;
+			sourceTree = "<group>";
+		};
+		69F2D8671E8BF8F300BBDB9D /* tun */ = {
+			isa = PBXGroup;
+			children = (
+				69F2D8681E8BF96100BBDB9D /* Config.swift */,
+			);
+			name = tun;
+			sourceTree = "<group>";
+		};
+		69F2D86E1E8C147800BBDB9D /* ickp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ickp;
 			sourceTree = "<group>";
 		};
 		69FC1AFE1DDBFAB000EF8AAC /* SFSocketTest */ = {
@@ -843,6 +885,7 @@
 				692DD5821DD5CB250079493D /* SFData.swift in Sources */,
 				69BF6C2C1DE57CAE000ABF09 /* ProxyServer.swift in Sources */,
 				69BF6C4A1DE57E28000ABF09 /* ObserverFactory.swift in Sources */,
+				69F2D86B1E8BFFD400BBDB9D /* BlockCrypt.swift in Sources */,
 				692DD5401DD5C9F10079493D /* SFProxy.swift in Sources */,
 				69BF6C2F1DE57D05000ABF09 /* Tunnel.swift in Sources */,
 				69C1ED761DF5A4DD0019AFFC /* DNSSessionMatchResult.swift in Sources */,
@@ -865,6 +908,7 @@
 				6938BFBE1E88B0F700332D82 /* CSocks5Connector.swift in Sources */,
 				69BF6C501DE57E51000ABF09 /* AdapterSocketEvent.swift in Sources */,
 				69BF6C321DE57D5A000ABF09 /* SocketProtocol.swift in Sources */,
+				69F2D8691E8BF96100BBDB9D /* Config.swift in Sources */,
 				69C8D9FF1E7AA5A700A65301 /* AEADCrypto.swift in Sources */,
 				692DD5B41DD5CEA30079493D /* ConnectRequest.swift in Sources */,
 				69BF6C561DE57E74000ABF09 /* Atomic.swift in Sources */,
@@ -895,6 +939,7 @@
 				692DD5AC1DD5CE310079493D /* UDPDirectStack.swift in Sources */,
 				697CEDB81E8B752C002D1ECD /* RawSocketProtocol.swift in Sources */,
 				6938BFBA1E88B09800332D82 /* SSAdapter.swift in Sources */,
+				69F2D86D1E8C08E700BBDB9D /* Channel.swift in Sources */,
 				6914F2161E8A5C0D0033A46D /* Stream.swift in Sources */,
 				69A0D2781DD5975800227353 /* Opt.swift in Sources */,
 				692DD5B61DD5CEFD0079493D /* BinaryDataScanner.swift in Sources */,

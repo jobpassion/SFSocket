@@ -47,8 +47,11 @@ public class SFProxy {
     public var countryFlag:String = ""
     public var isoCode:String = ""
     public var udpRelay:Bool = false
+    
     public var mode:String  = "fast2"
     public var kcptun:Bool = false
+    public var key:String = "" //pkdf2 use
+    public var cryptoType:String = "none"
     public func countryFlagFunc() ->String{
         if countryFlag.isEmpty {
             return showString()
