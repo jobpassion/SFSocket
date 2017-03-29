@@ -16,6 +16,7 @@ public enum SFProxyType :Int, CustomStringConvertible{
     case SOCKS5 = 3
     case HTTPAES  = 4
     case LANTERN  = 5
+    //case KCPTUN = 7
     public var description: String {
         switch self {
         case .HTTP: return "HTTP"
@@ -25,6 +26,7 @@ public enum SFProxyType :Int, CustomStringConvertible{
         case .SOCKS5: return "SOCKS5"
         case .HTTPAES: return "GFW Press"
         case .LANTERN: return "LANTERN"
+        //case .KCPTUN: return "KCPTUN"
         }
     }
 }
@@ -45,6 +47,8 @@ public class SFProxy {
     public var countryFlag:String = ""
     public var isoCode:String = ""
     public var udpRelay:Bool = false
+    public var mode:String  = "fast2"
+    public var kcptun:Bool = false
     public func countryFlagFunc() ->String{
         if countryFlag.isEmpty {
             return showString()
@@ -240,7 +244,7 @@ public class SFProxy {
 
 
     public func resp() ->[String:Any]{
-        return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP]
+        return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP,"mode":mode,"kcptun":NSNumber.init(value:kcptun )]
     }
     open  static func map(_ name:String,value:JSON) ->SFProxy{
         let i = value
@@ -301,6 +305,14 @@ public class SFProxy {
         }
         if i["ipaddress"].error == nil {
             sp.serverIP = i["ipaddress"].stringValue
+        }
+        if i["kcptun"].error == nil {
+            sp.kcptun = i["kcptun"].boolValue
+        }
+        if sp.kcptun {
+            if i["mode"].error == nil {
+                sp.mode = i["mode"].stringValue
+            }
         }
         return sp
     }

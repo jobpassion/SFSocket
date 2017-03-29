@@ -83,7 +83,14 @@ public class SocketFactory {
                     }
                     return connector
                 case .SS:
-                    return   TCPSSConnector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                    if !p.kcptun {
+                        return   TCPSSConnector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                    }else {
+                        //tcp udp merge?
+                        fatalError()
+                        //return nil
+                    }
+                    
                 case .SS3:
                     return   TCPSS3Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
                     

@@ -1,0 +1,62 @@
+//
+//  Frame.swift
+//  SFSocket
+//
+//  Created by 孔祥波 on 28/03/2017.
+//  Copyright © 2017 Kong XiangBo. All rights reserved.
+//
+
+import Foundation
+
+let version:UInt8 = 1
+
+let cmdSYN:UInt8 = 0 // stream open
+let cmdFIN:UInt8 = 1          // stream close, a.k.a EOF mark
+let cmdPSH:UInt8 = 2            // data push
+let cmdNOP:UInt8 = 3            // no operation
+
+let sizeOfVer    = 1
+let sizeOfCmd    = 1
+let sizeOfLength = 2
+let sizeOfSid    = 4
+let headerSize   = sizeOfVer + sizeOfCmd + sizeOfSid + sizeOfLength
+public typealias rawHeader = Data
+// Frame defines a packet from or to be multiplexed into a single connection
+struct Frame {
+    var ver:UInt8 = version
+    var cmd:UInt8 = 0
+    var sid:UInt32 = 0
+    var data:Data?
+    init(_ cmd:UInt8,sid:UInt32) {
+        self.cmd = cmd
+        self.sid = sid
+        
+    }
+    
+}
+
+public extension rawHeader {
+    public func to<T>(type: T.Type) -> T {
+        return self.withUnsafeBytes { $0.pointee }
+    }
+    public func Version() ->UInt8 {
+        return self.first!
+    }
+    public func cmd() ->UInt8{
+        return self[1]
+    }
+    public func Length() ->UInt16{
+     
+        let x = self.subdata(in: Range(2 ..< 4))
+        let y = x.to(type: UInt16.self)
+        return y
+    }
+    public func StreamID() ->UInt32{
+        let x = self.subdata(in: Range(4 ..< 8))
+        let y = x.to(type: UInt32.self)
+        return y
+    }
+    public func desc() ->String{
+        return String.init(format: "Version:%d Cmd:%d StreamID:%d Length:%d", Version(),cmd(),StreamID(),Length())
+    }
+}
