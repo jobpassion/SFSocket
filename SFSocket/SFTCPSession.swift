@@ -61,7 +61,7 @@ public class TCPSession:RawSocketDelegate {
     public func didDisconnect(_ socket: RawSocketProtocol,  error:Error?){
         delegate?.didDisconnect(self, error: error)
     }
-    var useCell:Bool {
+    public var useCell:Bool {
         get {
             if let t = tcp {
                 return t.useCell
@@ -71,6 +71,15 @@ public class TCPSession:RawSocketDelegate {
             }
             return false
         }
+    }
+    /// The destination address.
+    ///
+    /// - note: Always returns `nil`.
+    //MARK: - tobe add
+    public var destinationIPAddress: String? {
+        
+        
+        return "no imp"
     }
     /**
      The socket did read some data.
@@ -165,43 +174,66 @@ public class TCPSession:RawSocketDelegate {
                 guard let p = p else { return nil}
                 let message = String.init(format:"proxy server %@:%@", p.serverAddress,p.serverPort)
                 AxLogger.log(message,level: .Trace)
-                switch p.type {
-                case .HTTP,.HTTPS:
-                    let connector = HTTPProxyConnector.connectorWithSelectorPolicy(targetHostname: targetHost, targetPort: Port, p: p)
-                    let data = SFHTTPRequestHeader.buildCONNECTHead(targetHost, port: String(Port),proxy: p)
-                    let message = String.init(format:"http proxy %@ %d", targetHost,Port )
-                    AxLogger.log(message,level: .Trace)
-                    //let c = connector as! HTTPProxyConnector
-                    connector.reqHeader = SFHTTPRequestHeader(data: data)
-                    if connector.reqHeader == nil {
-                        fatalError("HTTP Request Header nil")
-                    }
-                    s.tcp =  connector
-                case .SS:
-                    if !p.kcptun {
-                        s.tcp =    TCPSSConnector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
-                    }else {
-                        //tcp udp merge?
-                        s.udp = KCPTunSocket.create(policy, targetHostname: targetHost, targetPort: Port, p: p)
-                        //fatalError()
+                if !p.kcptun {
+                    switch p.type {
+                    case .HTTP,.HTTPS:
+                        let connector = HTTPProxyConnector.connectorWithSelectorPolicy(targetHostname: targetHost, targetPort: Port, p: p)
+                        let data = SFHTTPRequestHeader.buildCONNECTHead(targetHost, port: String(Port),proxy: p)
+                        let message = String.init(format:"http proxy %@ %d", targetHost,Port )
+                        AxLogger.log(message,level: .Trace)
+                        //let c = connector as! HTTPProxyConnector
+                        connector.reqHeader = SFHTTPRequestHeader(data: data)
+                        if connector.reqHeader == nil {
+                            fatalError("HTTP Request Header nil")
+                        }
+                        s.tcp =  connector
+                    case .SS:
                         
-                        //return nil
+                        s.tcp =    TCPSSConnector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                    case .SS3:
+                        s.tcp =    TCPSS3Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                        
+                        
+                    case .SOCKS5:
+                        s.tcp =   Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                        
+                    default:
+                        
+                        return nil
                     }
-                    
-                case .SS3:
-                    s.tcp =    TCPSS3Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
-                    
-                    
-                case .SOCKS5:
-                    s.tcp =   Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
-                    
-                default:
-                    
-                    return nil
+                }else {
+                    s.udp = KCPTunSocket.create(policy, targetHostname: targetHost, targetPort: Port, p: p)
                 }
+                
             }
             
         }
         return s
     }
+    
+    
+    //MARK - API
+    
+    public  func sendData(data: Data, withTag tag: Int) {
+        if let t = tcp {
+            t.sendData(data: data, withTag: tag)
+            return
+        }
+        if let u = udp {
+            u.writeData(data, withTag: tag)
+            return
+        }else {
+            AxLogger.log("TCPSession no avaliable socket", level: .Error)
+        }
+        
+    }
+    public func  readDataWithTag(_ tag: Int){
+        if let t = tcp {
+            t.readDataWithTag(tag)
+            return
+        }
+        // UDP don't need read func
+    }
+    
+    
 }

@@ -148,6 +148,8 @@
 		69C8DA001E7AA5A700A65301 /* AEADCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C8D9FE1E7AA5A700A65301 /* AEADCrypto.swift */; };
 		69DD43591DDC4FBA00080CF1 /* SFVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */; };
 		69E470AF1E67AADE00AE11FB /* SocksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E470AE1E67AADE00AE11FB /* SocksTest.swift */; };
+		69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; };
+		69E55AF71E8BACDB0006F02E /* Socks5Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */; };
 		69F698E71DDC151800966272 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; };
 		69F698E81DDC151800966272 /* CommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69FAE4C81E82478400FE91CD /* KCPTunSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FAE4C71E82478400FE91CD /* KCPTunSocket.swift */; };
@@ -285,6 +287,8 @@
 		69C8D9FE1E7AA5A700A65301 /* AEADCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEADCrypto.swift; sourceTree = "<group>"; };
 		69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFVPNStatistics.swift; sourceTree = "<group>"; };
 		69E470AE1E67AADE00AE11FB /* SocksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocksTest.swift; sourceTree = "<group>"; };
+		69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDZSwiftCommonCrypto.framework; path = Carthage/Build/iOS/IDZSwiftCommonCrypto.framework; sourceTree = "<group>"; };
+		69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Socks5Adapter.swift; sourceTree = "<group>"; };
 		69FAE4C71E82478400FE91CD /* KCPTunSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KCPTunSocket.swift; path = udp/KCPTunSocket.swift; sourceTree = "<group>"; };
 		69FC1AFD1DDBFAB000EF8AAC /* SFSocketTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFSocketTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69FC1AFF1DDBFAB000EF8AAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -314,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69803E0E1DD95DBA0047112C /* CocoaAsyncSocket.framework in Frameworks */,
+				69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */,
 				69803E121DD95DC70047112C /* Crypto.framework in Frameworks */,
 				69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */,
 				69803E101DD95DC20047112C /* CommonCrypto.framework in Frameworks */,
@@ -410,6 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				6938BFBF1E88B15A00332D82 /* Adapter.swift */,
+				69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */,
 				6938BFC11E88B63000332D82 /* HTTPAdapter.swift */,
 				6938BFBB1E88B0B400332D82 /* SS3Adapter.swift */,
 				6938BFB91E88B09800332D82 /* SSAdapter.swift */,
@@ -428,6 +434,7 @@
 		69803E081DD95D4F0047112C /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */,
 				69803E151DD95DD80047112C /* SwiftyJSON.framework */,
 				69803E131DD95DD30047112C /* Sodium.framework */,
 				69803E111DD95DC70047112C /* Crypto.framework */,
@@ -832,6 +839,7 @@
 				692DD53C1DD5C9940079493D /* HTTPProxyConnector.swift in Sources */,
 				69A0D27A1DD5979C00227353 /* RawSocketFactory.swift in Sources */,
 				692DD5B01DD5CE620079493D /* IPPacket.swift in Sources */,
+				69E55AF71E8BACDB0006F02E /* Socks5Adapter.swift in Sources */,
 				692DD5821DD5CB250079493D /* SFData.swift in Sources */,
 				69BF6C2C1DE57CAE000ABF09 /* ProxyServer.swift in Sources */,
 				69BF6C4A1DE57E28000ABF09 /* ObserverFactory.swift in Sources */,
