@@ -7,3 +7,24 @@
 //
 
 import Foundation
+
+let defaultAcceptBacklog = 1024
+let errBrokenPipe      = "broken pipe"
+let errInvalidProtocol = "invalid protocol version"
+
+class writeRequest {
+    var frame:Frame
+    var result:writeRequest?
+    init(value:Frame) {
+        self.frame = value
+    }
+}
+
+struct writeResult {
+    var n :Int
+    var err:Error
+}
+
+class Session {
+    
+}
