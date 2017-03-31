@@ -30,7 +30,7 @@ public enum SFProxyType :Int, CustomStringConvertible{
         }
     }
 }
-public class SFProxy {
+public class SFProxy:Equatable {
     public var proxyName:String
     public var serverAddress:String
     public var serverPort:String
@@ -45,6 +45,7 @@ public class SFProxy {
     public var enable:Bool = true
     public var serverIP:String = ""
     public var countryFlag:String = ""
+    public var chain:Bool = false
     public var isoCode:String = ""
     public var udpRelay:Bool = false
     
@@ -247,7 +248,7 @@ public class SFProxy {
 
 
     public func resp() ->[String:Any]{
-        return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP,"mode":mode,"kcptun":NSNumber.init(value:kcptun )]
+        return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP,"mode":mode,"kcptun":NSNumber.init(value:kcptun ),"chain":chain]
     }
     open  static func map(_ name:String,value:JSON) ->SFProxy{
         let i = value
@@ -312,6 +313,9 @@ public class SFProxy {
         if i["kcptun"].error == nil {
             sp.kcptun = i["kcptun"].boolValue
         }
+        if i["chain"].error == nil {
+            sp.chain = i["chain"].boolValue
+        }
         if sp.kcptun {
             if i["mode"].error == nil {
                 sp.mode = i["mode"].stringValue
@@ -328,18 +332,21 @@ public class SFProxy {
     }
     public func base64String() ->String {
         let tls = tlsEnable ? "1" : "0"
-
+        let c = chain ? "1" : "0"
         let string = method + ":" + password + "@" + serverAddress  + ":" + serverPort
         
         //let string = config.method + ":" + config.password + "@" + a + ":" + p
         
         //let string = "aes-256-cfb:fb4b532cb4180c9037c5b64bb3c09f7e@108.61.126.194:14860"//
         let utf8str = string.data(using: .utf8)
-        let base64Encoded = type.description.lowercased()  + "://" + utf8str!.base64EncodedString(options: .endLineWithLineFeed) +   "?tlsEnable=" + tls
+        let base64Encoded = type.description.lowercased()  + "://" + utf8str!.base64EncodedString(options: .endLineWithLineFeed) +   "?tlsEnable=" + tls + "&chain=" + c
         return base64Encoded
     }
    
     deinit{
         
     }
+}
+public func ==(lhs:SFProxy, rhs:SFProxy) -> Bool { // Implement Equatable
+    return lhs.serverAddress == rhs.serverAddress && lhs.serverPort == rhs.serverPort
 }
