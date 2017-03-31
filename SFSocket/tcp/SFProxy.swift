@@ -30,7 +30,7 @@ public enum SFProxyType :Int, CustomStringConvertible{
         }
     }
 }
-public class SFProxy {
+public class SFProxy:Equatable {
     public var proxyName:String
     public var serverAddress:String
     public var serverPort:String
@@ -343,4 +343,7 @@ public class SFProxy {
     deinit{
         
     }
+}
+public func ==(lhs:SFProxy, rhs:SFProxy) -> Bool { // Implement Equatable
+    return lhs.serverAddress == rhs.serverAddress && lhs.serverPort == rhs.serverPort
 }
