@@ -231,9 +231,18 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
      - note: The socket should disconnect as soon as possible.
      */
     public func forceDisconnect(){
-        self.disconnect()
+        fatalError()
     }
-    
+    /**
+     Disconnect the socket immediately with sessionID.
+     
+     - note: The socket should disconnect as soon as possible.
+     */
+    public func forceDisconnect(_ sessionID:Int){
+        // Remote server need close event?
+        //MARK: -- tod close channel
+        //only for kcptun
+    }
     /**
      Send data to remote.
      

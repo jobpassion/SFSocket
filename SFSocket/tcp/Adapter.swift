@@ -23,6 +23,7 @@ class Adapter:AdapterProtocol {
         return Data()
     }
 
+    //控制是否进入streaming 模式
     var streaming:Bool{
         get {
             return false
@@ -45,9 +46,9 @@ class Adapter:AdapterProtocol {
     static func createAdapter(_ proxy:SFProxy,host:String,port:UInt16) -> Adapter? {
         switch proxy.type {
         case .HTTP:
-            return nil
+            return HTTPAdapter(p: proxy, h: host, port: port)
         case .SOCKS5:
-            return nil
+            return Socks5Adapter(p: proxy, h: host, port: port)
         case .SS:
             return SSAdapter(p: proxy, h: host, port: port)
         case .SS3:
@@ -61,7 +62,10 @@ class Adapter:AdapterProtocol {
             return (realHost + "\(realPort)").hash
         }
     }
+    
     static func ==(lhs: Adapter, rhs: Adapter) -> Bool {
-        return lhs.realHost == rhs.realHost && lhs.realPort == rhs.realPort
+        // 这里不对吧？
+        //return lhs.realHost == rhs.realHost && lhs.realPort == rhs.realPort
+        return lhs.proxy == rhs.proxy //&& lhs.realPort == rhs.realPort
     }
 }

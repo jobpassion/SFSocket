@@ -137,6 +137,8 @@
 		69BF6C661DE57FCA000ABF09 /* HTTPStreamScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C641DE57FCA000ABF09 /* HTTPStreamScanner.swift */; };
 		69BF6C681DE57FDB000ABF09 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C671DE57FDB000ABF09 /* Utils.swift */; };
 		69BF6C691DE57FDB000ABF09 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C671DE57FDB000ABF09 /* Utils.swift */; };
+		69C14AE01E8F375F00435A3F /* libkcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C14ADF1E8F375F00435A3F /* libkcp.framework */; };
+		69C14AE11E8F375F00435A3F /* libkcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C14ADF1E8F375F00435A3F /* libkcp.framework */; };
 		69C1ED761DF5A4DD0019AFFC /* DNSSessionMatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1ED751DF5A4DD0019AFFC /* DNSSessionMatchResult.swift */; };
 		69C1ED771DF5A4DD0019AFFC /* DNSSessionMatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1ED751DF5A4DD0019AFFC /* DNSSessionMatchResult.swift */; };
 		69C298931DD593FF00E4C3BD /* SFSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C298911DD593FF00E4C3BD /* SFSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -146,6 +148,14 @@
 		69C8D9FA1E7A792A00A65301 /* TCPSS3Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C8D9F81E7A792A00A65301 /* TCPSS3Connector.swift */; };
 		69C8D9FF1E7AA5A700A65301 /* AEADCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C8D9FE1E7AA5A700A65301 /* AEADCrypto.swift */; };
 		69C8DA001E7AA5A700A65301 /* AEADCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C8D9FE1E7AA5A700A65301 /* AEADCrypto.swift */; };
+		69D5B32A1E8E23EC00D0E0A6 /* SFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D5B3291E8E23EC00D0E0A6 /* SFModel.swift */; };
+		69D5B32B1E8E23EC00D0E0A6 /* SFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D5B3291E8E23EC00D0E0A6 /* SFModel.swift */; };
+		69D5B32C1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; };
+		69D5B32D1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		69D5B32F1E8E2F3800D0E0A6 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D5B32E1E8E2F3800D0E0A6 /* ObjectMapper.framework */; };
+		69D5B3301E8E2F3800D0E0A6 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D5B32E1E8E2F3800D0E0A6 /* ObjectMapper.framework */; };
+		69D5B3311E8E2F3F00D0E0A6 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D5B32E1E8E2F3800D0E0A6 /* ObjectMapper.framework */; };
+		69D5B3321E8E2F3F00D0E0A6 /* ObjectMapper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69D5B32E1E8E2F3800D0E0A6 /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69DD43591DDC4FBA00080CF1 /* SFVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */; };
 		69E470AF1E67AADE00AE11FB /* SocksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E470AE1E67AADE00AE11FB /* SocksTest.swift */; };
 		69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; };
@@ -187,6 +197,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				69D5B3321E8E2F3F00D0E0A6 /* ObjectMapper.framework in CopyFiles */,
+				69D5B32D1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in CopyFiles */,
 				69FC1B1A1DDBFD4900EF8AAC /* SwiftyJSON.framework in CopyFiles */,
 				69FC1B191DDBFD4500EF8AAC /* Sodium.framework in CopyFiles */,
 				69FC1B141DDBFC7200EF8AAC /* CocoaAsyncSocket.framework in CopyFiles */,
@@ -280,6 +292,7 @@
 		69BF6C611DE57F7B000ABF09 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		69BF6C641DE57FCA000ABF09 /* HTTPStreamScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStreamScanner.swift; sourceTree = "<group>"; };
 		69BF6C671DE57FDB000ABF09 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		69C14ADF1E8F375F00435A3F /* libkcp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libkcp.framework; path = Carthage/Build/iOS/libkcp.framework; sourceTree = "<group>"; };
 		69C1ED751DF5A4DD0019AFFC /* DNSSessionMatchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNSSessionMatchResult.swift; sourceTree = "<group>"; };
 		69C2988E1DD593FF00E4C3BD /* SFSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SFSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69C298911DD593FF00E4C3BD /* SFSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSocket.h; sourceTree = "<group>"; };
@@ -288,6 +301,8 @@
 		69C298A41DD5959000E4C3BD /* GCDTCPSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GCDTCPSocket.swift; path = tcp/GCDTCPSocket.swift; sourceTree = "<group>"; };
 		69C8D9F81E7A792A00A65301 /* TCPSS3Connector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TCPSS3Connector.swift; path = tcp/TCPSS3Connector.swift; sourceTree = "<group>"; };
 		69C8D9FE1E7AA5A700A65301 /* AEADCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEADCrypto.swift; sourceTree = "<group>"; };
+		69D5B3291E8E23EC00D0E0A6 /* SFModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFModel.swift; sourceTree = "<group>"; };
+		69D5B32E1E8E2F3800D0E0A6 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
 		69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFVPNStatistics.swift; sourceTree = "<group>"; };
 		69E470AE1E67AADE00AE11FB /* SocksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocksTest.swift; sourceTree = "<group>"; };
 		69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDZSwiftCommonCrypto.framework; path = Carthage/Build/iOS/IDZSwiftCommonCrypto.framework; sourceTree = "<group>"; };
@@ -311,11 +326,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				697B7C451DE067CC00584179 /* CocoaAsyncSocket.framework in Frameworks */,
+				69C14AE11E8F375F00435A3F /* libkcp.framework in Frameworks */,
 				697B7C491DE067D800584179 /* Crypto.framework in Frameworks */,
 				697B7C4D1DE067E300584179 /* SwiftyJSON.framework in Frameworks */,
 				697B7C471DE067D300584179 /* CommonCrypto.framework in Frameworks */,
 				697B7C431DE067C500584179 /* AxLogger.framework in Frameworks */,
 				697B7C4B1DE067DD00584179 /* Sodium.framework in Frameworks */,
+				69D5B3301E8E2F3800D0E0A6 /* ObjectMapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,8 +344,10 @@
 				69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */,
 				69803E121DD95DC70047112C /* Crypto.framework in Frameworks */,
 				69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */,
+				69C14AE01E8F375F00435A3F /* libkcp.framework in Frameworks */,
 				69803E101DD95DC20047112C /* CommonCrypto.framework in Frameworks */,
 				69803E0C1DD95DB30047112C /* AxLogger.framework in Frameworks */,
+				69D5B32F1E8E2F3800D0E0A6 /* ObjectMapper.framework in Frameworks */,
 				69803E141DD95DD30047112C /* Sodium.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,6 +357,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				69FC1B111DDBFADE00EF8AAC /* SFSocket.framework in Frameworks */,
+				69D5B32C1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in Frameworks */,
+				69D5B3311E8E2F3F00D0E0A6 /* ObjectMapper.framework in Frameworks */,
 				69F698E71DDC151800966272 /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,6 +462,8 @@
 		69803E081DD95D4F0047112C /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				69C14ADF1E8F375F00435A3F /* libkcp.framework */,
+				69D5B32E1E8E2F3800D0E0A6 /* ObjectMapper.framework */,
 				69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */,
 				69803E151DD95DD80047112C /* SwiftyJSON.framework */,
 				69803E131DD95DD30047112C /* Sodium.framework */,
@@ -558,6 +581,7 @@
 				69C298991DD5946200E4C3BD /* tcp */,
 				69C298911DD593FF00E4C3BD /* SFSocket.h */,
 				69C298921DD593FF00E4C3BD /* Info.plist */,
+				69D5B3291E8E23EC00D0E0A6 /* SFModel.swift */,
 			);
 			path = SFSocket;
 			sourceTree = "<group>";
@@ -835,6 +859,7 @@
 				69BF6C361DE57D72000ABF09 /* ProxySocket.swift in Sources */,
 				69B955061DDF820C006AF669 /* ConnectRequest.swift in Sources */,
 				69BF6C481DE57E15000ABF09 /* TunnelQueueFactory.swift in Sources */,
+				69D5B32B1E8E23EC00D0E0A6 /* SFModel.swift in Sources */,
 				69BF6C511DE57E51000ABF09 /* AdapterSocketEvent.swift in Sources */,
 				69BF6C331DE57D5A000ABF09 /* SocketProtocol.swift in Sources */,
 				69C8DA001E7AA5A700A65301 /* AEADCrypto.swift in Sources */,
@@ -897,6 +922,7 @@
 				698A08221DD5C6D4009BFFC9 /* SFEncrypt.swift in Sources */,
 				69C8D9F91E7A792A00A65301 /* TCPSS3Connector.swift in Sources */,
 				6938BFC21E88B63000332D82 /* HTTPAdapter.swift in Sources */,
+				69D5B32A1E8E23EC00D0E0A6 /* SFModel.swift in Sources */,
 				692DD5801DD5CAB50079493D /* SwiftExtension.swift in Sources */,
 				697CEDC21E8B8EC9002D1ECD /* SFTCPSession.swift in Sources */,
 				698A081F1DD5C664009BFFC9 /* ProxyConnector.swift in Sources */,
@@ -1010,6 +1036,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SFSocketOSX/Info.plist;
@@ -1040,6 +1067,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SFSocketOSX/Info.plist;

@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import ObjectMapper
 public enum SFProxyType :Int, CustomStringConvertible{
     case HTTP = 0
     case HTTPS = 1
@@ -30,14 +31,14 @@ public enum SFProxyType :Int, CustomStringConvertible{
         }
     }
 }
-public class SFProxy:Equatable {
-    public var proxyName:String
-    public var serverAddress:String
-    public var serverPort:String
-    public var password:String
-    public var method:String
+public class SFProxy:CommonModel {
+    public var proxyName:String = ""
+    public var serverAddress:String = ""
+    public var serverPort:String = ""
+    public var password:String = ""
+    public var method:String = ""
     public var tlsEnable:Bool = false //对于ss ,就是OTA 是否支持
-    public var type:SFProxyType
+    public var type:SFProxyType = .SS
     public var pingValue:Float = 0
     public var tcpValue:Double = 0
     public var dnsValue:Double = 0
@@ -79,7 +80,9 @@ public class SFProxy:Equatable {
                 return (nil,"\(configString) Invilad")
             }
             
-            let proxy:SFProxy = SFProxy.init(name: "server", type: .SS, address: "", port: "443", passwd: "", method: "aes-256-cfb", tls: false)
+            guard let proxy:SFProxy = SFProxy.create(name: "server", type: .SS, address: "", port: "443", passwd: "", method: "aes-256-cfb", tls: false) else  {
+                return (nil, "create proxy error")
+            }
             
             let t = scheme.uppercased()
             if t == "HTTP" {
@@ -171,7 +174,9 @@ public class SFProxy:Equatable {
             let t = list.first?.uppercased().trimmingCharacters(in:
                 NSCharacterSet.whitespacesAndNewlines)
             //占位
-            let proxy:SFProxy = SFProxy.init(name: name, type: .SS, address: "", port: "443", passwd: "", method: "aes-256-cfb", tls: false)
+            guard let proxy:SFProxy = SFProxy.create(name: name, type: .SS, address: "", port: "443", passwd: "", method: "aes-256-cfb", tls: false) else  {
+                return (nil)
+            }
             if t == "HTTP" {
                 proxy.type = .HTTP
             }else if t == "HTTPS" {
@@ -215,26 +220,46 @@ public class SFProxy:Equatable {
         
         
     }
-    public init(name:String,type:SFProxyType ,address:String,port:String , passwd:String,method:String,tls:Bool){
-        self.proxyName = name
-        self.serverAddress = address
-        self.serverPort = port
-        self.password = passwd
-        self.method = method
+    public static func create(name:String,type:SFProxyType ,address:String,port:String , passwd:String,method:String,tls:Bool) ->SFProxy?{
+       
+        // Convert JSON String to Model
+        //let user = Mapper<User>().map(JSONString: JSONString)
+        // Create JSON String from Model
+        //let JSONString = Mapper().toJSONString(user, prettyPrint: true)
+        guard let proxy = Mapper<SFProxy>().map(JSONString: "") else {
+            return nil
+        }
+        
+        proxy.proxyName = name
+        proxy.serverAddress = address
+        proxy.serverPort = port
+        proxy.password = passwd
+        proxy.method = method
         if type == .HTTPS {
-            self.tlsEnable = true
+            proxy.tlsEnable = true
         }else {
-            self.tlsEnable = tls
+            proxy.tlsEnable = tls
         }
         
         if method == "aes" {
-            self.type = .HTTPAES
+            proxy.type = .HTTPAES
         }else {
-            self.type = type
+            proxy.type = type
         }
         
-        
+        return proxy
     }
+    public required init?(map: Map) {
+        super.init(map: map)
+        //self.mapping(map: map)
+    }
+    //public required init?(map: Map) {
+        //super.init(map: map)
+        //super.init(map: map)
+        //fatalError("init(map:) has not been implemented")
+    //}
+    
+    
     public  func showString() ->String {
         if !proxyName.isEmpty{
             return proxyName
@@ -247,81 +272,34 @@ public class SFProxy:Equatable {
     }
 
 
-    public func resp() ->[String:Any]{
-        return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP,"mode":mode,"kcptun":NSNumber.init(value:kcptun ),"chain":chain]
-    }
-    open  static func map(_ name:String,value:JSON) ->SFProxy{
-        let i = value
-        let px = i["protocol"].stringValue as NSString
-        let proto = px.uppercased
-        var type :SFProxyType
-        if proto == "HTTP"{
-            type = .HTTP
-        }else if proto == "HTTPS" {
-            type = .HTTPS
-        }else if proto == "CUSTOM" {
-            type = .SS
-        }else if proto == "SS" {
-            type = .SS
-        }else if proto == "SS3" {
-            type = .SS3
-        }else if proto == "SOCKS5" {
-            type = .SOCKS5
-        }else {
-            type = .LANTERN
-        }
+//    public func resp() ->[String:Any]{
+//        return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP,"mode":mode,"kcptun":NSNumber.init(value:kcptun ),"chain":chain]
+//    }
+    //open  static func map(_ name:String,value:JSON) ->SFProxy{
+    public override func mapping(map: Map) {
+       
+        proxyName  <- map["pName"]
+        serverAddress <- map["serverAddress"]
+        serverPort <- map["serverPort"]
+        
+        password <- map["password"]
+        method <- map["method"] //http socks5 user
+        tlsEnable   <- map["tlsEnable"]
+        type   <- (map["type"],EnumTransform<SFProxyType>())
+        countryFlag    <- map["countryFlag"]
+        priority         <- map["priority"]
+        isoCode      <- map["isoCode"]
+        serverIP       <- map["serverIP"]
+        chain  <- map["chain"]
+        udpRelay  <- map["udpRelay"]
+        kcptun  <- map["kcptun"]
+        mode     <- map["mode"]
+        key  <- map["key"]
+        
+        //birthday    <- (map["birthday"], DateTransform())
         
         
-        let a = i["host"].stringValue, p = i["port"].stringValue , pass = i["passwd"].stringValue , m = i["method"].stringValue
         
-        var tlsEnable = false
-        let tls = i["tls"]
-        if tls.error == nil {
-            tlsEnable = tls.boolValue
-        }
-        
-        var enable = false
-        let penable = i["enable"]
-        if penable.error == nil {
-            enable = penable.boolValue
-        }
-        
-        var pName = name
-        if i["name"].error == nil {
-            pName = i["name"].stringValue
-        }
-        let sp = SFProxy(name: pName, type: type, address: a, port: p, passwd: pass, method: m,tls: tlsEnable)
-        
-        
-        if type == .SS {
-            //sp.udpRelay = true
-        }
-        
-        sp.enable = enable
-        let cFlag = i["countryFlag"]
-        sp.countryFlag = cFlag.stringValue
-        let priJ = i["priority"]
-        if priJ.error == nil {
-            sp.priority = priJ.intValue
-        }
-        if i["isoCode"].error == nil {
-            sp.isoCode = i["isoCode"].stringValue
-        }
-        if i["ipaddress"].error == nil {
-            sp.serverIP = i["ipaddress"].stringValue
-        }
-        if i["kcptun"].error == nil {
-            sp.kcptun = i["kcptun"].boolValue
-        }
-        if i["chain"].error == nil {
-            sp.chain = i["chain"].boolValue
-        }
-        if sp.kcptun {
-            if i["mode"].error == nil {
-                sp.mode = i["mode"].stringValue
-            }
-        }
-        return sp
     }
 
     public func typeDesc() ->String{
@@ -329,6 +307,9 @@ public class SFProxy:Equatable {
             return "Type: " + "HTTPS"
         }
         return "Type: " + type.description
+    }
+    static open func loadFromDictioanry(_ dic:AnyObject?) ->SFProxy?{
+        return self.fromDictionary(dic)
     }
     public func base64String() ->String {
         let tls = tlsEnable ? "1" : "0"

@@ -7,9 +7,30 @@
 //
 
 import Foundation
-
-struct Channel {
-    var realhost:String = ""
-    var realPort:String = ""
+import AxLogger
+import libkcp
+func testkcp(){
+    let x = IKCPSEG.init()
+    
+}
+class Channel {
+//    var realhost:String = ""
+//    var realPort:String = ""
+    var cId:Int = 0 //session id
+    var adapter:Adapter
+    init(a:Adapter) {
+        self.adapter = a
+//        self.realhost = h
+//        self.realPort = p
+    }
+    func close(){
+        AxLogger.log("Tun Channel \(cId) close", level: .Info)
+    }
+    func send(_ data:Data) {
+        
+    }
+    func recv(_ data:Data){
+        
+    }
     
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import SFSocket
+import ObjectMapper
 class ViewController: UIViewController {
     let q = DispatchQueue.init(label: "com.yarshure.test")
     var data = Data()
@@ -103,6 +104,10 @@ class ViewController: UIViewController {
         let x:[UInt8] = [0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68]
         let data:rawHeader = Data.init(bytes: x)
         print(data.desc())
+        guard let p = Mapper<SFProxy>().map(JSONString: "{\"type\":0}") else {
+            return
+        }
+        print(p)
         
     }
 }

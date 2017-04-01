@@ -51,15 +51,20 @@ public protocol TCPSessionDelegate: class {
     func didConnect(_ socket: TCPSession)
 }
 public class TCPSession:RawSocketDelegate {
-    
+    // TCP 1:1
+    // UDP N:1 , shoud add key for close 
+    // UDP one channel
     weak var delegate:TCPSessionDelegate?
     
     var tcp:NWTCPSocket?
-    var udp:RAWUDPSocket?
-    
+    var udp:KCPTunSocket?//RAWUDPSocket?
+    var sessionID:Int = 0
     //MARK: - RawSocketDelegate
     public func didDisconnect(_ socket: RawSocketProtocol,  error:Error?){
         delegate?.didDisconnect(self, error: error)
+    }
+    init(s:Int) {
+        sessionID = s
     }
     public var useCell:Bool {
         get {
@@ -116,8 +121,9 @@ public class TCPSession:RawSocketDelegate {
     //proxy chain suport flag
    
     //var proxyChain:Bool = false
-    public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16) ->TCPSession? {
-        let s = TCPSession()
+    public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:Int) ->TCPSession? {
+        let s = TCPSession.init(s: sID)
+        
         let proxy = ProxyChain.shared.proxy
         if policy == .Direct {
             //基本上网需求
@@ -202,7 +208,7 @@ public class TCPSession:RawSocketDelegate {
                         return nil
                     }
                 }else {
-                    s.udp = KCPTunSocket.create(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                    s.udp = KCPTunSocket.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: sID)
                 }
                 
             }
@@ -239,7 +245,7 @@ public class TCPSession:RawSocketDelegate {
             t.forceDisconnect()
         }else {
             if let u = udp {
-                u.forceDisconnect()
+                u.forceDisconnect(sessionID)
             }
         }
     }

@@ -12,16 +12,20 @@ import Foundation
 import NetworkExtension
 import AxLogger
 //应该是shared
+// 可以先不实行adapter，加密,用kun 加密
+// 测试先是不加密，aes 加密， adapter 加密
+// 重现链接 需要？
 class KCPTunSocket: RAWUDPSocket {
     
-    var adapter:Adapter! //ss/socks5/http obfs
-    
+    //var adapter:Adapter! //ss/socks5/http obfs
+    var proxy:SFProxy!
     static var sharedTuns :[KCPTunSocket] = [] //多tun 设计
     var tun:KCPTun = KCPTun()
     var channels:[Channel] = []
     var config:TunConfig = TunConfig()
     var block:BlockCrypt!
     var smuxConfig:Config = Config()
+    var ready:Bool = false
     /**
      Connect to remote host.
      
@@ -58,7 +62,7 @@ class KCPTunSocket: RAWUDPSocket {
             }, maxDatagrams: 32)
     }
     
-    static func create(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy) ->KCPTunSocket? {
+    static func create(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,sessionID:Int) ->KCPTunSocket? {
         //new channel 
         // channel layer
         guard let adapter = Adapter.createAdapter(p, host: hostname, port: UInt16(port)) else  {
@@ -66,10 +70,11 @@ class KCPTunSocket: RAWUDPSocket {
         }
         var c:KCPTunSocket
         for cc in KCPTunSocket.sharedTuns {
-            if cc.adapter == adapter {
+            if cc.proxy == p {
                 //find 
+                let channel = Channel.init(a: adapter)
                 //MARK: to do create channel?
-                
+                cc.channels.append(channel)
                 return cc
                 
             }
@@ -77,12 +82,16 @@ class KCPTunSocket: RAWUDPSocket {
         
         if let port  = Int(p.serverPort){
             c = KCPTunSocket.init()
-            c.adapter = adapter
+            //c.adapter = adapter
+            c.proxy = p
             c.smuxConfig.MaxReceiveBuffer = c.config.SockBuf
             c.smuxConfig.KeepAliveInterval =  UInt64(c.config.KeepAlive) //time.Duration(config.KeepAlive) * time.Second
-            let pass = c.config.pkbdf2Key(pass: p.key)
-            c.block =  BlockCrypt.init(type: p.cryptoType, key: pass)
-
+            guard let pass = c.config.pkbdf2Key(pass: p.key, salt: "kcp-go".data(using: .utf8)!) else {
+                return nil
+            }
+            c.block =  BlockCrypt.create(type:  p.cryptoType, key: pass) //(type: p.cryptoType, key: pass)
+            let channel = Channel.init(a: adapter)
+            c.channels.append(channel)
             KCPTunSocket.sharedTuns.append(c)
             try! c.connectTo(p.serverAddress, port: port, enableTLS: false, tlsSettings: nil)
             return c
@@ -144,7 +153,9 @@ class KCPTunSocket: RAWUDPSocket {
     //MARK: - socket
     override func socketConnectd(){
         // ss /kcptun don't need shakehand
-        delegate?.didConnect(self)
+        //tun ready
+        //delegate?.didConnect(self)
+        self.ready = true
     }
     
     func readCallback(data: Data?, tag: Int) {
@@ -153,13 +164,21 @@ class KCPTunSocket: RAWUDPSocket {
         //callback
     }
     
+    public  func writeData(_ data: Data, withTag: Int,channelID:Int) {
+        //先经过ss
+        let c:Channel =  channels.filter {$0.cId == channelID }.first!
+       c.send(data)
+        //let newdata = adapter.send(data)
+       // tun.inputDataAdapter(newdata)
+     // api
+    }
     public override func writeData(_ data: Data, withTag: Int) {
         //先经过ss
-        
-        guard let  adapter = adapter else { return  }
-        let newdata = adapter.send(data)
-        tun.inputDataAdapter(newdata)
-     // api
+        fatalError()
+//        guard let  adapter = Adapter else { return  }
+//        let newdata = adapter.send(data)
+//        tun.inputDataAdapter(newdata)
+        // api
     }
     func outputCallBackApapter(_ data:Data){
         super.writeData(data, withTag: 0)
@@ -167,5 +186,12 @@ class KCPTunSocket: RAWUDPSocket {
     func outputCallBackSocket(_ data:Data){
         delegate?.didReadData(data, withTag: 0, from: self)
     }
-    
+    // Remote server need close event?
+    //MARK: -- tod close channel
+    //only for kcptun
+    public override func forceDisconnect(_ sessionID:Int){
+        for c in channels {
+            c.close()
+        }
+    }
 }
