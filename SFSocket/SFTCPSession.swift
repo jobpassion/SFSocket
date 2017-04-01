@@ -54,6 +54,8 @@ public class TCPSession:RawSocketDelegate {
     // TCP 1:1
     // UDP N:1 , shoud add key for close 
     // UDP one channel
+    // 用来处理数据和加解密？
+    var adapter:Adapter?
     weak var delegate:TCPSessionDelegate?
     
     var tcp:NWTCPSocket?

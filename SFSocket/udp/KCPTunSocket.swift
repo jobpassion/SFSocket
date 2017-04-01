@@ -18,7 +18,7 @@ import AxLogger
 class KCPTunSocket: RAWUDPSocket {
     
     //var adapter:Adapter! //ss/socks5/http obfs
-    var proxy:SFProxy!
+    var proxy:SFProxy?
     static var sharedTuns :[KCPTunSocket] = [] //多tun 设计
     var tun:KCPTun = KCPTun()
     var channels:[Channel] = []
