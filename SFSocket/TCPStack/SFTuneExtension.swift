@@ -7,7 +7,7 @@
 //
 //这个文件不会被主app 使用
 import Foundation
-import SFSocket
+
 import SwiftyJSON
 import AxLogger
 extension SFRequestInfo {
@@ -120,7 +120,7 @@ extension SFRequestInfo {
     func shouldClose() ->Bool {
         
         if mode == .TCP {
-            if idleTimeing > TCP_MEMORYWARNING_TIMEOUT{
+            if idleTimeing > SKit.env.TCP_MEMORYWARNING_TIMEOUT{
                 return true
             }else {
                 return false
@@ -131,13 +131,13 @@ extension SFRequestInfo {
         guard let req = reqHeader else {return false}
         var result = false
         if req.method == .CONNECT {
-            if idleTimeing > TCP_MEMORYWARNING_TIMEOUT {
+            if idleTimeing > SKit.env.TCP_MEMORYWARNING_TIMEOUT {
                 result = true
             }
         }else {
             if let c = resp.params["Connection"], c == "close"{
                 
-                if idleTimeing > TCP_MEMORYWARNING_TIMEOUT  {
+                if idleTimeing > SKit.env.TCP_MEMORYWARNING_TIMEOUT  {
                     result = true
                 }
             }
@@ -335,7 +335,7 @@ extension SFProxy{
         if i["name"].error == nil {
             pName = i["name"].stringValue
         }
-        let sp = SFProxy(name: pName, type: type, address: a, port: p, passwd: pass, method: m,tls: tlsEnable)
+        guard let sp = SFProxy.create(name: pName, type: type, address: a, port: p, passwd: pass, method: m,tls: tlsEnable) else {return}
         
         
         if type == .SS {

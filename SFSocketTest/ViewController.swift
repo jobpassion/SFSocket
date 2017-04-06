@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SFSocket
+
 import ObjectMapper
 class ViewController: UIViewController {
     let q = DispatchQueue.init(label: "com.yarshure.test")

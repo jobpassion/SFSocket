@@ -10,7 +10,7 @@ import Foundation
 
 import SwiftyJSON
 import AxLogger
-import SFSocket
+
 class SFSettingModule {
     //static let setting = SFSettingModule()
     static var config:String = ""
@@ -125,7 +125,7 @@ class SFSettingModule {
             }
             AxLogger.log("Config load Finished ",level: .Info)
         }else {
-            let u = fm.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)!
+            let u = fm.containerURL(forSecurityApplicationGroupIdentifier: SKit.env.groupIdentifier)!
             AxLogger.log("Config File Don't exist \(u.path) ",level: .Info)
             AxLogger.log("Config File Don't exist \(path) ",level: .Info)
         }

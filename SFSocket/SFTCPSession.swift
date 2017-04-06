@@ -57,10 +57,12 @@ public class TCPSession:RawSocketDelegate {
     // 用来处理数据和加解密？
     var adapter:Adapter?
     weak var delegate:TCPSessionDelegate?
-    
+    var readPending:Bool = false
+    var writePending:Bool = false
     var tcp:NWTCPSocket?
     var udp:KCPTunSocket?//RAWUDPSocket?
     var sessionID:Int = 0
+    var queue:DispatchQueue?
     //MARK: - RawSocketDelegate
     public func didDisconnect(_ socket: RawSocketProtocol,  error:Error?){
         delegate?.didDisconnect(self, error: error)
@@ -123,7 +125,7 @@ public class TCPSession:RawSocketDelegate {
     //proxy chain suport flag
    
     //var proxyChain:Bool = false
-    public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:Int) ->TCPSession? {
+    static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:Int) ->TCPSession? {
         let s = TCPSession.init(s: sID)
         
         let proxy = ProxyChain.shared.proxy
@@ -222,7 +224,7 @@ public class TCPSession:RawSocketDelegate {
     
     //MARK - API
     
-    public  func sendData(data: Data, withTag tag: Int) {
+    public  func sendData(_ data: Data, withTag tag: Int) {
         if let t = tcp {
             t.sendData(data: data, withTag: tag)
             return

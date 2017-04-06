@@ -22,14 +22,14 @@ public enum SFPolicy :String{
         }
     }
 }
-let SOCKS_VERSION:UInt8 = 0x05
-let SOCKS_AUTH_VERSION:UInt8 = 0x01
-let SOCKS_AUTH_SUCCESS:UInt8 = 0x00
-let SOCKS_CMD_CONNECT:UInt8 = 0x01
-let SOCKS_IPV4:UInt8 = 0x01
-let SOCKS_DOMAIN :UInt8 = 0x03
-let SOCKS_IPV6:UInt8 = 0x04
-let SOCKS_CMD_NOT_SUPPORTED :UInt8 = 0x07
+//let SOCKS_VERSION:UInt8 = 0x05
+//let SOCKS_AUTH_VERSION:UInt8 = 0x01
+//let SOCKS_AUTH_SUCCESS:UInt8 = 0x00
+//let SOCKS_CMD_CONNECT:UInt8 = 0x01
+//let SOCKS_IPV4:UInt8 = 0x01
+//let SOCKS_DOMAIN :UInt8 = 0x03
+//let SOCKS_IPV6:UInt8 = 0x04
+//let SOCKS_CMD_NOT_SUPPORTED :UInt8 = 0x07
 public enum SOCKS5HostType:UInt8,CustomStringConvertible{
     case IPV4 = 0x01
     case DOMAIN = 0x03

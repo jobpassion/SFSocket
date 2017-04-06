@@ -7,11 +7,11 @@
 //
 
 import Foundation
-
+import DarwinCore
 import Darwin
 import NetworkExtension
 import CocoaAsyncSocket
-import SFSocket
+
 import AxLogger
 //
 //let dispatchQueue = dispatch_queue_create("DNSServer", nil);
@@ -130,7 +130,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
     func start() {
         
         //SFNetworkInterfaceManager.instances.updateInfo()
-        if !targetHost.isEmpty && targetHost != proxyIpAddr{
+        if !targetHost.isEmpty && targetHost != SKit.env.proxyIpAddr{
             dnsSetting =  DNSServer.init(ip:targetHost,sys:true)
         }else{
             dnsSetting = SFDNSManager.manager.giveMeAserver()
@@ -341,8 +341,8 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
      func writeDNSPacketData(_ data:Data,cache:Bool){
         //NSLog("dns packet %@", data)
         
-        let  srcip:UInt32 = inet_addr(proxyIpAddr.cString(using: String.Encoding.utf8)!) //0xc0a800f5//0b01 // 00f5
-        let dstip:UInt32 = inet_addr(tunIP.cString(using: String.Encoding.utf8)!)//= 0xc0a80202
+        let  srcip:UInt32 = inet_addr(SKit.env.proxyIpAddr.cString(using: String.Encoding.utf8)!) //0xc0a800f5//0b01 // 00f5
+        let dstip:UInt32 = inet_addr(SKit.env.tunIP.cString(using: String.Encoding.utf8)!)//= 0xc0a80202
         
         let h = ipHeader(20+data.count+8, srcip ,dstip,queryIDCounter.bigEndian,UInt8(IPPROTO_UDP))
         queryIDCounter += 1

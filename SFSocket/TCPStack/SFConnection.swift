@@ -8,7 +8,7 @@
 
 import Foundation
 import lwip
-import SFSocket
+
 import AxLogger
 import DarwinCore
 //#define ERR_OK          0    /* No error, everything OK. */
@@ -42,7 +42,18 @@ enum ERR_KEY:Int8{
 let LWIP_ASYNC_TCP_OUT = false
 let LWIP_ASYNC_TCP_Recved = false
 
-class SFConnection: TUNConnection ,RawTCPSocketDelegate,TCPCientDelegate{
+class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
+    /**
+     The socket did disconnect.
+     
+     This should only be called once in the entire lifetime of a socket. After this is called, the delegate will not receive any other events from that socket and the socket should be released.
+     
+     - parameter socket: The socket which did disconnect.
+     */
+    func didDisconnect(_ socket: TCPSession, error: Error?) {
+        
+    }
+
 
     
     public func didSendBufferLen(_ buf_used: Int) {
@@ -56,7 +67,7 @@ class SFConnection: TUNConnection ,RawTCPSocketDelegate,TCPCientDelegate{
     var reqInfo:SFRequestInfo
     let critLock = NSLock()
     weak var manager:SFTCPConnectionManager?
-    var connector:NWTCPSocket?
+    var connector:TCPSession?
     var bufArray:[Data] = []
     var bufArrayInfo:[Int64:Int] = [:]
     var socks_recv_bufArray:Data = Data()
@@ -164,7 +175,7 @@ class SFConnection: TUNConnection ,RawTCPSocketDelegate,TCPCientDelegate{
         return (manager?.dispatchQueue)!
     }
     func setUpConnector(_ host:String,port:UInt16){
-        guard let c = SocketFactory.shared.socketFromProxy(reqInfo.proxy, policy: reqInfo.rule.policy, targetHost: host, Port: port) else {
+        guard let c = TCPSession.socketFromProxy(reqInfo.proxy, policy: reqInfo.rule.policy, targetHost: host, Port: port, sID: reqInfo.reqID) else {
             fatalError("")
         }
         connector = c
@@ -408,7 +419,7 @@ class SFConnection: TUNConnection ,RawTCPSocketDelegate,TCPCientDelegate{
                 if let manager = manager {
                     s.queue = manager.dispatchQueue
                     //s.socketQueue = manager.socketQueue
-                    s.start()
+                    //s.start()
                 }else {
                     AxLogger.log("TCP Manager error", level: .Error)
                     byebyeRequest()
@@ -1067,7 +1078,7 @@ class SFConnection: TUNConnection ,RawTCPSocketDelegate,TCPCientDelegate{
             guard let connector = connector  else {return }
             //AxLogger.log("\(cIDString) writing to Host:\(h):\(p) tag:\(tag)   length \(d.length)",level: .Trace)
             //NSLog("%@ will send data tag:%d", reqInfo.url,tag)
-            connector.writeData(sendData, withTag: Int(tag))
+            connector.sendData(sendData, withTag: Int(tag))
             bufArray.removeAll()
             bufArrayInfo[tag] = sendData.count
             sendingTag = tag
@@ -1230,7 +1241,7 @@ class SFConnection: TUNConnection ,RawTCPSocketDelegate,TCPCientDelegate{
     }
     
     //delegate func
-    func didDisconnect(_ socket: RawTCPSocketProtocol){
+    func didDisconnect(_ socket: TCPSession){
         AxLogger.log("\(cIDString) socket didDisconnect", level: .Debug)
         
         
@@ -1256,7 +1267,7 @@ class SFConnection: TUNConnection ,RawTCPSocketDelegate,TCPCientDelegate{
             client_socks_handler(.event_ERROR_CLOSED)
         }
     }
-    func didReadData(_ data: Data, withTag: Int, from: RawTCPSocketProtocol){
+    func didReadData(_ data: Data, withTag: Int, from: TCPSession){
         AxLogger.log("\(cIDString) socket didReadData", level: .Debug)
         if socks_recv_bufArray.count != 0{
             fatalError()
@@ -1265,7 +1276,7 @@ class SFConnection: TUNConnection ,RawTCPSocketDelegate,TCPCientDelegate{
         client_socks_recv_handler_done(data.count)
 
     }
-    func didWriteData(_ data: Data?, withTag: Int, from: RawTCPSocketProtocol){
+    func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
         AxLogger.log("\(cIDString) socket didWriteData \(tag)", level: .Debug)
         if self.tag == tag {
             //let d = bufArray.removeFirst()
@@ -1277,33 +1288,33 @@ class SFConnection: TUNConnection ,RawTCPSocketDelegate,TCPCientDelegate{
             AxLogger.log("\(cIDString) currrent tag: \(tag) != \(self.tag)",level: .Debug)
         }
     }
-    func didConnect(_ socket: RawTCPSocketProtocol){
+    func didConnect(_ socket: TCPSession){
         AxLogger.log("\(cIDString) Connect OK with Socket", level: .Info)
         //AxLogger.log("\(cIDString)  host:\(connector.targetHost) port:\(connector.targetPort) ESTABLISHED",level: .Verbose)
         
         
         reqInfo.interfaceCell  = socket.useCell ? 1: 0
-        
-        if let x = connector!.sourceIPAddress  {
-            let sourceip = x.presentation
-            reqInfo.localIPaddress = sourceip
-            
-        }
-        
-        if let x = connector!.destinationIPAddress  {
-            let destip = x.presentation
-            
-            //todo fix
-            if !reqInfo.remoteIPaddress.isEmpty && reqInfo.remoteIPaddress != destip {
-                reqInfo.remoteIPaddress += " via " + destip
-            }else {
-                reqInfo.remoteIPaddress =  destip
-            }
-        }
+        //MARK: fixme
+//        if let x = connector!.sourceIPAddress  {
+//            let sourceip = x.presentation
+//            reqInfo.localIPaddress = sourceip
+//            
+//        }
+//        
+//        if let x = connector!.destinationIPAddress  {
+//            let destip = x.presentation
+//            
+//            //todo fix
+//            if !reqInfo.remoteIPaddress.isEmpty && reqInfo.remoteIPaddress != destip {
+//                reqInfo.remoteIPaddress += " via " + destip
+//            }else {
+//                reqInfo.remoteIPaddress =  destip
+//            }
+//        }
         AxLogger.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
         client_socks_handler(.event_UP)
     }
-    func connectorDidSetupFailed(_ connector:RawTCPSocketProtocol, withError:NSError){
+    func connectorDidSetupFailed(_ connector:TCPSession, withError:NSError){
         
         AxLogger.log("\(cIDString)socket DidDisconnect:\((withError))",level: .Error)
         

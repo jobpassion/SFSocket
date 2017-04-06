@@ -39,7 +39,7 @@ class SFDNSManager {
     func addSystemDNS( _ result:inout [DNSServer]) {
         let system = DNSServer.currentSystemDns()
         for s in system {
-            if  s == proxyIpAddr {
+            if  s == SKit.env.proxyIpAddr {
                 AxLogger.log("DNS invalid \(s) ",level: .Error)
             }else {
                 
@@ -60,7 +60,7 @@ class SFDNSManager {
         
         
         let dnss = DNS.loadSystemDNSServer()
-        if let f = dnss?.first, f == proxyIpAddr {
+        if let f = dnss?.first, f == SKit.env.proxyIpAddr {
             AxLogger.log("DNS don't need  update",level: .Info)
         }else {
             dnsServers.removeAll()

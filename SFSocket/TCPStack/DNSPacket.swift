@@ -9,7 +9,7 @@
 import Foundation
 import Darwin
 import AxLogger
-import SFSocket
+
 public enum QTYPE:UInt16,CustomStringConvertible{
     case a = 0x0001
     case ns = 0x0002

@@ -12,6 +12,7 @@ import Darwin
 import AxLogger
 import SystemConfiguration.CaptiveNetwork
 import SystemConfiguration.SCNetworkConnection
+
 public enum SFNetWorkIPType:Int32,CustomStringConvertible {
     case ipv4  = 2//AF_INET
     case ipv6  = 30//AF_INET6
@@ -106,7 +107,7 @@ class SFEnv {
     var session:SFVPNSession = SFVPNSession()
     var ipType:SFNetWorkIPType = .ipv4
     var hwType:SFNetWorkType = .cell
-    static var sysMainVer = version()
+    static var sysMainVer = 10 //version()
     init() {
     }
     func updateEnv(_ ip:String,interface:String){

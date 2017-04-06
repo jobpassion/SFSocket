@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SFSocket
+
 import SwiftyJSON
 let  DOMAINKEYWORD =  "DOMAIN-KEYWORD"
 let IPCIDR = "IP-CIDR"

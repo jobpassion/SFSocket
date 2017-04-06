@@ -10,10 +10,10 @@ import Foundation
 #if os(iOS)
 import UIKit
     #endif
-func version() -> Int {
-    return ProcessInfo.processInfo.operatingSystemVersion.majorVersion
-    
-}
+//func version() -> Int {
+//    return ProcessInfo.processInfo.operatingSystemVersion.majorVersion
+//    
+//}
 var lastmemory:UInt = 0
 var log_ENABLE_REOPEN = true
 func checkJB() ->Bool{
@@ -234,26 +234,26 @@ let  applicationDocumentsDirectory: URL = {
     return urls[urls.count-1]
 }()
 
-func toIPv6Addr(ipString:String) -> Data?  {
-    var addr = in6_addr()
-    let retval = withUnsafeMutablePointer(to: &addr) {
-        inet_pton(AF_INET6, ipString, UnsafeMutablePointer($0))
-    }
-    if retval < 0 {
-        return nil
-    }
-    
-    let data = NSMutableData.init(length: 16)
-    let p = UnsafeMutableRawPointer.init(mutating: (data?.bytes)!)
-    //let addr6 =
-    //#if swift("2.2")
-    //memcpy(p, &(addr.__u6_addr), 16)
-    memcpy(p, &addr, 16)
-    //#else
-    //#endif
-    //print(addr.__u6_addr)
-    return data as Data?
-}
+//func toIPv6Addr(ipString:String) -> Data?  {
+//    var addr = in6_addr()
+//    let retval = withUnsafeMutablePointer(to: &addr) {
+//        inet_pton(AF_INET6, ipString, UnsafeMutablePointer($0))
+//    }
+//    if retval < 0 {
+//        return nil
+//    }
+//    
+//    let data = NSMutableData.init(length: 16)
+//    let p = UnsafeMutableRawPointer.init(mutating: (data?.bytes)!)
+//    //let addr6 =
+//    //#if swift("2.2")
+//    //memcpy(p, &(addr.__u6_addr), 16)
+//    memcpy(p, &addr, 16)
+//    //#else
+//    //#endif
+//    //print(addr.__u6_addr)
+//    return data as Data?
+//}
  func very(ip:String) ->Bool{
     if ip.characters.count > 15 {
         return false

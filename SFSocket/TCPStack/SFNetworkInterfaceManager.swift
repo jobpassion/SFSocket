@@ -9,6 +9,10 @@
 import Foundation
 
 import AxLogger
+func getIFAddresses() -> [NetInfo] {
+    let addresses = [NetInfo]()
+    return addresses
+}
 class SFNetworkInterfaceManager: NSObject {
     
     var defaultIPAddress:String = ""

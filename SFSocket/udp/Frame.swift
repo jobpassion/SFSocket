@@ -34,7 +34,9 @@ struct Frame {
     }
     
 }
-
+func sysVersion() ->Int {
+    return 10
+}
 public extension rawHeader {
     public func to<T>(type: T.Type) -> T {
         return self.withUnsafeBytes { $0.pointee }

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import  SFSocket
+
 public enum SFTunnelError: Error {
     case badConfiguration
     case badConnection

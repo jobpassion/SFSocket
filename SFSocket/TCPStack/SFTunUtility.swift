@@ -9,7 +9,7 @@
 import Foundation
 
 func memoryUsed() -> String {
-    let mem =  reportMemoryUsed()
+    let mem:UInt64 = 4*1024*1024// reportMemoryUsed()
     return memoryString(mem)
 }
 func memoryString(_ memoryUsed:UInt64) ->String {
