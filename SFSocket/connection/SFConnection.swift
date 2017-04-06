@@ -8,6 +8,7 @@
 
 import Foundation
 //For TCP Connection
+/*
 open class SFConnection :RawSocketDelegate{
     public /**
      The socket did disconnect.
@@ -38,3 +39,4 @@ open class SFConnection :RawSocketDelegate{
         
     }
 }
+*/
