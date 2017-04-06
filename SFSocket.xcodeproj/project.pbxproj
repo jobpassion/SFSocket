@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69116B051E967AD7007C2FBA /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
+		69116B061E967AD7007C2FBA /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
+		69116B081E967B3B007C2FBA /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B071E967B3B007C2FBA /* Crypto.framework */; };
+		69116B091E967B3B007C2FBA /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B071E967B3B007C2FBA /* Crypto.framework */; };
+		69116B0B1E967B52007C2FBA /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
+		69116B0C1E967B52007C2FBA /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
+		69116B0E1E967B63007C2FBA /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
+		69116B0F1E967B63007C2FBA /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
 		6914F2101E8A4F600033A46D /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F20F1E8A4F600033A46D /* Frame.swift */; };
 		6914F2121E8A5BE60033A46D /* Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2111E8A5BE60033A46D /* Mux.swift */; };
 		6914F2141E8A5BFD0033A46D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2131E8A5BFD0033A46D /* Session.swift */; };
@@ -268,6 +276,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		69116B041E967AD7007C2FBA /* lwip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = lwip.framework; path = Carthage/Build/iOS/lwip.framework; sourceTree = "<group>"; };
+		69116B071E967B3B007C2FBA /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/iOS/Crypto.framework; sourceTree = "<group>"; };
+		69116B0A1E967B52007C2FBA /* GRDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRDB.framework; path = Carthage/Build/iOS/GRDB.framework; sourceTree = "<group>"; };
+		69116B0D1E967B63007C2FBA /* DarwinCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DarwinCore.framework; path = Carthage/Build/iOS/DarwinCore.framework; sourceTree = "<group>"; };
 		6914F20F1E8A4F600033A46D /* Frame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 		6914F2111E8A5BE60033A46D /* Mux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mux.swift; sourceTree = "<group>"; };
 		6914F2131E8A5BFD0033A46D /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -410,6 +422,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69116B061E967AD7007C2FBA /* lwip.framework in Frameworks */,
+				69116B091E967B3B007C2FBA /* Crypto.framework in Frameworks */,
 				697B7C451DE067CC00584179 /* CocoaAsyncSocket.framework in Frameworks */,
 				69C14AE11E8F375F00435A3F /* libkcp.framework in Frameworks */,
 				697B7C491DE067D800584179 /* Crypto.framework in Frameworks */,
@@ -417,6 +431,8 @@
 				697B7C471DE067D300584179 /* CommonCrypto.framework in Frameworks */,
 				697B7C431DE067C500584179 /* AxLogger.framework in Frameworks */,
 				697B7C4B1DE067DD00584179 /* Sodium.framework in Frameworks */,
+				69116B0C1E967B52007C2FBA /* GRDB.framework in Frameworks */,
+				69116B0F1E967B63007C2FBA /* DarwinCore.framework in Frameworks */,
 				69D5B3301E8E2F3800D0E0A6 /* ObjectMapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,11 +444,15 @@
 				69803E0E1DD95DBA0047112C /* CocoaAsyncSocket.framework in Frameworks */,
 				69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */,
 				69803E121DD95DC70047112C /* Crypto.framework in Frameworks */,
+				69116B081E967B3B007C2FBA /* Crypto.framework in Frameworks */,
 				69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */,
 				69C14AE01E8F375F00435A3F /* libkcp.framework in Frameworks */,
+				69116B0E1E967B63007C2FBA /* DarwinCore.framework in Frameworks */,
 				69803E101DD95DC20047112C /* CommonCrypto.framework in Frameworks */,
 				69803E0C1DD95DB30047112C /* AxLogger.framework in Frameworks */,
 				69D5B32F1E8E2F3800D0E0A6 /* ObjectMapper.framework in Frameworks */,
+				69116B0B1E967B52007C2FBA /* GRDB.framework in Frameworks */,
+				69116B051E967AD7007C2FBA /* lwip.framework in Frameworks */,
 				69803E141DD95DD30047112C /* Sodium.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -583,6 +603,10 @@
 		69803E081DD95D4F0047112C /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				69116B0D1E967B63007C2FBA /* DarwinCore.framework */,
+				69116B0A1E967B52007C2FBA /* GRDB.framework */,
+				69116B071E967B3B007C2FBA /* Crypto.framework */,
+				69116B041E967AD7007C2FBA /* lwip.framework */,
 				69C14ADF1E8F375F00435A3F /* libkcp.framework */,
 				69D5B32E1E8E2F3800D0E0A6 /* ObjectMapper.framework */,
 				69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */,

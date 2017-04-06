@@ -8,3 +8,7 @@ github "yarshure/Crypto"  "v0.5.2"
 github "iosdevzone/IDZSwiftCommonCrypto"
 github "Hearst-DD/ObjectMapper"
 github "networkextension/liblwip" "0.2.5"
+github "networkextension/DarwinCore" "0.2.6"
+git "https://bitbucket.org/yarshure/mmdb-swift.git" "0.2.3"
+github "networkextension/SystemKit" "swift3.0"
+github "groue/GRDB.swift" "184a2bcf184a1e4182da61e4eb2c80abac3ab720" #Swift3.1beta
