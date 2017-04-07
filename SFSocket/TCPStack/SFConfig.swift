@@ -129,7 +129,7 @@ public class SFConfig {
 //            rewrite.append(r)
 //        }
         
-        
+        print(" \(path) \(configName)")
         var content = ""
         do {
             content = try String.init(contentsOf: URL.init(fileURLWithPath: path))
@@ -147,7 +147,7 @@ public class SFConfig {
         var type:SFConfigSectionType = .general
         for item in x {
             
-            
+            print("\(item)")
             if item.hasPrefix("[Host]"){
                 type = .host
                 continue
@@ -163,6 +163,8 @@ public class SFConfig {
             }else if item.hasPrefix("[ProxyGroup]") &&  item.hasPrefix("[Proxy Group]"){
                 type = .proxyGroup
                 continue
+            }else {
+                print("Line: \(item)")
             }
             switch type {
             case .general:
@@ -220,17 +222,18 @@ public class SFConfig {
 
 
             case .proxy:
-                #if os(macOS)
+               
                 let x = item.components(separatedBy: "=")
                 print("proxy: \(item)")
                 if x.count == 2 {
                     //found record
                     if let p = SFProxy.createProxyWithLine(line: x.last!, pname: x.first!){
                         _ = ProxyGroupSettings.share.addProxy(p)
+                        proxys.append(p)
                     }
                     
                 }
-                #endif
+                
                 break
             case .rule:
                 if  let r  = SFRuler.createRulerWithLine(item){

@@ -27,7 +27,7 @@ public enum SFProxyType :Int, CustomStringConvertible{
         case .SOCKS5: return "SOCKS5"
         case .HTTPAES: return "GFW Press"
         case .LANTERN: return "LANTERN"
-        //case .KCPTUN: return "KCPTUN"
+            //case .KCPTUN: return "KCPTUN"
         }
     }
 }
@@ -38,7 +38,162 @@ public class Proxys:CommonModel {
         chainProxys  <- map["chainProxys"]
         proxys <- map["proxys"]
     }
+    public required init?(map: Map) {
+        super.init(map: map)
+        //self.mapping(map: map)
+    }
+    func  selectedProxy(_ selectIndex:Int ) ->SFProxy? {
+        if proxys.count > 0 {
+            if selectIndex >= proxys.count {
+                return proxys.first!
+            }
+            return proxys[selectIndex]
+        }
+        return nil
+    }
+    func findProxy(_ proxyName:String,dynamicSelected:Bool,selectIndex:Int) ->SFProxy? {
+        
+        
+        
+        if proxys.count > 0  {
+            
+            
+            var proxy:SFProxy?
+            if dynamicSelected {
+                proxy =   proxys[selectIndex]
+                return proxy
+            }
+            if selectIndex < proxys.count {
+                let p =  proxys[selectIndex]
+                if p.proxyName == proxyName{
+                    return p
+                }else {
+                    proxy = p
+                }
+                
+            }
+            var proxy2:SFProxy?
+            for item in proxys {
+                if item.proxyName == proxyName {
+                    proxy2 =  item
+                    break
+                }
+            }
+            if let p = proxy2 {
+                return p
+            }else {
+                if let p = proxy {
+                    return p
+                }
+            }
+            
+        }
+        
+        
+        
+        if proxys.count > 0 {
+            return proxys.first!
+        }
+        
+        
+        return nil
+    }
     
+    public func cutCount() ->Int{
+        if proxys.count <= 3{
+            return proxys.count
+        }
+        return 3
+    }
+    public func removeProxy(_ Index:Int,chain:Bool = false) {
+        if chain {
+            chainProxys.remove(at: Index)
+        }else {
+            proxys.remove(at: Index)
+        }
+        
+    }
+    func changeIndex(_ srcPath:IndexPath,destPath:IndexPath){
+        if srcPath.section == destPath.section {
+            if srcPath.row == 0 {
+                changeIndex(srcPath.row, dest: destPath.row, proxylist: &proxys)
+            }else {
+                changeIndex(srcPath.row, dest: destPath.row, proxylist: &chainProxys)
+            }
+        }else {
+            if srcPath.section == 0{
+                let p = proxys.remove(at: srcPath.row)
+                chainProxys.insert(p, at: destPath.row)
+            }else {
+                let p = chainProxys.remove(at: srcPath.row)
+                proxys.insert(p, at: destPath.row)
+            }
+        }
+    }
+    public func changeIndex(_ src:Int,dest:Int,proxylist:inout [SFProxy] ){
+        let r = proxylist.remove(at: src)
+        proxylist.insert(r, at: dest)
+        
+    }
+    func save()  {
+        
+    }
+    static func load(_ path:String)->Proxys?{
+        do {
+            let string  = try String.init(contentsOfFile: path)
+            guard let proxy = Mapper<Proxys>().map(JSONString: string) else {
+                return nil
+            }
+            return proxy
+        }catch let e {
+            print("\(e.localizedDescription)")
+            return nil
+        }
+        
+    }
+    public func updateProxy(_ p:SFProxy){
+        //todo
+        var oldArray:[SFProxy]
+        var newArray:[SFProxy]
+        if p.chain {
+            oldArray = chainProxys
+            newArray = proxys
+        }else {
+            oldArray = proxys
+            newArray = chainProxys
+        }
+        if let firstSuchElement = oldArray.index(where: { $0 == p })
+            .map({ oldArray.remove(at: $0) }) {
+            
+            
+            newArray.append(firstSuchElement)
+        }
+    }
+    
+    
+    public func addProxy(_ proxy:SFProxy) ->Int {
+        
+        var found = false
+        
+        var index  = 0
+        for idx in 0 ..< proxys.count {
+            let p = proxys[idx]
+            if p.serverAddress == proxy.serverAddress && p.serverPort == proxy.serverPort {
+                found = true
+                index = idx
+                break
+            }
+        }
+        if found {
+            proxys.remove(at: index)
+            proxys.insert(proxy, at: index)
+        }else {
+            proxys.append(proxy)
+            
+        }
+        let selectIndex = proxys.count - 1
+        return selectIndex
+    }
 }
 public class SFProxy:CommonModel {
     public var proxyName:String = ""
@@ -153,20 +308,20 @@ public class SFProxy:CommonModel {
                             return (nil,"\(resultString) Invilad")
                         }
                     }else {
-                         return (nil,"\(resultString) Invilad")
+                        return (nil,"\(resultString) Invilad")
                     }
                 }else{
-                     return (nil,"\(configString) Invilad")
+                    return (nil,"\(configString) Invilad")
                 }
                 
                 
             }else {
-                 return (nil,"\(configString) Invilad")
+                return (nil,"\(configString) Invilad")
             }
             
             
         }else {
-             return (nil,"\(configString) Invilad")
+            return (nil,"\(configString) Invilad")
         }
         
     }
@@ -230,12 +385,12 @@ public class SFProxy:CommonModel {
         
     }
     public static func create(name:String,type:SFProxyType ,address:String,port:String , passwd:String,method:String,tls:Bool) ->SFProxy?{
-       
+        
         // Convert JSON String to Model
         //let user = Mapper<User>().map(JSONString: JSONString)
         // Create JSON String from Model
         //let JSONString = Mapper().toJSONString(user, prettyPrint: true)
-        guard let proxy = Mapper<SFProxy>().map(JSONString: "") else {
+        guard let proxy = Mapper<SFProxy>().map(JSONString: "{\"type\":0}") else {
             return nil
         }
         
@@ -263,9 +418,9 @@ public class SFProxy:CommonModel {
         //self.mapping(map: map)
     }
     //public required init?(map: Map) {
-        //super.init(map: map)
-        //super.init(map: map)
-        //fatalError("init(map:) has not been implemented")
+    //super.init(map: map)
+    //super.init(map: map)
+    //fatalError("init(map:) has not been implemented")
     //}
     
     
@@ -279,14 +434,14 @@ public class SFProxy:CommonModel {
         }
         return serverAddress
     }
-
-
-//    public func resp() ->[String:Any]{
-//        return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP,"mode":mode,"kcptun":NSNumber.init(value:kcptun ),"chain":chain]
-//    }
+    
+    
+    //    public func resp() ->[String:Any]{
+    //        return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP,"mode":mode,"kcptun":NSNumber.init(value:kcptun ),"chain":chain]
+    //    }
     //open  static func map(_ name:String,value:JSON) ->SFProxy{
     public override func mapping(map: Map) {
-       
+        
         proxyName  <- map["pName"]
         serverAddress <- map["serverAddress"]
         serverPort <- map["serverPort"]
@@ -310,7 +465,7 @@ public class SFProxy:CommonModel {
         
         
     }
-
+    
     public func typeDesc() ->String{
         if tlsEnable && type == .HTTP {
             return "Type: " + "HTTPS"
@@ -332,7 +487,7 @@ public class SFProxy:CommonModel {
         let base64Encoded = type.description.lowercased()  + "://" + utf8str!.base64EncodedString(options: .endLineWithLineFeed) +   "?tlsEnable=" + tls + "&chain=" + c
         return base64Encoded
     }
-   
+    
     deinit{
         
     }

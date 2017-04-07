@@ -16,42 +16,24 @@
 		690AB84A1E9763C0001A6C3A /* MMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83F1E9762D1001A6C3A /* MMDB.framework */; };
 		690AB84B1E9763CC001A6C3A /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
 		690AB84C1E9763CF001A6C3A /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
-		690AB84D1E9763D2001A6C3A /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B071E967B3B007C2FBA /* Crypto.framework */; };
-		690AB84E1E9763DD001A6C3A /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
-		690AB84F1E9763EB001A6C3A /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0B1DD95DB30047112C /* AxLogger.framework */; };
 		690AB8501E9763F4001A6C3A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E131DD95DD30047112C /* Sodium.framework */; };
-		690AB8511E9763F7001A6C3A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; };
 		690AB8521E976409001A6C3A /* libkcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83D1E9762C7001A6C3A /* libkcp.framework */; };
 		690AB8531E97640F001A6C3A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; };
-		690AB8541E97645C001A6C3A /* SystemKitiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8451E9762E8001A6C3A /* SystemKitiOS.framework */; };
 		690AB8551E97645C001A6C3A /* SystemKitiOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB8451E9762E8001A6C3A /* SystemKitiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB8561E97645F001A6C3A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8431E9762DD001A6C3A /* Reachability.framework */; };
 		690AB8571E97645F001A6C3A /* Reachability.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB8431E9762DD001A6C3A /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB8581E976461001A6C3A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; };
 		690AB8591E976461001A6C3A /* ObjectMapper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB85A1E976464001A6C3A /* MMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83F1E9762D1001A6C3A /* MMDB.framework */; };
 		690AB85B1E976464001A6C3A /* MMDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB83F1E9762D1001A6C3A /* MMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB85C1E976467001A6C3A /* libkcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83D1E9762C7001A6C3A /* libkcp.framework */; };
 		690AB85D1E976467001A6C3A /* libkcp.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB83D1E9762C7001A6C3A /* libkcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB85E1E976469001A6C3A /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
 		690AB85F1E976469001A6C3A /* DarwinCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8601E97646D001A6C3A /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
 		690AB8611E97646D001A6C3A /* GRDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8621E976473001A6C3A /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B071E967B3B007C2FBA /* Crypto.framework */; };
-		690AB8631E976473001A6C3A /* Crypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69116B071E967B3B007C2FBA /* Crypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB8641E976475001A6C3A /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
 		690AB8651E976475001A6C3A /* lwip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8661E976477001A6C3A /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; };
-		690AB8671E976477001A6C3A /* IDZSwiftCommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8681E976479001A6C3A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; };
-		690AB8691E976479001A6C3A /* SwiftyJSON.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB86A1E97647C001A6C3A /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E111DD95DC70047112C /* Crypto.framework */; };
-		690AB86B1E97647C001A6C3A /* Crypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E111DD95DC70047112C /* Crypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB86C1E97647E001A6C3A /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; };
 		690AB86D1E97647E001A6C3A /* CommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB86E1E976480001A6C3A /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0D1DD95DBA0047112C /* CocoaAsyncSocket.framework */; };
-		690AB86F1E976480001A6C3A /* CocoaAsyncSocket.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0D1DD95DBA0047112C /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8701E976483001A6C3A /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0B1DD95DB30047112C /* AxLogger.framework */; };
 		690AB8711E976483001A6C3A /* AxLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0B1DD95DB30047112C /* AxLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69116B051E967AD7007C2FBA /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
 		69116B061E967AD7007C2FBA /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
@@ -115,6 +97,8 @@
 		6938BFC01E88B15A00332D82 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFBF1E88B15A00332D82 /* Adapter.swift */; };
 		6938BFC21E88B63000332D82 /* HTTPAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFC11E88B63000332D82 /* HTTPAdapter.swift */; };
 		6938BFC41E88B6C900332D82 /* CHTTPProxConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFC31E88B6C900332D82 /* CHTTPProxConnector.swift */; };
+		6952F8711E97E06D003EB1CB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; };
+		6952F8721E97E06D003EB1CB /* SwiftyJSON.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		695F6E4F1E900E1A00C72E5E /* DNSCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E321E900E1A00C72E5E /* DNSCache.swift */; };
 		695F6E501E900E1A00C72E5E /* DNSCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E321E900E1A00C72E5E /* DNSCache.swift */; };
 		695F6E511E900E1A00C72E5E /* DNSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E331E900E1A00C72E5E /* DNSPacket.swift */; };
@@ -186,7 +170,6 @@
 		69803E0C1DD95DB30047112C /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0B1DD95DB30047112C /* AxLogger.framework */; };
 		69803E0E1DD95DBA0047112C /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0D1DD95DBA0047112C /* CocoaAsyncSocket.framework */; };
 		69803E101DD95DC20047112C /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; };
-		69803E121DD95DC70047112C /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E111DD95DC70047112C /* Crypto.framework */; };
 		69803E141DD95DD30047112C /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E131DD95DD30047112C /* Sodium.framework */; };
 		69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; };
 		698A081B1DD5C603009BFFC9 /* NWUDPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A081A1DD5C603009BFFC9 /* NWUDPSocket.swift */; };
@@ -286,7 +269,6 @@
 		69C8DA001E7AA5A700A65301 /* AEADCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C8D9FE1E7AA5A700A65301 /* AEADCrypto.swift */; };
 		69D5B32A1E8E23EC00D0E0A6 /* SFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D5B3291E8E23EC00D0E0A6 /* SFModel.swift */; };
 		69D5B32B1E8E23EC00D0E0A6 /* SFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D5B3291E8E23EC00D0E0A6 /* SFModel.swift */; };
-		69D5B32C1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; };
 		69D5B32D1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69DD43591DDC4FBA00080CF1 /* SFVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */; };
 		69E470AF1E67AADE00AE11FB /* SocksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E470AE1E67AADE00AE11FB /* SocksTest.swift */; };
@@ -295,7 +277,6 @@
 		69F2D8691E8BF96100BBDB9D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D8681E8BF96100BBDB9D /* Config.swift */; };
 		69F2D86B1E8BFFD400BBDB9D /* BlockCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */; };
 		69F2D86D1E8C08E700BBDB9D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86C1E8C08E700BBDB9D /* Channel.swift */; };
-		69F698E71DDC151800966272 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; };
 		69F698E81DDC151800966272 /* CommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69FAE4C81E82478400FE91CD /* KCPTunSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FAE4C71E82478400FE91CD /* KCPTunSocket.swift */; };
 		69FC1B001DDBFAB000EF8AAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FC1AFF1DDBFAB000EF8AAC /* AppDelegate.swift */; };
@@ -306,10 +287,7 @@
 		69FC1B111DDBFADE00EF8AAC /* SFSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C2988E1DD593FF00E4C3BD /* SFSocket.framework */; };
 		69FC1B141DDBFC7200EF8AAC /* CocoaAsyncSocket.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0D1DD95DBA0047112C /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69FC1B161DDBFCF400EF8AAC /* SFSocket.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69C2988E1DD593FF00E4C3BD /* SFSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		69FC1B171DDBFD3D00EF8AAC /* AxLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0B1DD95DB30047112C /* AxLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		69FC1B181DDBFD4300EF8AAC /* Crypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E111DD95DC70047112C /* Crypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69FC1B191DDBFD4500EF8AAC /* Sodium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E131DD95DD30047112C /* Sodium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		69FC1B1A1DDBFD4900EF8AAC /* SwiftyJSON.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -329,29 +307,22 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6952F8721E97E06D003EB1CB /* SwiftyJSON.framework in CopyFiles */,
 				690AB8611E97646D001A6C3A /* GRDB.framework in CopyFiles */,
-				690AB86B1E97647C001A6C3A /* Crypto.framework in CopyFiles */,
 				69D5B32D1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in CopyFiles */,
-				690AB8691E976479001A6C3A /* SwiftyJSON.framework in CopyFiles */,
 				690AB86D1E97647E001A6C3A /* CommonCrypto.framework in CopyFiles */,
 				690AB8591E976461001A6C3A /* ObjectMapper.framework in CopyFiles */,
 				690AB85D1E976467001A6C3A /* libkcp.framework in CopyFiles */,
-				690AB8671E976477001A6C3A /* IDZSwiftCommonCrypto.framework in CopyFiles */,
-				69FC1B1A1DDBFD4900EF8AAC /* SwiftyJSON.framework in CopyFiles */,
 				690AB85F1E976469001A6C3A /* DarwinCore.framework in CopyFiles */,
 				690AB8651E976475001A6C3A /* lwip.framework in CopyFiles */,
 				690AB8551E97645C001A6C3A /* SystemKitiOS.framework in CopyFiles */,
 				69FC1B191DDBFD4500EF8AAC /* Sodium.framework in CopyFiles */,
 				69FC1B141DDBFC7200EF8AAC /* CocoaAsyncSocket.framework in CopyFiles */,
-				69FC1B181DDBFD4300EF8AAC /* Crypto.framework in CopyFiles */,
 				69F698E81DDC151800966272 /* CommonCrypto.framework in CopyFiles */,
 				690AB8571E97645F001A6C3A /* Reachability.framework in CopyFiles */,
 				69FC1B161DDBFCF400EF8AAC /* SFSocket.framework in CopyFiles */,
-				690AB8631E976473001A6C3A /* Crypto.framework in CopyFiles */,
 				690AB8711E976483001A6C3A /* AxLogger.framework in CopyFiles */,
 				690AB85B1E976464001A6C3A /* MMDB.framework in CopyFiles */,
-				690AB86F1E976480001A6C3A /* CocoaAsyncSocket.framework in CopyFiles */,
-				69FC1B171DDBFD3D00EF8AAC /* AxLogger.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +378,7 @@
 		6938BFBF1E88B15A00332D82 /* Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Adapter.swift; path = tcp/Adapter.swift; sourceTree = "<group>"; };
 		6938BFC11E88B63000332D82 /* HTTPAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPAdapter.swift; path = tcp/HTTPAdapter.swift; sourceTree = "<group>"; };
 		6938BFC31E88B6C900332D82 /* CHTTPProxConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CHTTPProxConnector.swift; path = tcp/CHTTPProxConnector.swift; sourceTree = "<group>"; };
+		6952F8701E97D2CD003EB1CB /* SFSocketTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SFSocketTest.entitlements; sourceTree = "<group>"; };
 		695F6E321E900E1A00C72E5E /* DNSCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNSCache.swift; sourceTree = "<group>"; };
 		695F6E331E900E1A00C72E5E /* DNSPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNSPacket.swift; sourceTree = "<group>"; };
 		695F6E341E900E1A00C72E5E /* DNSQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNSQueue.swift; sourceTree = "<group>"; };
@@ -543,7 +515,6 @@
 				69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */,
 				690AB83E1E9762C7001A6C3A /* libkcp.framework in Frameworks */,
 				690AB8441E9762DD001A6C3A /* Reachability.framework in Frameworks */,
-				69803E121DD95DC70047112C /* Crypto.framework in Frameworks */,
 				69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */,
 				690AB8401E9762D1001A6C3A /* MMDB.framework in Frameworks */,
 				69116B0E1E967B63007C2FBA /* DarwinCore.framework in Frameworks */,
@@ -560,7 +531,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				690AB8681E976479001A6C3A /* SwiftyJSON.framework in Frameworks */,
+				6952F8711E97E06D003EB1CB /* SwiftyJSON.framework in Frameworks */,
 				690AB8581E976461001A6C3A /* ObjectMapper.framework in Frameworks */,
 				690AB8521E976409001A6C3A /* libkcp.framework in Frameworks */,
 				690AB8481E9762FE001A6C3A /* Reachability.framework in Frameworks */,
@@ -568,28 +539,14 @@
 				690AB8471E9762FD001A6C3A /* SystemKitiOS.framework in Frameworks */,
 				690AB85E1E976469001A6C3A /* DarwinCore.framework in Frameworks */,
 				690AB84A1E9763C0001A6C3A /* MMDB.framework in Frameworks */,
-				690AB8661E976477001A6C3A /* IDZSwiftCommonCrypto.framework in Frameworks */,
 				690AB8641E976475001A6C3A /* lwip.framework in Frameworks */,
 				690AB8531E97640F001A6C3A /* ObjectMapper.framework in Frameworks */,
 				690AB84B1E9763CC001A6C3A /* DarwinCore.framework in Frameworks */,
 				690AB84C1E9763CF001A6C3A /* GRDB.framework in Frameworks */,
-				690AB8601E97646D001A6C3A /* GRDB.framework in Frameworks */,
-				690AB84D1E9763D2001A6C3A /* Crypto.framework in Frameworks */,
-				690AB8701E976483001A6C3A /* AxLogger.framework in Frameworks */,
-				690AB8511E9763F7001A6C3A /* SwiftyJSON.framework in Frameworks */,
-				690AB8621E976473001A6C3A /* Crypto.framework in Frameworks */,
-				69D5B32C1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in Frameworks */,
-				690AB8541E97645C001A6C3A /* SystemKitiOS.framework in Frameworks */,
-				690AB86A1E97647C001A6C3A /* Crypto.framework in Frameworks */,
 				690AB8561E97645F001A6C3A /* Reachability.framework in Frameworks */,
-				690AB84E1E9763DD001A6C3A /* lwip.framework in Frameworks */,
-				690AB86E1E976480001A6C3A /* CocoaAsyncSocket.framework in Frameworks */,
-				69F698E71DDC151800966272 /* CommonCrypto.framework in Frameworks */,
 				690AB8501E9763F4001A6C3A /* Sodium.framework in Frameworks */,
-				690AB84F1E9763EB001A6C3A /* AxLogger.framework in Frameworks */,
 				690AB85C1E976467001A6C3A /* libkcp.framework in Frameworks */,
 				69FC1B111DDBFADE00EF8AAC /* SFSocket.framework in Frameworks */,
-				690AB85A1E976464001A6C3A /* MMDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -958,6 +915,7 @@
 		69FC1AFE1DDBFAB000EF8AAC /* SFSocketTest */ = {
 			isa = PBXGroup;
 			children = (
+				6952F8701E97D2CD003EB1CB /* SFSocketTest.entitlements */,
 				69FC1AFF1DDBFAB000EF8AAC /* AppDelegate.swift */,
 				69E470AE1E67AADE00AE11FB /* SocksTest.swift */,
 				69FC1B011DDBFAB000EF8AAC /* ViewController.swift */,
@@ -1072,6 +1030,11 @@
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = 745WQDK4L7;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1614,6 +1577,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SFSocketTest/SFSocketTest.entitlements;
 				DEVELOPMENT_TEAM = 745WQDK4L7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1631,6 +1595,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SFSocketTest/SFSocketTest.entitlements;
 				DEVELOPMENT_TEAM = 745WQDK4L7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

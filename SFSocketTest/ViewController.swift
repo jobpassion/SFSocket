@@ -107,7 +107,13 @@ class ViewController: UIViewController {
         guard let p = Mapper<SFProxy>().map(JSONString: "{\"type\":0}") else {
             return
         }
-        print(p)
+        _ = ProxyGroupSettings.share.addProxy(p)
+        let line = " https,office.hshh.org,51001,vpn_yarshure,kong3191"
+        if let p = SFProxy.createProxyWithLine(line: line, pname: "CN2"){
+            //_ = ProxyGroupSettings.share.addProxy(p)
+            _  = ProxyGroupSettings.share.addProxy(p)
+        }
+        print(ProxyGroupSettings.share.proxys)
         
     }
 }

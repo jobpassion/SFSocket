@@ -79,6 +79,7 @@ func query(_ domain:String) ->[String] {
     return results
 }
 var kProxyGroupFile = ".ProxyGroup"
+
 public class SKit {
     static var env = SKit()
     static var sampleConfig = "surf.conf"

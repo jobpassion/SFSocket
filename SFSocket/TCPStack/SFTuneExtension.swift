@@ -295,6 +295,7 @@ extension SFHTTPResponseHeader {
 extension SFProxy{
     
     func resp() ->[String:Any]{
+        
         return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP]
     }
 //    static func map(_ name:String,value:JSON) ->SFProxy{
