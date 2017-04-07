@@ -25,7 +25,7 @@ open class SFUDPConnector: NSObject {
     
     var reqID:Int = 0
     var clientAddress:Data
-    var clientPort:UInt16
+    public var clientPort:UInt16
     var dstAddress:Data
     var dstPort:UInt16
     var connected:Bool = false
@@ -48,7 +48,7 @@ open class SFUDPConnector: NSObject {
         }
     }
     //var dispatchQueue:dispatch_queue_t?
-    init(sip:Data, dip:Data,packet:UDPPacket) {
+    public init(sip:Data, dip:Data,packet:UDPPacket) {
         
         clientPort = packet.sourcePort
         dstPort = packet.destinationPort
@@ -64,6 +64,6 @@ open class SFUDPConnector: NSObject {
         super.init();
     }
 
-    func addQuery(packet p:UDPPacket!) {
+    public func addQuery(packet p:UDPPacket!) {
     }
 }

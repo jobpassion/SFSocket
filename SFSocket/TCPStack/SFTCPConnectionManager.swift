@@ -28,12 +28,12 @@ class LWIPTraffic {
             }
             //NSLog("#############%d,%d",msec,lwipInputSpeed)
             
-            if lwipInputSpeed > SKit.env.LimitLWIPInputSpeedSimgle {
+            if lwipInputSpeed > SKit.LimitLWIPInputSpeedSimgle {
                 //NSLog("############# speed too fast")
                 lwipDrop = true
             }else {
                 let memoryUsed = reportMemoryUsed()
-                if memoryUsed > UInt64(SKit.env.memoryLimitUesedSize) * UInt64(SKit.env.physicalMemorySize*6 + 3) {
+                if memoryUsed > UInt64(SKit.memoryLimitUesedSize) * UInt64(SKit.physicalMemorySize*6 + 3) {
                     #if os(iOS)
                         if checkJB() {
                             lwipDrop = false
@@ -59,33 +59,37 @@ class LWIPTraffic {
     }
 }
 
-class SFTCPConnectionManager:NSObject,TCPStackDelegate {
+public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     open func lwipInitFinish() {
         lwip_init_finished = true
     }
 
-    static let manager:SFTCPConnectionManager = SFTCPConnectionManager()
+    public static let manager:SFTCPConnectionManager = SFTCPConnectionManager()
     
     internal static func shared() -> SFTCPConnectionManager{
         return manager
     }
     
-    var dispatchQueue:DispatchQueue// = dispatch_queue_create("com.yarshure.dispatch_queue", DISPATCH_QUEUE_SERIAL);
+    public var dispatchQueue:DispatchQueue// = dispatch_queue_create("com.yarshure.dispatch_queue", DISPATCH_QUEUE_SERIAL);
     var socketQueue:DispatchQueue //= dispatch_queue_create("com.yarshure.dispatch_queue_socket", DISPATCH_QUEUE_SERIAL);
     var memoryWarninglevel:DispatchSource.MemoryPressureEvent = DispatchSource.MemoryPressureEvent.normal
     var lastMemeoryWarningDate:Date = Date()
     
-    weak var provider:TCPManagerProtocol?
+    public weak var provider:TCPManagerProtocol?
     var connections:[UInt16:SFConnection] = [:]//reqID Connection
     //var connections:NSMutableDictionary = [:]
     
-    
+    public var connectionsCount:Int{
+        get {
+            return connections.count
+        }
+    }
     
     var ruleResultDynamic:[SFRuleResult] = []
     var ruleTestResult:[SFRuleResult] = []
     //var socketConnection:[SFHTTPSocketConnection] = []
     var tcpOperating:Bool = false
-    var lwip_init_finished = false
+    public var lwip_init_finished = false
     var dispatch_timer : DispatchSourceTimer! = nil
     //private var timer:NSTimer?
     var firsttime = true
@@ -120,7 +124,7 @@ class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     //    func addSocketConnection(s:SFHTTPSocketConnection) {
     //        socketConnection.append(s)
     //    }
-    func start(){
+    public func start(){
         
         //init in other thread , lwip may not init finished
         
@@ -148,7 +152,7 @@ class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         })
         
         //#if TIMER
-        self.startWithInterval(SKit.env.lwip_timer_second)
+        self.startWithInterval(SKit.lwip_timer_second)
         //#endif
         //timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "tcp_timer_handler:", userInfo: nil, repeats: true)
     }
@@ -226,7 +230,7 @@ class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         //test()
     }
     
-    func writeDatagrams(_ data:Data){
+    public func writeDatagrams(_ data:Data){
         
         DispatchQueue.main.async(execute:{[unowned self] in
             if let p = self.provider {
@@ -318,7 +322,7 @@ extension SFTCPConnectionManager{
         //NSLog(reportMemory())
     }
     
-    func incomingTCP(_ tcp:SFPcb){
+    public func incomingTCP(_ tcp:SFPcb){
         //tcp_accepted_c(listener)
         let  srcip:UnsafeMutablePointer<UInt32> = UnsafeMutablePointer<UInt32>.allocate(capacity: 1)
         let  dstip:UnsafeMutablePointer<UInt32> =  UnsafeMutablePointer<UInt32>.allocate(capacity: 1)
@@ -331,13 +335,13 @@ extension SFTCPConnectionManager{
         //        let yport = dport.bigEndian
         var c:SFConnection
         AxLogger.log("\(srcip.pointee) \(dstip.pointee) \(sport.pointee) \(dport.pointee) incomming tcp", level: .Info)
-        let ip:UInt32 =  inet_addr(SKit.env.proxyIpAddr.cString(using: String.Encoding.utf8)!)  //0x030000f0
+        let ip:UInt32 =  inet_addr(SKit.proxyIpAddr.cString(using: String.Encoding.utf8)!)  //0x030000f0
         
         if isHTTP(tcp,ip) {
             
-            if sport.pointee == UInt16(SKit.env.httpProxyPort) || sport.pointee == UInt16(80){
+            if sport.pointee == UInt16(SKit.httpProxyPort) || sport.pointee == UInt16(80){
                 c = SFHTTPConnection(tcp: tcp,host:srcip.pointee,port:sport.pointee,m:self)
-            }else if sport.pointee == UInt16(SKit.env.HttpsProxyPort)   {
+            }else if sport.pointee == UInt16(SKit.HttpsProxyPort)   {
                 c = SFHTTPSConnection(tcp: tcp,host:srcip.pointee,port:sport.pointee,m:self)
             }else {
                 //NSLog("################$$$$$$$$$$$$$$$$$incoming \(sport)")
@@ -349,7 +353,7 @@ extension SFTCPConnectionManager{
             //AxLogger.log("http connection incoming \(c)",level: .Debug)
             
         }else{
-            let ip:UInt32 =  inet_addr(SKit.env.xxIpAddr.cString(using: String.Encoding.utf8)!)
+            let ip:UInt32 =  inet_addr(SKit.xxIpAddr.cString(using: String.Encoding.utf8)!)
             if srcip.pointee == ip {
                  c = SFTCPConnection(tcp: tcp,host:dstip.pointee,port:dport.pointee,m:self)
                 //c = SFXConnection(tcp: tcp,host:dstip.pointee,port:dport.pointee,m:self)
@@ -365,8 +369,8 @@ extension SFTCPConnectionManager{
         c.configLwip()
         c.manager = self
         connections[dport.pointee] = c
-        if connections.count > SKit.env.LimitTCPConnectionCount_DELAY {
-            c.reqInfo.delay_start = Double(connections.count - SKit.env.LimitTCPConnectionCount_DELAY) * SKit.env.TCP_DELAY_START
+        if connections.count > SKit.LimitTCPConnectionCount_DELAY {
+            c.reqInfo.delay_start = Double(connections.count - SKit.LimitTCPConnectionCount_DELAY) * SKit.TCP_DELAY_START
         }
         srcip.deallocate(capacity: 1)
         dstip.deallocate(capacity: 1)
@@ -381,7 +385,7 @@ extension SFTCPConnectionManager{
         }
         
     }
-    func cleanConnection() {
+    public func cleanConnection() {
         AxLogger.log("[SFTCPConnectionManager] Connection :\(connections.count)",level: .Notify)
         //self.cancel()
         dispatchQueue.async { [unowned self] in
@@ -395,14 +399,14 @@ extension SFTCPConnectionManager{
         //        closeTW()
     }
     
-    func cancel() {
+    public func cancel() {
         //        if self.dispatch_timer != nil {
         //            dispatch_source_cancel(dispatch_timer)
         //        }
         AxLogger.log("should cancel timer", level: .Debug)
     }
-    func resume() {
-        startWithInterval(SKit.env.lwip_timer_second)
+    public func resume() {
+        startWithInterval(SKit.lwip_timer_second)
     }
     func startWithInterval(_ interval:Double) {
         self.firsttime = true
@@ -433,7 +437,7 @@ extension SFTCPConnectionManager{
         
         
     }
-    func device_read_handler_sendPackets3(_ packets:[Data],complete:@escaping ((Error?) -> Void)){
+   public  func device_read_handler_sendPackets3(_ packets:[Data],complete:@escaping ((Error?) -> Void)){
         //网络切换的时候不会crash
         //debugLog("device_read_handler_sendPackets")
         if lwip_init_finished == false {
@@ -516,7 +520,7 @@ extension SFTCPConnectionManager{
         
         
     }
-    func clearRule() {
+    public func clearRule() {
         dispatchQueue.async  { [unowned self] in
             self.ruleTestResult.removeAll()
         }
@@ -558,7 +562,7 @@ extension SFTCPConnectionManager{
     
     
     
-    func recentRequestData() ->Data{
+    public func recentRequestData() ->Data{
         
         //return NSData()
         //memory issue
@@ -580,7 +584,7 @@ extension SFTCPConnectionManager{
             //            }
         }
         result["count"] = NSNumber.init(value: count)
-        result["session"] = SFEnv.env.session.idenString() as AnyObject?
+        result["session"] = SFEnv.session.idenString() as AnyObject?
         result["data"] = reqs as AnyObject?
         let j = JSON(result)
         
@@ -632,7 +636,7 @@ extension SFTCPConnectionManager{
     //        let data = NSData()
     //        return data
     //    }
-    func ruleResultData() ->Data{
+    public  func ruleResultData() ->Data{
         
         
         

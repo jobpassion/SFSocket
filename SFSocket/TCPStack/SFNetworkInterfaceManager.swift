@@ -13,29 +13,17 @@ func getIFAddresses() -> [NetInfo] {
     let addresses = [NetInfo]()
     return addresses
 }
-class SFNetworkInterfaceManager: NSObject {
+public class SFNetworkInterfaceManager: NSObject {
     
-    var defaultIPAddress:String = ""
-    var WiFiIPAddress:String = ""
-    var WWANIPAddress:String = ""
+     static public var defaultIPAddress:String = ""
+     static public var WiFiIPAddress:String = ""
+     static public var WWANIPAddress:String = ""
     
-    var networkInfo:[NetInfo] = []
-    static let instances = SFNetworkInterfaceManager()
-//    static func sharedInstance() ->STNetworkInterfaceManager {
-//        return instances
+      static   var networkInfo:[NetInfo] = []
     
-//    }
-    override init() {
-//        do {
-//           
-//        } catch {
-//            print("Unable to create Reachability")
-//            //return
-//        }
-        super.init()
-        //monitor()
-    }
-    func updateIPAddress(){
+
+
+     static public  func updateIPAddress(){
         AxLogger.log("clear ipaddress",level: .Info)
 //        WiFiIPAddress  = ""
 //        WWANIPAddress = ""
@@ -51,20 +39,20 @@ class SFNetworkInterfaceManager: NSObject {
             }
         }
         
-        if SFEnv.env.hwType == .wifi {
+        if SFEnv.hwType == .wifi {
             defaultIPAddress = WiFiIPAddress
-        }else if  SFEnv.env.hwType == .cell {
+        }else if  SFEnv.hwType == .cell {
             defaultIPAddress = WWANIPAddress
         }
 
         AxLogger.log("Now default IPaddr \(defaultIPAddress)",level: .Info)
         AxLogger.log("WI-FI:\(WiFiIPAddress) CELL:\(WWANIPAddress)",level: .Info)
-        SFEnv.env.updateEnvIP(defaultIPAddress)
+        SFEnv.updateEnvIP(defaultIPAddress)
         showRouter()
         
     }
  
-    func showRouter() {
+     static public  func showRouter() {
 //                dispatch_async(dispatch_get_main_queue()){
 //                    let routers = currntRouter()
 //                    AxLogger.log("router IPV4 \(routers)")
@@ -75,7 +63,7 @@ class SFNetworkInterfaceManager: NSObject {
 //                    AxLogger.log("router IPV4 \(routers)",level: .Info)
 //                }
     }
-    func interfaceMTUWithName(_ name:String) ->Int {
+     static public  func interfaceMTUWithName(_ name:String) ->Int {
         return 1500
     }
     deinit {

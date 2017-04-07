@@ -10,11 +10,11 @@ import Foundation
 import NetworkExtension
 
 
-open class UDPPacket:NSObject{
-    var sourcePort:UInt16 = 0
-    var destinationPort:UInt16 = 0
+public  class UDPPacket:NSObject{
+    public var sourcePort:UInt16 = 0
+    public var destinationPort:UInt16 = 0
     var _rawData:Data
-    init(PacketData:Data){
+    public init(PacketData:Data){
         //debugLog("UDPPacket init")
         _rawData = PacketData
         var p = Data(_rawData.subdata(in: Range( 0 ..< 2)))
@@ -25,7 +25,7 @@ open class UDPPacket:NSObject{
         destinationPort = UInt16(dp).byteSwapped
         super.init()
     }
-    func payloadData() -> Data{
+    public func payloadData() -> Data{
         
         let d = Data(_rawData.subdata(in: Range(8 ..< _rawData.count)))
         return d

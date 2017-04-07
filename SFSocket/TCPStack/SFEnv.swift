@@ -101,26 +101,26 @@ extension NWPath{
         }
     }
 }
-class SFEnv {
-    static let env:SFEnv = SFEnv()
+public class SFEnv {
+    
     static let KB:UInt = 1024
-    var session:SFVPNSession = SFVPNSession()
-    var ipType:SFNetWorkIPType = .ipv4
-    var hwType:SFNetWorkType = .cell
+    public static var session:SFVPNSession = SFVPNSession()
+    static var ipType:SFNetWorkIPType = .ipv4
+    static var hwType:SFNetWorkType = .cell
     static var sysMainVer = 10 //version()
     init() {
     }
-    func updateEnv(_ ip:String,interface:String){
+    static func updateEnv(_ ip:String,interface:String){
         ipType = SFNetWorkIPType.init(ip: ip)
         hwType = SFNetWorkType.init(interface: interface)
     }
-    func updateEnvIP(_ ip:String){
+    static func updateEnvIP(_ ip:String){
         if !ip.isEmpty{
             ipType = SFNetWorkIPType.init(ip: ip)
         }
         
     }
-    func currentSSIDs() -> [String] {
+    static func currentSSIDs() -> [String] {
         guard let interfaceNames = CNCopySupportedInterfaces() as? [String] else {
             return []
         }
@@ -138,10 +138,10 @@ class SFEnv {
             return []
         #endif
     }
-    func updateEnvHW(_ interface:String){
+    static func updateEnvHW(_ interface:String){
         hwType = SFNetWorkType.init(interface: interface)
     }
-    func updateEnvHWWithPath(_ path:NWPath?)  -> Bool{
+    static public  func updateEnvHWWithPath(_ path:NWPath?)  -> Bool{
         var changed = false
         if let p = path{
             if p.isExpensive {
@@ -150,9 +150,9 @@ class SFEnv {
                 hwType = .wifi
             }
             
-            let wifiaddr = SFNetworkInterfaceManager.instances.WiFiIPAddress
-            SFNetworkInterfaceManager.instances.updateIPAddress()
-            let newaddr =  SFNetworkInterfaceManager.instances.WiFiIPAddress
+            let wifiaddr = SFNetworkInterfaceManager.WiFiIPAddress
+            SFNetworkInterfaceManager.updateIPAddress()
+            let newaddr =  SFNetworkInterfaceManager.WiFiIPAddress
             if wifiaddr != newaddr {
                 changed = true
             }

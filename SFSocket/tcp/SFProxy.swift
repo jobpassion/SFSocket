@@ -31,6 +31,15 @@ public enum SFProxyType :Int, CustomStringConvertible{
         }
     }
 }
+public class Proxys:CommonModel {
+    var chainProxys:[SFProxy] = []
+    var proxys:[SFProxy] = []
+    public override func mapping(map: Map) {
+        chainProxys  <- map["chainProxys"]
+        proxys <- map["proxys"]
+    }
+    
+}
 public class SFProxy:CommonModel {
     public var proxyName:String = ""
     public var serverAddress:String = ""

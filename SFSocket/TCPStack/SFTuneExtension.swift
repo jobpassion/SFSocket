@@ -7,7 +7,7 @@
 //
 //这个文件不会被主app 使用
 import Foundation
-
+import ObjectMapper
 import SwiftyJSON
 import AxLogger
 extension SFRequestInfo {
@@ -120,7 +120,7 @@ extension SFRequestInfo {
     func shouldClose() ->Bool {
         
         if mode == .TCP {
-            if idleTimeing > SKit.env.TCP_MEMORYWARNING_TIMEOUT{
+            if idleTimeing > SKit.TCP_MEMORYWARNING_TIMEOUT{
                 return true
             }else {
                 return false
@@ -131,13 +131,13 @@ extension SFRequestInfo {
         guard let req = reqHeader else {return false}
         var result = false
         if req.method == .CONNECT {
-            if idleTimeing > SKit.env.TCP_MEMORYWARNING_TIMEOUT {
+            if idleTimeing > SKit.TCP_MEMORYWARNING_TIMEOUT {
                 result = true
             }
         }else {
             if let c = resp.params["Connection"], c == "close"{
                 
-                if idleTimeing > SKit.env.TCP_MEMORYWARNING_TIMEOUT  {
+                if idleTimeing > SKit.TCP_MEMORYWARNING_TIMEOUT  {
                     result = true
                 }
             }
@@ -151,7 +151,7 @@ extension SFProxy{
     var connectHost:String {
         var host:String = serverAddress
         if !serverIP.isEmpty {
-            if SFEnv.env.ipType == .ipv6 {
+            if SFEnv.ipType == .ipv6 {
                 host = "::ffff:" + serverIP
             }else {
                 host = serverIP
@@ -297,65 +297,68 @@ extension SFProxy{
     func resp() ->[String:Any]{
         return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP]
     }
-    static func map(_ name:String,value:JSON) ->SFProxy{
-        let i = value
-        let px = i["protocol"].stringValue as NSString
-        let proto = px.uppercased
-        var type :SFProxyType
-        if proto == "HTTP"{
-            type = .HTTP
-        }else if proto == "HTTPS" {
-            type = .HTTPS
-        }else if proto == "CUSTOM" {
-            type = .SS
-        }else if proto == "SS" {
-            type = .SS
-        }else if proto == "SOCKS5" {
-            type = .SOCKS5
-        }else {
-            type = .LANTERN
-        }
-        
-        
-        let a = i["host"].stringValue, p = i["port"].stringValue , pass = i["passwd"].stringValue , m = i["method"].stringValue
-        
-        var tlsEnable = false
-        let tls = i["tls"]
-        if tls.error == nil {
-            tlsEnable = tls.boolValue
-        }
-        
-        var enable = false
-        let penable = i["enable"]
-        if penable.error == nil {
-            enable = penable.boolValue
-        }
-        
-        var pName = name
-        if i["name"].error == nil {
-            pName = i["name"].stringValue
-        }
-        guard let sp = SFProxy.create(name: pName, type: type, address: a, port: p, passwd: pass, method: m,tls: tlsEnable) else {return}
-        
-        
-        if type == .SS {
-            //sp.udpRelay = true
-        }
-        //carsh on Mac
-        //sp.enable = enable
-        let cFlag = i["countryFlag"]
-        sp.countryFlag = cFlag.stringValue
-        let priJ = i["priority"]
-        if priJ.error == nil {
-            sp.priority = priJ.intValue
-        }
-        if i["isoCode"].error == nil {
-            sp.isoCode = i["isoCode"].stringValue
-        }
-        if i["ipaddress"].error == nil {
-            sp.serverIP = i["ipaddress"].stringValue
-        }
-        return sp
-    }
+//    static func map(_ name:String,value:JSON) ->SFProxy{
+//        let i = value
+//        let px = i["protocol"].stringValue as NSString
+//        let proto = px.uppercased
+//        var type :SFProxyType
+//        if proto == "HTTP"{
+//            type = .HTTP
+//        }else if proto == "HTTPS" {
+//            type = .HTTPS
+//        }else if proto == "CUSTOM" {
+//            type = .SS
+//        }else if proto == "SS" {
+//            type = .SS
+//        }else if proto == "SOCKS5" {
+//            type = .SOCKS5
+//        }else {
+//            type = .LANTERN
+//        }
+//        
+//        
+//        let a = i["host"].stringValue, p = i["port"].stringValue , pass = i["passwd"].stringValue , m = i["method"].stringValue
+//        
+//        var tlsEnable = false
+//        let tls = i["tls"]
+//        if tls.error == nil {
+//            tlsEnable = tls.boolValue
+//        }
+//        
+//        var enable = false
+//        let penable = i["enable"]
+//        if penable.error == nil {
+//            enable = penable.boolValue
+//        }
+//        
+//        var pName = name
+//        if i["name"].error == nil {
+//            pName = i["name"].stringValue
+//        }
+//        guard let sp = SFProxy.create(name: pName, type: type, address: a, port: p, passwd: pass, method: m,tls: tlsEnable) else {
+//            return ObjectMapper<SFProxy>
+//            return
+//        }
+//        
+//        
+//        if type == .SS {
+//            //sp.udpRelay = true
+//        }
+//        //carsh on Mac
+//        //sp.enable = enable
+//        let cFlag = i["countryFlag"]
+//        sp.countryFlag = cFlag.stringValue
+//        let priJ = i["priority"]
+//        if priJ.error == nil {
+//            sp.priority = priJ.intValue
+//        }
+//        if i["isoCode"].error == nil {
+//            sp.isoCode = i["isoCode"].stringValue
+//        }
+//        if i["ipaddress"].error == nil {
+//            sp.serverIP = i["ipaddress"].stringValue
+//        }
+//        return sp
+//    }
     
 }

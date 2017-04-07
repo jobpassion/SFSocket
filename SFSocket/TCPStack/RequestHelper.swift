@@ -12,13 +12,13 @@ import GRDB
 import AxLogger
 
 
-class RequestHelper{
-    static let shared = RequestHelper()
+public class RequestHelper{
+    static public let shared = RequestHelper()
     
     //var db:Connection?
     var requests:[SFRequestInfo] = []
     var dbQueue:DatabaseQueue?
-    func open(_ path:String,readonly:Bool,stamp:TimeInterval){
+    public func open(_ path:String,readonly:Bool,stamp:TimeInterval){
     //need memory 493kb
 //        if let d = db {
 //            //db.
@@ -156,7 +156,7 @@ class RequestHelper{
         self.requests.removeFirst()
         
     }
-    func openForApp(_ session:String) ->URL?{
+    public func openForApp(_ session:String) ->URL?{
         
         let p = groupContainerURL().appendingPathComponent("Log/" + session + "/")
         open(p.path,readonly: true,stamp: 0)
@@ -164,7 +164,7 @@ class RequestHelper{
         return p
         
     }
-    func  query() -> [SFRequestInfo] {
+    public func  query() -> [SFRequestInfo] {
         var result:[SFRequestInfo] = []
         
         

@@ -9,10 +9,10 @@
 import Foundation
 
 //历史统计功能
-class SFVPNSession:NSObject {
+public class SFVPNSession:NSObject {
     static  let session = SFVPNSession()
-    var startTime:Date = Date()
-    var endTime : Date = Date(timeIntervalSince1970:0)
+    public  var startTime:Date = Date()
+    public var endTime : Date = Date(timeIntervalSince1970:0)
     
     
     
@@ -23,12 +23,12 @@ class SFVPNSession:NSObject {
     override init(){
         
     }
-    func idenString() ->String {
+    public func idenString() ->String {
         let f = DateFormatter();
         f.dateFormat = "yyyy_MM_dd_HH_mm_ss";
         return f.string(from: startTime)
     }
-    func shortIdenString() ->String {
+    public func shortIdenString() ->String {
         let f = DateFormatter();
         f.dateFormat = "yyyy_MM_dd_HH_mm_ss";
         return f.string(from: startTime)

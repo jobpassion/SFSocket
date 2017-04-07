@@ -10,19 +10,19 @@ import Foundation
 import SwiftyJSON
 
 import AxLogger
-class ProxyGroupSettings {
-    static let share:ProxyGroupSettings = {
+public class ProxyGroupSettings {
+    public static let share:ProxyGroupSettings = {
         return ProxyGroupSettings()
     }()
     //var defaults:NSUserDefaults?// =
-    var editing:Bool = false
-    static let defaultConfig = ".surf"
-    var historyEnable:Bool = false
+    public var editing:Bool = false
+    public static let defaultConfig = ".surf"
+    public var historyEnable:Bool = false
     
-    var disableWidget:Bool = false
-    var dynamicSelected:Bool = false
-    var proxyChain:Bool = false
-    var chainProxy:SFProxy?{
+    public var disableWidget:Bool = false
+    public var dynamicSelected:Bool = false
+    public var proxyChain:Bool = false
+    public var chainProxy:SFProxy?{
         get {
             if proxyChainIndex < chainProxys.count{
                 return chainProxys[proxyChainIndex]
@@ -32,14 +32,15 @@ class ProxyGroupSettings {
             
         }
     }
-    var chainProxys:[SFProxy] = []
-    var proxyChainIndex:Int = 0
-    var showCountry:Bool = true
-    var widgetProxyCount:Int = 3
-    var selectIndex:Int = 0
-    var config:String = "surf.conf"
-    var saveDBIng:Bool = false
-    var selectedProxy:SFProxy? {
+    public var proxys:[SFProxy] = []
+    public var chainProxys:[SFProxy] = []
+    public var proxyChainIndex:Int = 0
+    public var showCountry:Bool = true
+    public var widgetProxyCount:Int = 3
+    public var selectIndex:Int = 0
+    public var config:String = "surf.conf"
+    public var saveDBIng:Bool = false
+    public var selectedProxy:SFProxy? {
         if proxys.count > 0 {
             if selectIndex >= proxys.count {
                 return proxys.first!
@@ -48,7 +49,7 @@ class ProxyGroupSettings {
         }
         return nil
     }
-    func updateProxyChain(_ isOn:Bool) ->String?{
+    public func updateProxyChain(_ isOn:Bool) ->String?{
 //        var idx:Int = 0
 //        if isOn {
 //            var found  = false
@@ -72,7 +73,7 @@ class ProxyGroupSettings {
         return nil
         // todo dynamic send tunnel provider
     }
-    func changeIndex(_ srcPath:IndexPath,destPath:IndexPath){
+    public func changeIndex(_ srcPath:IndexPath,destPath:IndexPath){
         //有个status section pass
         if srcPath.section == destPath.section {
             if srcPath.row == 0 {
@@ -91,29 +92,29 @@ class ProxyGroupSettings {
         }
         try! save()
     }
-    func changeIndex(_ src:Int,dest:Int,proxylist:inout [SFProxy] ){
+    public func changeIndex(_ src:Int,dest:Int,proxylist:inout [SFProxy] ){
         let r = proxylist.remove(at: src)
         proxylist.insert(r, at: dest)
         
     }
-    func iCloudSyncEnabled() ->Bool{
+    public func iCloudSyncEnabled() ->Bool{
         return UserDefaults.standard.bool(forKey: "icloudsync");
     }
-    func saveiCloudSync(_ t:Bool) {
+    public func saveiCloudSync(_ t:Bool) {
         UserDefaults.standard.set(t, forKey:"icloudsync" )
     }
-    func writeCountry(_ config:String,county:String){
-        guard let defaults = UserDefaults(suiteName:SKit.env.groupIdentifier) else {return }
+    public func writeCountry(_ config:String,county:String){
+        guard let defaults = UserDefaults(suiteName:SKit.groupIdentifier) else {return }
         defaults.set(county , forKey: config)
         defaults.synchronize()
     }
-    func readCountry(_ config:String) ->String?{
-        guard let defaults = UserDefaults(suiteName:SKit.env.groupIdentifier) else {return nil}
+    public func readCountry(_ config:String) ->String?{
+        guard let defaults = UserDefaults(suiteName:SKit.groupIdentifier) else {return nil}
         
         return defaults.object(forKey: config)  as? String
     }
-    var proxys:[SFProxy] = []
-    func findProxy(_ proxyName:String) ->SFProxy? {
+    
+    public func findProxy(_ proxyName:String) ->SFProxy? {
         
         
         
@@ -165,13 +166,13 @@ class ProxyGroupSettings {
     
         return nil
     }
-    func cutCount() ->Int{
+    public func cutCount() ->Int{
         if proxys.count <= 3{
             return proxys.count
         }
         return 3
     }
-    func removeProxy(_ Index:Int,chain:Bool = false) {
+    public func removeProxy(_ Index:Int,chain:Bool = false) {
         if chain {
             chainProxys.remove(at: Index)
         }else {
@@ -184,10 +185,10 @@ class ProxyGroupSettings {
             print("proxy group save error \(e)")
         }
     }
-    init () {
+    public init () {
        loadProxyFromFile()
     }
-    func loadProxyFromConf() {
+    public func loadProxyFromConf() {
          let url = groupContainerURL().appendingPathComponent(configMacFn)
         if fm.fileExists(atPath: url.path) {
             
@@ -223,7 +224,7 @@ class ProxyGroupSettings {
         }
         
     }
-    func loadProxyFromFile() {
+    public func loadProxyFromFile() {
         
         proxys.removeAll()
         chainProxys.removeAll()
@@ -273,29 +274,29 @@ class ProxyGroupSettings {
         }
     }
     
-    func readProxy(_ config:JSON) {
-        
-        let p =  config["Proxys"]
-        
-        for (name,value) in p {
-            let proxy = SFProxy.map(name, value: value)
-            proxys.append(proxy)
-
-            
-        }
-        
-        let cp = config["chainProxys"]
-        for (name,value) in cp {
-            let proxy = SFProxy.map(name, value: value)
-            chainProxys.append(proxy)
-            
-            
-        }
+    public func readProxy(_ config:JSON) {
+//MARK: fixme
+//        let p =  config["Proxys"]
+//        
+//        for (name,value) in p {
+//            let proxy = SFProxy.map(name, value: value)
+//            proxys.append(proxy)
+//
+//            
+//        }
+//        
+//        let cp = config["chainProxys"]
+//        for (name,value) in cp {
+//            let proxy = SFProxy.map(name, value: value)
+//            chainProxys.append(proxy)
+//            
+//            
+//        }
         
     }
     
     
-    func addProxy(_ proxy:SFProxy) -> Bool {
+    public func addProxy(_ proxy:SFProxy) -> Bool {
         
         var found = false
         
@@ -320,7 +321,7 @@ class ProxyGroupSettings {
         return true
     }
     
-    func updateProxy(_ p:SFProxy){
+    public func updateProxy(_ p:SFProxy){
         //todo
         var oldArray:[SFProxy]
         var newArray:[SFProxy]
@@ -338,7 +339,7 @@ class ProxyGroupSettings {
             newArray.append(firstSuchElement)
         }
     }
-    func save() throws {//save to group dir
+    public func save() throws {//save to group dir
         var result:[AnyObject] = []
         for p in proxys{
             let o = p.resp()
@@ -404,10 +405,10 @@ class ProxyGroupSettings {
         }
         
     }
-    func importFromFile(){
+    public func importFromFile(){
         
     }
-    func exportToFile(){
+    public func exportToFile(){
         
     }
     

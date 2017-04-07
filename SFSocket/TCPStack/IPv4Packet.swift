@@ -10,14 +10,14 @@ import Foundation
 import NetworkExtension
 
 
-open class IPv4Packet:NSObject{
-    var proto:UInt8 = 0
-    let srcIP:Data
-    let _rawData:Data
-    let destinationIP:Data
-    var headerLength:Int32 = 0
-    let payloadLength:Int32 = 0
-    init(PacketData:Data){
+public class IPv4Packet:NSObject{
+    public var proto:UInt8 = 0
+    public let srcIP:Data
+    public let _rawData:Data
+    public let destinationIP:Data
+    public var headerLength:Int32 = 0
+    public let payloadLength:Int32 = 0
+    public init(PacketData:Data){
         
         if PacketData.count < 20 {
             //AxLogger.log("PacketData lenth error",)
@@ -39,7 +39,7 @@ open class IPv4Packet:NSObject{
         super.init()
         
     }
-    func payloadData() ->Data{
+    public func payloadData() ->Data{
         return Data(_rawData.subdata(in: Range(Int(headerLength) ..< _rawData.count)))
     }
     override open var debugDescription: String {

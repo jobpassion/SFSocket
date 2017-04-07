@@ -10,7 +10,7 @@ import Foundation
 
 import SwiftyJSON
 let KEEP_APPLE_TCP = true
-class SFRequestInfo {
+public class SFRequestInfo {
     
     var mode:SFConnectionMode = .TCP //tcp http https
     var url:String = ""
@@ -114,7 +114,7 @@ class SFRequestInfo {
                 recvSpped = c / msec
             }
             
-            if recvSpped > SKit.env.LimitSpeedSimgle {
+            if recvSpped > SKit.LimitSpeedSimgle {
                 limit = true
             }else {
                 limit = false
@@ -366,7 +366,7 @@ class SFRequestInfo {
 }
 extension SFRequestInfo: Equatable {}
 
-func ==(lhs:SFRequestInfo,rhs:SFRequestInfo) -> Bool {
+public func ==(lhs:SFRequestInfo,rhs:SFRequestInfo) -> Bool {
     
     return (lhs.reqID == rhs.reqID) && (lhs.subID == rhs.subID)
 }

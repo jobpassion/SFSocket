@@ -37,7 +37,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
     var startTime:Date = Date()
     var dnsSetting:DNSServer?
     var cacheData:Data?
-    override init(sip: Data, dip: Data, packet: UDPPacket) {
+    override public init(sip: Data, dip: Data, packet: UDPPacket) {
         
         //targetHost = server
         super.init(sip: sip, dip: dip, packet: packet)
@@ -130,7 +130,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
     func start() {
         
         //SFNetworkInterfaceManager.instances.updateInfo()
-        if !targetHost.isEmpty && targetHost != SKit.env.proxyIpAddr{
+        if !targetHost.isEmpty && targetHost != SKit.proxyIpAddr{
             dnsSetting =  DNSServer.init(ip:targetHost,sys:true)
         }else{
             dnsSetting = SFDNSManager.manager.giveMeAserver()
@@ -160,7 +160,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
             AxLogger.log("\(cIdString) DNS can't connectToHost \(dnsSetting.ipaddr) \(e)",level: .Error)
         }
     }
-    override func addQuery(packet udp:UDPPacket!) {
+    override public func addQuery(packet udp:UDPPacket!) {
         //let ip = IPv4Packet(PacketData:data)
         //let udp = UDPPacket.init(PacketData: ip.payloadData())
         //en queue
@@ -341,8 +341,8 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
      func writeDNSPacketData(_ data:Data,cache:Bool){
         //NSLog("dns packet %@", data)
         
-        let  srcip:UInt32 = inet_addr(SKit.env.proxyIpAddr.cString(using: String.Encoding.utf8)!) //0xc0a800f5//0b01 // 00f5
-        let dstip:UInt32 = inet_addr(SKit.env.tunIP.cString(using: String.Encoding.utf8)!)//= 0xc0a80202
+        let  srcip:UInt32 = inet_addr(SKit.proxyIpAddr.cString(using: String.Encoding.utf8)!) //0xc0a800f5//0b01 // 00f5
+        let dstip:UInt32 = inet_addr(SKit.tunIP.cString(using: String.Encoding.utf8)!)//= 0xc0a80202
         
         let h = ipHeader(20+data.count+8, srcip ,dstip,queryIDCounter.bigEndian,UInt8(IPPROTO_UDP))
         queryIDCounter += 1
@@ -459,7 +459,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
             d.serverDidClose(self)
         }
     }
-    func shutdownSocket(){
+    public func shutdownSocket(){
         //maybe crash
         if let s = socket {
             s.setDelegate(nil)

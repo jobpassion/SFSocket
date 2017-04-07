@@ -9,7 +9,7 @@
 import Foundation
 import AxLogger
 import DarwinCore
-class SFDNSManager {
+open class SFDNSManager {
     static let manager = SFDNSManager()
     var settings:[DNSServer] = []
     var index:Int = 0
@@ -39,7 +39,7 @@ class SFDNSManager {
     func addSystemDNS( _ result:inout [DNSServer]) {
         let system = DNSServer.currentSystemDns()
         for s in system {
-            if  s == SKit.env.proxyIpAddr {
+            if  s == SKit.proxyIpAddr {
                 AxLogger.log("DNS invalid \(s) ",level: .Error)
             }else {
                 
@@ -48,8 +48,8 @@ class SFDNSManager {
                     //settings.append(d)
                     result.append(d)
                     
-                    SFEnv.env.updateEnvIP(s)
-                    AxLogger.log("system dns \(s) type:\( SFEnv.env.ipType)",level: .Info)
+                    SFEnv.updateEnvIP(s)
+                    AxLogger.log("system dns \(s) type:\( SFEnv.ipType)",level: .Info)
                 }
                 
             }
@@ -60,7 +60,7 @@ class SFDNSManager {
         
         
         let dnss = DNS.loadSystemDNSServer()
-        if let f = dnss?.first, f == SKit.env.proxyIpAddr {
+        if let f = dnss?.first, f == SKit.proxyIpAddr {
             AxLogger.log("DNS don't need  update",level: .Info)
         }else {
             dnsServers.removeAll()
@@ -95,7 +95,7 @@ class SFDNSManager {
         
     }
     func tunDNSSetting() ->[String]{
-        if SFEnv.env.ipType == .ipv6 {
+        if SFEnv.ipType == .ipv6 {
             return DNSServer.currentSystemDns()
         }else {
             return  DNSServer.tunIPV4DNS

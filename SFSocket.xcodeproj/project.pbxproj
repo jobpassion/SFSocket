@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		69116B051E967AD7007C2FBA /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
 		69116B061E967AD7007C2FBA /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
-		69116B081E967B3B007C2FBA /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B071E967B3B007C2FBA /* Crypto.framework */; };
 		69116B091E967B3B007C2FBA /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B071E967B3B007C2FBA /* Crypto.framework */; };
 		69116B0B1E967B52007C2FBA /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
 		69116B0C1E967B52007C2FBA /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
@@ -149,6 +148,7 @@
 		698A081F1DD5C664009BFFC9 /* ProxyConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A081E1DD5C664009BFFC9 /* ProxyConnector.swift */; };
 		698A08221DD5C6D4009BFFC9 /* SFEncrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A08211DD5C6D4009BFFC9 /* SFEncrypt.swift */; };
 		698A08241DD5C6DD009BFFC9 /* EncryptExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A08231DD5C6DD009BFFC9 /* EncryptExtension.swift */; };
+		698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */; };
 		6994E0171DEFBE9E009394F9 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6994E0161DEFBE9E009394F9 /* Rule.swift */; };
 		6994E0181DEFBE9E009394F9 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6994E0161DEFBE9E009394F9 /* Rule.swift */; };
 		6994E01A1DEFBEB6009394F9 /* DNSSessionMatchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6994E0191DEFBEB6009394F9 /* DNSSessionMatchType.swift */; };
@@ -399,6 +399,7 @@
 		698A081E1DD5C664009BFFC9 /* ProxyConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProxyConnector.swift; path = tcp/ProxyConnector.swift; sourceTree = "<group>"; };
 		698A08211DD5C6D4009BFFC9 /* SFEncrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFEncrypt.swift; sourceTree = "<group>"; };
 		698A08231DD5C6DD009BFFC9 /* EncryptExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptExtension.swift; sourceTree = "<group>"; };
+		698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NEPacketTunnelProvider+Extension.swift"; sourceTree = "<group>"; };
 		6994E0161DEFBE9E009394F9 /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		6994E0191DEFBEB6009394F9 /* DNSSessionMatchType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNSSessionMatchType.swift; sourceTree = "<group>"; };
 		69A0D2721DD5964F00227353 /* IPAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAddress.swift; sourceTree = "<group>"; };
@@ -486,7 +487,6 @@
 				69803E0E1DD95DBA0047112C /* CocoaAsyncSocket.framework in Frameworks */,
 				69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */,
 				69803E121DD95DC70047112C /* Crypto.framework in Frameworks */,
-				69116B081E967B3B007C2FBA /* Crypto.framework in Frameworks */,
 				69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */,
 				69C14AE01E8F375F00435A3F /* libkcp.framework in Frameworks */,
 				69116B0E1E967B63007C2FBA /* DarwinCore.framework in Frameworks */,
@@ -571,6 +571,7 @@
 				69116B311E968370007C2FBA /* SFVPNSession.swift */,
 				69116B2E1E96823E007C2FBA /* TCPManagerProtocol.swift */,
 				69116B371E968749007C2FBA /* SFRunArgv.swift */,
+				698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */,
 			);
 			path = TCPStack;
 			sourceTree = "<group>";
@@ -966,7 +967,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Kong XiangBo";
 				TargetAttributes = {
 					69B954F11DDF81CF006AF669 = {
@@ -1232,6 +1233,7 @@
 				695F6E7D1E900E1A00C72E5E /* SFUDPConnector.swift in Sources */,
 				697CEDC51E8B9B02002D1ECD /* KCPTun.swift in Sources */,
 				695F6E771E900E1A00C72E5E /* SFTuneExtension.swift in Sources */,
+				698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */,
 				695F6E531E900E1A00C72E5E /* DNSQueue.swift in Sources */,
 				692DD57E1DD5CA630079493D /* SFHTTPHeader.swift in Sources */,
 				695F6E871E900E1A00C72E5E /* UDPPacket.swift in Sources */,

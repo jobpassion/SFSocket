@@ -11,10 +11,10 @@ import Foundation
 import SwiftyJSON
 import AxLogger
 
-class SFSettingModule {
+open  class SFSettingModule {
     //static let setting = SFSettingModule()
-    static var config:String = ""
-     static let setting:SFSettingModule =  SFSettingModule()
+    public static var config:String = ""
+    public  static let setting:SFSettingModule =  SFSettingModule()
 //    static let setting:SFSettingModule = {
 //        let configName = readConfig()
 //        
@@ -26,7 +26,7 @@ class SFSettingModule {
     var httpProxyEnable = true
     var httpsProxyEnable = true
     var socksProxyEnable = false
-    var udprelayer = true
+    public var udprelayer = true
     //var hosts:[DNSRecord] = []//
     //var proxy:[String:SFProxy] = [:]
     //var general:General?
@@ -60,7 +60,7 @@ class SFSettingModule {
     func addDNSCacheRecord(_ r:DNSCache) {
         dnsCache.append(r)
     }
-    func cleanDNSCache(){
+    public func cleanDNSCache(){
         dnsCache.removeAll()
     }
     func searchIPAddress(_ ip:String) ->String? {
@@ -108,7 +108,7 @@ class SFSettingModule {
     }
   
 
-    func config(_ path:String){
+    public func config(_ path:String){
         
 
         //var  fn = ProxyGroupSettings.share.config
@@ -125,7 +125,7 @@ class SFSettingModule {
             }
             AxLogger.log("Config load Finished ",level: .Info)
         }else {
-            let u = fm.containerURL(forSecurityApplicationGroupIdentifier: SKit.env.groupIdentifier)!
+            let u = fm.containerURL(forSecurityApplicationGroupIdentifier: SKit.groupIdentifier)!
             AxLogger.log("Config File Don't exist \(u.path) ",level: .Info)
             AxLogger.log("Config File Don't exist \(path) ",level: .Info)
         }

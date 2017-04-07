@@ -265,7 +265,7 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
             d.serverDidClose(self)
         }
     }
-    func shutdownSocket(){
+    public func shutdownSocket(){
         //maybe crash
         if let s = socket {
             s.setDelegate(nil)
