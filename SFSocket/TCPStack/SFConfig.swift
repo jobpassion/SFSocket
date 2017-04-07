@@ -9,22 +9,22 @@ import SwiftyJSON
 import Foundation
 
 import AxLogger
-struct DNSRecord {
-    var name = ""
-    var ips:String = ""
-    var timing:TimeInterval = 0
-    init(name:String,ips:String){
+public struct DNSRecord {
+    public var name = ""
+    public var ips:String = ""
+    public var timing:TimeInterval = 0
+    public init(name:String,ips:String){
         self.name = name
         self.ips = ips
     }
-    func resp() ->[String:String]{
+    public func resp() ->[String:String]{
         //        if let x = ips.first {
         //            return [name:x]
         //        }
         return [name:ips]
         
     }
-    func ip() -> String?{
+    public func ip() -> String?{
         let xps = ips.components(separatedBy: ",")
         if xps.isEmpty {
             return nil
@@ -64,28 +64,28 @@ public enum SFConfigSectionType:Int, CustomStringConvertible{
         }
     }
 }
-class SFConfig {
-    var configName:String = ""
-    var keyworldRulers:[SFRuler] = []
-    var ipcidrRulers:[SFRuler] = []
-    var sufixRulers:[SFRuler] = []
-    var geoipRulers:[SFRuler] = []
-    var finalRuler:SFRuler = SFRuler()
-    var agentRuler:[SFRuler] = []
-    var proxys:[SFProxy] = []
-    var hosts:[DNSRecord] = []//
-    var rewrite:[SFRuler] = []
-    var changed:Bool = false
-    var loadResult:Bool = true
-    var  general:General?
-    func testJSON(_ json:JSON) ->Bool{
+public class SFConfig {
+    public var configName:String = ""
+    public var keyworldRulers:[SFRuler] = []
+    public var ipcidrRulers:[SFRuler] = []
+    public var sufixRulers:[SFRuler] = []
+    public var geoipRulers:[SFRuler] = []
+    public var finalRuler:SFRuler = SFRuler()
+    public var agentRuler:[SFRuler] = []
+    public var proxys:[SFProxy] = []
+    public var hosts:[DNSRecord] = []//
+    public var rewrite:[SFRuler] = []
+    public var changed:Bool = false
+    public var loadResult:Bool = true
+    public var  general:General?
+    public func testJSON(_ json:JSON) ->Bool{
         if json.error != nil {
             //mylog(json)
             loadResult = false
         }
         return loadResult
     }
-    init(name:String){
+    public  init(name:String){
         self.configName = name
         //let r = SFRuler.init()
         //r.type = SFRulerType.HEADER
@@ -98,7 +98,7 @@ class SFConfig {
         //r.proxyName =
         //rewrite.append(r)
     }
-    func rewriteRule(_ url:String) ->SFRuler?{
+    public  func rewriteRule(_ url:String) ->SFRuler?{
         for r in rewrite {
             if url.hasPrefix(r.name) {
                 return r
@@ -107,7 +107,7 @@ class SFConfig {
         
         return nil
     }
-    var ipRuleEnable:Bool{
+    public var ipRuleEnable:Bool{
         get {
             if ipcidrRulers.count == 0 && geoipRulers.count == 0 {
                 return false
@@ -116,7 +116,7 @@ class SFConfig {
             }
         }
     }
-    init(path:String, loadRule:Bool){
+    public init(path:String, loadRule:Bool){
         if let fn = path.components(separatedBy: "/").last,let conf  = fn.components(separatedBy: ".conf").first {
             configName = conf
         }
@@ -288,7 +288,7 @@ class SFConfig {
 //        print(error.description)
         
     }
-    func description() ->String {
+    public  func description() ->String {
         let count = agentRuler.count + keyworldRulers.count +  sufixRulers.count  + ipcidrRulers.count + geoipRulers.count + 1
         var geoIPCN = "GEOIPCN disable"
         for r in geoipRulers {
@@ -301,7 +301,7 @@ class SFConfig {
         
         return "\(count) Rules ," + geoIPCN + ",FINAL: " + finalRuler.proxyName
     }
-    func readProxy(_ config:JSON) {
+    public  func readProxy(_ config:JSON) {
         
         let p =  config["Proxy"]
         for (name,value) in p {
@@ -335,7 +335,7 @@ class SFConfig {
         
     }
     
-    func loadConfig(_ config:JSON){
+    public  func loadConfig(_ config:JSON){
         
 //        let key = config["DOMAIN-KEYWORD"]
 //        loadRuler(&keyworldRulers,j: key, type: .DOMAINKEYWORD)
@@ -385,7 +385,7 @@ class SFConfig {
 //            
 //        }
 //    }
-    func verifyRules(_ r:SFRuler) ->Bool {
+    public func verifyRules(_ r:SFRuler) ->Bool {
         let up = r.proxyName
         if  up == "DIRECT" || up == "REJECT" || up == "RANDOM" || up == "PROXY" {
             return true
@@ -403,7 +403,7 @@ class SFConfig {
         }
         return true
     }
-    func genRuleString(_ rules:[SFRuler]) ->String{
+    public func genRuleString(_ rules:[SFRuler]) ->String{
         var result = ""
         for rule in rules {
             let x = rule.respString()
@@ -412,7 +412,7 @@ class SFConfig {
         }
         return result
     }
-    func genRuleDict(_ rules:[SFRuler]) ->[String:AnyObject]{
+    public func genRuleDict(_ rules:[SFRuler]) ->[String:AnyObject]{
         var list:[String:AnyObject] = [:]
         for rule in rules {
             let x = rule.resp()
@@ -421,7 +421,7 @@ class SFConfig {
         }
         return list
     }
-    func genData() ->String{
+    public func genData() ->String{
        
         
         var result:String = ""
@@ -458,7 +458,7 @@ class SFConfig {
     
 
     
-    func findProxy(_ line:String, type:SFProxyType) ->SFProxy?{
+    public func findProxy(_ line:String, type:SFProxyType) ->SFProxy?{
         guard let proxy = SFProxy.create(name: "", type: .SS, address: "", port: "", passwd: "", method: "",tls:false) else {return nil}
         proxy.type = type
         let x = line.components(separatedBy: "=")
@@ -498,7 +498,7 @@ class SFConfig {
 }
 extension SFConfig: Equatable {}
 
-func ==(lhs:SFConfig,rhs:SFConfig) -> Bool {
+public func ==(lhs:SFConfig,rhs:SFConfig) -> Bool {
     
     return (lhs.configName == rhs.configName) 
 }

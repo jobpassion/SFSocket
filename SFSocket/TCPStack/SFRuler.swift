@@ -64,12 +64,15 @@ public enum SFRulerType :Int{
     }
 }
 
-class SFRuler {
-    var name:String = ""
-    var type:SFRulerType = .domainkeyword
-    var proxyName:String = ""
-    var timming:TimeInterval = 0.0
-    var ipAddress:String = ""
+public class SFRuler {
+    public var name:String = ""
+    public var type:SFRulerType = .domainkeyword
+    public var proxyName:String = ""
+    public var timming:TimeInterval = 0.0
+    public var ipAddress:String = ""
+    public  init(){
+        
+    }
     public var policy:SFPolicy {
         let upper = proxyName.uppercased()
         if upper == "DIRECT" {
@@ -81,7 +84,7 @@ class SFRuler {
         
         
     }
-    static func createRulerWithLine(_ line:String) ->SFRuler?{
+    public static func createRulerWithLine(_ line:String) ->SFRuler?{
         if line.hasPrefix("DOMAIN-KEYWORD") || line.hasPrefix("DOMAIN-SUFFIX") || line.hasPrefix("DOMAIN") || line.hasPrefix("USER-AGENT") || line.hasPrefix("IP-CIDR") || line.hasPrefix("GEOIP") || line.hasPrefix("FINAL"){
             //不是非常好
         }else {
@@ -134,29 +137,29 @@ class SFRuler {
         ruler.type = type
         return ruler
     }
-    func policyString() ->String{
+    public func policyString() ->String{
         //这个方法是给主app 用的
         return proxyName
     }
  
-    func resp() ->[String:AnyObject] {
+    public func resp() ->[String:AnyObject] {
         
         return ["Proxy":proxyName as AnyObject,"Name":name as AnyObject,"Type":type.description as AnyObject,"timming":NSNumber.init(value: timming),"ipAddress":ipAddress as AnyObject]
     }
-    func respString() ->String {
+    public func respString() ->String {
         if type == .final {
             return "\(type.description),\(proxyName)\n"
         }
         return   "\(type.description),\(name),\(proxyName)\n"
     }
-    func desc() ->String {
+    public func desc() ->String {
         if policy == .Proxy {
             return proxyName
         }
         return policy.description
     }
  
-    func mapObject(_ j:JSON) {
+    public func mapObject(_ j:JSON) {
         //print(j)
         //NSLog("", <#T##args: CVarArgType...##CVarArgType#>)
         if j["Proxy"].error == nil {
@@ -179,10 +182,10 @@ class SFRuler {
 //            policy = ty
 //        }
     }
-    var typeId:Int64 {
+    public var typeId:Int64 {
         return Int64(type.rawValue)
     }
-    var policyId:Int64{
+    public var policyId:Int64{
         let upper = proxyName.uppercased()
         if upper == "DIRECT" {
             return 0
@@ -192,7 +195,7 @@ class SFRuler {
         return 2
 
     }
-    func pWith(_ s:Int64) {
+    public func pWith(_ s:Int64) {
         if s == 0{
             proxyName = "DIRECT"
         }else if s == 1 {

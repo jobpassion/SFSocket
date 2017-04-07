@@ -21,16 +21,16 @@ public enum SFRuleResultMethod :Int, CustomStringConvertible{
         }
     }
 }
-class SFRuleResult {
-    var req:String = ""
-    var result:SFRuler
-    var ipAddr:String = ""
-    var method:SFRuleResultMethod = SFRuleResultMethod.init(rawValue: 0)!
-    init(request:String, r:SFRuler) {
+public class SFRuleResult {
+    public var req:String = ""
+    public var result:SFRuler
+    public var ipAddr:String = ""
+    public var method:SFRuleResultMethod = SFRuleResultMethod.init(rawValue: 0)!
+    public init(request:String, r:SFRuler) {
         req = request
         result = r
     }
-    func resp() -> [String:AnyObject] {
+    public func resp() -> [String:AnyObject] {
         var r:[String:AnyObject] = [:]
         r[req] = result.resp() as AnyObject?
         return r

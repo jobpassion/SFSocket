@@ -22,7 +22,7 @@ func checkJB() ->Bool{
            // return [fileManager fileExists(atPath::@"/private/var/lib/apt/"];
     //}
 }
-func appInfo() -> [String:String]{
+public func appInfo() -> [String:String]{
     var result = [String:String]()
     if let info = Bundle.main.infoDictionary, let appVersion =  info["CFBundleShortVersionString"] as? String,let buildVersion =  info["CFBundleVersion"] as? String {
         result["appVersion"] =  appVersion
@@ -46,19 +46,19 @@ func appInfo() -> [String:String]{
 
 
 
-func appVersion() -> String{
+public func appVersion() -> String{
     if let info = Bundle.main.infoDictionary, let appVersion =  info["CFBundleShortVersionString"] as? String{
         return appVersion
     }
     return ""
 }
-func appBuild() -> String{
+public func appBuild() -> String{
     if let info = Bundle.main.infoDictionary, let buildVersion =  info["CFBundleVersion"] as? String{
         return buildVersion
     }
     return ""
 }
-func physicalMemory() ->Int{
+public func physicalMemory() ->Int{
     let memory = ProcessInfo.processInfo.physicalMemory
     let gb:UInt64 = 1024*1024*1024
     if memory < gb {
@@ -196,7 +196,7 @@ protocol OutputStreamType {
     /// Append the given `string` to this stream.
     mutating func write(_ string: String)
 }
-func copyFile(_ src:URL,dst:URL,forceCopy:Bool) throws{
+public func copyFile(_ src:URL,dst:URL,forceCopy:Bool) throws{
     let spath = src.path
     let dpath = dst.path
     if fm.fileExists(atPath: dpath)   {

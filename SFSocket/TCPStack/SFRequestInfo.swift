@@ -12,45 +12,45 @@ import SwiftyJSON
 let KEEP_APPLE_TCP = true
 public class SFRequestInfo {
     
-    var mode:SFConnectionMode = .TCP //tcp http https
-    var url:String = ""
+    public var mode:SFConnectionMode = .TCP //tcp http https
+    public var url:String = ""
     //var requestId:Int = 0
-    var app = "" //user-agent
-    var interfaceCell:Int64 = 0
-    var localIPaddress:String = ""
-    var remoteIPaddress:String = ""
-    var sTime:Date// = Date.init(timeIntervalSince1970: 0)
-    var estTime = Date()
-    var status:SFConnectionStatus = .Start
-    var closereason:SFConnectionCompleteReason = .noError
-    var delay_start:Double = 0.0
+    public var app = "" //user-agent
+    public var interfaceCell:Int64 = 0
+    public var localIPaddress:String = ""
+    public var remoteIPaddress:String = ""
+    public var sTime:Date// = Date.init(timeIntervalSince1970: 0)
+    public var estTime = Date()
+    public var status:SFConnectionStatus = .Start
+    public var closereason:SFConnectionCompleteReason = .noError
+    public var delay_start:Double = 0.0
 //    var req:NSMutableData = NSMutableData() //req header
 //    var resp:NSMutableData = NSMutableData() //respond header
-    var started:Bool = false
-    var reqHeader:SFHTTPRequestHeader?
-    var respHeader:SFHTTPResponseHeader?
-    var respReadFinish:Bool = false
+    public var started:Bool = false
+    public var reqHeader:SFHTTPRequestHeader?
+    public var respHeader:SFHTTPResponseHeader?
+    public var respReadFinish:Bool = false
     //var policy:SFPolicy = .Direct
-    var recvSpped:UInt = 0
-    var waitingRule:Bool = false //Rule 结果没返回需要等待DNS request
-    var limit:Bool = false
-    var ruleStartTime:Date = Date()
+    public var recvSpped:UInt = 0
+    public var waitingRule:Bool = false //Rule 结果没返回需要等待DNS request
+    public var limit:Bool = false
+    public var ruleStartTime:Date = Date()
    
-    var proxy:SFProxy?
-    var rule:SFRuler = SFRuler()
-    var inComingTime:Date = Date()
+    public var proxy:SFProxy?
+    public var rule:SFRuler = SFRuler()
+    public var inComingTime:Date = Date()
     
-    var traffice:SFTraffic = SFTraffic()
+    public var traffice:SFTraffic = SFTraffic()
     
-    var speedtraffice:SFTraffic = SFTraffic()//用于cache 速度 traffice
+    public var speedtraffice:SFTraffic = SFTraffic()//用于cache 速度 traffice
     
-    var activeTime = Date() //last active time
-    var eTime = Date.init(timeIntervalSince1970: 0) //send time
+    public var activeTime = Date() //last active time
+    public var eTime = Date.init(timeIntervalSince1970: 0) //send time
     
-    var reqID:Int
-    var subID:Int
-    var lport:Int = 0//lsof -n -i tcp:ip@port
-    var dbID:Int = 0
+    public var reqID:Int
+    public var subID:Int
+    public var lport:Int = 0//lsof -n -i tcp:ip@port
+    public var dbID:Int = 0
     //var pcb_closed = false 减少不必要的状态机
     // set client not closed
     var client_closed = false // 0 pcb alive ,1 dead
@@ -59,22 +59,22 @@ public class SFRequestInfo {
     var socks_closed = false
 
     #if LOGGER
-    var sendData:Data = Data()
-    var recvData:Data = Data()
+    public var sendData:Data = Data()
+    public var recvData:Data = Data()
     #endif
-    init(rID:Int,sID:Int = 0) {
+    public init(rID:Int,sID:Int = 0) {
         reqID = rID
         subID = sID
         sTime = Date()
     }
-    func isSubReq() ->Bool {
+    public func isSubReq() ->Bool {
         if subID == 0 {
             return true
         }else {
             return false
         }
     }
-    var host:String {
+    public var host:String {
         var result = ""
         if let r = reqHeader {
             if !r.ipAddressV4.isEmpty {
@@ -89,17 +89,17 @@ public class SFRequestInfo {
         }
         return result
     }
-    var port:Int{
+    public var port:Int{
         if let r  = reqHeader{
             return r.Port
         }
         return 80
     }
 
-    func updateInterface(_ data:Data){
+    public func updateInterface(_ data:Data){
         
     }
-    func updateSpeed(_ c:UInt, stat:Bool)  {
+    public func updateSpeed(_ c:UInt, stat:Bool)  {
         if c > 0 {
             if stat{
                 //traffice.addRx(Int(c))
@@ -125,12 +125,12 @@ public class SFRequestInfo {
             
         }
     }
-    var ruleTiming:TimeInterval {
+    public var ruleTiming:TimeInterval {
         get{
             return Date().timeIntervalSince(ruleStartTime)
         }
     }
-    var connectionTiming:TimeInterval {
+    public var connectionTiming:TimeInterval {
         get {
 
             if estTime.timeIntervalSince(sTime) < 0.0 {
@@ -144,7 +144,7 @@ public class SFRequestInfo {
             //self.connectionTiming = newT
         }
     }
-    var transferTiming:TimeInterval {
+    public var transferTiming:TimeInterval {
         get {
 
             if activeTime.timeIntervalSince(estTime) < 0.0 {
@@ -158,21 +158,21 @@ public class SFRequestInfo {
             //self.transferTiming = newT
         }
     }
-    var idleTimeing:TimeInterval {
+    public var idleTimeing:TimeInterval {
         get {
             
             let now = Date()
             return now.timeIntervalSince(activeTime)
         }
     }
-    var workTimeing:String {
+    public var workTimeing:String {
         get {
             let now = Date()
             let ts =  now.timeIntervalSince(sTime)
             return String(format: "Start: %.2f ms", ts*1000)
         }
     }
-    func  shouldCloseClient() ->Bool {
+    public func  shouldCloseClient() ->Bool {
         var close = true
 //        return false
         if KEEP_APPLE_TCP {
@@ -196,12 +196,12 @@ public class SFRequestInfo {
         return close
     }
 
-    var runing:TimeInterval {
+    public var runing:TimeInterval {
         get {
             return eTime.timeIntervalSince(sTime)
         }
     }
-    func respObj() -> [String:AnyObject] {
+    public func respObj() -> [String:AnyObject] {
         var r :[String:AnyObject] = [:]
         r["mode"] = mode.description as AnyObject?
         r["url"] = url as AnyObject?
@@ -244,7 +244,7 @@ public class SFRequestInfo {
         r["remoteIP"] = remoteIPaddress as AnyObject?
         return r
     }
-    func map(_ j:JSON){
+    public func map(_ j:JSON){
         
         self.mode = SFConnectionMode(rawValue:j["mode"].stringValue)!
         self.url = j["url"].stringValue
@@ -302,7 +302,7 @@ public class SFRequestInfo {
         
     }
 
-    func dataDesc(_ d:Date) ->String{
+    public func dataDesc(_ d:Date) ->String{
         
         let zone = TimeZone.current
         let formatter = DateFormatter()
@@ -311,7 +311,7 @@ public class SFRequestInfo {
         //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.string(from: d)
     }
-    func writeFLow(){
+    public func writeFLow(){
         //AxLogger.log("[SFRequestInfo-\(reqID)] write data",level: .Debug)
         #if LOGGER
         let url1 = groupContainerURL().appendingPathComponent("\(url)\(reqID)_\(sTime)send.bin")
@@ -321,7 +321,7 @@ public class SFRequestInfo {
         #endif
     }
 
-    func updateSendTraffic(_ t:Int){
+    public func updateSendTraffic(_ t:Int){
         let stat = SFVPNStatistics.shared
         traffice.addTx(x: t)
         if interfaceCell == 0 {
@@ -337,7 +337,7 @@ public class SFRequestInfo {
         }
         activeTime = Date()
     }
-    func updaterecvTraffic(_ t:Int){
+    public func updaterecvTraffic(_ t:Int){
         let stat = SFVPNStatistics.shared
         traffice.addRx(x: t)
         if interfaceCell == 0 {

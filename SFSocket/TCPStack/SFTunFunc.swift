@@ -8,15 +8,15 @@
 
 import Foundation
 import Darwin
-struct NetInfo {
+public struct NetInfo {
     // IP Address
-    let ip: String
+    public let ip: String
     
     // Netmask Address
-    let netmask: String
-    let ifName:String
+    public let netmask: String
+    public let ifName:String
     // CIDR: Classless Inter-Domain Routing
-    var cidr: Int {
+    public var cidr: Int {
         var cidr = 0
         for number in binaryRepresentation(netmask) {
             let numberOfOnes = number.components(separatedBy: "1").count - 1
@@ -26,19 +26,23 @@ struct NetInfo {
     }
     
     // Network Address
-    var network: String {
+    public var network: String {
         return bitwise(&, net1: ip, net2: netmask)
     }
-    
+    public init(ip:String,netmask:String,ifName:String){
+        self.ip = ip
+        self.netmask = netmask
+        self.ifName = ifName
+    }
     // Broadcast Address
-    var broadcast: String {
+    public var broadcast: String {
         let inverted_netmask = bitwise(~, net1: netmask)
         let broadcast = bitwise(|, net1: network, net2: inverted_netmask)
         return broadcast
     }
     
     
-    fileprivate func binaryRepresentation(_ s: String) -> [String] {
+    public func binaryRepresentation(_ s: String) -> [String] {
         var result: [String] = []
         for numbers in (s.characters.split {$0 == "."}) {
             if let intNumber = Int(String(numbers)) {
@@ -75,7 +79,7 @@ struct NetInfo {
         return result
     }
     
-    fileprivate func toInts(_ networkString: String) -> [UInt8] {
+    public func toInts(_ networkString: String) -> [UInt8] {
         let x = networkString.characters.split(separator: ".", maxSplits: 0, omittingEmptySubsequences: false)
         if x.count == 4 {
             return (networkString.characters.split {$0 == "."}).map{UInt8(String($0))!}

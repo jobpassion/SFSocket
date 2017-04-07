@@ -8,22 +8,22 @@
 
 import Foundation
 import AxLogger
-class General {
-    var author = "yarshure"
-    var loglevel = "info"
-    var commnet = "fuck gfw and gcd"
-    var lastUpdate = Date()
-    var url = ""
-    var bypasstun:[String] = []
-    var skipproxy:[String] = []
-    var bypasssystem:Bool = false
-    var dnsserver:[String] = []
-    var cellSuspend:Bool = false //Project-FI 可以不用翻墙
+public class General {
+    public var author = "yarshure"
+    public var loglevel = "info"
+    public var commnet = "fuck gfw and gcd"
+    public var lastUpdate = Date()
+    public var url = ""
+    public var bypasstun:[String] = []
+    public var skipproxy:[String] = []
+    public var bypasssystem:Bool = false
+    public var dnsserver:[String] = []
+    public var cellSuspend:Bool = false //Project-FI 可以不用翻墙
     //var config:JSON
-    init (name:String) {
+    public init (name:String) {
         
     }
-    var  axloglevel: AxLoggerLevel {
+    public var  axloglevel: AxLoggerLevel {
         
         var level:AxLoggerLevel = .Info
         let l = loglevel.lowercased()
@@ -41,7 +41,7 @@ class General {
         }
         return level
     }
-    init (c:String) {
+    public init (c:String) {
         //config = c
         // 空格啊
 //        let bypass = c["bypass-tun"]
@@ -68,7 +68,7 @@ class General {
 //            commnet = c["commnet"].stringValue
 //        }
     }
-    func resp() ->String{
+    public func resp() ->String{
         var result = "[General]\n"
         result  += "loglevel = \(loglevel)\n"
         if !dnsserver.isEmpty {
@@ -106,7 +106,7 @@ class General {
         }
         return result
     }
-    func dnsString() ->String {
+    public func dnsString() ->String {
         var result = ""
         if !dnsserver.isEmpty {
             
@@ -119,7 +119,7 @@ class General {
         }
         return result
     }
-    func updateDNS(_ string:String) {
+    public func updateDNS(_ string:String) {
         let list = string.components(separatedBy: ",")
         dnsserver.removeAll()
         for item in list {
