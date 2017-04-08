@@ -44,8 +44,28 @@ public class ProxyGroupSettings:CommonModel {
     public var selectIndex:Int = 0
     public var config:String = "surf.conf"
     public var saveDBIng:Bool = false
+    public var lastupData:Date = Date()
     public required init?(map: Map) {
-        super.init(map: map)
+        //super.init(map: map)
+        super.init()
+        editing  <- map["editing"]
+        historyEnable <- map["historyEnable"]
+        proxyMan <- map["proxyMan"]
+        
+        
+        disableWidget  <- map["disableWidget"]
+        dynamicSelected <- map["dynamicSelected"]
+        proxyChain <- map["proxyChain"]
+        
+        
+        proxyChainIndex  <- map["proxyChainIndex"]
+        showCountry <- map["showCountry"]
+        widgetProxyCount <- map["widgetProxyCount"]
+        selectIndex <- map["selectIndex"]
+        
+        config  <- map["config"]
+        saveDBIng <- map["saveDBIng"]
+        lastupData <- (map["lastupData"],self.dateTransform)
         //self.mapping(map: map)
     }
     public override func mapping(map: Map) {
@@ -66,7 +86,7 @@ public class ProxyGroupSettings:CommonModel {
         
         config  <- map["config"]
         saveDBIng <- map["saveDBIng"]
-       
+        lastupData <- (map["lastupData"],self.dateTransform)
 
     }
     
@@ -132,7 +152,7 @@ public class ProxyGroupSettings:CommonModel {
     }
 
 
-    public var proxys:[SFProxy] {
+    public var proxysAll:[SFProxy] {
         get {
             var new:[SFProxy] = []
             new.append(contentsOf: proxyMan.proxys)
@@ -165,5 +185,32 @@ public class ProxyGroupSettings:CommonModel {
         
     }
     
-    
+    public func loadProxyFromFile() {
+        //MARK: fixme
+        let url = groupContainerURL().appendingPathComponent(kProxyGroupFile)
+        var content:String = "{}"
+        do {
+            content = try String.init(contentsOf: url, encoding: .utf8)
+        }catch let e {
+            print("\(e)")
+        }
+        
+//        guard let set = Mapper<ProxyGroupSettings>().map(JSONString: content) else {
+//            fatalError()
+//        }
+//        self.mapping(map: <#T##Map#>)
+        
+        
+
+    }
+    public var chainProxys:[SFProxy]{
+        get {
+            return proxyMan.chainProxys
+        }
+    }
+    public var proxys:[SFProxy] {
+        get {
+            return proxyMan.proxys
+        }
+    }
 }

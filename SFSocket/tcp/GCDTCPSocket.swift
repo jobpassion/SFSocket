@@ -5,6 +5,10 @@ import CocoaAsyncSocket
 ///
 /// - warning: This class is not thread-safe, it is expected that the instance is accessed on the `queue` only.
 open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawSocketProtocol {
+    public func forceDisconnect(_ sessionID: Int) {
+        self.forceDisconnect()
+    }
+
     public var writePending: Bool = false
     public var readPending: Bool = false
     /// cell or wifi 

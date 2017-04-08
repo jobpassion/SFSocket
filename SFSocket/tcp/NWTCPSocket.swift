@@ -23,6 +23,10 @@ extension NWTCPConnectionState: CustomStringConvertible {
 }
 
 public class NWTCPSocket: NSObject, RawSocketProtocol {
+    public func forceDisconnect(_ sessionID: Int) {
+        self.forceDisconnect()
+    }
+
     static let ScannerReadTag = 10000
     public  var connection: NWTCPConnection?
 

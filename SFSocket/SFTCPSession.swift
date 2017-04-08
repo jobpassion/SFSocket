@@ -59,8 +59,8 @@ public class TCPSession:RawSocketDelegate {
     weak var delegate:TCPSessionDelegate?
     var readPending:Bool = false
     var writePending:Bool = false
-    var tcp:NWTCPSocket?
-    var udp:KCPTunSocket?//RAWUDPSocket?
+    var socket:RawSocketProtocol?//NWTCPSocket?
+    
     var sessionID:Int = 0
     var queue:DispatchQueue?
     //MARK: - RawSocketDelegate
@@ -72,12 +72,10 @@ public class TCPSession:RawSocketDelegate {
     }
     public var useCell:Bool {
         get {
-            if let t = tcp {
+            if let t = socket {
                 return t.useCell
             }
-            if let u = udp {
-                return u.useCell
-            }
+            
             return false
         }
     }
@@ -132,7 +130,7 @@ public class TCPSession:RawSocketDelegate {
         if policy == .Direct {
             //基本上网需求
             guard let chain = proxy else {
-                s.tcp =  DirectConnector.connectorWithHost(targetHost: targetHost, targetPort: Int(Port))
+                s.socket =  DirectConnector.connectorWithHost(targetHost: targetHost, targetPort: Int(Port))
                 return s
             }
             switch chain.type {
@@ -146,9 +144,9 @@ public class TCPSession:RawSocketDelegate {
                 if connector.reqHeader == nil {
                     fatalError("HTTP Request Header nil")
                 }
-                s.tcp = connector
+                s.socket = connector
             case .SOCKS5:
-                s.tcp =  Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: chain)
+                s.socket =  Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: chain)
                 
             default:
                 return nil
@@ -171,9 +169,9 @@ public class TCPSession:RawSocketDelegate {
                         fatalError("HTTP Request Header nil")
                     }
                     
-                    s.tcp =  connector
+                    s.socket =  connector
                 case .SOCKS5:
-                    s.tcp =   CSocks5Connector.create(policy, targetHostname: adapter.targetHost, targetPort: adapter.targetPort, p: chain,adapter: adapter)
+                    s.socket =   CSocks5Connector.create(policy, targetHostname: adapter.targetHost, targetPort: adapter.targetPort, p: chain,adapter: adapter)
                 default:
                     return nil
                 }
@@ -196,23 +194,23 @@ public class TCPSession:RawSocketDelegate {
                         if connector.reqHeader == nil {
                             fatalError("HTTP Request Header nil")
                         }
-                        s.tcp =  connector
+                        s.socket =  connector
                     case .SS:
                         
-                        s.tcp =    TCPSSConnector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                        s.socket =    TCPSSConnector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
                     case .SS3:
-                        s.tcp =    TCPSS3Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                        s.socket =    TCPSS3Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
                         
                         
                     case .SOCKS5:
-                        s.tcp =   Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                        s.socket =   Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
                         
                     default:
                         
                         return nil
                     }
                 }else {
-                    s.udp = KCPTunSocket.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: sID)
+                    s.socket = KCPTunSocket.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: sID)
                 }
                 
             }
@@ -225,32 +223,25 @@ public class TCPSession:RawSocketDelegate {
     //MARK - API
     
     public  func sendData(_ data: Data, withTag tag: Int) {
-        if let t = tcp {
-            t.sendData(data: data, withTag: tag)
-            return
-        }
-        if let u = udp {
-            u.writeData(data, withTag: tag)
-            return
-        }else {
-            AxLogger.log("TCPSession no avaliable socket", level: .Error)
+        if let t = socket {
+            t.writeData(data, withTag: tag)
+            
         }
         
     }
     public func  readDataWithTag(_ tag: Int){
-        if let t = tcp {
-            t.readDataWithTag(tag)
+        if let t = socket {
+            if t.tcp {
+                t.readDataWithTag(tag)
+            }//udp don't need read
+            
             return
         }
         // UDP don't need read func
     }
     public  func forceDisconnect(){
-        if let t = tcp{
-            t.forceDisconnect()
-        }else {
-            if let u = udp {
-                u.forceDisconnect(sessionID)
-            }
+        if let t = socket{
+            t.forceDisconnect(sessionID)
         }
     }
     

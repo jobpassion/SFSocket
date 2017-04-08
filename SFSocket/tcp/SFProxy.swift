@@ -225,6 +225,32 @@ public class SFProxy:CommonModel {
             return countryFlag + " " + proxyName
         }
     }
+    public override func mapping(map: Map) {
+        
+        proxyName  <- map["pName"]
+        serverAddress <- map["serverAddress"]
+        serverPort <- map["serverPort"]
+        
+        password <- map["password"]
+        method <- map["method"] //http socks5 user
+        tlsEnable   <- map["tlsEnable"]
+        type   <- (map["type"],EnumTransform<SFProxyType>())
+        countryFlag    <- map["countryFlag"]
+        priority         <- map["priority"]
+        isoCode      <- map["isoCode"]
+        serverIP       <- map["serverIP"]
+        chain  <- map["chain"]
+        udpRelay  <- map["udpRelay"]
+        kcptun  <- map["kcptun"]
+        mode     <- map["mode"]
+        key  <- map["key"]
+        tcpValue <- map["tcpValue"]
+        priority <- map["priority"]
+        //birthday    <- (map["birthday"], DateTransform())
+        
+        
+        
+    }
     public static func createProxyWithURL(_ configString:String) ->(proxy:SFProxy?,message:String) {
         // http://base64str
         //"aes-256-cfb:fb4b532cb4180c9037c5b64bb3c09f7e@108.61.126.194:14860"
@@ -440,31 +466,7 @@ public class SFProxy:CommonModel {
     //        return ["name":proxyName as AnyObject,"host":serverAddress as AnyObject,"port":serverPort,"protocol":type.description,"method":method,"passwd":password,"tls":NSNumber.init(value: tlsEnable),"priority":NSNumber.init(value: priority),"enable":NSNumber.init(value: enable),"countryFlag":countryFlag,"isoCode":isoCode,"ipaddress":serverIP,"mode":mode,"kcptun":NSNumber.init(value:kcptun ),"chain":chain]
     //    }
     //open  static func map(_ name:String,value:JSON) ->SFProxy{
-    public override func mapping(map: Map) {
-        
-        proxyName  <- map["pName"]
-        serverAddress <- map["serverAddress"]
-        serverPort <- map["serverPort"]
-        
-        password <- map["password"]
-        method <- map["method"] //http socks5 user
-        tlsEnable   <- map["tlsEnable"]
-        type   <- (map["type"],EnumTransform<SFProxyType>())
-        countryFlag    <- map["countryFlag"]
-        priority         <- map["priority"]
-        isoCode      <- map["isoCode"]
-        serverIP       <- map["serverIP"]
-        chain  <- map["chain"]
-        udpRelay  <- map["udpRelay"]
-        kcptun  <- map["kcptun"]
-        mode     <- map["mode"]
-        key  <- map["key"]
-        
-        //birthday    <- (map["birthday"], DateTransform())
-        
-        
-        
-    }
+  
     
     public func typeDesc() ->String{
         if tlsEnable && type == .HTTP {
