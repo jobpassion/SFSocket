@@ -89,7 +89,7 @@ class KCPTunSocket: RAWUDPSocket {
             guard let pass = c.config.pkbdf2Key(pass: p.key, salt: "kcp-go".data(using: .utf8)!) else {
                 return nil
             }
-            c.block =  BlockCrypt.create(type:  p.cryptoType, key: pass) //(type: p.cryptoType, key: pass)
+            c.block =  BlockCrypt.create(type:  p.cryptoType, pass: pass) //(type: p.cryptoType, key: pass)
             let channel = Channel.init(a: adapter)
             c.channels.append(channel)
             KCPTunSocket.sharedTuns.append(c)

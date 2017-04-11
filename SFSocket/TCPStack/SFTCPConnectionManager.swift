@@ -621,6 +621,9 @@ extension SFTCPConnectionManager{
             ruleTestResult.removeLast()
         }
         var found = false
+        if r.result.policy == .Reject {
+            SKit.alertMessage("\(r.req) \(r.result.name) 已经拦截")
+        }
         for x  in ruleTestResult {
             if x.req == r.req {
                 found = true

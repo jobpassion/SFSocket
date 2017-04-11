@@ -149,6 +149,7 @@ public class ProxyGroupSettings:CommonModel {
         }catch let e as NSError{
             print("proxy group save error \(e)")
         }
+        
     }
 
 
@@ -166,7 +167,10 @@ public class ProxyGroupSettings:CommonModel {
     public func addProxy(_ proxy:SFProxy) -> Bool {
         
         
-        selectIndex = proxyMan.addProxy(proxy)
+        let x  = proxyMan.addProxy(proxy)
+        if x != -1 {
+            selectIndex = x
+        }
         try! save()
         return true
     }

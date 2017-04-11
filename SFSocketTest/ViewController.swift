@@ -113,6 +113,9 @@ class ViewController: UIViewController {
             //_ = ProxyGroupSettings.share.addProxy(p)
             _  = ProxyGroupSettings.share.addProxy(p)
         }
+        var config = TunConfig()
+        let pass = config.pkbdf2Key(pass: p.key, salt: "kcp-go".data(using: .utf8)!)
+        print("\(pass as! NSData)")
         print(ProxyGroupSettings.share.proxys)
         
     }

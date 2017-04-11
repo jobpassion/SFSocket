@@ -34,6 +34,7 @@ public enum SFProxyType :Int, CustomStringConvertible{
 public class Proxys:CommonModel {
     var chainProxys:[SFProxy] = []
     var proxys:[SFProxy] = []
+    var deleteproxys:[SFProxy] = []
     public override func mapping(map: Map) {
         chainProxys  <- map["chainProxys"]
         proxys <- map["proxys"]
@@ -51,6 +52,7 @@ public class Proxys:CommonModel {
         }
         return nil
     }
+    // for tunnel
     func findProxy(_ proxyName:String,dynamicSelected:Bool,selectIndex:Int) ->SFProxy? {
         
         
@@ -89,8 +91,6 @@ public class Proxys:CommonModel {
             
         }
         
-        
-        
         if proxys.count > 0 {
             return proxys.first!
         }
@@ -105,12 +105,15 @@ public class Proxys:CommonModel {
         }
         return 3
     }
+    
     public func removeProxy(_ Index:Int,chain:Bool = false) {
+        var p:SFProxy
         if chain {
-            chainProxys.remove(at: Index)
+            p = chainProxys.remove(at: Index)
         }else {
-            proxys.remove(at: Index)
+            p = proxys.remove(at: Index)
         }
+        deleteproxys.append(p)
         
     }
     func changeIndex(_ srcPath:IndexPath,destPath:IndexPath){
@@ -172,10 +175,25 @@ public class Proxys:CommonModel {
     
     
     public func addProxy(_ proxy:SFProxy) ->Int {
-        
-        var found = false
-        
         var index  = 0
+        var found = false
+        for p in deleteproxys {
+            if p.base64String() == proxy.base64String() {
+                //
+                return -1
+            }else {
+                if p.serverAddress == proxy.serverAddress && p.serverPort == proxy.serverPort {
+                    found = true
+                }
+            }
+            index += 1
+        }
+        if found {
+            deleteproxys[index] = proxy
+        }
+        found = false
+        
+        index  = 0
         for idx in 0 ..< proxys.count {
             let p = proxys[idx]
             if p.serverAddress == proxy.serverAddress && p.serverPort == proxy.serverPort {
@@ -203,7 +221,7 @@ public class SFProxy:CommonModel {
     public var method:String = ""
     public var tlsEnable:Bool = false //对于ss ,就是OTA 是否支持
     public var type:SFProxyType = .SS
-    public var pingValue:Float = 0
+    public var pingValue:Float = -1
     public var tcpValue:Double = 0
     public var dnsValue:Double = 0
     public var priority:Int = 0
@@ -246,6 +264,7 @@ public class SFProxy:CommonModel {
         key  <- map["key"]
         tcpValue <- map["tcpValue"]
         priority <- map["priority"]
+        pingValue <- map["pingValue"]//
         //birthday    <- (map["birthday"], DateTransform())
         
         

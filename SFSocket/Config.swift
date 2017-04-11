@@ -9,7 +9,7 @@
 import Foundation
 import CommonCrypto
 //default tun config
-struct TunConfig {
+public struct TunConfig {
     let SALT:String = "kcp-go"
     var LocalAddr:String = " localaddr"
     var RemoteAddr   :String = "remoteaddr"
@@ -38,6 +38,9 @@ struct TunConfig {
     var SnmpLog      :String = "snmplog"
     var SnmpPeriod   :Int = 60 // "snmpperiod"
     var pass:String = ""
+    public init(){
+        
+    }
     mutating func setMode() {
         switch Mode {
         case "normal":
@@ -67,8 +70,9 @@ struct TunConfig {
         }
     }
     //MARK: - fixme
-    mutating func pkbdf2Key(pass:String,salt:Data) ->Data?{
-        
+    mutating public func pkbdf2Key(pass:String,salt:Data) ->Data?{
+        //test ok
+        //b23383c32eefa3753ab6db6e639a0ddc3b50ec6b6c623c9171a15ba0879945cd
         //pass := pbkdf2.Key([]byte(config.Key), []byte(SALT), 4096, 32, sha1.New)
         
         return pbkdf2SHA1(password: pass, salt: salt, keyByteCount: 32, rounds: 4096)

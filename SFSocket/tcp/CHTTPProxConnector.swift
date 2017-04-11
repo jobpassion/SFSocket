@@ -17,7 +17,7 @@ class CHTTPProxConnector: HTTPProxyConnector {
         c.targetHost = hostname
         c.targetPort = port
         c.adapter = adapter
-        //c.start()
+        c.start()
         return c
     }
     override func readCallback(data: Data?, tag: Int) {

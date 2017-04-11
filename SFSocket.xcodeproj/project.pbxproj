@@ -68,8 +68,8 @@
 		69116B331E968370007C2FBA /* SFVPNSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B311E968370007C2FBA /* SFVPNSession.swift */; };
 		69116B351E968646007C2FBA /* SFConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B341E968646007C2FBA /* SFConfig.swift */; };
 		69116B361E968646007C2FBA /* SFConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B341E968646007C2FBA /* SFConfig.swift */; };
-		69116B381E968749007C2FBA /* SFRunArgv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B371E968749007C2FBA /* SFRunArgv.swift */; };
-		69116B391E968749007C2FBA /* SFRunArgv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B371E968749007C2FBA /* SFRunArgv.swift */; };
+		69116B381E968749007C2FBA /* SKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B371E968749007C2FBA /* SKit.swift */; };
+		69116B391E968749007C2FBA /* SKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B371E968749007C2FBA /* SKit.swift */; };
 		69116B3B1E9695F4007C2FBA /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B3A1E9695F4007C2FBA /* RequestHelper.swift */; };
 		69116B3C1E9695F4007C2FBA /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B3A1E9695F4007C2FBA /* RequestHelper.swift */; };
 		6914F2101E8A4F600033A46D /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F20F1E8A4F600033A46D /* Frame.swift */; };
@@ -277,7 +277,6 @@
 		69F2D8691E8BF96100BBDB9D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D8681E8BF96100BBDB9D /* Config.swift */; };
 		69F2D86B1E8BFFD400BBDB9D /* BlockCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */; };
 		69F2D86D1E8C08E700BBDB9D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86C1E8C08E700BBDB9D /* Channel.swift */; };
-		69F698E81DDC151800966272 /* CommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69FAE4C81E82478400FE91CD /* KCPTunSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FAE4C71E82478400FE91CD /* KCPTunSocket.swift */; };
 		69FC1B001DDBFAB000EF8AAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FC1AFF1DDBFAB000EF8AAC /* AppDelegate.swift */; };
 		69FC1B021DDBFAB000EF8AAC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FC1B011DDBFAB000EF8AAC /* ViewController.swift */; };
@@ -318,7 +317,6 @@
 				690AB8551E97645C001A6C3A /* SystemKitiOS.framework in CopyFiles */,
 				69FC1B191DDBFD4500EF8AAC /* Sodium.framework in CopyFiles */,
 				69FC1B141DDBFC7200EF8AAC /* CocoaAsyncSocket.framework in CopyFiles */,
-				69F698E81DDC151800966272 /* CommonCrypto.framework in CopyFiles */,
 				690AB8571E97645F001A6C3A /* Reachability.framework in CopyFiles */,
 				69FC1B161DDBFCF400EF8AAC /* SFSocket.framework in CopyFiles */,
 				690AB8711E976483001A6C3A /* AxLogger.framework in CopyFiles */,
@@ -351,7 +349,7 @@
 		69116B2E1E96823E007C2FBA /* TCPManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCPManagerProtocol.swift; sourceTree = "<group>"; };
 		69116B311E968370007C2FBA /* SFVPNSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFVPNSession.swift; sourceTree = "<group>"; };
 		69116B341E968646007C2FBA /* SFConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFConfig.swift; sourceTree = "<group>"; };
-		69116B371E968749007C2FBA /* SFRunArgv.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFRunArgv.swift; sourceTree = "<group>"; };
+		69116B371E968749007C2FBA /* SKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKit.swift; sourceTree = "<group>"; };
 		69116B3A1E9695F4007C2FBA /* RequestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
 		6914F20F1E8A4F600033A46D /* Frame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 		6914F2111E8A5BE60033A46D /* Mux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mux.swift; sourceTree = "<group>"; };
@@ -610,7 +608,7 @@
 				695F6E4E1E900E1A00C72E5E /* UDPPacket.swift */,
 				69116B311E968370007C2FBA /* SFVPNSession.swift */,
 				69116B2E1E96823E007C2FBA /* TCPManagerProtocol.swift */,
-				69116B371E968749007C2FBA /* SFRunArgv.swift */,
+				69116B371E968749007C2FBA /* SKit.swift */,
 				698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */,
 			);
 			path = TCPStack;
@@ -1162,7 +1160,7 @@
 				69B955111DDF8232006AF669 /* TCPSSConnector.swift in Sources */,
 				69BF6C391DE57DAE000ABF09 /* SocketTag.swift in Sources */,
 				69B955021DDF81FE006AF669 /* IPAddress.swift in Sources */,
-				69116B391E968749007C2FBA /* SFRunArgv.swift in Sources */,
+				69116B391E968749007C2FBA /* SKit.swift in Sources */,
 				695F6E521E900E1A00C72E5E /* DNSPacket.swift in Sources */,
 				69B955091DDF8216006AF669 /* UDPDirectStack.swift in Sources */,
 				69116B361E968646007C2FBA /* SFConfig.swift in Sources */,
@@ -1226,7 +1224,7 @@
 				69C8D9F91E7A792A00A65301 /* TCPSS3Connector.swift in Sources */,
 				6938BFC21E88B63000332D82 /* HTTPAdapter.swift in Sources */,
 				695F6E811E900E1A00C72E5E /* SFUitl.swift in Sources */,
-				69116B381E968749007C2FBA /* SFRunArgv.swift in Sources */,
+				69116B381E968749007C2FBA /* SKit.swift in Sources */,
 				695F6E631E900E1A00C72E5E /* SFDNSManager.swift in Sources */,
 				69D5B32A1E8E23EC00D0E0A6 /* SFModel.swift in Sources */,
 				695F6E6D1E900E1A00C72E5E /* SFRule.swift in Sources */,

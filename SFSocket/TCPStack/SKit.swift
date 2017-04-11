@@ -164,12 +164,13 @@ public class SKit {
     static var memoryLimitUesedSize:UInt = 1*1024*1024
     static let physicalMemorySize = physicalMemory()
     static let LimitSpeedTotal:UInt = 20*1024*1024//LimitSpeedSimgle //1MB/s
-    
-    public static func prepareTunnel(provier:NEPacketTunnelProvider,reset:Bool,pendingStartCompletion:((Error?) ->Void)?){
-        
+    static var provier:NEPacketTunnelProvider?
+    static var confirmMessage:Set<String> = []
+    public static func prepareTunnel(provier:NEPacketTunnelProvider,reset:Bool,pendingStartCompletion: (@escaping (Error?) ->Void)){
+        AxLogger.log("SKit prepareTunnel",level: .Info)
         let setting = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "240.89.6.4")
         let ipv4 = NEIPv4Settings(addresses: [tunIP], subnetMasks: ["255.255.255.0"])// iPhone @2007 MacWorld
-        
+        self.provier = provier
         setting.iPv4Settings = ipv4
         var includedRoutes = [NEIPv4Route]()
         //includedRoutes.append(NEIPv4Route(destinationAddress: "0.0.0.0", subnetMask: "0.0.0.0"))
@@ -347,8 +348,9 @@ public class SKit {
         
         proxySettings.excludeSimpleHostnames = true
         setting.proxySettings  = proxySettings
+        
         provier.setTunnelNetworkSettings(setting) {  error in
-            
+            pendingStartCompletion(error)
             
            
             
@@ -363,6 +365,25 @@ public class SKit {
             AxLogger.log("UDP forward enabled",level: .Info)
         }
         
+    }
+    static func alertMessage(_ message:String){
+        if self.confirmMessage.contains(message){
+            return
+        }
+        AxLogger.log("will alert \(message)",level:.Info)
+        if #available(iOSApplicationExtension 10.0, *) {
+            //VPN can alert
+            if #available(OSXApplicationExtension 10.12, *) {
+                self.provier!.displayMessage(message, completionHandler: { (fin) in
+                    AxLogger.log("clicked \(message)",level:.Info)
+                    self.confirmMessage.update(with: message)
+                })
+            } else {
+                // Fallback on earlier versions
+            }
+            
+        }
+        AxLogger.log(message,level:.Info)
     }
     static public func loadConfig(){
         

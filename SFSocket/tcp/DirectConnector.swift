@@ -39,6 +39,7 @@ public class DirectConnector:NWTCPSocket{
         let c = DirectConnector()
         c.targetPort = targetPort
         c.targetHost = targetHost
+        c.start()
         return c
     }
 }

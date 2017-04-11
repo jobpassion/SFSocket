@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import CommonCrypto
 let initialVector:[UInt8] = [167, 115, 79, 156, 18, 172, 27, 1, 164, 21, 242, 193, 252, 120, 230, 107]
 let saltxor       = "sH3CIVoF#rWLtJo6"
 public enum BlockCryptType:Int,CustomStringConvertible {
@@ -57,12 +57,9 @@ class BlockCrypt :BlockCryptProtocol{
         self.type = t
         self.pass = p
     }
-    static  func pkhk2Key(key:Data) ->Data{
-        fatalError("Not imp,tobe")
-        return key
-    }
-    static func create(type:String,key:Data) ->BlockCrypt{
-        let pass = BlockCrypt.pkhk2Key(key: key)
+    
+    static func create(type:String,pass:Data) ->BlockCrypt{
+        
         switch type {
         case "tea":
             //block, _ = kcp.NewTEABlockCrypt(pass[:16])
@@ -117,17 +114,24 @@ class BlockCrypt :BlockCryptProtocol{
     
 }
 class AESBlockCrypt:BlockCrypt {
+    var  ctx:CCCryptorRef?
     override func Decrypt(data: Data) -> Data {
         return data
     }
 
     override  func Encrypt(data: Data) -> Data {
         return data
+        var inptr:UnsafePointer<UInt8>?
+        _ = pass.withUnsafeBytes({ (ptr:UnsafePointer<UInt8>)  in
+            inptr = ptr
+        })
+        
     }
 
     
     override init(t:BlockCryptType,p:Data) {
         super.init(t: t, p: p)
+        //ctx = CCCryptorCreateWithMode(<#T##op: CCOperation##CCOperation#>, <#T##mode: CCMode##CCMode#>, <#T##alg: CCAlgorithm##CCAlgorithm#>, <#T##padding: CCPadding##CCPadding#>, <#T##iv: UnsafeRawPointer!##UnsafeRawPointer!#>, <#T##key: UnsafeRawPointer!##UnsafeRawPointer!#>, <#T##keyLength: Int##Int#>, <#T##tweak: UnsafeRawPointer!##UnsafeRawPointer!#>, <#T##tweakLength: Int##Int#>, <#T##numRounds: Int32##Int32#>, <#T##options: CCModeOptions##CCModeOptions#>, <#T##cryptorRef: UnsafeMutablePointer<CCCryptorRef?>!##UnsafeMutablePointer<CCCryptorRef?>!#>)
     }
 
     

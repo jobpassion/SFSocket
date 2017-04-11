@@ -343,8 +343,8 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
         
         let  srcip:UInt32 = inet_addr(SKit.proxyIpAddr.cString(using: String.Encoding.utf8)!) //0xc0a800f5//0b01 // 00f5
         let dstip:UInt32 = inet_addr(SKit.tunIP.cString(using: String.Encoding.utf8)!)//= 0xc0a80202
-        
-        let h = ipHeader(20+data.count+8, srcip ,dstip,queryIDCounter.bigEndian,UInt8(IPPROTO_UDP))
+        let length:Int = 28
+        let h = ipHeader(Int32(data.count + length), srcip ,dstip,queryIDCounter.bigEndian,UInt8(IPPROTO_UDP))
         queryIDCounter += 1
         //NSLog("DNS 111")
         //AxLogger.log("\(cIdString) IPHeader \(h! as NSData)", level: .Debug)
