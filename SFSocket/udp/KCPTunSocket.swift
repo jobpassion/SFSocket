@@ -36,7 +36,7 @@ class KCPTunSocket: RAWUDPSocket {
      
      - throws: The error occured when connecting to host.
      */
-    public override func connectTo(_ host: String, port: Int, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws{
+    public override func connectTo(_ host: String, port: UInt16, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws{
         guard let udpsession = RawSocketFactory.TunnelProvider?.createUDPSession(to: NWHostEndpoint(hostname: host, port: "\(port)"), from: nil) else {
             return
         }
@@ -80,7 +80,7 @@ class KCPTunSocket: RAWUDPSocket {
             }
         }
         
-        if let port  = Int(p.serverPort){
+        if let port  = UInt16(p.serverPort){
             c = KCPTunSocket.init()
             //c.adapter = adapter
             c.proxy = p

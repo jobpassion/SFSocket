@@ -19,21 +19,25 @@ public class ProxyGroupSettings:CommonModel {
         }catch let e {
             print("\(e)")
         }
-        
+        print("ProxyGroup store:\(content)")
         guard let set = Mapper<ProxyGroupSettings>().map(JSONString: content) else {
             fatalError()
         }
-        guard let ps = Mapper<Proxys>().map(JSONString: "{}") else {
-            fatalError()
+        if set.proxyMan == nil {
+            guard let ps = Mapper<Proxys>().map(JSONString: "{}") else {
+                fatalError()
+            }
+            set.proxyMan = ps
         }
-        set.proxyMan = ps
+        
+        
         return set
     }()
     //var defaults:NSUserDefaults?// =
     public var editing:Bool = false
     public static let defaultConfig = ".surf"
     public var historyEnable:Bool = false
-    var proxyMan:Proxys!
+    var proxyMan:Proxys?
     public var disableWidget:Bool = false
     public var dynamicSelected:Bool = false
     public var proxyChain:Bool = false
@@ -91,7 +95,7 @@ public class ProxyGroupSettings:CommonModel {
     }
     
     public var selectedProxy:SFProxy? {
-        return proxyMan.selectedProxy( selectIndex)
+        return proxyMan!.selectedProxy( selectIndex)
     }
     public func updateProxyChain(_ isOn:Bool) ->String?{
 
@@ -102,17 +106,17 @@ public class ProxyGroupSettings:CommonModel {
     }
     public var chainProxy:SFProxy?{
         get {
-            if proxyChainIndex < proxyMan.chainProxys.count{
-                return proxyMan.chainProxys[proxyChainIndex]
+            if proxyChainIndex < proxyMan!.chainProxys.count{
+                return proxyMan!.chainProxys[proxyChainIndex]
             }else {
-                return proxyMan.chainProxys.first
+                return proxyMan!.chainProxys.first
             }
             
         }
     }
     public func changeIndex(_ srcPath:IndexPath,destPath:IndexPath){
         //有个status section pass
-        proxyMan.changeIndex(srcPath, destPath: destPath)
+        proxyMan!.changeIndex(srcPath, destPath: destPath)
        
     }
     
@@ -135,15 +139,15 @@ public class ProxyGroupSettings:CommonModel {
     
     public func findProxy(_ proxyName:String) ->SFProxy? {
         
-        return proxyMan.findProxy(proxyName, dynamicSelected: dynamicSelected, selectIndex: selectIndex)
+        return proxyMan!.findProxy(proxyName, dynamicSelected: dynamicSelected, selectIndex: selectIndex)
         
         
     }
     public func cutCount() ->Int{
-        return proxyMan.cutCount()
+        return proxyMan!.cutCount()
     }
     public func removeProxy(_ Index:Int,chain:Bool = false) {
-        proxyMan.removeProxy(Index, chain: chain)
+        proxyMan!.removeProxy(Index, chain: chain)
         do {
             try save()
         }catch let e as NSError{
@@ -156,8 +160,8 @@ public class ProxyGroupSettings:CommonModel {
     public var proxysAll:[SFProxy] {
         get {
             var new:[SFProxy] = []
-            new.append(contentsOf: proxyMan.proxys)
-            new.append(contentsOf: proxyMan.chainProxys)
+            new.append(contentsOf: proxyMan!.proxys)
+            new.append(contentsOf: proxyMan!.chainProxys)
             return new
         }
     }
@@ -167,7 +171,7 @@ public class ProxyGroupSettings:CommonModel {
     public func addProxy(_ proxy:SFProxy) -> Bool {
         
         
-        let x  = proxyMan.addProxy(proxy)
+        let x  = proxyMan!.addProxy(proxy)
         if x != -1 {
             selectIndex = x
         }
@@ -177,7 +181,7 @@ public class ProxyGroupSettings:CommonModel {
     
     public func updateProxy(_ p:SFProxy){
         //todo
-        proxyMan.updateProxy(p)
+        proxyMan!.updateProxy(p)
     }
     public func save() throws {//save to group dir
         
@@ -209,12 +213,12 @@ public class ProxyGroupSettings:CommonModel {
     }
     public var chainProxys:[SFProxy]{
         get {
-            return proxyMan.chainProxys
+            return proxyMan!.chainProxys
         }
     }
     public var proxys:[SFProxy] {
         get {
-            return proxyMan.proxys
+            return proxyMan!.proxys
         }
     }
 }

@@ -44,6 +44,38 @@ extension NWUDPSessionState: CustomStringConvertible {
     }
 }
 open class RAWUDPSocket :NSObject,RawSocketProtocol{
+     /**
+     Connect to remote host.
+     
+     - parameter host:        Remote host.
+     - parameter port:        Remote port.
+     - parameter proxy:       proxy .
+     - parameter delegate     callback delegate
+     - parameter queue:       callback DispatchQueue
+     - parameter enableTLS:   Should TLS be enabled.
+     - parameter tlsSettings: The settings of TLS.
+     
+     - throws: The error occured when connecting to host.
+     */
+    
+
+     /**
+     Connect to remote host.
+     
+     - parameter host:        Remote host.
+     - parameter port:        Remote port.
+     - parameter proxy:       proxy .
+     - parameter delegate     callback delegate
+     - parameter queue:       callback DispatchQueue
+     - parameter enableTLS:   Should TLS be enabled.
+     - parameter tlsSettings: The settings of TLS.
+     
+     - throws: The error occured when connecting to host.
+     */
+//    public func connectTo(_ host: String, port: Int, proxy: SFProxy, delegate: RawSocketDelegate, queue: DispatchQueue, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws {
+//        
+//    }
+
     
 
     public weak var delegate: RawSocketDelegate?
@@ -198,7 +230,7 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
      
      - throws: The error occured when connecting to host.
      */
-    public func connectTo(_ host: String, port: Int, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws{
+    public func connectTo(_ host: String, port: UInt16, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws{
         guard let udpsession = RawSocketFactory.TunnelProvider?.createUDPSession(to: NWHostEndpoint(hostname: host, port: "\(port)"), from: nil) else {
             return
         }

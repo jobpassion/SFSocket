@@ -38,6 +38,7 @@ public class Proxys:CommonModel {
     public override func mapping(map: Map) {
         chainProxys  <- map["chainProxys"]
         proxys <- map["proxys"]
+        deleteproxys <- map["deleteproxys"]
     }
     public required init?(map: Map) {
         super.init(map: map)

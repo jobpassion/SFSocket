@@ -553,8 +553,9 @@ class SFHTTPConnection: SFHTTPRequest {
         if let p = reqInfo.proxy {
             if  p.type == .HTTP || p.type == .HTTPS{
                 //send connect
-                let c = connector as! HTTPProxyConnector
-                c.reqHeader = reqInfo.reqHeader
+                //MARK : -fixme
+                //let c = connector as! HTTPProxyConnector
+                //c.reqHeader = reqInfo.reqHeader
             }
         }
         

@@ -23,6 +23,24 @@ extension NWTCPConnectionState: CustomStringConvertible {
 }
 
 public class NWTCPSocket: NSObject, RawSocketProtocol {
+    public /**
+     Connect to remote host.
+     
+     - parameter host:        Remote host.
+     - parameter port:        Remote port.
+     - parameter proxy:       proxy .
+     - parameter delegate     callback delegate
+     - parameter queue:       callback DispatchQueue
+     - parameter enableTLS:   Should TLS be enabled.
+     - parameter tlsSettings: The settings of TLS.
+     
+     - throws: The error occured when connecting to host.
+     */
+    static func connectTo(_ host: String, port: Int, proxy: SFProxy, delegate: RawSocketDelegate, queue: DispatchQueue, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws -> RawSocketProtocol {
+        fatalError()
+    }
+
+    
     public func forceDisconnect(_ sessionID: Int) {
         self.forceDisconnect()
     }
@@ -161,7 +179,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
 
      - throws: Never throws.
      */
-    public func connectTo(_ host: String, port: Int, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws {
+    public func connectTo(_ host: String, port: UInt16, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws {
         let endpoint = NWHostEndpoint(hostname: host, port: "\(port)")
 //        let tlsParameters = NWTLSParameters()
 //        if let tlsSettings = tlsSettings as? [String: AnyObject] {

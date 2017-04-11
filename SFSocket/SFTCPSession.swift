@@ -50,7 +50,7 @@ public protocol TCPSessionDelegate: class {
      */
     func didConnect(_ socket: TCPSession)
 }
-public class TCPSession:RawSocketDelegate {
+public class TCPSession: RawSocketDelegate {
     // TCP 1:1
     // UDP N:1 , shoud add key for close 
     // UDP one channel
@@ -123,14 +123,16 @@ public class TCPSession:RawSocketDelegate {
     //proxy chain suport flag
    
     //var proxyChain:Bool = false
-    static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:Int) ->TCPSession? {
+    static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:Int,delegate:TCPSessionDelegate) ->TCPSession? {
         let s = TCPSession.init(s: sID)
-        
+        s.delegate = delegate
+        let queue = SFTCPConnectionManager.shared().dispatchQueue
         let proxy = ProxyChain.shared.proxy
         if policy == .Direct {
             //基本上网需求
             guard let chain = proxy else {
-                s.socket =  DirectConnector.connectorWithHost(targetHost: targetHost, targetPort: Int(Port))
+                s.socket =  DirectConnector.connectTo(targetHost, port: Port, delegate: s , queue:queue )
+                
                 return s
             }
             switch chain.type {
@@ -197,7 +199,8 @@ public class TCPSession:RawSocketDelegate {
                         s.socket =  connector
                     case .SS:
                         
-                        s.socket =    TCPSSConnector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                        s.socket =    TCPSSConnector.connectTo(targetHost, port: Int(Port), proxy: p, delegate: s, queue: queue)
+                        //connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
                     case .SS3:
                         s.socket =    TCPSS3Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
                         
@@ -206,7 +209,7 @@ public class TCPSession:RawSocketDelegate {
                         s.socket =   Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
                         
                     default:
-                        
+                        AxLogger.log("Config not support", level: .Error)
                         return nil
                     }
                 }else {

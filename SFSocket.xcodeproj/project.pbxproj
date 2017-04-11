@@ -77,6 +77,7 @@
 		6914F2141E8A5BFD0033A46D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2131E8A5BFD0033A46D /* Session.swift */; };
 		6914F2161E8A5C0D0033A46D /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2151E8A5C0D0033A46D /* Stream.swift */; };
 		691883591DDDA52E0051DAAE /* Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691883581DDDA52E0051DAAE /* Port.swift */; };
+		692128561E9CBA6C00560DEC /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692128551E9CBA6C00560DEC /* NetworkExtension.framework */; };
 		692DD53A1DD5C98C0079493D /* DirectConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5391DD5C98C0079493D /* DirectConnector.swift */; };
 		692DD53C1DD5C9940079493D /* HTTPProxyConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD53B1DD5C9940079493D /* HTTPProxyConnector.swift */; };
 		692DD53E1DD5C99E0079493D /* Socks5Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD53D1DD5C99E0079493D /* Socks5Connector.swift */; };
@@ -356,6 +357,7 @@
 		6914F2131E8A5BFD0033A46D /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		6914F2151E8A5C0D0033A46D /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		691883581DDDA52E0051DAAE /* Port.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Port.swift; sourceTree = "<group>"; };
+		692128551E9CBA6C00560DEC /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		692DD5391DD5C98C0079493D /* DirectConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DirectConnector.swift; path = tcp/DirectConnector.swift; sourceTree = "<group>"; };
 		692DD53B1DD5C9940079493D /* HTTPProxyConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPProxyConnector.swift; path = tcp/HTTPProxyConnector.swift; sourceTree = "<group>"; };
 		692DD53D1DD5C99E0079493D /* Socks5Connector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Socks5Connector.swift; path = tcp/Socks5Connector.swift; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 				6952F8711E97E06D003EB1CB /* SwiftyJSON.framework in Frameworks */,
 				690AB8581E976461001A6C3A /* ObjectMapper.framework in Frameworks */,
 				690AB8521E976409001A6C3A /* libkcp.framework in Frameworks */,
+				692128561E9CBA6C00560DEC /* NetworkExtension.framework in Frameworks */,
 				690AB8481E9762FE001A6C3A /* Reachability.framework in Frameworks */,
 				690AB86C1E97647E001A6C3A /* CommonCrypto.framework in Frameworks */,
 				690AB8471E9762FD001A6C3A /* SystemKitiOS.framework in Frameworks */,
@@ -561,6 +564,14 @@
 			);
 			name = smux;
 			path = udp;
+			sourceTree = "<group>";
+		};
+		692128541E9CBA6C00560DEC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				692128551E9CBA6C00560DEC /* NetworkExtension.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		695F6E311E900E1A00C72E5E /* TCPStack */ = {
@@ -791,6 +802,7 @@
 				69FC1AFE1DDBFAB000EF8AAC /* SFSocketTest */,
 				69B954F31DDF81CF006AF669 /* SFSocketOSX */,
 				69C2988F1DD593FF00E4C3BD /* Products */,
+				692128541E9CBA6C00560DEC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1030,6 +1042,9 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.NetworkExtensions = {
 								enabled = 1;
 							};
 						};

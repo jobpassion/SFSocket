@@ -81,8 +81,10 @@ public protocol RawSocketProtocol {
      
      - throws: The error occured when connecting to host.
      */
-    func connectTo(_ host: String, port: Int, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws
+    func connectTo(_ host: String, port: UInt16, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws
     
+    
+   
     /**
      Disconnect the socket.
      

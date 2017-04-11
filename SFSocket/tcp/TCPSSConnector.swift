@@ -171,20 +171,36 @@ public class  TCPSSConnector:ProxyConnector{
         }
 
     }
-    public static func connectorWithSelectorPolicy(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy) ->TCPSSConnector{
-        let c:TCPSSConnector = TCPSSConnector( p: p)
+    static func connectTo(_ host: String, port: Int,proxy:SFProxy, delegate: RawSocketDelegate, queue: DispatchQueue)  -> TCPSSConnector {
+        let c:TCPSSConnector = TCPSSConnector( p: proxy)
         //c.manager = man
         //c.policy = selectorPolicy
         //TCPSSConnector.swift.[363]:12484608:12124160:360448:Bytes
         //c.cIDFunc()
-        c.targetHost = hostname
-        c.targetPort = port
+        c.targetHost = host
+        c.targetPort = UInt16(port)
         
-        c.ota = p.tlsEnable
-        c.aes = SSEncrypt.init(password: p.password, method: p.method)
+        c.ota = proxy.tlsEnable
+        c.delegate = delegate
+        c.queue = queue
+        c.aes = SSEncrypt.init(password: proxy.password, method: proxy.method)
         //c.start()
         return c
     }
+//    public static func connectorWithSelectorPolicy(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy) ->TCPSSConnector{
+//        let c:TCPSSConnector = TCPSSConnector( p: p)
+//        //c.manager = man
+//        //c.policy = selectorPolicy
+//        //TCPSSConnector.swift.[363]:12484608:12124160:360448:Bytes
+//        //c.cIDFunc()
+//        c.targetHost = hostname
+//        c.targetPort = port
+//        
+//        c.ota = p.tlsEnable
+//        c.aes = SSEncrypt.init(password: p.password, method: p.method)
+//        //c.start()
+//        return c
+//    }
 
 }
 

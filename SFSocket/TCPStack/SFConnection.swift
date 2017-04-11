@@ -175,7 +175,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         return (manager?.dispatchQueue)!
     }
     func setUpConnector(_ host:String,port:UInt16){
-        guard let c = TCPSession.socketFromProxy(reqInfo.proxy, policy: reqInfo.rule.policy, targetHost: host, Port: port, sID: reqInfo.reqID) else {
+        guard let c = TCPSession.socketFromProxy(reqInfo.proxy, policy: reqInfo.rule.policy, targetHost: host, Port: port, sID: reqInfo.reqID, delegate: self) else {
             fatalError("")
         }
         connector = c

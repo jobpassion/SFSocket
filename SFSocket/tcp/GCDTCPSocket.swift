@@ -5,6 +5,23 @@ import CocoaAsyncSocket
 ///
 /// - warning: This class is not thread-safe, it is expected that the instance is accessed on the `queue` only.
 open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawSocketProtocol {
+    public /**
+     Connect to remote host.
+     
+     - parameter host:        Remote host.
+     - parameter port:        Remote port.
+     - parameter proxy:       proxy .
+     - parameter delegate     callback delegate
+     - parameter queue:       callback DispatchQueue
+     - parameter enableTLS:   Should TLS be enabled.
+     - parameter tlsSettings: The settings of TLS.
+     
+     - throws: The error occured when connecting to host.
+     */
+    static func connectTo(_ host: String, port: UInt16, proxy: SFProxy, delegate: RawSocketDelegate, queue: DispatchQueue, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws ->RawSocketProtocol {
+        fatalError()
+    }
+
     public func forceDisconnect(_ sessionID: Int) {
         self.forceDisconnect()
     }
@@ -107,8 +124,8 @@ open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawSocketProtocol {
      
      - throws: The error occured when connecting to host.
      */
-    public func connectTo(_ host: String, port: Int, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws {
-        try connectToHost(host, withPort: port)
+    public func connectTo(_ host: String, port: UInt16, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws {
+        try connectToHost(host, withPort: Int(port))
         self.enableTLS = enableTLS
         if enableTLS {
             startTLS(tlsSettings)

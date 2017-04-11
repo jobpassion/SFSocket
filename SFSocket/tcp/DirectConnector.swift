@@ -13,19 +13,19 @@ import AxLogger
 public class DirectConnector:NWTCPSocket{
     var interfaceName:String?
     var targetHost:String = ""
-    var targetPort:Int = 0
+    var targetPort:UInt16 = 0
     //var ipAddress:String?
     override public func start() {
          autoreleasepool { do {
             
-            try  super.connectTo(self.targetHost, port: Int(self.targetPort), enableTLS: false, tlsSettings: nil)
+            try  super.connectTo(self.targetHost, port: self.targetPort, enableTLS: false, tlsSettings: nil)
         }catch let e as NSError {
             //throw e
             AxLogger.log("connectTo error \(e.localizedDescription)", level: .Error)
             }
         }
     }
-    public override  func connectTo(_ host: String, port: Int, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws {
+    public override  func connectTo(_ host: String, port: UInt16, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws {
         do {
            try  super.connectTo(host, port: port, enableTLS: false, tlsSettings: nil)
         }catch let e  {
@@ -34,14 +34,17 @@ public class DirectConnector:NWTCPSocket{
         
         
     }
-    public static func connectorWithHost(targetHost:String,targetPort:Int) ->DirectConnector{
-    //public func
+    static func connectTo(_ host: String, port: UInt16, delegate: RawSocketDelegate, queue: DispatchQueue)  -> DirectConnector {
         let c = DirectConnector()
-        c.targetPort = targetPort
-        c.targetHost = targetHost
+        c.targetPort = port
+        c.targetHost = host
+        c.queue = queue
+        c.delegate = delegate
+        
         c.start()
         return c
     }
+    
 }
 
 

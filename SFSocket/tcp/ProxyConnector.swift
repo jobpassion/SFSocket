@@ -55,8 +55,7 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
     
     ]
     #endif
-    var pFrontAddress:String = ""
-    var pFrontPort:UInt16 = 0
+    
     init(p:SFProxy) {
         proxy = p
         
@@ -65,7 +64,7 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
         //cIDFunc()
     }
     override public func start() {
-        guard let port = Int(proxy.serverPort) else {
+        guard let port = UInt16(proxy.serverPort) else {
             return
         }
         if proxy.type == .SS {
@@ -81,7 +80,7 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
         }
         
     }
-    override public func connectTo(_ host: String, port: Int, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws {
+    override public func connectTo(_ host: String, port: UInt16, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws {
        
         
         if enableTLS {
