@@ -34,14 +34,15 @@ public class Socks5Connector:ProxyConnector{
     var stage:SFSocks5Stage = .Auth
     var recvBuffer:Data?
     static var  ReadTag:Int = -3000
-    public static func connectorWithSelectorPolicy(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy) ->Socks5Connector{
+    public static func connectorWithSelectorPolicy(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,delegate: RawSocketDelegate, queue: DispatchQueue) ->Socks5Connector{
         let c:Socks5Connector = Socks5Connector(p: p)
-        //c.manager = man
-        
+       
+        c.delegate = delegate
         c.targetHost = hostname
         c.targetPort = port
+        c.queue = queue
         //c.cIDFunc()
-        //c.start()
+        c.start()
         return c
     }
     func sendAuth(){

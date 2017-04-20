@@ -227,14 +227,16 @@ public  class HTTPProxyConnector:ProxyConnector {
         AxLogger.log("\(cIDString) stat: \(connection!.state.description)", level: .Debug)
     }
 
-    public static func connectorWithSelectorPolicy(targetHostname hostname:String, targetPort port:UInt16,p:SFProxy) ->HTTPProxyConnector{
+    public static func connectorWithSelectorPolicy(targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,delegate: RawSocketDelegate, queue: DispatchQueue) ->HTTPProxyConnector{
         let c:HTTPProxyConnector = HTTPProxyConnector(p: p)
         //c.manager = man
         //c.cIDFunc()
+        c.delegate = delegate
+        c.queue = queue
         c.targetHost = hostname
         c.targetPort = port
         
-        //c.start()
+        c.start()
         return c
     }
 }

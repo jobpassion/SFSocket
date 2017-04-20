@@ -123,7 +123,7 @@ public class TCPSession: RawSocketDelegate {
     //proxy chain suport flag
    
     //var proxyChain:Bool = false
-    static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:Int,delegate:TCPSessionDelegate) ->TCPSession? {
+    static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:Int,delegate:TCPSessionDelegate,queue:DispatchQueue) ->TCPSession? {
         let s = TCPSession.init(s: sID)
         s.delegate = delegate
         let queue = SFTCPConnectionManager.shared().dispatchQueue
@@ -137,7 +137,7 @@ public class TCPSession: RawSocketDelegate {
             }
             switch chain.type {
             case .HTTP,.HTTPS:
-                let connector = HTTPProxyConnector.connectorWithSelectorPolicy(targetHostname: targetHost, targetPort: Port, p: chain)
+                let connector = HTTPProxyConnector.connectorWithSelectorPolicy(targetHostname: targetHost, targetPort: Port, p: chain,delegate: s , queue:queue)
                 let data = SFHTTPRequestHeader.buildCONNECTHead(targetHost, port: String(Port),proxy: chain)
                 let message = String.init(format:"http proxy %@ %d", targetHost,Port )
                 AxLogger.log(message,level: .Trace)
@@ -148,7 +148,7 @@ public class TCPSession: RawSocketDelegate {
                 }
                 s.socket = connector
             case .SOCKS5:
-                s.socket =  Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: chain)
+                s.socket =  Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: chain,delegate: s , queue:queue)
                 
             default:
                 return nil
@@ -161,7 +161,7 @@ public class TCPSession: RawSocketDelegate {
                 }
                 switch chain.type {
                 case .HTTP:
-                    let connector = CHTTPProxConnector.create(targetHostname: adapter.targetHost, targetPort: adapter.targetPort, p: chain,adapter:adapter)
+                    let connector = CHTTPProxConnector.create(targetHostname: adapter.targetHost, targetPort: adapter.targetPort, p: chain,adapter:adapter, delegate: s, queue: queue)
                     let data = SFHTTPRequestHeader.buildCONNECTHead(adapter.targetHost, port: String(adapter.targetPort),proxy: chain)
                     let message = String.init(format:"http proxy %@ %d", adapter.targetHost,adapter.targetPort )
                     AxLogger.log(message,level: .Trace)
@@ -173,7 +173,7 @@ public class TCPSession: RawSocketDelegate {
                     
                     s.socket =  connector
                 case .SOCKS5:
-                    s.socket =   CSocks5Connector.create(policy, targetHostname: adapter.targetHost, targetPort: adapter.targetPort, p: chain,adapter: adapter)
+                    s.socket =   CSocks5Connector.create(policy, targetHostname: adapter.targetHost, targetPort: adapter.targetPort, p: chain,adapter: adapter,delegate: s , queue:queue)
                 default:
                     return nil
                 }
@@ -187,7 +187,7 @@ public class TCPSession: RawSocketDelegate {
                 if !p.kcptun {
                     switch p.type {
                     case .HTTP,.HTTPS:
-                        let connector = HTTPProxyConnector.connectorWithSelectorPolicy(targetHostname: targetHost, targetPort: Port, p: p)
+                        let connector = HTTPProxyConnector.connectorWithSelectorPolicy(targetHostname: targetHost, targetPort: Port, p: p, delegate: s, queue: queue)
                         let data = SFHTTPRequestHeader.buildCONNECTHead(targetHost, port: String(Port),proxy: p)
                         let message = String.init(format:"http proxy %@ %d", targetHost,Port )
                         AxLogger.log(message,level: .Trace)
@@ -206,7 +206,7 @@ public class TCPSession: RawSocketDelegate {
                         
                         
                     case .SOCKS5:
-                        s.socket =   Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p)
+                        s.socket =   Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p, delegate: s, queue: queue)
                         
                     default:
                         AxLogger.log("Config not support", level: .Error)

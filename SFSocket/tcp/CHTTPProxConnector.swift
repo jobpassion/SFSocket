@@ -10,9 +10,10 @@ import Foundation
 import AxLogger
 class CHTTPProxConnector: HTTPProxyConnector {
     var adapter:Adapter?
-    public static func create(targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,adapter:Adapter) ->CHTTPProxConnector{
+    public static func create(targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,adapter:Adapter,delegate: RawSocketDelegate, queue: DispatchQueue) ->CHTTPProxConnector{
         let c:CHTTPProxConnector = CHTTPProxConnector(p: p)
-        //c.manager = man
+        c.delegate = delegate
+        c.queue = queue
         //c.cIDFunc()
         c.targetHost = hostname
         c.targetPort = port

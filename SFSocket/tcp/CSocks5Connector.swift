@@ -10,9 +10,10 @@ import Foundation
 
 class CSocks5Connector: Socks5Connector {
     var adapter:Adapter?
-    public static func create(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,adapter:Adapter) ->CSocks5Connector{
+    public static func create(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,adapter:Adapter,delegate: RawSocketDelegate, queue: DispatchQueue) ->CSocks5Connector{
         let c:CSocks5Connector = CSocks5Connector(p: p)
-        //c.manager = man
+        c.queue = queue
+        c.delegate = delegate
         
         c.targetHost = hostname
         c.targetPort = port

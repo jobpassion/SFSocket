@@ -328,7 +328,11 @@ extension SFTCPConnectionManager{
         let  dstip:UnsafeMutablePointer<UInt32> =  UnsafeMutablePointer<UInt32>.allocate(capacity: 1)
         let   sport:UnsafeMutablePointer<UInt16> =  UnsafeMutablePointer<UInt16>.allocate(capacity: 1)
         let   dport:UnsafeMutablePointer<UInt16> =  UnsafeMutablePointer<UInt16>.allocate(capacity: 1)
-        
+        defer { srcip.deallocate(capacity: 1) }
+        defer { dstip.deallocate(capacity: 1) }
+        defer { sport.deallocate(capacity: 1) }
+        defer { dport.deallocate(capacity: 1) }
+
         pcbinfo(tcp,srcip,dstip, sport,dport)
         
         //        let xport = dport.byteSwapped
@@ -372,10 +376,7 @@ extension SFTCPConnectionManager{
         if connections.count > SKit.LimitTCPConnectionCount_DELAY {
             c.reqInfo.delay_start = Double(connections.count - SKit.LimitTCPConnectionCount_DELAY) * SKit.TCP_DELAY_START
         }
-        srcip.deallocate(capacity: 1)
-        dstip.deallocate(capacity: 1)
-        sport.deallocate(capacity: 1)
-        dport.deallocate(capacity: 1)
+        
         //usleep(50)
     }
     func tcp_timer_handler(_ t:Timer){
