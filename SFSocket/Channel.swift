@@ -10,7 +10,7 @@ import Foundation
 import AxLogger
 import libkcp
 func testkcp(){
-    let x = IKCPSEG.init()
+    //let x = IPC_SET.init()
     
 }
 class Channel {
