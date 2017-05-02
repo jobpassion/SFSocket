@@ -52,24 +52,24 @@ public class ProxyGroupSettings:CommonModel {
     public required init?(map: Map) {
         //super.init(map: map)
         super.init()
-        editing  <- map["editing"]
-        historyEnable <- map["historyEnable"]
-        proxyMan <- map["proxyMan"]
-        
-        
-        disableWidget  <- map["disableWidget"]
-        dynamicSelected <- map["dynamicSelected"]
-        proxyChain <- map["proxyChain"]
-        
-        
-        proxyChainIndex  <- map["proxyChainIndex"]
-        showCountry <- map["showCountry"]
-        widgetProxyCount <- map["widgetProxyCount"]
-        selectIndex <- map["selectIndex"]
-        
-        config  <- map["config"]
-        saveDBIng <- map["saveDBIng"]
-        lastupData <- (map["lastupData"],self.dateTransform)
+//        editing  <- map["editing"]
+//        historyEnable <- map["historyEnable"]
+//        proxyMan <- map["proxyMan"]
+//        
+//        
+//        disableWidget  <- map["disableWidget"]
+//        dynamicSelected <- map["dynamicSelected"]
+//        proxyChain <- map["proxyChain"]
+//        
+//        
+//        proxyChainIndex  <- map["proxyChainIndex"]
+//        showCountry <- map["showCountry"]
+//        widgetProxyCount <- map["widgetProxyCount"]
+//        selectIndex <- map["selectIndex"]
+//        
+//        config  <- map["config"]
+//        saveDBIng <- map["saveDBIng"]
+//        lastupData <- (map["lastupData"],self.dateTransform)
         //self.mapping(map: map)
     }
     public override func mapping(map: Map) {

@@ -13,6 +13,7 @@ import libsnappy
 class ViewController: UIViewController {
     let q = DispatchQueue.init(label: "com.yarshure.test")
     var data = Data()
+    var http:HTTPTester?
     override func viewDidLoad() {
         super.viewDidLoad()
         Frame.testframe()
@@ -158,12 +159,18 @@ class ViewController: UIViewController {
             return
         }
         _ = ProxyGroupSettings.share.addProxy(p)
-        let line = " https,office.hshh.org,51001,vpn_yarshure,kong3191"
-        if let p = SFProxy.createProxyWithLine(line: line, pname: "CN2"){
+        //let line = " https,office.hshh.org,51001,vpn_yarshure,kong3191"
+        let kcptun = "http,192.168.11.120,6000,,"
+        if let p = SFProxy.createProxyWithLine(line: kcptun, pname: "CN2"){
             //_ = ProxyGroupSettings.share.addProxy(p)
+            p.kcptun = true
+            p.serverIP = "192.168.11.120"
             _  = ProxyGroupSettings.share.addProxy(p)
+            self.http = HTTPTester.init(p: p)
+            self.http?.start()
+            
         }
-        var config = KCPTunConfig()
+        //var config = KCPTunConfig()
         //let pass = config.pkbdf2Key(pass: p.key, salt: "kcp-go".data(using: .utf8)!)
         //print("\(pass as! NSData)")
         //print(ProxyGroupSettings.share.proxys)

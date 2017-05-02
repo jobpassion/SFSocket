@@ -221,6 +221,7 @@ public class TCPSession: RawSocketDelegate {
                     s.adapter = adapter
                     s.socket = KCPTunSocket.sharedTunnel //.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: Int(sID))
                     s.queue = queue
+                    
                 }
                 
             }

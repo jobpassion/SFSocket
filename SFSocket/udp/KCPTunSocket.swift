@@ -90,10 +90,50 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
            // fatalError()
         }
         self.proxy = proxy
-        let c = TunConfig()
+        let c = createTunConfig( proxy)
+        
         self.tun = SFKcpTun.init(config: c, ipaddr: proxy.serverIP, port: Int32(proxy.serverPort)!)
         self.tun?.delegate = self as SFKcpTunDelegate
         self.ready = true
+    }
+    func createTunConfig(_ p:SFProxy) ->TunConfig {
+        let c = TunConfig()
+        c.dataShards = Int32(p.config.datashard)
+        c.parityShards = Int32(p.config.parityshard)
+        //c.nodelay = p.config.
+        c.sndwnd = Int32(p.config.sndwnd)
+        c.rcvwnd = Int32(p.config.rcvwnd)
+        c.mtu = Int32(p.config.mtu)
+        c.iptos = Int32(p.config.dscp)
+        switch p.config.mode {
+            case "normal":
+                c.nodelay = 0
+                c.interval = 40
+                c.resend = 2
+                c.nc = 1
+            case "fast":
+                c.nodelay = 0
+                c.interval = 30
+                c.resend = 2
+                c.nc = 1
+            case "fast2":
+                c.nodelay = 1
+                c.interval = 20
+                c.resend = 2
+                c.nc = 1
+            case "fast3":
+                c.nodelay = 1
+                c.interval = 10
+                c.resend = 2
+                c.nc = 1
+            default:
+                c.nodelay = 0
+                c.interval = 30
+                c.resend = 2
+                c.nc = 1
+                break
+        }
+        return c
     }
     //new tcp stream income
     func incomingStream(_ sid:UInt32,session:TCPSession) {
@@ -101,6 +141,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         let data = frame.frameData()
         self.streams[sid] = session
         self.writeData(data, withTag: 0)
+        session.didConnect(self)
     }
     //when network changed,should call this
     func destoryTun() {
