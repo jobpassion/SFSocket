@@ -44,7 +44,7 @@ class SFTCPConnection: SFConnection {
         }else {
             reqInfo.url = ip + ":\(info.remote.port)"
         }
-        reqInfo.lport = Int(info.tun.port)
+        reqInfo.lport = info.tun.port
         self.reqInfo.remoteIPaddress = ip
         AxLogger.log("\(cIDString) remote:\(reqInfo.remoteIPaddress):\(remote.port) init",level: .Warning)
       

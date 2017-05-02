@@ -37,6 +37,9 @@ class Adapter:AdapterProtocol {
         realHost = h
         realPort = port
     }
+    func isKcp() ->Bool {
+        return proxy.kcptun
+    }
     var targetHost:String {
         return proxy.serverAddress
     }

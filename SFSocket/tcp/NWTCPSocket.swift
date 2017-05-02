@@ -41,7 +41,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
     }
 
     
-    public func forceDisconnect(_ sessionID: Int) {
+    public func forceDisconnect(_ sessionID: UInt32) {
         self.forceDisconnect()
     }
 

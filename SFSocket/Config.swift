@@ -9,7 +9,7 @@
 import Foundation
 import CommonCrypto
 //default tun config
-public struct TunConfig {
+public struct KCPTunConfig {
     let SALT:String = "kcp-go"
     var LocalAddr:String = " localaddr"
     var RemoteAddr   :String = "remoteaddr"

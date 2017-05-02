@@ -27,7 +27,7 @@ import lwip
 import AxLogger
 
 class SFHTTPConnection: SFHTTPRequest {
-    var requestIndex:Int = 0 //为什么从0 开始 为了分析header 和body用
+    var requestIndex:UInt32 = 0 //为什么从0 开始 为了分析header 和body用
     //var respsonseIndex:Int = 0//
     var reqHeaderQueue:[SFHTTPRequestHeader] = []
     //var requests:[SFRequestInfo] = []

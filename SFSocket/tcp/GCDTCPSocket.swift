@@ -22,7 +22,7 @@ open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawSocketProtocol {
         fatalError()
     }
 
-    public func forceDisconnect(_ sessionID: Int) {
+    public func forceDisconnect(_ sessionID: UInt32) {
         self.forceDisconnect()
     }
 

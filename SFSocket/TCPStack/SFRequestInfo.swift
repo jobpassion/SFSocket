@@ -47,10 +47,10 @@ public class SFRequestInfo {
     public var activeTime = Date() //last active time
     public var eTime = Date.init(timeIntervalSince1970: 0) //send time
     
-    public var reqID:Int
-    public var subID:Int
-    public var lport:Int = 0//lsof -n -i tcp:ip@port
-    public var dbID:Int = 0
+    public var reqID:UInt32
+    public var subID:UInt32
+    public var lport:UInt16 = 0//lsof -n -i tcp:ip@port
+    public var dbID:UInt32 = 0
     //var pcb_closed = false 减少不必要的状态机
     // set client not closed
     var client_closed = false // 0 pcb alive ,1 dead
@@ -62,7 +62,7 @@ public class SFRequestInfo {
     public var sendData:Data = Data()
     public var recvData:Data = Data()
     #endif
-    public init(rID:Int,sID:Int = 0) {
+    public init(rID:UInt32,sID:UInt32 = 0) {
         reqID = rID
         subID = sID
         sTime = Date()
@@ -249,7 +249,7 @@ public class SFRequestInfo {
         self.mode = SFConnectionMode(rawValue:j["mode"].stringValue)!
         self.url = j["url"].stringValue
         self.app = j["app"].stringValue
-        self.lport = j["port"].intValue
+        self.lport = j["port"].uInt16Value
         var  s = j["start"]
         self.sTime = Date.init(timeIntervalSince1970: s.doubleValue)
         self.status = SFConnectionStatus(rawValue:j["status"].stringValue)!
@@ -287,8 +287,8 @@ public class SFRequestInfo {
         let rjson = j["Rule"]
         rule.mapObject(rjson)
         
-        self.reqID = j["reqID"].int!
-        self.subID = j["subID"].int!
+        self.reqID = j["reqID"].uInt32Value
+        self.subID = j["subID"].uInt32Value
         let transf = j["transferTiming"]
         self.transferTiming = Double(transf.stringValue)!
         

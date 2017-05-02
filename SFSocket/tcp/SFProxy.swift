@@ -214,6 +214,66 @@ public class Proxys:CommonModel {
         return selectIndex
     }
 }
+public class SFKCPTunConfig:CommonModel {
+//    GLOBAL OPTIONS:
+//    --localaddr value, -l value      local listen address (default: ":12948")
+//    --remoteaddr value, -r value     kcp server address (default: "vps:29900")
+//    --key value                      pre-shared secret between client and server (default: "it's a secrect") [$KCPTUN_KEY]
+//    --crypt value                    aes, aes-128, aes-192, salsa20, blowfish, twofish, cast5, 3des, tea, xtea, xor, none (default: "aes")
+//    --mode value                     profiles: fast3, fast2, fast, normal, manual (default: "fast")
+//    --conn value                     set num of UDP connections to server (default: 1)
+//    --autoexpire value               set auto expiration time(in seconds) for a single UDP connection, 0 to disable (default: 0)
+//    --scavengettl value              set how long an expired connection can live(in sec), -1 to disable (default: 600)
+//    --mtu value                      set maximum transmission unit for UDP packets (default: 1350)
+//    --sndwnd value                   set send window size(num of packets) (default: 128)
+//    --rcvwnd value                   set receive window size(num of packets) (default: 512)
+//    --datashard value, --ds value    set reed-solomon erasure coding - datashard (default: 10)
+//    --parityshard value, --ps value  set reed-solomon erasure coding - parityshard (default: 3)
+//    --dscp value                     set DSCP(6bit) (default: 0)
+//    --nocomp                         disable compression
+//    --snmplog value                  collect snmp to file, aware of timeformat in golang, like: ./snmp-20060102.log
+//    --snmpperiod value               snmp collect period, in seconds (default: 60)
+//    --log value                      specify a log file to output, default goes to stderr
+//    -c value                         config from json file, which will override the command from shell
+//    --help, -h                       show help
+//    --version, -v                    print the version
+    
+    public var key:String = "it's a secrect"
+    public var crypt:String = "aes" //aes-256-cfb
+    public var mode:String = "fast"
+    public var autoexpire:Int = 0
+    public var scavengettl:Int = 600
+    public var mtu:Int = 1350
+    public var sndwnd:Int = 1024//128
+    public var rcvwnd:Int = 1024//
+    public var datashard:Int = 10
+    public var parityshard:Int = 3
+    public var dscp:Int = 0
+    
+    public override func mapping(map: Map) {
+        
+        key  <- map["key"]
+        crypt <- map["crypt"]
+        mode <- map["mode"]
+        
+        autoexpire <- map["autoexpire"]
+        scavengettl <- map["scavengettl"] //http socks5 user
+        mtu   <- map["mtu"]
+        //type   <- (map["type"],EnumTransform<SFProxyType>())
+        sndwnd    <- map["sndwnd"]
+        rcvwnd         <- map["rcvwnd"]
+        datashard      <- map["datashard"]
+        parityshard       <- map["parityshard"]
+        dscp  <- map["dscp"]
+        
+        
+//         public var mode:String  = "fast2"
+//        public var key:String = "" //pkdf2 use
+//        public var cryptoType:String = "none"
+    }
+    
+    
+}
 public class SFProxy:CommonModel {
     public var proxyName:String = ""
     public var serverAddress:String = ""
@@ -233,10 +293,9 @@ public class SFProxy:CommonModel {
     public var isoCode:String = ""
     public var udpRelay:Bool = false
     
-    public var mode:String  = "fast2"
+   
     public var kcptun:Bool = false
-    public var key:String = "" //pkdf2 use
-    public var cryptoType:String = "none"
+    public var config:SFKCPTunConfig = SFKCPTunConfig()
     public func countryFlagFunc() ->String{
         if countryFlag.isEmpty {
             return showString()
@@ -261,8 +320,8 @@ public class SFProxy:CommonModel {
         chain  <- map["chain"]
         udpRelay  <- map["udpRelay"]
         kcptun  <- map["kcptun"]
-        mode     <- map["mode"]
-        key  <- map["key"]
+        config  <- map["config"]
+        
         tcpValue <- map["tcpValue"]
         priority <- map["priority"]
         pingValue <- map["pingValue"]//

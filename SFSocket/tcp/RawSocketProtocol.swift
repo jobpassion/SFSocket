@@ -48,7 +48,7 @@ public protocol RawSocketDelegate: class {
 public protocol RawSocketProtocol {
     weak var delegate: RawSocketDelegate? { get set }
     
-    func forceDisconnect(_ sessionID:Int)
+    func forceDisconnect(_ sessionID:UInt32)
     /// Every delegate method should be called on this dispatch queue. And every method call and variable access will be called on this queue.
     var queue: DispatchQueue! { get set }
     /// If the socket is connected.

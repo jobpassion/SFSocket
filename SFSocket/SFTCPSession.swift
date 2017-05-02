@@ -60,14 +60,14 @@ public class TCPSession: RawSocketDelegate {
     var readPending:Bool = false
     var writePending:Bool = false
     var socket:RawSocketProtocol?//NWTCPSocket?
-    
-    var sessionID:Int = 0
+    var frameSize:Int = 4096 //65535
+    var sessionID:UInt32 = 0
     var queue:DispatchQueue?
     //MARK: - RawSocketDelegate
     public func didDisconnect(_ socket: RawSocketProtocol,  error:Error?){
         delegate?.didDisconnect(self, error: error)
     }
-    init(s:Int) {
+    init(s:UInt32) {
         sessionID = s
     }
     public var useCell:Bool {
@@ -123,7 +123,7 @@ public class TCPSession: RawSocketDelegate {
     //proxy chain suport flag
    
     //var proxyChain:Bool = false
-    static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:Int,delegate:TCPSessionDelegate,queue:DispatchQueue) ->TCPSession? {
+    static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:UInt32,delegate:TCPSessionDelegate,queue:DispatchQueue) ->TCPSession? {
         let s = TCPSession.init(s: sID)
         s.delegate = delegate
         let queue = SFTCPConnectionManager.shared().dispatchQueue
@@ -213,7 +213,14 @@ public class TCPSession: RawSocketDelegate {
                         return nil
                     }
                 }else {
-                    s.socket = KCPTunSocket.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: sID)
+                    guard let adapter = Adapter.createAdapter(p, host: targetHost, port: Port) else  {
+                        return nil
+                    }
+                    KCPTunSocket.sharedTunnel.updateProxy(p)
+                    KCPTunSocket.sharedTunnel.incomingStream(sID, session: s)
+                    s.adapter = adapter
+                    s.socket = KCPTunSocket.sharedTunnel //.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: Int(sID))
+                    s.queue = queue
                 }
                 
             }
@@ -224,12 +231,52 @@ public class TCPSession: RawSocketDelegate {
     
     
     //MARK - API
-    
+    //kcp use frame input data
     public  func sendData(_ data: Data, withTag tag: Int) {
         if let t = socket {
-            t.writeData(data, withTag: tag)
+            if let adapter = adapter {
+                if adapter.isKcp() {
+                   let frames = split(data, cmd: cmdPSH, sid: sessionID)
+                    for f in frames {
+                        
+                        t.writeData(f.frameData(), withTag: 0)
+                    }
+                    if let queue = queue {
+                        queue.async {
+                            self.delegate?.didWriteData(data, withTag: tag, from: self)
+                        }
+                    }
+                }else {
+                    t.writeData(data, withTag: tag)
+                }
+            }else {
+                t.writeData(data, withTag: tag)
+            }
+            
             
         }
+        
+    }
+    func split(_ data:Data, cmd:UInt8,sid:UInt32) ->[Frame]{
+        //let fs = data.count/frameSize + 1
+        var result:[Frame] = []
+        var left:Int = data.count
+        var index:Int = 0
+        while left > frameSize {
+            let subData = data.subdata(in: index ..< frameSize )
+            let f = Frame.init(cmd, sid: sid, data: subData)
+            index -= frameSize
+            left += frameSize
+            result.append(f)
+        }
+        
+        if left > 0 {
+            let subData = data.subdata(in: index ..< data.count )
+            let f = Frame.init(cmd, sid: sid, data: subData)
+            result.append(f)
+        }
+        
+        return result
         
     }
     public func  readDataWithTag(_ tag: Int){

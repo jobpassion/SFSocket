@@ -26,7 +26,7 @@ class SFHTTPRequest: SFConnection{
         super.init(tcp: tcp,host: host,port: port,m: m)
         
         self.reqInfo.mode  = .HTTP
-        reqInfo.lport = Int(info.tun.port)
+        reqInfo.lport = info.tun.port
         
        //AxLogger.log("\(cIDString) start at \(reqInfo.sTime)",level: .Debug )
     }

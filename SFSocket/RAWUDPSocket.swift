@@ -270,7 +270,7 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
      
      - note: The socket should disconnect as soon as possible.
      */
-    public func forceDisconnect(_ sessionID:Int){
+    public func forceDisconnect(_ sessionID:UInt32){
         // Remote server need close event?
         //MARK: -- tod close channel
         //only for kcptun

@@ -182,11 +182,12 @@ public class RequestHelper{
                 let rows = try! Row.fetchCursor(db, "SELECT * FROM requests order by id desc")
                 while let row = try rows.next() {
                     let req = SFRequestInfo.init(rID:0 , sID: 0)
-                    req.reqID =  row.value(named: "id")
-                    
-//                    req.dbID =  row.value(named: "id")
-                    req.reqID =  row.value(named: "reqID")
-                    req.subID =  row.value(named: "subID")
+                    //MARK: -fixme
+//                    req.dbID =  UInt32(row.value(named: "id"))
+//                    
+////                    req.dbID =  row.value(named: "id")
+//                    req.reqID = UInt32(row.value(named: "reqID"))
+//                    req.subID =  UInt32(row.value(named: "subID"))
                     //print(row[url])
                     //print(row[url])
                     req.mode =  SFConnectionMode(rawValue:row.value(named:"mode"))!

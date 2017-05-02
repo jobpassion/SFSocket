@@ -22,7 +22,7 @@ let sizeOfSid    = 4
 let headerSize   = sizeOfVer + sizeOfCmd + sizeOfSid + sizeOfLength
 public typealias rawHeader = Data
 // Frame defines a packet from or to be multiplexed into a single connection
-struct Frame {
+public struct Frame {
     var ver:UInt8 = version
     var cmd:UInt8 = 0
     var sid:UInt32 = 0
@@ -32,7 +32,35 @@ struct Frame {
         self.sid = sid
         
     }
+    init(_ cmd:UInt8,sid:UInt32,data:Data) {
+        self.cmd = cmd
+        self.sid = sid
+        self.data = data
+    }
+    func frameData() ->Data{
+        let f:SFData = SFData()
+        f.append(version)
+        f.append(cmd)
+        if let d = data {
+            f.append(UInt16(d.count))
+        }else {
+            f.append(UInt16(0))
+        }
+        
+        f.append(sid)
+        if let d = data {
+            f.append(d)
+        }
+        return f.data
+    }
+    public static  func testframe(){
+        var f = Frame.init(0, sid: 3)
+        print(f.frameData() as NSData)
+        let d = "hello".data(using: .utf8)!
+        f.data = d
+        print(f.frameData() as NSData)
     
+    }
 }
 func sysVersion() ->Int {
     return 10

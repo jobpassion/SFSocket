@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     var data = Data()
     override func viewDidLoad() {
         super.viewDidLoad()
+        Frame.testframe()
          testsnappy()
         let _:Float = 10.23
         testaead()
@@ -33,6 +34,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
        
     }
+    
     func testsnappy(){
         let st = "sdlfjlsadfjalsdjfalsdfjlasf".data(using: .utf8)!
        
@@ -161,10 +163,10 @@ class ViewController: UIViewController {
             //_ = ProxyGroupSettings.share.addProxy(p)
             _  = ProxyGroupSettings.share.addProxy(p)
         }
-        var config = TunConfig()
-        let pass = config.pkbdf2Key(pass: p.key, salt: "kcp-go".data(using: .utf8)!)
-        print("\(pass as! NSData)")
-        print(ProxyGroupSettings.share.proxys)
+        var config = KCPTunConfig()
+        //let pass = config.pkbdf2Key(pass: p.key, salt: "kcp-go".data(using: .utf8)!)
+        //print("\(pass as! NSData)")
+        //print(ProxyGroupSettings.share.proxys)
         
     }
 }

@@ -32,7 +32,7 @@ import DarwinCore
 //#define ERR_ARG        -14   /* Illegal argument.        */
 //
 //#define ERR_IF         -15   /* Low-level netif error    */
-var SFConnectionID:Int = 0
+var SFConnectionID:UInt32 = 0
 enum ERR_KEY:Int8{
     case ok = 0
     case mem = -1
