@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		690AB83E1E9762C7001A6C3A /* libkcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83D1E9762C7001A6C3A /* libkcp.framework */; };
+		6907CA881EB9DCDE003F7554 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA871EB9DCDE003F7554 /* kcp.framework */; };
+		6907CA8A1EB9DCEB003F7554 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA891EB9DCEB003F7554 /* snappy.framework */; };
+		6907CA8B1EB9DD3C003F7554 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA871EB9DCDE003F7554 /* kcp.framework */; };
+		6907CA8C1EB9DD3C003F7554 /* kcp.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6907CA871EB9DCDE003F7554 /* kcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6907CA8D1EB9DD41003F7554 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA891EB9DCEB003F7554 /* snappy.framework */; };
+		6907CA8E1EB9DD41003F7554 /* snappy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6907CA891EB9DCEB003F7554 /* snappy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB8401E9762D1001A6C3A /* MMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83F1E9762D1001A6C3A /* MMDB.framework */; };
 		690AB8421E9762D7001A6C3A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; };
 		690AB8441E9762DD001A6C3A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8431E9762DD001A6C3A /* Reachability.framework */; };
@@ -17,7 +22,6 @@
 		690AB84B1E9763CC001A6C3A /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
 		690AB84C1E9763CF001A6C3A /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
 		690AB8501E9763F4001A6C3A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E131DD95DD30047112C /* Sodium.framework */; };
-		690AB8521E976409001A6C3A /* libkcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83D1E9762C7001A6C3A /* libkcp.framework */; };
 		690AB8531E97640F001A6C3A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; };
 		690AB8551E97645C001A6C3A /* SystemKitiOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB8451E9762E8001A6C3A /* SystemKitiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB8561E97645F001A6C3A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8431E9762DD001A6C3A /* Reachability.framework */; };
@@ -25,8 +29,6 @@
 		690AB8581E976461001A6C3A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; };
 		690AB8591E976461001A6C3A /* ObjectMapper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB85B1E976464001A6C3A /* MMDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB83F1E9762D1001A6C3A /* MMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB85C1E976467001A6C3A /* libkcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83D1E9762C7001A6C3A /* libkcp.framework */; };
-		690AB85D1E976467001A6C3A /* libkcp.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB83D1E9762C7001A6C3A /* libkcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB85E1E976469001A6C3A /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
 		690AB85F1E976469001A6C3A /* DarwinCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB8611E97646D001A6C3A /* GRDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -187,10 +189,6 @@
 		69A0D2761DD5971A00227353 /* StreamScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0D2751DD5971A00227353 /* StreamScanner.swift */; };
 		69A0D2781DD5975800227353 /* Opt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0D2771DD5975800227353 /* Opt.swift */; };
 		69A0D27A1DD5979C00227353 /* RawSocketFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0D2791DD5979C00227353 /* RawSocketFactory.swift */; };
-		69A39C501EB4AB3300E45436 /* libkcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69A39C4F1EB4AB3300E45436 /* libkcp.framework */; };
-		69A39C521EB4AB7900E45436 /* libsnappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69A39C511EB4AB7900E45436 /* libsnappy.framework */; };
-		69A39C531EB4AD3400E45436 /* libsnappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69A39C511EB4AB7900E45436 /* libsnappy.framework */; };
-		69A39C541EB4AD3400E45436 /* libsnappy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69A39C511EB4AB7900E45436 /* libsnappy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69B911621EB8C0200096DE58 /* HTTPTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B911611EB8C0200096DE58 /* HTTPTester.swift */; };
 		69B954F61DDF81CF006AF669 /* SFSocketOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B954F41DDF81CF006AF669 /* SFSocketOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B954FA1DDF81DC006AF669 /* SFVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */; };
@@ -314,19 +312,19 @@
 			dstSubfolderSpec = 10;
 			files = (
 				6952F8721E97E06D003EB1CB /* SwiftyJSON.framework in CopyFiles */,
-				69A39C541EB4AD3400E45436 /* libsnappy.framework in CopyFiles */,
 				690AB8611E97646D001A6C3A /* GRDB.framework in CopyFiles */,
 				69D5B32D1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in CopyFiles */,
 				690AB86D1E97647E001A6C3A /* CommonCrypto.framework in CopyFiles */,
 				690AB8591E976461001A6C3A /* ObjectMapper.framework in CopyFiles */,
-				690AB85D1E976467001A6C3A /* libkcp.framework in CopyFiles */,
 				690AB85F1E976469001A6C3A /* DarwinCore.framework in CopyFiles */,
 				690AB8651E976475001A6C3A /* lwip.framework in CopyFiles */,
+				6907CA8E1EB9DD41003F7554 /* snappy.framework in CopyFiles */,
 				690AB8551E97645C001A6C3A /* SystemKitiOS.framework in CopyFiles */,
 				69FC1B191DDBFD4500EF8AAC /* Sodium.framework in CopyFiles */,
 				69FC1B141DDBFC7200EF8AAC /* CocoaAsyncSocket.framework in CopyFiles */,
 				690AB8571E97645F001A6C3A /* Reachability.framework in CopyFiles */,
 				69FC1B161DDBFCF400EF8AAC /* SFSocket.framework in CopyFiles */,
+				6907CA8C1EB9DD3C003F7554 /* kcp.framework in CopyFiles */,
 				690AB8711E976483001A6C3A /* AxLogger.framework in CopyFiles */,
 				690AB85B1E976464001A6C3A /* MMDB.framework in CopyFiles */,
 			);
@@ -335,7 +333,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		690AB83D1E9762C7001A6C3A /* libkcp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libkcp.framework; path = Carthage/Build/iOS/libkcp.framework; sourceTree = "<group>"; };
+		6907CA871EB9DCDE003F7554 /* kcp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = kcp.framework; path = Carthage/Build/iOS/kcp.framework; sourceTree = "<group>"; };
+		6907CA891EB9DCEB003F7554 /* snappy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = snappy.framework; path = Carthage/Build/iOS/snappy.framework; sourceTree = "<group>"; };
 		690AB83F1E9762D1001A6C3A /* MMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MMDB.framework; path = Carthage/Build/iOS/MMDB.framework; sourceTree = "<group>"; };
 		690AB8411E9762D7001A6C3A /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
 		690AB8431E9762DD001A6C3A /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = Carthage/Build/iOS/Reachability.framework; sourceTree = "<group>"; };
@@ -444,8 +443,6 @@
 		69A0D2751DD5971A00227353 /* StreamScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamScanner.swift; sourceTree = "<group>"; };
 		69A0D2771DD5975800227353 /* Opt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Opt.swift; sourceTree = "<group>"; };
 		69A0D2791DD5979C00227353 /* RawSocketFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RawSocketFactory.swift; path = tcp/RawSocketFactory.swift; sourceTree = "<group>"; };
-		69A39C4F1EB4AB3300E45436 /* libkcp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libkcp.framework; path = Carthage/Build/iOS/libkcp.framework; sourceTree = "<group>"; };
-		69A39C511EB4AB7900E45436 /* libsnappy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libsnappy.framework; path = Carthage/Build/iOS/libsnappy.framework; sourceTree = "<group>"; };
 		69B911611EB8C0200096DE58 /* HTTPTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPTester.swift; sourceTree = "<group>"; };
 		69B954F21DDF81CF006AF669 /* SFSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SFSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B954F41DDF81CF006AF669 /* SFSocketOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSocketOSX.h; sourceTree = "<group>"; };
@@ -523,8 +520,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				69803E0E1DD95DBA0047112C /* CocoaAsyncSocket.framework in Frameworks */,
+				6907CA8A1EB9DCEB003F7554 /* snappy.framework in Frameworks */,
+				6907CA881EB9DCDE003F7554 /* kcp.framework in Frameworks */,
 				69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */,
-				690AB83E1E9762C7001A6C3A /* libkcp.framework in Frameworks */,
 				690AB8441E9762DD001A6C3A /* Reachability.framework in Frameworks */,
 				69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */,
 				690AB8401E9762D1001A6C3A /* MMDB.framework in Frameworks */,
@@ -533,8 +531,6 @@
 				69803E0C1DD95DB30047112C /* AxLogger.framework in Frameworks */,
 				69116B0B1E967B52007C2FBA /* GRDB.framework in Frameworks */,
 				690AB8421E9762D7001A6C3A /* ObjectMapper.framework in Frameworks */,
-				69A39C501EB4AB3300E45436 /* libkcp.framework in Frameworks */,
-				69A39C521EB4AB7900E45436 /* libsnappy.framework in Frameworks */,
 				69116B051E967AD7007C2FBA /* lwip.framework in Frameworks */,
 				69803E141DD95DD30047112C /* Sodium.framework in Frameworks */,
 			);
@@ -546,21 +542,20 @@
 			files = (
 				6952F8711E97E06D003EB1CB /* SwiftyJSON.framework in Frameworks */,
 				690AB8581E976461001A6C3A /* ObjectMapper.framework in Frameworks */,
-				690AB8521E976409001A6C3A /* libkcp.framework in Frameworks */,
-				69A39C531EB4AD3400E45436 /* libsnappy.framework in Frameworks */,
 				692128561E9CBA6C00560DEC /* NetworkExtension.framework in Frameworks */,
 				690AB8481E9762FE001A6C3A /* Reachability.framework in Frameworks */,
 				690AB86C1E97647E001A6C3A /* CommonCrypto.framework in Frameworks */,
 				690AB8471E9762FD001A6C3A /* SystemKitiOS.framework in Frameworks */,
 				690AB85E1E976469001A6C3A /* DarwinCore.framework in Frameworks */,
+				6907CA8B1EB9DD3C003F7554 /* kcp.framework in Frameworks */,
 				690AB84A1E9763C0001A6C3A /* MMDB.framework in Frameworks */,
 				690AB8641E976475001A6C3A /* lwip.framework in Frameworks */,
 				690AB8531E97640F001A6C3A /* ObjectMapper.framework in Frameworks */,
+				6907CA8D1EB9DD41003F7554 /* snappy.framework in Frameworks */,
 				690AB84B1E9763CC001A6C3A /* DarwinCore.framework in Frameworks */,
 				690AB84C1E9763CF001A6C3A /* GRDB.framework in Frameworks */,
 				690AB8561E97645F001A6C3A /* Reachability.framework in Frameworks */,
 				690AB8501E9763F4001A6C3A /* Sodium.framework in Frameworks */,
-				690AB85C1E976467001A6C3A /* libkcp.framework in Frameworks */,
 				69FC1B111DDBFADE00EF8AAC /* SFSocket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -722,13 +717,12 @@
 		69803E081DD95D4F0047112C /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				69A39C511EB4AB7900E45436 /* libsnappy.framework */,
-				69A39C4F1EB4AB3300E45436 /* libkcp.framework */,
+				6907CA891EB9DCEB003F7554 /* snappy.framework */,
+				6907CA871EB9DCDE003F7554 /* kcp.framework */,
 				690AB8451E9762E8001A6C3A /* SystemKitiOS.framework */,
 				690AB8431E9762DD001A6C3A /* Reachability.framework */,
 				690AB8411E9762D7001A6C3A /* ObjectMapper.framework */,
 				690AB83F1E9762D1001A6C3A /* MMDB.framework */,
-				690AB83D1E9762C7001A6C3A /* libkcp.framework */,
 				69116B0D1E967B63007C2FBA /* DarwinCore.framework */,
 				69116B0A1E967B52007C2FBA /* GRDB.framework */,
 				69116B071E967B3B007C2FBA /* Crypto.framework */,

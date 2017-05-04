@@ -19,7 +19,7 @@ class HTTPTester: NSObject,TCPSessionDelegate {
         
     }
     func start(){
-        if let s  =  TCPSession.socketFromProxy(proxy, policy: .Proxy, targetHost: "baidu.com", Port: 80, sID: 1, delegate: self, queue: queue){
+        if let s  =  TCPSession.socketFromProxy(proxy, policy: .Proxy, targetHost: "baidu.com", Port: 80, sID: 3, delegate: self, queue: queue){
             self.session = s
         }
         

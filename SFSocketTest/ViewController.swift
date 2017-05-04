@@ -9,7 +9,7 @@
 import UIKit
 import SFSocket
 import ObjectMapper
-import libsnappy
+import snappy
 class ViewController: UIViewController {
     let q = DispatchQueue.init(label: "com.yarshure.test")
     var data = Data()
@@ -160,11 +160,11 @@ class ViewController: UIViewController {
         }
         _ = ProxyGroupSettings.share.addProxy(p)
         //let line = " https,office.hshh.org,51001,vpn_yarshure,kong3191"
-        let kcptun = "http,192.168.11.120,6000,,"
+        let kcptun = "http,192.168.2.168,6000,,"
         if let p = SFProxy.createProxyWithLine(line: kcptun, pname: "CN2"){
             //_ = ProxyGroupSettings.share.addProxy(p)
             p.kcptun = true
-            p.serverIP = "192.168.11.120"
+            p.serverIP = "192.168.2.168"
             _  = ProxyGroupSettings.share.addProxy(p)
             self.http = HTTPTester.init(p: p)
             self.http?.start()

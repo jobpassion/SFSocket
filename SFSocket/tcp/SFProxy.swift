@@ -249,7 +249,7 @@ public class SFKCPTunConfig:CommonModel {
     public var datashard:Int = 10
     public var parityshard:Int = 3
     public var dscp:Int = 0
-    
+    public var noComp: Bool =  false //"nocomp"
     public override func mapping(map: Map) {
         
         key  <- map["key"]
@@ -265,7 +265,7 @@ public class SFKCPTunConfig:CommonModel {
         datashard      <- map["datashard"]
         parityshard       <- map["parityshard"]
         dscp  <- map["dscp"]
-        
+        dscp  <- map["NoComp"]
         
 //         public var mode:String  = "fast2"
 //        public var key:String = "" //pkdf2 use

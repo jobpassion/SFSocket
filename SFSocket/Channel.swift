@@ -8,7 +8,7 @@
 
 import Foundation
 import AxLogger
-import libkcp
+import kcp
 func testkcp(){
     //let x = IPC_SET.init()
     

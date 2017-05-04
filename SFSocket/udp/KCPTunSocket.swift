@@ -11,7 +11,7 @@
 import Foundation
 import NetworkExtension
 import AxLogger
-import libkcp
+import kcp
 //应该是shared
 // 可以先不实行adapter，加密,用kun 加密
 // 测试先是不加密，aes 加密， adapter 加密
@@ -141,7 +141,10 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         let data = frame.frameData()
         self.streams[sid] = session
         self.writeData(data, withTag: 0)
-        session.didConnect(self)
+        
+        queue.asyncAfter(deadline: .now() + .milliseconds(500)) { 
+            session.didConnect(self)
+        }
     }
     //when network changed,should call this
     func destoryTun() {

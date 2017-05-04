@@ -233,6 +233,9 @@ public class TCPSession: RawSocketDelegate {
     
     //MARK - API
     //kcp use frame input data
+    func start(){
+        
+    }
     public  func sendData(_ data: Data, withTag tag: Int) {
         if let t = socket {
             if let adapter = adapter {
