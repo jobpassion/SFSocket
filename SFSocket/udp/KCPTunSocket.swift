@@ -40,6 +40,8 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     var smuxConfig:Config = Config()
     var ready:Bool = false
     var readBuffer:Data = Data()
+    var dispatchTimer:DispatchSourceTimer?
+    var q :DispatchQueue?
     //tun delegate
     public func connected(_ tun: SFKcpTun!){
         
@@ -54,7 +56,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     }
     
     func readFrame() -> (Frame?,TunError?) {
-        guard  readBuffer.count > headerSize else {
+        guard  readBuffer.count >= headerSize else {
             return (nil , TunError.noHead)
         }
         let h = readBuffer.subdata(in: 0 ..< headerSize) as rawHeader
@@ -64,10 +66,12 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         }
         
         var frame:Frame = Frame.init(h.cmd(), sid: h.StreamID())
-        if h.length > 0 {
-            if readBuffer.count > headerSize + h.length {
-                frame.data = readBuffer.subdata(in: headerSize ..< headerSize + h.length)
-                readBuffer.resetBytes(in: 0 ..< headerSize + h.length)
+        let length = h.Length()
+        if length > 0 {
+            if readBuffer.count >= headerSize + length {
+                frame.data = readBuffer.subdata(in: headerSize ..< headerSize + length)
+                print("frame data \(frame.data! as NSData)")
+                readBuffer.resetBytes(in: 0 ..< headerSize + length)
                 return (frame,nil)
             }
         }
@@ -76,14 +80,23 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     }
     public func didRecevied(_ data: Data!){
         self.readBuffer.append(data)
+        print("mux recv data:\(data as NSData)")
+        while self.readBuffer.count >= headerSize {
+             let r = readFrame()
+            if let f = r.0 {
+                if let stream =  streams[f.sid] ,let data = f.data{
+                    stream.didReadData(data, withTag: 0, from: self)
+                }
+                
+            }
+        }
        
-        let r = readFrame()
         
         AxLogger.log("tunnel recv Data \(data)", level: .Debug)
     }
     static var sharedTunnel: KCPTunSocket = KCPTunSocket()
     
-    func updateProxy(_ proxy:SFProxy){
+    func updateProxy(_ proxy:SFProxy,queue:DispatchQueue){
         
         if ready {
             return
@@ -92,9 +105,40 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         self.proxy = proxy
         let c = createTunConfig( proxy)
         
-        self.tun = SFKcpTun.init(config: c, ipaddr: proxy.serverIP, port: Int32(proxy.serverPort)!)
+        self.tun = SFKcpTun.init(config: c, ipaddr: proxy.serverIP, port: Int32(proxy.serverPort)!, queue: queue)
         self.tun?.delegate = self as SFKcpTunDelegate
+        self.keepAlive(timeOut: 10);
         self.ready = true
+    }
+    func keepAlive(timeOut:Int)  {
+         q = DispatchQueue(label:"com.fb.interview")
+        let timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue:q )
+        q?.async{
+            let interval: Double = Double(timeOut)
+            
+            let delay = DispatchTime.now()
+            
+            timer.scheduleRepeating(deadline: delay, interval: interval, leeway: .nanoseconds(0))
+            
+            timer.setEventHandler {[unowned self] in
+                self.sendNop()
+                //self.call(self.dispatch_timer)
+            }
+            timer.setCancelHandler {
+                print("dispatch_timer cancel")
+            }
+            timer.resume()
+            
+        }
+        self.dispatchTimer = timer
+    }
+    func sendNop(){
+        print("send NOP")
+        let frame = Frame(cmdNOP,sid:0)
+        let data = frame.frameData()
+        //self.streams[0] = session
+        self.writeData(data, withTag: 0)
+
     }
     func createTunConfig(_ p:SFProxy) ->TunConfig {
         let c = TunConfig()
@@ -133,15 +177,21 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
                 c.nc = 1
                 break
         }
+        if !p.config.crypt.isEmpty {
+            c.crypt = p.config.crypt
+            if  let d = p.pkbdf2Key() {
+                c.key = d
+            }
+            
+            
+        }
+        
         return c
     }
     //new tcp stream income
     func incomingStream(_ sid:UInt32,session:TCPSession) {
-        let frame = Frame(cmdSYN,sid:sid)
-        let data = frame.frameData()
-        self.streams[sid] = session
-        self.writeData(data, withTag: 0)
         
+        self.streams[sid] = session
         queue.asyncAfter(deadline: .now() + .milliseconds(500)) { 
             session.didConnect(self)
         }
@@ -183,6 +233,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         //        let newdata = adapter.send(data)
         //        tun.inputDataAdapter(newdata)
         // api
+        print("write \(data as NSData)")
         if let tun = tun {
             tun.input(data)
         }else {

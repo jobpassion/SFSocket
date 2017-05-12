@@ -153,18 +153,18 @@ class ViewController: UIViewController {
         //enc.testGCM()
         let x:[UInt8] = [0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68]
         let data:rawHeader = Data.init(bytes: x)
-        print(data.desc())
-        print(ProxyGroupSettings.share.proxys)
+        //print(data.desc())
+        //print(ProxyGroupSettings.share.proxys)
         guard let p = Mapper<SFProxy>().map(JSONString: "{\"type\":0}") else {
             return
         }
         _ = ProxyGroupSettings.share.addProxy(p)
         //let line = " https,office.hshh.org,51001,vpn_yarshure,kong3191"
-        let kcptun = "http,192.168.2.168,6000,,"
+        let kcptun = "http,192.168.11.8,6000,,"
         if let p = SFProxy.createProxyWithLine(line: kcptun, pname: "CN2"){
             //_ = ProxyGroupSettings.share.addProxy(p)
             p.kcptun = true
-            p.serverIP = "192.168.2.168"
+            p.serverIP = "192.168.11.8"
             _  = ProxyGroupSettings.share.addProxy(p)
             self.http = HTTPTester.init(p: p)
             self.http?.start()

@@ -75,11 +75,11 @@ public extension rawHeader {
     public func cmd() ->UInt8{
         return self[1]
     }
-    public func Length() ->UInt16{
+    public func Length() ->Int{
      
         let x = self.subdata(in: Range(2 ..< 4))
         let y = x.to(type: UInt16.self)
-        return y
+        return Int(y)
     }
     public func StreamID() ->UInt32{
         let x = self.subdata(in: Range(4 ..< 8))

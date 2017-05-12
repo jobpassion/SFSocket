@@ -18,6 +18,10 @@ class HTTPTester: NSObject,TCPSessionDelegate {
         super.init()
         
     }
+//    -(void)keepAlive{
+//    //kcptun need
+//    //s.writeFrame(newFrame(cmdNOP, 0))
+//    }
     func start(){
         if let s  =  TCPSession.socketFromProxy(proxy, policy: .Proxy, targetHost: "baidu.com", Port: 80, sID: 3, delegate: self, queue: queue){
             self.session = s
@@ -32,7 +36,8 @@ class HTTPTester: NSObject,TCPSessionDelegate {
     
     func didReadData(_ data: Data, withTag: Int, from: TCPSession)
     {
-        
+     
+        print("didReadData recv :\(3) \(data as NSData)")
     }
     func didWriteData(_ data: Data?, withTag: Int, from: TCPSession)
     
@@ -40,7 +45,7 @@ class HTTPTester: NSObject,TCPSessionDelegate {
         
     }
     func didConnect(_ socket: TCPSession){
-        let data = "CONNECT baidu.com:80 HTTP/1.1\r\nUSER-AGENT: kcptun\r\n\r\n".data(using: .utf8)!
+        let data = "HEAD http://baidu.com/ HTTP/1.1\r\nHost: baidu.com\r\nUSER-AGENT: kcptun\r\nAccept: */*\r\nProxy-Connection: Keep-Alive\r\n\r\n".data(using: .utf8)!
         if let s = session {
             s.sendData(data, withTag: 0)
         }

@@ -96,6 +96,7 @@ public class TCPSession: RawSocketDelegate {
      - parameter from:    The socket where the data is read from.
      */
     public func didReadData(_ data: Data, withTag: Int, from: RawSocketProtocol){
+        
         delegate?.didReadData(data, withTag: withTag, from: self)
     }
     
@@ -216,7 +217,7 @@ public class TCPSession: RawSocketDelegate {
                     guard let adapter = Adapter.createAdapter(p, host: targetHost, port: Port) else  {
                         return nil
                     }
-                    KCPTunSocket.sharedTunnel.updateProxy(p)
+                    KCPTunSocket.sharedTunnel.updateProxy(p,queue: queue)
                     KCPTunSocket.sharedTunnel.incomingStream(sID, session: s)
                     s.adapter = adapter
                     s.socket = KCPTunSocket.sharedTunnel //.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: Int(sID))
@@ -240,11 +241,21 @@ public class TCPSession: RawSocketDelegate {
         if let t = socket {
             if let adapter = adapter {
                 if adapter.isKcp() {
+                    var databuffer:Data = Data()
+                    if tag == 0 {
+                        let frame = Frame(cmdSYN,sid:sessionID)
+                        let data = frame.frameData()
+                        databuffer.append(data)
+                        
+                    }
+                    
+                    
                    let frames = split(data, cmd: cmdPSH, sid: sessionID)
                     for f in frames {
+                        databuffer.append(f.frameData())
                         
-                        t.writeData(f.frameData(), withTag: 0)
                     }
+                    t.writeData(databuffer, withTag: 0)
                     if let queue = queue {
                         queue.async {
                             self.delegate?.didWriteData(data, withTag: tag, from: self)

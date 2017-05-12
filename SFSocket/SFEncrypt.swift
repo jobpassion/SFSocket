@@ -680,27 +680,10 @@ public class SSEncrypt {
                 if (updateDecrypt == CCCryptorStatus(0))
                 {
                     //Cut Data Out with nedded length
-                    cipherDataDecrypt.count = outLengthDecrypt;
+                    //设置解密长度
+                    cipherDataDecrypt.count = outLengthDecrypt
                     
-                    
-                    var ptr :UnsafeMutableRawPointer?
-                    
-                    _ = cipherDataDecrypt.withUnsafeMutableBytes {mutableBytes in
-                        ptr = UnsafeMutableRawPointer.init(mutableBytes)
-                    }
-                    
-                    let final:CCCryptorStatus = CCCryptorFinal(ctx.ctx, //CCCryptorRef cryptorRef,
-                        ptr, //void *dataOut,
-                        cipherDataDecrypt.count, // size_t dataOutAvailable,
-                        &outLengthDecrypt); // size_t *dataOutMoved)
-                    
-                    if (final != CCCryptorStatus( 0))
-                    {
-                        AxLogger.log("decrypt CCCryptorFinal failure",level: .Error)
-                       
-                    }
-                    
-                    return cipherDataDecrypt as Data ;//cipherFinalDecrypt;
+                    return cipherDataDecrypt //cipherFinalDecrypt;
                 }else {
                     AxLogger.log("decrypt CCCryptorUpdate failure",level: .Error)
                 }
@@ -809,31 +792,17 @@ public class SSEncrypt {
                 //Cut Data Out with nedded length
                 cipherData.count = outLength;
                 
-                //Final Cryptor
-                let final:CCCryptorStatus = CCCryptorFinal(ctx.ctx, //CCCryptorRef cryptorRef,
-                    ptr, //void *dataOut,
-                    cipherData.count, // size_t dataOutAvailable,
-                    &outLength); // size_t *dataOutMoved)
                 
-                if (final == CCCryptorStatus(0))
-                {
-                    if ctx.counter == 0 {
-                        ctx.counter += 1
-                        var d:Data = Data()
-                        d.append(ctx.IV);
-                        
-                        d.append(cipherData)
-                        return d
-                    }else {
-                        return cipherData
-                    }
+                if ctx.counter == 0 {
+                    ctx.counter += 1
+                    var d:Data = Data()
+                    d.append(ctx.IV);
                     
-                    
+                    d.append(cipherData)
+                    return d
                 }else {
-                    AxLogger.log("CCCryptorFinal error \(final)",level:.Error)
+                    return cipherData
                 }
-                
-                //AxLogger.log("cipher length:\(d.length % 16)")
                 
                 
             }else {

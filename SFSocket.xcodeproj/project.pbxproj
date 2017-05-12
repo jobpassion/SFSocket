@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		6907CA881EB9DCDE003F7554 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA871EB9DCDE003F7554 /* kcp.framework */; };
 		6907CA8A1EB9DCEB003F7554 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA891EB9DCEB003F7554 /* snappy.framework */; };
-		6907CA8B1EB9DD3C003F7554 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA871EB9DCDE003F7554 /* kcp.framework */; };
-		6907CA8C1EB9DD3C003F7554 /* kcp.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6907CA871EB9DCDE003F7554 /* kcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6907CA8D1EB9DD41003F7554 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA891EB9DCEB003F7554 /* snappy.framework */; };
 		6907CA8E1EB9DD41003F7554 /* snappy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6907CA891EB9DCEB003F7554 /* snappy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		690AB8401E9762D1001A6C3A /* MMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83F1E9762D1001A6C3A /* MMDB.framework */; };
@@ -324,7 +322,6 @@
 				69FC1B141DDBFC7200EF8AAC /* CocoaAsyncSocket.framework in CopyFiles */,
 				690AB8571E97645F001A6C3A /* Reachability.framework in CopyFiles */,
 				69FC1B161DDBFCF400EF8AAC /* SFSocket.framework in CopyFiles */,
-				6907CA8C1EB9DD3C003F7554 /* kcp.framework in CopyFiles */,
 				690AB8711E976483001A6C3A /* AxLogger.framework in CopyFiles */,
 				690AB85B1E976464001A6C3A /* MMDB.framework in CopyFiles */,
 			);
@@ -547,7 +544,6 @@
 				690AB86C1E97647E001A6C3A /* CommonCrypto.framework in Frameworks */,
 				690AB8471E9762FD001A6C3A /* SystemKitiOS.framework in Frameworks */,
 				690AB85E1E976469001A6C3A /* DarwinCore.framework in Frameworks */,
-				6907CA8B1EB9DD3C003F7554 /* kcp.framework in Frameworks */,
 				690AB84A1E9763C0001A6C3A /* MMDB.framework in Frameworks */,
 				690AB8641E976475001A6C3A /* lwip.framework in Frameworks */,
 				690AB8531E97640F001A6C3A /* ObjectMapper.framework in Frameworks */,

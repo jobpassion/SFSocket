@@ -4,15 +4,17 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "AACA9EEA20FE12DA3331147805C5AB3BDC660A1A" : 9223372036854775807,
+    "DB7231E74227E06B741062C9E94288CC651E14E2" : 9223372036854775807,
+    "9FD74FCF0A1D92BBF703284651A70CC0554958A4" : 9223372036854775807,
     "834DA2CBF1A005FD462115D8041C6D81D5FB12EF" : 9223372036854775807,
-    "DB7231E74227E06B741062C9E94288CC651E14E2" : 9223372036854775807
+    "AACA9EEA20FE12DA3331147805C5AB3BDC660A1A" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7C89735E-98AF-411A-95B4-8613357C378F",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "AACA9EEA20FE12DA3331147805C5AB3BDC660A1A" : "..",
+    "DB7231E74227E06B741062C9E94288CC651E14E2" : "..\/..",
+    "9FD74FCF0A1D92BBF703284651A70CC0554958A4" : "..\/..\/libkcp",
     "834DA2CBF1A005FD462115D8041C6D81D5FB12EF" : "SFSocket\/",
-    "DB7231E74227E06B741062C9E94288CC651E14E2" : "..\/.."
+    "AACA9EEA20FE12DA3331147805C5AB3BDC660A1A" : ".."
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "SFSocket",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -22,6 +24,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/networkextension\/SFSocket.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "834DA2CBF1A005FD462115D8041C6D81D5FB12EF"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/networkextension\/libkcp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9FD74FCF0A1D92BBF703284651A70CC0554958A4"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:yarshure\/surf.git",

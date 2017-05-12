@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 import ObjectMapper
+import CommonCrypto
 public enum SFProxyType :Int, CustomStringConvertible{
     case HTTP = 0
     case HTTPS = 1
@@ -250,6 +251,7 @@ public class SFKCPTunConfig:CommonModel {
     public var parityshard:Int = 3
     public var dscp:Int = 0
     public var noComp: Bool =  false //"nocomp"
+    let SALT:String = "kcp-go"
     public override func mapping(map: Map) {
         
         key  <- map["key"]
@@ -271,7 +273,49 @@ public class SFKCPTunConfig:CommonModel {
 //        public var key:String = "" //pkdf2 use
 //        public var cryptoType:String = "none"
     }
+    public func pkbdf2Key(pass:String,salt:Data) ->Data?{
+        //test ok
+        //b23383c32eefa3753ab6db6e639a0ddc3b50ec6b6c623c9171a15ba0879945cd
+        //pass := pbkdf2.Key([]byte(config.Key), []byte(SALT), 4096, 32, sha1.New)
+        
+        return pbkdf2SHA1(password: pass, salt: salt, keyByteCount: 32, rounds: 4096)
+    }
     
+    func pbkdf2SHA1(password: String, salt: Data, keyByteCount: Int, rounds: Int) -> Data? {
+        return pbkdf2(hash:CCPBKDFAlgorithm(kCCPRFHmacAlgSHA1), password:password, salt:salt, keyByteCount:keyByteCount, rounds:rounds)
+    }
+    
+    func pbkdf2SHA256(password: String, salt: Data, keyByteCount: Int, rounds: Int) -> Data? {
+        return pbkdf2(hash:CCPBKDFAlgorithm(kCCPRFHmacAlgSHA256), password:password, salt:salt, keyByteCount:keyByteCount, rounds:rounds)
+    }
+    
+    func pbkdf2SHA512(password: String, salt: Data, keyByteCount: Int, rounds: Int) -> Data? {
+        return pbkdf2(hash:CCPBKDFAlgorithm(kCCPRFHmacAlgSHA512), password:password, salt:salt, keyByteCount:keyByteCount, rounds:rounds)
+    }
+    
+    func pbkdf2(hash :CCPBKDFAlgorithm, password: String, salt: Data, keyByteCount: Int, rounds: Int) -> Data? {
+        let passwordData = password.data(using:String.Encoding.utf8)!
+        var derivedKeyData = Data(repeating:0, count:keyByteCount)
+        
+        let derivationStatus = derivedKeyData.withUnsafeMutableBytes {derivedKeyBytes in
+            salt.withUnsafeBytes { saltBytes in
+                
+                CCKeyDerivationPBKDF(
+                    CCPBKDFAlgorithm(kCCPBKDF2),
+                    password, passwordData.count,
+                    saltBytes, salt.count,
+                    hash,
+                    UInt32(rounds),
+                    derivedKeyBytes, derivedKeyData.count)
+            }
+        }
+        if (derivationStatus != 0) {
+            print("Error: \(derivationStatus)")
+            return nil;
+        }
+        
+        return derivedKeyData
+    }
     
 }
 public class SFProxy:CommonModel {
@@ -302,6 +346,10 @@ public class SFProxy:CommonModel {
         }else {
             return countryFlag + " " + proxyName
         }
+    }
+    func pkbdf2Key() ->Data? {
+        let s = config.SALT.data(using: .utf8)!
+        return config.pkbdf2Key(pass: config.key, salt: s)
     }
     public override func mapping(map: Map) {
         
