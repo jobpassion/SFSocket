@@ -97,8 +97,19 @@ public class TCPSession: RawSocketDelegate {
      */
     public func didReadData(_ data: Data, withTag: Int, from: RawSocketProtocol){
         if let adapter = adapter {
-            let newData = adapter.recv(data)
-            delegate?.didReadData(newData, withTag: withTag, from: self)
+            do  {
+                let result = try adapter.recv(data)
+                if result.0 {
+                    delegate?.didReadData(result.1, withTag: withTag, from: self)
+                }else {
+                    //send data direct 
+                    self.sendRowData(result.1, withTag: 1)
+                }
+                
+            }catch let e {
+                AxLogger.log("\(e.localizedDescription)", level: .Error)
+            }
+            
         }else {
             delegate?.didReadData(data, withTag: withTag, from: self)
         }
@@ -114,6 +125,7 @@ public class TCPSession: RawSocketDelegate {
      */
     public func didWriteData(_ data: Data?, withTag: Int, from: RawSocketProtocol){
         delegate?.didWriteData(data, withTag: withTag, from: self)
+        
     }
     
     /**
@@ -122,7 +134,13 @@ public class TCPSession: RawSocketDelegate {
      - parameter socket: The connected socket.
      */
     public func didConnect(_ socket: RawSocketProtocol) {
-        delegate?.didConnect(self)
+        if let _ = adapter {
+            //send http/socks5 shakehang data ,ss send header data
+            self.sendRowData(Data(), withTag: 0)
+        }else {
+            delegate?.didConnect(self)
+        }
+        
     }
     
     //MARK: - Create
@@ -247,9 +265,11 @@ public class TCPSession: RawSocketDelegate {
             if let adapter = adapter {
                 
                 if adapter.isKcp() {
-                    //加密处理
+                    //加密处理 and http / socks5 handshake
                     let newData = adapter.send(data)
                     var databuffer:Data = Data()
+                    //基本不可能有0 的情况
+                    
                     if tag == 0 {
                         let frame = Frame(cmdSYN,sid:sessionID)
                         let fdata = frame.frameData()
@@ -274,6 +294,43 @@ public class TCPSession: RawSocketDelegate {
                 }
             }else {
                 t.writeData(data, withTag: tag)
+            }
+            
+            
+        }
+        
+    }
+    public  func sendRowData(_ data: Data, withTag tag: Int) {
+        if let t = socket {
+            if let adapter = adapter {
+                
+                if adapter.isKcp() {
+                    //
+                    //
+                    // http/socks5 handshake
+                    //多次怎么办？
+                    //socks5
+                    var databuffer:Data = Data()
+                    if tag == 0 {
+                        let frame = Frame(cmdSYN,sid:sessionID)
+                        let fdata = frame.frameData()
+                        databuffer.append(fdata)
+                        
+                    }
+                    
+                    
+                    let frames = split(data, cmd: cmdPSH, sid: sessionID)
+                    for f in frames {
+                        databuffer.append(f.frameData())
+                        
+                    }
+                    t.writeData(databuffer, withTag: 0)
+                    
+                }else {
+                    t.writeData(data, withTag: tag)
+                }
+            }else {
+                fatalError()
             }
             
             

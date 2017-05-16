@@ -78,8 +78,8 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     var tag:Int64 = 0
     
     var buf_used:Int = 0
-    var rTag:Int = 0 //recv tag?
-    
+    var rTag:Int = 1 //recv tag?
+                     //0 use for handshake and kcp tun use 
     var cIDString:String {
         get {
             #if DEBUG

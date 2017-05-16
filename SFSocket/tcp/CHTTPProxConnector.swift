@@ -47,8 +47,8 @@ class CHTTPProxConnector: HTTPProxyConnector {
                             //delegate?.connector(self, didReadData: dataX, withTag: 0)
                             autoreleasepool(invoking: {
                                 guard let  adapter = self.adapter else { return  }
-                                let newdata = adapter.recv(dataX)
-                                self.delegate?.didReadData( newdata, withTag: tag, from: self)
+                                let newdata = try! adapter.recv(dataX)
+                                self.delegate?.didReadData( newdata.1, withTag: tag, from: self)
                             })
                             
                             //AxLogger.log("\(cIDString) CONNECT response data\(data)",level: .Error)
@@ -60,8 +60,8 @@ class CHTTPProxConnector: HTTPProxyConnector {
             }else {
                 autoreleasepool(invoking: {
                     guard let  adapter = self.adapter else { return  }
-                    let newdata = adapter.recv(data)
-                    self.delegate?.didReadData( newdata, withTag: tag, from: self)
+                    let newdata = try! adapter.recv(data)
+                    self.delegate?.didReadData( newdata.1, withTag: tag, from: self)
                 })
                 
             }

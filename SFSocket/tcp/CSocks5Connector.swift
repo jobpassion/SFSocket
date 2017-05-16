@@ -28,8 +28,8 @@ class CSocks5Connector: Socks5Connector {
             return
         }
         guard let  adapter = adapter else { return  }
-        let newdata = adapter.recv(data!)
-        super.readCallback(data: newdata, tag: tag)
+        let newdata = try! adapter.recv(data!)
+        super.readCallback(data: newdata.1, tag: tag)
     }
     public override func sendData(data: Data, withTag tag: Int) {
         if tag == Socks5Connector.ReadTag {

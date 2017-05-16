@@ -11,12 +11,21 @@ import Foundation
 protocol AdapterProtocol:Hashable {
     var streaming:Bool{ get }
     func send(_ data:Data) ->Data
-    func recv(_ data:Data) ->Data
+    func recv(_ data:Data) throws ->(Bool,Data)
     var hashValue: Int { get }
 }
+enum SFAdapterError: Error {
+    case invalidHTTPWaitRespond
+    case invalidHTTPCode
+    case invalidSocksAuth
+    case invalidSocksResp
+    case otherError
+}
+
+
 class Adapter:AdapterProtocol {
-    func recv(_ data: Data) -> Data {
-        return Data()
+    func recv(_ data: Data) throws -> (Bool,Data) {
+        return (false, Data())
     }
 
     func send(_ data: Data) -> Data {

@@ -93,9 +93,9 @@ class SSAdapter:Adapter {
         
         
     }
-    override func recv(_ data: Data) -> Data {
+    override func recv(_ data: Data) throws -> (Bool,Data) {
         //crash here
-        return engine.decrypt(encrypt_bytes: data)!
+        return (true,engine.decrypt(encrypt_bytes: data)!)
         
     }
     
@@ -107,13 +107,16 @@ class SSAdapter:Adapter {
             AxLogger.log("ss header:\(targetHost):\(targetPort) \(head )", level: .Debug)
             temp.append(head)
             headSent = true
-            if ota {
-                let chunk = engine.ss_gen_hash(buffer: data, counter: Int32(tag))
-                temp.append(chunk)
-                temp.append(data)
-            }else {
-                temp.append(data)
+            if data.count > 0 {
+                if ota {
+                    let chunk = engine.ss_gen_hash(buffer: data, counter: Int32(tag))
+                    temp.append(chunk)
+                    temp.append(data)
+                }else {
+                    temp.append(data)
+                }
             }
+            
             
             datatemp = temp
             //AxLogger.log("\(cIDString) will send \(head.length) \(head) ",level: .Trace)
@@ -138,6 +141,8 @@ class SSAdapter:Adapter {
             }
         }else {
             AxLogger.log("encrypt init error or data length 0",level: .Error)
+            fatalError()
+            
         }
         return Data()
     }

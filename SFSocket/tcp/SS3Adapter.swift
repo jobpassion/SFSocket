@@ -14,8 +14,8 @@ class SS3Adapter :Adapter{
             return false
         }
     }
-    override func recv(_ data: Data) -> Data {
-        return Data()
+    override func recv(_ data: Data) throws -> (Bool,Data) {
+        return (false,Data())
     }
     
     override func send(_ data: Data) -> Data {
