@@ -15,7 +15,7 @@ import kcp
 //应该是shared
 // 可以先不实行adapter，加密,用kun 加密
 // 测试先是不加密，aes 加密， adapter 加密
-// 重现链接 需要？
+// 重新链接 需要？
 enum TunError:Error {
    
     case noHead
@@ -42,6 +42,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     var readBuffer:Data = Data()
     var dispatchTimer:DispatchSourceTimer?
     var q :DispatchQueue?
+    
     //tun delegate
     public func connected(_ tun: SFKcpTun!){
         
@@ -142,6 +143,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     }
     func createTunConfig(_ p:SFProxy) ->TunConfig {
         let c = TunConfig()
+        
         c.dataShards = Int32(p.config.datashard)
         c.parityShards = Int32(p.config.parityshard)
         //c.nodelay = p.config.
@@ -185,7 +187,14 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
             
             
         }
-        
+        AxLogger.log("KCPTUN: #######################", level: .Info)
+        AxLogger.log("KCPTUN: Crypto = \(c.crypt)", level: .Info)
+        AxLogger.log("KCPTUN: key = \(c.key as NSData)", level: .Debug)
+
+        AxLogger.log("KCPTUN: mode = \(p.config.mode)", level: .Info)
+        AxLogger.log("KCPTUN: datashard = \(p.config.datashard)", level: .Info)
+        AxLogger.log("KCPTUN: parityshard = \(p.config.parityshard)", level: .Info)
+        AxLogger.log("KCPTUN: #######################", level: .Info)
         return c
     }
     //new tcp stream income

@@ -240,7 +240,7 @@ public class SFKCPTunConfig:CommonModel {
 //    --version, -v                    print the version
     
     public var key:String = "it's a secrect"
-    public var crypt:String = "aes" //aes-256-cfb
+    public var crypt:String = "none"//"aes" //aes-256-cfb
     public var mode:String = "fast"
     public var autoexpire:Int = 0
     public var scavengettl:Int = 600

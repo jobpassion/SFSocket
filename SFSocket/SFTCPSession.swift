@@ -96,8 +96,13 @@ public class TCPSession: RawSocketDelegate {
      - parameter from:    The socket where the data is read from.
      */
     public func didReadData(_ data: Data, withTag: Int, from: RawSocketProtocol){
+        if let adapter = adapter {
+            let newData = adapter.recv(data)
+            delegate?.didReadData(newData, withTag: withTag, from: self)
+        }else {
+            delegate?.didReadData(data, withTag: withTag, from: self)
+        }
         
-        delegate?.didReadData(data, withTag: withTag, from: self)
     }
     
     /**
@@ -240,17 +245,20 @@ public class TCPSession: RawSocketDelegate {
     public  func sendData(_ data: Data, withTag tag: Int) {
         if let t = socket {
             if let adapter = adapter {
+                
                 if adapter.isKcp() {
+                    //加密处理
+                    let newData = adapter.send(data)
                     var databuffer:Data = Data()
                     if tag == 0 {
                         let frame = Frame(cmdSYN,sid:sessionID)
-                        let data = frame.frameData()
-                        databuffer.append(data)
+                        let fdata = frame.frameData()
+                        databuffer.append(fdata)
                         
                     }
                     
                     
-                   let frames = split(data, cmd: cmdPSH, sid: sessionID)
+                   let frames = split(newData, cmd: cmdPSH, sid: sessionID)
                     for f in frames {
                         databuffer.append(f.frameData())
                         
