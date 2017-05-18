@@ -16,6 +16,7 @@ protocol AdapterProtocol:Hashable {
 }
 enum SFAdapterError: Error {
     case invalidHTTPWaitRespond
+    case invalidHTTPWaitHeader
     case invalidHTTPCode
     case invalidSocksAuth
     case invalidSocksResp

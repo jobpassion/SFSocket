@@ -81,14 +81,18 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     }
     public func didRecevied(_ data: Data!){
         self.readBuffer.append(data)
-        print("mux recv data:\(data as NSData)")
+        AxLogger.log("mux recv data:\(data as NSData)",level: .Debug)
         while self.readBuffer.count >= headerSize {
-             let r = readFrame()
+            let r = readFrame()
             if let f = r.0 {
                 if let stream =  streams[f.sid] ,let data = f.data{
                     stream.didReadData(data, withTag: 0, from: self)
+                }else {
+                    AxLogger.log("frame \(f.desc) notfound stream",level: .Error)
                 }
                 
+            }else {
+                AxLogger.log("buffer \(self.readBuffer as NSData) parser error",level: .Debug)
             }
         }
        
@@ -242,7 +246,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         //        let newdata = adapter.send(data)
         //        tun.inputDataAdapter(newdata)
         // api
-        print("write \(data as NSData)")
+        AxLogger.log("write \(data as NSData)",level: .Debug)
         if let tun = tun {
             tun.input(data)
         }else {

@@ -77,11 +77,11 @@ class HTTPAdapter: Adapter {
                     headerData.resetBytes(in: Range(0 ..< headerData.count))
                     return (true,dataX)
                 }else {
-                    throw SFAdapterError.invalidHTTPWaitRespond
+                    return (true,Data())// SFAdapterError.invalidHTTPWaitRespond
                 }
             }else {
                 headerData.append(data)
-                throw SFAdapterError.invalidHTTPWaitRespond
+                throw SFAdapterError.invalidHTTPWaitHeader
             }
         }
         

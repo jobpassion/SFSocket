@@ -61,6 +61,14 @@ public struct Frame {
         print(f.frameData() as NSData)
     
     }
+    public var desc: String {
+        if let d = data {
+            return "ver:\(ver) cmd:\(cmd) sid:\(sid) data \(d as NSData)"
+        }else {
+           return "ver:\(ver) cmd:\(cmd) sid:\(sid)"
+        }
+        
+    }
 }
 func sysVersion() ->Int {
     return 10
