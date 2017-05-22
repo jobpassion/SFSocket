@@ -67,6 +67,7 @@ public class TCPSession: RawSocketDelegate {
     var queue:DispatchQueue?
     //MARK: - RawSocketDelegate
     public func didDisconnect(_ socket: RawSocketProtocol,  error:Error?){
+        
         delegate?.didDisconnect(self, error: error)
     }
     init(s:UInt32) {
@@ -155,6 +156,7 @@ public class TCPSession: RawSocketDelegate {
      - parameter socket: The connected socket.
      */
     public func didConnect(_ socket: RawSocketProtocol) {
+        AxLogger.log("\(sessionID) connected", level: .Debug)
         if let adapter = adapter {
             //send http/socks5 shakehang data ,ss send header data
             self.sendRowData(Data(), withTag: frameZeroTag)
@@ -177,7 +179,7 @@ public class TCPSession: RawSocketDelegate {
     static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:UInt32,delegate:TCPSessionDelegate,queue:DispatchQueue) ->TCPSession? {
         let s = TCPSession.init(s: sID)
         s.delegate = delegate
-        let queue = SFTCPConnectionManager.shared().dispatchQueue
+        
         let proxy = ProxyChain.shared.proxy
         if policy == .Direct {
             //基本上网需求
@@ -267,11 +269,15 @@ public class TCPSession: RawSocketDelegate {
                     guard let adapter = Adapter.createAdapter(p, host: targetHost, port: Port) else  {
                         return nil
                     }
+                    AxLogger.log("TCP incoming :\(sID)", level: .Debug)
+                    s.adapter = adapter
+                    s.queue = queue
+                    s.socket = KCPTunSocket.sharedTunnel
                     KCPTunSocket.sharedTunnel.updateProxy(p,queue: queue)
                     KCPTunSocket.sharedTunnel.incomingStream(sID, session: s)
-                    s.adapter = adapter
-                    s.socket = KCPTunSocket.sharedTunnel //.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: Int(sID))
-                    s.queue = queue
+                    
+                     //.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: Int(sID))
+                    
                     
                 }
                 
@@ -299,12 +305,12 @@ public class TCPSession: RawSocketDelegate {
                     var databuffer:Data = Data()
                     //基本不可能有0 的情况
                     
-                    if tag == 0 {
-                        let frame = Frame(cmdSYN,sid:sessionID)
-                        let fdata = frame.frameData()
-                        databuffer.append(fdata)
-                        
-                    }
+//                    if tag == 0 {
+//                        let frame = Frame(cmdSYN,sid:sessionID)
+//                        let fdata = frame.frameData()
+//                        databuffer.append(fdata)
+//                        
+//                    }
                     
                     
                    let frames = split(newData, cmd: cmdPSH, sid: sessionID)

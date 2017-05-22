@@ -166,6 +166,7 @@ class ViewController: UIViewController {
             p.kcptun = true
             p.serverIP = "192.168.11.8"
             _  = ProxyGroupSettings.share.addProxy(p)
+            p.config.crypt = "none"
             self.http = HTTPTester.init(p: p)
             self.http?.start()
             

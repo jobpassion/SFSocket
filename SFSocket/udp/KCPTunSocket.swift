@@ -42,7 +42,14 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     var readBuffer:Data = Data()
     var dispatchTimer:DispatchSourceTimer?
     var q :DispatchQueue?
-    
+    func shutdown(){
+        if let t = dispatchTimer {
+            t.cancel()
+        }
+        if let tun = self.tun{
+            tun.shutdownUDPSession()
+        }
+    }
     //tun delegate
     public func connected(_ tun: SFKcpTun!){
         
@@ -116,7 +123,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         self.ready = true
     }
     func keepAlive(timeOut:Int)  {
-         q = DispatchQueue(label:"com.fb.interview")
+         q = DispatchQueue(label:"com.yarshure.keepalive")
         let timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue:q )
         q?.async{
             let interval: Double = Double(timeOut)
@@ -138,7 +145,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         self.dispatchTimer = timer
     }
     func sendNop(){
-        print("send NOP")
+        AxLogger.log("send Nop", level: .Debug)
         let frame = Frame(cmdNOP,sid:0)
         let data = frame.frameData()
         //self.streams[0] = session
