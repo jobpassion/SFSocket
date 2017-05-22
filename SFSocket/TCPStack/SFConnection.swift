@@ -1078,10 +1078,12 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
             guard let connector = connector  else {return }
             //AxLogger.log("\(cIDString) writing to Host:\(h):\(p) tag:\(tag)   length \(d.length)",level: .Trace)
             //NSLog("%@ will send data tag:%d", reqInfo.url,tag)
-            connector.sendData(sendData, withTag: Int(tag))
             bufArray.removeAll()
             bufArrayInfo[tag] = sendData.count
             sendingTag = tag
+            connector.sendData(sendData, withTag: Int(tag))
+            
+            
         }
     }
 //    func shaduleCheckTask(ts:NSTimeInterval) {

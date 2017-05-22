@@ -858,6 +858,8 @@ class SFHTTPConnection: SFHTTPRequest {
             client_socks_send_handler_done(len)
             bufArrayInfo.removeValue(forKey: x)
             reqInfo.updateSendTraffic(len)
+        }else {
+            AxLogger.log("\(cIDString) not find send packet", level: .Debug)
         }
         
         

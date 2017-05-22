@@ -78,13 +78,19 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         if length > 0 {
             if readBuffer.count >= headerSize + length {
                 frame.data = readBuffer.subdata(in: headerSize ..< headerSize + length)
-                print("frame data \(frame.data! as NSData)")
-                readBuffer.resetBytes(in: 0 ..< headerSize + length)
+                
+                //readBuffer.resetBytes(in: 0 ..< headerSize + length)
+                readBuffer.replaceSubrange(0 ..< headerSize + length, with: Data())
                 return (frame,nil)
+            }else {
+                //等待
+                return (frame, TunError.bodyNotFull)
             }
+        }else {
+            readBuffer.replaceSubrange(0 ..< headerSize,with:Data())
+            return (frame, nil)
         }
-        readBuffer.resetBytes(in: 0 ..< headerSize)
-        return (frame, TunError.bodyNotFull)
+        
     }
     public func didRecevied(_ data: Data!){
         self.readBuffer.append(data)
@@ -92,10 +98,25 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         while self.readBuffer.count >= headerSize {
             let r = readFrame()
             if let f = r.0 {
-                if let stream =  streams[f.sid] ,let data = f.data{
-                    stream.didReadData(data, withTag: 0, from: self)
+                if f.sid == 0 {
+                     AxLogger.log("Nop Event recv", level: .Debug)
                 }else {
-                    AxLogger.log("frame \(f.desc) notfound stream",level: .Error)
+                    if let stream =  streams[f.sid] {
+                        if let d = f.data {
+                            stream.didReadData(d, withTag: 0, from: self)
+                        }else {
+                            if r.1 == TunError.bodyNotFull {
+                                AxLogger.log("frame \(f.desc) packet not full",level: .Error)
+                                break
+                            }
+                            
+                        }
+                        
+                    }else {
+                       AxLogger.log("frame \(f.desc) not found stream",level: .Error)
+                        
+                    }
+
                 }
                 
             }else {
@@ -104,7 +125,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         }
        
         
-        AxLogger.log("tunnel recv Data \(data)", level: .Debug)
+        
     }
     static var sharedTunnel: KCPTunSocket = KCPTunSocket()
     
@@ -271,7 +292,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     //only for kcptun
     //close ,remove tcp session
     public override func forceDisconnect(_ sessionID:UInt32){
-        
+        AxLogger.log("\(sessionID) forceDisconnect", level: .Debug)
         self.streams.removeValue(forKey: sessionID)
         
         let frame = Frame(cmdFIN,sid:sessionID)

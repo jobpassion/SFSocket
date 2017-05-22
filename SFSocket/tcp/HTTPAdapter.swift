@@ -65,6 +65,8 @@ class HTTPAdapter: Adapter {
                     throw SFAdapterError.invalidHTTPCode
                     //sendReq()
                     //NSLog("CONNECT status\(r.sCode) ")
+                }else {
+                    AxLogger.log("Got HTTP CONNECT Respond", level: .Debug)
                 }
                 
                 connected = true

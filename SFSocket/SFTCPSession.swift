@@ -70,9 +70,12 @@ public class TCPSession: RawSocketDelegate {
         
         delegate?.didDisconnect(self, error: error)
     }
+    var desc:String {
+        return "TCP Session :\(sessionID)"
+    }
     init(s:UInt32) {
         
-        sessionID = s+3
+        sessionID = s
         AxLogger.log("Income session:\(sessionID)", level: .Info)
     }
     public var useCell:Bool {
@@ -101,7 +104,7 @@ public class TCPSession: RawSocketDelegate {
      - parameter from:    The socket where the data is read from.
      */
     public func didReadData(_ data: Data, withTag: Int, from: RawSocketProtocol){
-        AxLogger.log("\(sessionID) recv \(data as NSData)", level: .Debug)
+        AxLogger.log(desc + " recv \(data as NSData)", level: .Debug)
         if let adapter = adapter {
             
             do  {
@@ -109,12 +112,16 @@ public class TCPSession: RawSocketDelegate {
                 let result = try adapter.recv(data)
                 if result.0 {
                     //成功解析返回包，对于ss 是解密成功
-                    AxLogger.log("\(sessionID) data:\(result.1 as NSData))", level: .Debug)
+                    AxLogger.log(desc + " data:\(result.1 as NSData))", level: .Debug)
                     if adapter.proxy.type != .SS {
+                        
                         let newcflag = adapter.streaming
                         if cnnectflag != newcflag {
+                            AxLogger.log(desc + " shake hand finished", level: .Debug)
                             //变动第一次才发这个event
                             delegate?.didConnect(self)
+                        }else {
+                             AxLogger.log(desc + " shake hand finished error", level: .Debug)
                         }
                         
                     }
@@ -128,7 +135,7 @@ public class TCPSession: RawSocketDelegate {
                 }
                 
             }catch let e {
-                AxLogger.log("\(e.localizedDescription)", level: .Error)
+                AxLogger.log(desc + "\(e.localizedDescription)", level: .Error)
             }
             
         }else {
@@ -156,7 +163,7 @@ public class TCPSession: RawSocketDelegate {
      - parameter socket: The connected socket.
      */
     public func didConnect(_ socket: RawSocketProtocol) {
-        AxLogger.log("\(sessionID) connected", level: .Debug)
+        AxLogger.log(desc + " connected", level: .Debug)
         if let adapter = adapter {
             //send http/socks5 shakehang data ,ss send header data
             self.sendRowData(Data(), withTag: frameZeroTag)
@@ -177,7 +184,8 @@ public class TCPSession: RawSocketDelegate {
    
     //var proxyChain:Bool = false
     static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:UInt32,delegate:TCPSessionDelegate,queue:DispatchQueue) ->TCPSession? {
-        let s = TCPSession.init(s: sID)
+        let streamID = sID + 3
+        let s = TCPSession.init(s: streamID)
         s.delegate = delegate
         
         let proxy = ProxyChain.shared.proxy
@@ -274,7 +282,7 @@ public class TCPSession: RawSocketDelegate {
                     s.queue = queue
                     s.socket = KCPTunSocket.sharedTunnel
                     KCPTunSocket.sharedTunnel.updateProxy(p,queue: queue)
-                    KCPTunSocket.sharedTunnel.incomingStream(sID, session: s)
+                    KCPTunSocket.sharedTunnel.incomingStream(streamID, session: s)
                     
                      //.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: Int(sID))
                     
@@ -294,14 +302,14 @@ public class TCPSession: RawSocketDelegate {
         
     }
     public  func sendData(_ data: Data, withTag tag: Int) {
-        AxLogger.log("\(sessionID) send \(data as NSData) \(tag)", level: .Debug)
+        AxLogger.log(desc + "send \(data as NSData) \(tag)", level: .Debug)
         if let t = socket {
             if let adapter = adapter {
                 
                 if adapter.isKcp() {
                     //加密处理 and http / socks5 handshake
                     let newData = adapter.send(data)
-                     AxLogger.log("\(sessionID) send \(newData as NSData) \(tag)", level: .Debug)
+                     AxLogger.log(desc + "adapter  send:data \(newData as NSData) \(tag)", level: .Debug)
                     var databuffer:Data = Data()
                     //基本不可能有0 的情况
                     
@@ -318,12 +326,10 @@ public class TCPSession: RawSocketDelegate {
                         databuffer.append(f.frameData())
                         
                     }
+                    self.delegate?.didWriteData(data, withTag: tag, from: self)
                     t.writeData(databuffer, withTag: 0)
-                    if let queue = queue {
-                        queue.async {
-                            self.delegate?.didWriteData(data, withTag: tag, from: self)
-                        }
-                    }
+                    
+                    
                 }else {
                     t.writeData(data, withTag: tag)
                 }
