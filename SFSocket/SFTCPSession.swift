@@ -114,20 +114,35 @@ public class TCPSession: RawSocketDelegate {
                     //成功解析返回包，对于ss 是解密成功
                     AxLogger.log(desc + " data:\(result.1 as NSData))", level: .Debug)
                     if adapter.proxy.type != .SS {
-                        
-                        let newcflag = adapter.streaming
-                        if cnnectflag != newcflag {
-                            AxLogger.log(desc + " shake hand finished", level: .Debug)
-                            //变动第一次才发这个event
-                            delegate?.didConnect(self)
+                        if cnnectflag {
+                            //streaming
+                            delegate?.didReadData(result.1, withTag: withTag, from: self)
+                            AxLogger.log(desc + " shake hand finished error", level: .Debug)
                         }else {
-                             AxLogger.log(desc + " shake hand finished error", level: .Debug)
+                            let newcflag = adapter.streaming
+                            if cnnectflag != newcflag {
+                                AxLogger.log(desc + " shake hand finished", level: .Debug)
+                                //变动第一次才发这个event
+                                if let d = delegate {
+                                    d.didConnect(self)
+                                }else {
+                                    AxLogger.log(desc + " session closed", level: .Debug)
+                                    forceDisconnect()
+                                }
+                                
+                            }else {
+                               fatalError()
+                            }
                         }
                         
+                        
+                    }else {
+                        //ss decrypt ok put date
+                        if !result.1.isEmpty {
+                            delegate?.didReadData(result.1, withTag: withTag, from: self)
+                        }
                     }
-                    if !result.1.isEmpty {
-                         delegate?.didReadData(result.1, withTag: withTag, from: self)
-                    }
+                    
                    
                 }else {
                     //send data direct
@@ -277,7 +292,7 @@ public class TCPSession: RawSocketDelegate {
                     guard let adapter = Adapter.createAdapter(p, host: targetHost, port: Port) else  {
                         return nil
                     }
-                    AxLogger.log("TCP incoming :\(sID)", level: .Debug)
+                    AxLogger.log("TCP incoming :\(streamID)", level: .Debug)
                     s.adapter = adapter
                     s.queue = queue
                     s.socket = KCPTunSocket.sharedTunnel

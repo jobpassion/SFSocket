@@ -84,6 +84,8 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
                 return (frame,nil)
             }else {
                 //等待
+                let left = headerSize + length - readBuffer.count
+                AxLogger.log("Session :\(frame.sid) left:\(left)", level: .Debug)
                 return (frame, TunError.bodyNotFull)
             }
         }else {
@@ -94,7 +96,8 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     }
     public func didRecevied(_ data: Data!){
         self.readBuffer.append(data)
-        AxLogger.log("mux recv data:\(data as NSData)",level: .Debug)
+        AxLogger.log("mux recv data: \(data.count) \(data as NSData)",level: .Debug)
+        AxLogger.log("\(streams.keys) all active stream", level: .Debug)
         while self.readBuffer.count >= headerSize {
             let r = readFrame()
             if let f = r.0 {
@@ -220,7 +223,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
             
         }
         AxLogger.log("KCPTUN: #######################", level: .Info)
-        AxLogger.log("KCPTUN: Crypto = \(c.crypt)", level: .Info)
+        AxLogger.log("KCPTUN: Crypto = \(p.config.crypt)", level: .Info)
         AxLogger.log("KCPTUN: key = \(c.key as NSData)", level: .Debug)
 
         AxLogger.log("KCPTUN: mode = \(p.config.mode)", level: .Info)
@@ -233,7 +236,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     func incomingStream(_ sid:UInt32,session:TCPSession) {
         
         self.streams[sid] = session
-        queue.asyncAfter(deadline: .now() + .milliseconds(500)) { 
+        queue.asyncAfter(deadline: .now() + .milliseconds(100)) {
             session.didConnect(self)
         }
     }
