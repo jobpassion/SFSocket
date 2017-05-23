@@ -184,7 +184,7 @@ public class  TCPSSConnector:ProxyConnector{
         c.delegate = delegate
         c.queue = queue
         c.aes = SSEncrypt.init(password: proxy.password, method: proxy.method)
-        //c.start()
+        c.start()
         return c
     }
 //    public static func connectorWithSelectorPolicy(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy) ->TCPSSConnector{

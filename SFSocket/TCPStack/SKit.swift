@@ -94,6 +94,7 @@ public class SKit {
     #else
     static var groupIdentifier = "745WQDK4L7.com.yarshure.Surf"
     #endif
+    static var alert:Bool = false
     static var configExt = ".conf"
     static var packetconfig = "group.com.yarshure.config"
     static var flagconfig = "group.com.yarshure.flag"
@@ -367,6 +368,9 @@ public class SKit {
         
     }
     static func alertMessage(_ message:String){
+        if !alert {
+            return
+        }
         if self.confirmMessage.contains(message){
             return
         }

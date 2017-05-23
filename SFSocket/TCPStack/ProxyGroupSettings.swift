@@ -41,7 +41,7 @@ public class ProxyGroupSettings:CommonModel {
     public var disableWidget:Bool = false
     public var dynamicSelected:Bool = false
     public var proxyChain:Bool = false
-    
+    public var wwdcStyle:Bool = true
     public var proxyChainIndex:Int = 0
     public var showCountry:Bool = true
     public var widgetProxyCount:Int = 3
@@ -89,11 +89,16 @@ public class ProxyGroupSettings:CommonModel {
         selectIndex <- map["selectIndex"]
         
         config  <- map["config"]
+        wwdcStyle <- map["wwdcStyle"]
         saveDBIng <- map["saveDBIng"]
         lastupData <- (map["lastupData"],self.dateTransform)
 
     }
     
+    public func updateStyle(_ s:Bool){
+        self.wwdcStyle = s
+        try! save()
+    }
     public var selectedProxy:SFProxy? {
         return proxyMan!.selectedProxy( selectIndex)
     }
