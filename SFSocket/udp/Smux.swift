@@ -16,15 +16,16 @@ import kcp
 // 可以先不实行adapter，加密,用kun 加密
 // 测试先是不加密，aes 加密， adapter 加密
 // 重新链接 需要？
-enum TunError:Error {
+enum SmuxError:Error {
    
     case noHead
     case VerError
     case bodyNotFull
     case internalError
+    case recvFin
     
 }
-class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
+class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     
     //var adapter:Adapter! //ss/socks5/http obfs
     var proxy:SFProxy?
@@ -63,14 +64,14 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         
     }
     
-    func readFrame() -> (Frame?,TunError?) {
+    func readFrame() -> (Frame?,SmuxError?) {
         guard  readBuffer.count >= headerSize else {
-            return (nil , TunError.noHead)
+            return (nil , SmuxError.noHead)
         }
         let h = readBuffer.subdata(in: 0 ..< headerSize) as rawHeader
         
         if h.Version() != version {
-            return (nil , TunError.VerError)
+            return (nil , SmuxError.VerError)
         }
         
         var frame:Frame = Frame.init(h.cmd(), sid: h.StreamID())
@@ -86,7 +87,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
                 //等待
                 let left = headerSize + length - readBuffer.count
                 AxLogger.log("Session :\(frame.sid) left:\(left)", level: .Debug)
-                return (frame, TunError.bodyNotFull)
+                return (frame, SmuxError.bodyNotFull)
             }
         }else {
             readBuffer.replaceSubrange(0 ..< headerSize,with:Data())
@@ -97,7 +98,10 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     public func didRecevied(_ data: Data!){
         self.readBuffer.append(data)
         AxLogger.log("mux recv data: \(data.count) \(data as NSData)",level: .Debug)
-        AxLogger.log("\(streams.keys) all active stream", level: .Debug)
+        let ss = streams.flatMap{ k,v in
+            return k
+        }
+        AxLogger.log("\(ss) all active stream", level: .Debug)
         while self.readBuffer.count >= headerSize {
             let r = readFrame()
             if let f = r.0 {
@@ -108,9 +112,13 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
                         if let d = f.data {
                             stream.didReadData(d, withTag: 0, from: self)
                         }else {
-                            if r.1 == TunError.bodyNotFull {
-                                AxLogger.log("frame \(f.desc) packet not full",level: .Error)
-                                break
+                            if f.cmd == cmdFIN {
+                                stream.didDisconnect(self, error: SmuxError.recvFin)
+                            }else  {
+                                if r.1 == SmuxError.bodyNotFull {
+                                    AxLogger.log("frame \(f.desc) packet not full",level: .Error)
+                                    break
+                                }
                             }
                             
                         }
@@ -130,7 +138,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         
         
     }
-    static var sharedTunnel: KCPTunSocket = KCPTunSocket()
+    static var sharedTunnel: Smux = Smux()
     
     func updateProxy(_ proxy:SFProxy,queue:DispatchQueue){
         
@@ -261,15 +269,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
         //callback
     }
     
-    public  func writeData(_ data: Data, withTag: Int,channelID:Int) {
-        //先经过ss
-        // let c:Channel =  channels.filter {$0.cId == channelID }.first!
-        //c.send(data)
-        
-        //let newdata = adapter.send(data)
-        // tun.inputDataAdapter(newdata)
-        // api
-    }
+    
     public override func writeData(_ data: Data, withTag: Int) {
         //先经过ss
         //fatalError()
@@ -296,6 +296,7 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
     //close ,remove tcp session
     public override func forceDisconnect(_ sessionID:UInt32){
         AxLogger.log("\(sessionID) forceDisconnect", level: .Debug)
+        
         self.streams.removeValue(forKey: sessionID)
         
         let frame = Frame(cmdFIN,sid:sessionID)
@@ -316,118 +317,12 @@ class KCPTunSocket: RAWUDPSocket ,SFKcpTunDelegate{
      - throws: The error occured when connecting to host.
      */
     public override func connectTo(_ host: String, port: UInt16, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws{
-//        guard let udpsession = RawSocketFactory.TunnelProvider?.createUDPSession(to: NWHostEndpoint(hostname: host, port: "\(port)"), from: nil) else {
-//            return
-//        }
-//        
-//        session = udpsession
-//        session!.addObserver(self, forKeyPath: "state", options: [.initial, .new], context: nil)
-//        session!.setReadHandler({ [ weak self ] dataArray, error in
-//            guard let sSelf = self else {
-//                return
-//            }
-//            
-//            sSelf.updateActivityTimer()
-//            
-//            guard error == nil else {
-//                AxLogger.log("Error when reading from remote server. \(String(describing: error))",level: .Error)
-//                return
-//            }
-//            
-//            for data in dataArray! {
-//                sSelf.readCallback(data: data, tag: 0)
-//                
-//            }
-//            }, maxDatagrams: 32)
+        fatalError()
     }
-//    
-//    static func create(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,sessionID:Int) ->KCPTunSocket? {
-//        //new channel 
-//        // channel layer
-//        guard let adapter = Adapter.createAdapter(p, host: hostname, port: UInt16(port)) else  {
-//            return nil
-//        }
-//        var c:KCPTunSocket
-//        for cc in KCPTunSocket.sharedTuns {
-//            if cc.proxy == p {
-//                //find 
-//                let channel = Channel.init(a: adapter)
-//                //MARK: to do create channel?
-//                cc.channels.append(channel)
-//                return cc
-//                
-//            }
-//        }
-//        
-//        if let port  = UInt16(p.serverPort){
-//            c = KCPTunSocket.init()
-//            //c.adapter = adapter
-//            c.proxy = p
-//            c.smuxConfig.MaxReceiveBuffer = c.config.SockBuf
-//            c.smuxConfig.KeepAliveInterval =  UInt64(c.config.KeepAlive) //time.Duration(config.KeepAlive) * time.Second
-//            guard let pass = c.config.pkbdf2Key(pass: p.key, salt: "kcp-go".data(using: .utf8)!) else {
-//                return nil
-//            }
-//            c.block =  BlockCrypt.create(type:  p.cryptoType, pass: pass) //(type: p.cryptoType, key: pass)
-//            let channel = Channel.init(a: adapter)
-//            c.channels.append(channel)
-//            KCPTunSocket.sharedTuns.append(c)
-//            try! c.connectTo(p.serverAddress, port: port, enableTLS: false, tlsSettings: nil)
-//            return c
-//        }else {
-//            return nil
-//        }
-//    }
+
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
-//        guard keyPath == "state" else {
-//            return
-//        }
-//        //crash
-//        //        if let  e = connection.error {
-//        //            AxLogger.log("\(cIDString) error:\(e.localizedDescription)", level: .Error)
-//        //        }
-//        
-//        if object ==  nil  {
-//            AxLogger.log("\(cIDString) error:connection error", level: .Error)
-//            //return
-//        }
-//        
-//        //guard let connection = object as! NWTCPConnection else {return}
-//        //crash
-//        guard  let connection = session else {return}
-//        
-//        switch connection.state {
-//        case .ready:
-//            queueCall {[weak self] in
-//                if let strong = self {
-//                    strong.socketConnectd()
-//                }
-//                
-//            }
-//        case .failed:
-//            
-//            queueCall {[weak self] in
-//                if let strong = self {
-//                    strong.cancel()
-//                }
-//                
-//            }
-//        case .cancelled:
-//            queueCall {
-//                if let delegate = self.delegate{
-//                    delegate.didDisconnect(self, error: nil)
-//                }
-//                
-//                //self.delegate = nil
-//            }
-//        default:
-//            break
-//            
-//            
-//        }
-//       
-//        AxLogger.log("\(cIDString) state: \(connection.state.description)", level: .Debug)
+        fatalError()
     }
 
 }

@@ -295,9 +295,9 @@ public class TCPSession: RawSocketDelegate {
                     AxLogger.log("TCP incoming :\(streamID)", level: .Debug)
                     s.adapter = adapter
                     s.queue = queue
-                    s.socket = KCPTunSocket.sharedTunnel
-                    KCPTunSocket.sharedTunnel.updateProxy(p,queue: queue)
-                    KCPTunSocket.sharedTunnel.incomingStream(streamID, session: s)
+                    s.socket = Smux.sharedTunnel
+                    Smux.sharedTunnel.updateProxy(p,queue: queue)
+                    Smux.sharedTunnel.incomingStream(streamID, session: s)
                     
                      //.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: Int(sID))
                     
@@ -357,7 +357,7 @@ public class TCPSession: RawSocketDelegate {
         
     }
     public  func sendRowData(_ data: Data, withTag tag: Int) {
-        AxLogger.log("\(sessionID) sendraw \(data as NSData) \(tag)", level: .Debug)
+        AxLogger.log(desc + " sendraw \(data as NSData) \(tag)", level: .Debug)
         if let t = socket {
             if let adapter = adapter {
                 
@@ -377,7 +377,7 @@ public class TCPSession: RawSocketDelegate {
                     }
                     
                     let newData = adapter.send(data)
-                    AxLogger.log("\(sessionID) sendraw new:\(newData as NSData) \(tag)", level: .Debug)
+                    AxLogger.log(desc + " sendraw new:\(newData as NSData) \(tag)", level: .Debug)
                     let frames = split(newData, cmd: cmdPSH, sid: sessionID)
                     for f in frames {
                         databuffer.append(f.frameData())

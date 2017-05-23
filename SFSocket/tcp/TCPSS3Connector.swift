@@ -128,7 +128,7 @@ public class  TCPSS3Connector:ProxyConnector{
         if !headSent {
             var temp = Data()
             let head = buildHead()
-            AxLogger.log("ss header:\(targetHost):\(targetPort) \(head )", level: .Debug)
+            AxLogger.log("Adapter-SS3 header:\(targetHost):\(targetPort) \(head )", level: .Debug)
             temp.append(head)
             headSent = true
             

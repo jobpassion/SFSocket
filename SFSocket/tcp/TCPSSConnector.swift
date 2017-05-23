@@ -133,7 +133,7 @@ public class  TCPSSConnector:ProxyConnector{
         if !headSent {
             var temp = Data()
             let head = buildHead()
-            AxLogger.log("ss header:\(targetHost):\(targetPort) \(head )", level: .Debug)
+            AxLogger.log(  "ss socket header:\(targetHost):\(targetPort) \(head )", level: .Debug)
             temp.append(head)
             headSent = true
             if ota {

@@ -282,7 +282,7 @@
 		69F2D8691E8BF96100BBDB9D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D8681E8BF96100BBDB9D /* Config.swift */; };
 		69F2D86B1E8BFFD400BBDB9D /* BlockCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */; };
 		69F2D86D1E8C08E700BBDB9D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86C1E8C08E700BBDB9D /* Channel.swift */; };
-		69FAE4C81E82478400FE91CD /* KCPTunSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FAE4C71E82478400FE91CD /* KCPTunSocket.swift */; };
+		69FAE4C81E82478400FE91CD /* Smux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FAE4C71E82478400FE91CD /* Smux.swift */; };
 		69FC1B001DDBFAB000EF8AAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FC1AFF1DDBFAB000EF8AAC /* AppDelegate.swift */; };
 		69FC1B021DDBFAB000EF8AAC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FC1B011DDBFAB000EF8AAC /* ViewController.swift */; };
 		69FC1B051DDBFAB000EF8AAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69FC1B031DDBFAB000EF8AAC /* Main.storyboard */; };
@@ -509,7 +509,7 @@
 		69F2D8681E8BF96100BBDB9D /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockCrypt.swift; sourceTree = "<group>"; };
 		69F2D86C1E8C08E700BBDB9D /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
-		69FAE4C71E82478400FE91CD /* KCPTunSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KCPTunSocket.swift; path = udp/KCPTunSocket.swift; sourceTree = "<group>"; };
+		69FAE4C71E82478400FE91CD /* Smux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Smux.swift; path = udp/Smux.swift; sourceTree = "<group>"; };
 		69FC1AFD1DDBFAB000EF8AAC /* SFSocketTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFSocketTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69FC1AFF1DDBFAB000EF8AAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69FC1B011DDBFAB000EF8AAC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -714,7 +714,7 @@
 		697CEDBE1E8B8CBC002D1ECD /* adapter */ = {
 			isa = PBXGroup;
 			children = (
-				69FAE4C71E82478400FE91CD /* KCPTunSocket.swift */,
+				69FAE4C71E82478400FE91CD /* Smux.swift */,
 				692DD5391DD5C98C0079493D /* DirectConnector.swift */,
 				698A081C1DD5C648009BFFC9 /* TCPSSConnector.swift */,
 				692DD53B1DD5C9940079493D /* HTTPProxyConnector.swift */,
@@ -1300,7 +1300,7 @@
 				695F6E7B1E900E1A00C72E5E /* SFTunUtility.swift in Sources */,
 				691883591DDDA52E0051DAAE /* Port.swift in Sources */,
 				695F6E611E900E1A00C72E5E /* SFDNSForwarder.swift in Sources */,
-				69FAE4C81E82478400FE91CD /* KCPTunSocket.swift in Sources */,
+				69FAE4C81E82478400FE91CD /* Smux.swift in Sources */,
 				69BF6C4D1DE57E3A000ABF09 /* EventType.swift in Sources */,
 				692DD5AE1DD5CE490079493D /* IPStackProtocol.swift in Sources */,
 				698A08221DD5C6D4009BFFC9 /* SFEncrypt.swift in Sources */,
