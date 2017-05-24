@@ -104,7 +104,7 @@ class SSAdapter:Adapter {
         if !headSent {
             var temp = Data()
             let head = buildHead()
-            AxLogger.log("Adapter-SS: header:\(targetHost):\(targetPort) \(head as NSData)", level: .Debug)
+            AxLogger.log("Adapter-SS: header: \(head as NSData) via \(targetHost):\(targetPort)", level: .Debug)
             temp.append(head)
             headSent = true
             if data.count > 0 {

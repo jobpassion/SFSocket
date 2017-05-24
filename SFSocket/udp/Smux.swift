@@ -42,7 +42,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     var ready:Bool = false
     var readBuffer:Data = Data()
     var dispatchTimer:DispatchSourceTimer?
-    var q :DispatchQueue?
+    var dispatchQueue :DispatchQueue?
     var lastFrame:Frame? // not full frame ,需要快速把已经收到的data 给应用
     func shutdown(){
         if let t = dispatchTimer {
@@ -125,7 +125,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         let ss = streams.flatMap{ k,v in
             return k
         }
-        AxLogger.log("\(ss) all active stream", level: .Debug)
+        AxLogger.log("\(ss.sorted()) all active stream", level: .Debug)
         while self.readBuffer.count >= headerSize {
             let r = readFrame()
             if let f = r.0 {
@@ -167,8 +167,37 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
                         }
                         
                     }else {
-                       AxLogger.log("frame \(f.desc) not found stream",level: .Error)
+                       AxLogger.log("frame \(f.desc) not found stream drop packet",level: .Error)
                         
+                        if let d = f.data {
+                            if r.1 == nil {
+                                //full packet
+                                //stream.didReadData(d, withTag: 0, from: self)
+                                self.lastFrame = nil
+                            }else {
+                                //no full
+                                //stream.didReadData(d, withTag: 0, from: self)
+                                
+                                
+                                self.lastFrame = f
+                                //reset data
+                                self.lastFrame?.data = nil
+                            }
+                            
+                        }else {
+                            if f.cmd == cmdFIN {
+                                //stream.didDisconnect(self, error: SmuxError.recvFin)
+                            }else  {
+//                                if r.1 == SmuxError.bodyNotFull {
+//                                    AxLogger.log("frame \(f.desc) packet not full",level: .Error)
+//                                    
+//                                    break
+//                                }
+                            }
+                            
+                        }
+                        //关闭链接
+                       forceDisconnect(f.sid)
                     }
 
                 }
@@ -190,6 +219,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
            // fatalError()
         }
         self.proxy = proxy
+        dispatchQueue = queue
         let c = createTunConfig( proxy)
         
         self.tun = SFKcpTun.init(config: c, ipaddr: proxy.serverIP, port: Int32(proxy.serverPort)!, queue: queue)
@@ -198,9 +228,9 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         self.ready = true
     }
     func keepAlive(timeOut:Int)  {
-         q = DispatchQueue(label:"com.yarshure.keepalive")
-        let timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue:q )
-        q?.async{
+       //  q = DispatchQueue(label:"com.yarshure.keepalive")
+        let timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue:dispatchQueue )
+        queue.async{
             let interval: Double = Double(timeOut)
             
             let delay = DispatchTime.now()
@@ -287,9 +317,12 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     func incomingStream(_ sid:UInt32,session:TCPSession) {
         
         self.streams[sid] = session
-        queue.asyncAfter(deadline: .now() + .milliseconds(100)) {
-            session.didConnect(self)
-        }
+//        if let dispatchQueue = dispatchQueue {
+//            dispatchQueue.asyncAfter(deadline: .now() + .milliseconds(100)) {
+//                session.didConnect(self)
+//            }
+//        }
+       session.didConnect(self)
     }
     //when network changed,should call this
     func destoryTun() {
@@ -367,5 +400,9 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         
         fatalError()
     }
-
+    public func readDataWithTag( tag:Int){
+        if let tun = tun {
+            //tun.upDate()
+        }
+    }
 }

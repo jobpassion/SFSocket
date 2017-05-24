@@ -436,9 +436,11 @@ public class TCPSession: RawSocketDelegate {
             }else {
                 //udp don't need read
                 if reading {
+                    t.readDataWithTag(tag)
                     return
                 }else {
                     //设置正在读
+                    t.readDataWithTag(tag)
                     readingTag = tag
                     reading = true
                 }
