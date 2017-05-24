@@ -65,6 +65,9 @@ public class TCPSession: RawSocketDelegate {
     var frameNegoTag:Int = -200
     var sessionID:UInt32 = 0
     var queue:DispatchQueue?
+    var readingTag:Int = 0
+    var reading:Bool = false
+    
     //MARK: - RawSocketDelegate
     public func didDisconnect(_ socket: RawSocketProtocol,  error:Error?){
         
@@ -116,8 +119,12 @@ public class TCPSession: RawSocketDelegate {
                     if adapter.proxy.type != .SS {
                         if cnnectflag {
                             //streaming
-                            delegate?.didReadData(result.1, withTag: withTag, from: self)
-                            AxLogger.log(desc + " shake hand finished error", level: .Debug)
+                            if result.1.count > 0 && readingTag >= 0   {
+                                //AxLogger.log(desc + " shake hand with data",level:.Info)
+                                delegate?.didReadData(result.1, withTag: readingTag, from: self)
+                            }
+                            
+                            //AxLogger.log(desc + " shake hand finished error", level: .Debug)
                         }else {
                             let newcflag = adapter.streaming
                             if cnnectflag != newcflag {
@@ -139,13 +146,14 @@ public class TCPSession: RawSocketDelegate {
                     }else {
                         //ss decrypt ok put date
                         if !result.1.isEmpty {
-                            delegate?.didReadData(result.1, withTag: withTag, from: self)
+                            delegate?.didReadData(result.1, withTag: readingTag, from: self)
                         }
                     }
                     
                    
                 }else {
                     //send data direct
+                    //socks5 proxy 还需要tun
                     self.sendRowData(result.1, withTag: frameNegoTag)
                 }
                 
@@ -402,10 +410,13 @@ public class TCPSession: RawSocketDelegate {
         var left:Int = data.count
         var index:Int = 0
         while left > frameSize {
+            if index >= data.count {
+                break
+            }
             let subData = data.subdata(in: index ..< frameSize )
             let f = Frame.init(cmd, sid: sid, data: subData)
-            index -= frameSize
-            left += frameSize
+            index += frameSize
+            left -= frameSize
             result.append(f)
         }
         
@@ -422,8 +433,18 @@ public class TCPSession: RawSocketDelegate {
         if let t = socket {
             if t.tcp {
                 t.readDataWithTag(tag)
-            }//udp don't need read
-            
+            }else {
+                //udp don't need read
+                if reading {
+                    return
+                }else {
+                    //设置正在读
+                    readingTag = tag
+                    reading = true
+                }
+                
+                
+            }
             return
         }
         // UDP don't need read func

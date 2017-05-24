@@ -43,6 +43,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     var readBuffer:Data = Data()
     var dispatchTimer:DispatchSourceTimer?
     var q :DispatchQueue?
+    var lastFrame:Frame? // not full frame ,需要快速把已经收到的data 给应用
     func shutdown(){
         if let t = dispatchTimer {
             t.cancel()
@@ -65,6 +66,26 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     }
     
     func readFrame() -> (Frame?,SmuxError?) {
+        if let _ = lastFrame {
+            let l = lastFrame!.left
+            var tocopy:Int = 0
+            if l <= readBuffer.count {
+                tocopy = l
+            }else {
+                tocopy = readBuffer.count
+            }
+            
+            lastFrame!.data = readBuffer.subdata(in: 0 ..< tocopy)
+            readBuffer.replaceSubrange(0 ..< tocopy, with: Data())
+            //self.leastFrame!.left -= tocopy
+            lastFrame!.left -= tocopy
+            if lastFrame!.left == 0 {
+                return (lastFrame,nil)
+            }else {
+                return (lastFrame,SmuxError.bodyNotFull)
+            }
+            
+        }
         guard  readBuffer.count >= headerSize else {
             return (nil , SmuxError.noHead)
         }
@@ -87,6 +108,9 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
                 //等待
                 let left = headerSize + length - readBuffer.count
                 AxLogger.log("Session :\(frame.sid) left:\(left)", level: .Debug)
+                frame.data = readBuffer.subdata(in: headerSize ..< readBuffer.count)
+                readBuffer.replaceSubrange(0  ..< readBuffer.count, with: Data())
+                frame.left = left
                 return (frame, SmuxError.bodyNotFull)
             }
         }else {
@@ -109,14 +133,33 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
                      AxLogger.log("Nop Event recv", level: .Debug)
                 }else {
                     if let stream =  streams[f.sid] {
+                        
+                        
+                        
+                        
+                        
                         if let d = f.data {
-                            stream.didReadData(d, withTag: 0, from: self)
+                            if r.1 == nil {
+                                //full packet
+                                stream.didReadData(d, withTag: 0, from: self)
+                                self.lastFrame = nil
+                            }else {
+                                //no full
+                                stream.didReadData(d, withTag: 0, from: self)
+                                
+                                
+                                self.lastFrame = f
+                                //reset data
+                                self.lastFrame?.data = nil
+                            }
+                            
                         }else {
                             if f.cmd == cmdFIN {
                                 stream.didDisconnect(self, error: SmuxError.recvFin)
                             }else  {
                                 if r.1 == SmuxError.bodyNotFull {
                                     AxLogger.log("frame \(f.desc) packet not full",level: .Error)
+                                    
                                     break
                                 }
                             }

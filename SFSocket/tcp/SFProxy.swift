@@ -596,10 +596,16 @@ public class SFProxy:CommonModel {
   
     
     public func typeDesc() ->String{
+        var info:String = ""
         if tlsEnable && type == .HTTP {
-            return "Type: " + "HTTPS"
+            info = "Type: " + "HTTPS"
+        }else {
+            info = "Type: " + type.description
         }
-        return "Type: " + type.description
+        if kcptun {
+            info += " Over KCPTUN"
+        }
+        return info
     }
     static open func loadFromDictioanry(_ dic:AnyObject?) ->SFProxy?{
         return self.fromDictionary(dic)

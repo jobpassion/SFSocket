@@ -370,6 +370,8 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         if !reqInfo.waitingRule {
              AxLogger.log("\(cIDString) recv rule \(reqInfo.rule.policy), now exit waiting",level: .Warning)
             
+            let tim = String(format: cIDString + " rule :%.6f", reqInfo.ruleTiming)
+            AxLogger.log(tim, level: .Info)
             setUpConnector()
         }else {
             AxLogger.log("\(cIDString) recv rule waiting",level: .Debug)

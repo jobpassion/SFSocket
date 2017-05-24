@@ -27,6 +27,7 @@ public struct Frame {
     var cmd:UInt8 = 0
     var sid:UInt32 = 0
     var data:Data?
+    var left:Int = 0 //当满1个packet 的时候使用，只用来解包
     init(_ cmd:UInt8,sid:UInt32) {
         self.cmd = cmd
         self.sid = sid
