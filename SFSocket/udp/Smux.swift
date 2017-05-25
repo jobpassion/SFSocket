@@ -48,9 +48,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         if let t = dispatchTimer {
             t.cancel()
         }
-        if let tun = self.tun{
-            tun.shutdownUDPSession()
-        }
+        self.destoryTun()
     }
     //tun delegate
     public func connected(_ tun: SFKcpTun!){
@@ -227,6 +225,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         self.keepAlive(timeOut: 10);
         self.ready = true
     }
+    
     func keepAlive(timeOut:Int)  {
        //  q = DispatchQueue(label:"com.yarshure.keepalive")
         let timer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue:dispatchQueue )
@@ -328,6 +327,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     func destoryTun() {
         if let tun = tun {
             tun.shutdownUDPSession()
+            self.tun = nil
             ready = false
         }
     }

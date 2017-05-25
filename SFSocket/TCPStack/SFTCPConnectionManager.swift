@@ -391,7 +391,7 @@ extension SFTCPConnectionManager{
         //self.cancel()
         dispatchQueue.async { [unowned self] in
             self.closeAllConnection()
-            
+            Smux.sharedTunnel.shutdown()
             self.ruleTestResult.removeAll()
             self.lwipInputSpeed.removeAll()
             AxLogger.log("[SFTCPConnectionManager] Connection clean Done!",level: .Notify)
