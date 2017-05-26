@@ -143,7 +143,10 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
                                 self.lastFrame = nil
                             }else {
                                 //no full
-                                stream.didReadData(d, withTag: 0, from: self)
+                                if !d.isEmpty {
+                                    stream.didReadData(d, withTag: 0, from: self)
+                                }
+                                
                                 
                                 
                                 self.lastFrame = f

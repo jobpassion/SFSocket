@@ -154,7 +154,8 @@ public class TCPSession: RawSocketDelegate {
                 }else {
                     //send data direct
                     //socks5 proxy 还需要tun
-                    self.sendRowData(result.1, withTag: frameNegoTag)
+                    AxLogger.log("recv failure", level: .Error)
+                    //self.sendRowData(result.1, withTag: frameNegoTag)
                 }
                 
             }catch let e {

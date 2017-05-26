@@ -95,7 +95,12 @@ class SSAdapter:Adapter {
     }
     override func recv(_ data: Data) throws -> (Bool,Data) {
         //crash here
-        return (true,engine.decrypt(encrypt_bytes: data)!)
+        if let result = engine.decrypt(encrypt_bytes: data) {
+            return (true,result)
+        }else {
+            return (false,Data())
+        }
+        
         
     }
     
