@@ -295,7 +295,7 @@ public class SKit {
         //mylog("dns " + dns)
         
         //setting.tunnelOverheadBytes = 150
-        setting.mtu = 1460
+        setting.mtu = 1500
         setting.proxySettings = NEProxySettings()
         
         

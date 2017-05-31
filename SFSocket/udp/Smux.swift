@@ -200,7 +200,8 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
                             
                         }
                         //关闭链接
-                       forceDisconnect(f.sid)
+                        sendFin(f.sid)
+                       
                     }
 
                 }
@@ -385,14 +386,17 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         AxLogger.log("\(sessionID) forceDisconnect", level: .Debug)
         
         self.streams.removeValue(forKey: sessionID)
-        
+        sendFin(sessionID)
+       
+    }
+
+    func sendFin(_ sessionID:UInt32){
         let frame = Frame(cmdFIN,sid:sessionID)
         let data = frame.frameData()
         if let tun = tun {
             tun.input(data)
         }
     }
-
     /**
      Connect to remote host.
      
