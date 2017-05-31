@@ -25,14 +25,15 @@ enum SmuxError:Error {
     case recvFin
     
 }
+
 class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     
     //var adapter:Adapter! //ss/socks5/http obfs
     var proxy:SFProxy?
     
     var streams:[UInt32:TCPSession] = [:]
-   
     
+    static let SMuxTimeOut = 13.0 //没数据就timeout
     
     var tun:SFKcpTun?
     var channels:[Channel] = []
@@ -118,6 +119,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         
     }
     public func didRecevied(_ data: Data!){
+        self.lastActive = Date()
         self.readBuffer.append(data)
         AxLogger.log("mux recv data: \(data.count) \(data as NSData)",level: .Debug)
         let ss = streams.flatMap{ k,v in
@@ -240,7 +242,12 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
             timer.scheduleRepeating(deadline: delay, interval: interval, leeway: .nanoseconds(0))
             
             timer.setEventHandler {[unowned self] in
-                self.sendNop()
+                
+                if Date().timeIntervalSince(self.lastActive) > Smux.SMuxTimeOut{
+                    self.shutdown()
+                }else {
+                    self.sendNop()
+                }
                 //self.call(self.dispatch_timer)
             }
             timer.setCancelHandler {
@@ -356,6 +363,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         //        let newdata = adapter.send(data)
         //        tun.inputDataAdapter(newdata)
         // api
+        self.lastActive = Date()
         AxLogger.log("write \(data as NSData)",level: .Debug)
         if let tun = tun {
             tun.input(data)
