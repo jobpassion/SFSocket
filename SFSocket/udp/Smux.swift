@@ -334,6 +334,18 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
 //        }
        session.didConnect(self)
     }
+    override var useCell:Bool{
+        get {
+            if let t = tun {
+                let l = t.localAddress()
+                let ll = SFNetworkInterfaceManager.WWANIPAddress
+                if l == ll {
+                    return true
+                }
+            }
+            return false
+        }
+    }
     //when network changed,should call this
     func destoryTun() {
         if let tun = tun {

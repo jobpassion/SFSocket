@@ -68,6 +68,7 @@ public class TCPSession: RawSocketDelegate {
     var readingTag:Int = 0
     var reading:Bool = false
     
+    
     //MARK: - RawSocketDelegate
     public func didDisconnect(_ socket: RawSocketProtocol,  error:Error?){
         
