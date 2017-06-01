@@ -106,7 +106,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
             }else {
                 //等待
                 let left = headerSize + length - readBuffer.count
-                AxLogger.log("Session :\(frame.sid) left:\(left)", level: .Debug)
+                SKit.log("Session :\(frame.sid) left:\(left)", level: .Debug)
                 frame.data = readBuffer.subdata(in: headerSize ..< readBuffer.count)
                 readBuffer.replaceSubrange(0  ..< readBuffer.count, with: Data())
                 frame.left = left
@@ -121,16 +121,16 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     public func didRecevied(_ data: Data!){
         self.lastActive = Date()
         self.readBuffer.append(data)
-        AxLogger.log("mux recv data: \(data.count) \(data as NSData)",level: .Debug)
+        SKit.log("mux recv data: \(data.count) \(data as NSData)",level: .Debug)
         let ss = streams.flatMap{ k,v in
             return k
         }
-        AxLogger.log("\(ss.sorted()) all active stream", level: .Debug)
+        SKit.log("\(ss.sorted()) all active stream", level: .Debug)
         while self.readBuffer.count >= headerSize {
             let r = readFrame()
             if let f = r.0 {
                 if f.sid == 0 {
-                     AxLogger.log("Nop Event recv", level: .Debug)
+                     SKit.log("Nop Event recv", level: .Debug)
                 }else {
                     if let stream =  streams[f.sid] {
                         
@@ -161,7 +161,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
                                 stream.didDisconnect(self, error: SmuxError.recvFin)
                             }else  {
                                 if r.1 == SmuxError.bodyNotFull {
-                                    AxLogger.log("frame \(f.desc) packet not full",level: .Error)
+                                    SKit.log("frame \(f.desc) packet not full",level: .Error)
                                     
                                     break
                                 }
@@ -170,7 +170,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
                         }
                         
                     }else {
-                       AxLogger.log("frame \(f.desc) not found stream drop packet",level: .Error)
+                       SKit.log("frame \(f.desc) not found stream drop packet",level: .Error)
                         
                         if let d = f.data {
                             if r.1 == nil {
@@ -192,7 +192,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
                                 //stream.didDisconnect(self, error: SmuxError.recvFin)
                             }else  {
 //                                if r.1 == SmuxError.bodyNotFull {
-//                                    AxLogger.log("frame \(f.desc) packet not full",level: .Error)
+//                                    SKit.log("frame \(f.desc) packet not full",level: .Error)
 //                                    
 //                                    break
 //                                }
@@ -207,7 +207,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
                 }
                 
             }else {
-                AxLogger.log("buffer \(self.readBuffer as NSData) parser error",level: .Debug)
+                SKit.log("buffer \(self.readBuffer as NSData) parser error",level: .Debug)
             }
         }
        
@@ -260,7 +260,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         self.dispatchTimer = timer
     }
     func sendNop(){
-        AxLogger.log("send Nop", level: .Debug)
+        SKit.log("send Nop", level: .Debug)
         let frame = Frame(cmdNOP,sid:0)
         let data = frame.frameData()
         //self.streams[0] = session
@@ -313,14 +313,14 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
             
             
         }
-        AxLogger.log("KCPTUN: #######################", level: .Info)
-        AxLogger.log("KCPTUN: Crypto = \(p.config.crypt)", level: .Info)
-        AxLogger.log("KCPTUN: key = \(c.key as NSData)", level: .Debug)
+        SKit.log("KCPTUN: #######################", level: .Info)
+        SKit.log("KCPTUN: Crypto = \(p.config.crypt)", level: .Info)
+        SKit.log("KCPTUN: key = \(c.key as NSData)", level: .Debug)
 
-        AxLogger.log("KCPTUN: mode = \(p.config.mode)", level: .Info)
-        AxLogger.log("KCPTUN: datashard = \(p.config.datashard)", level: .Info)
-        AxLogger.log("KCPTUN: parityshard = \(p.config.parityshard)", level: .Info)
-        AxLogger.log("KCPTUN: #######################", level: .Info)
+        SKit.log("KCPTUN: mode = \(p.config.mode)", level: .Info)
+        SKit.log("KCPTUN: datashard = \(p.config.datashard)", level: .Info)
+        SKit.log("KCPTUN: parityshard = \(p.config.parityshard)", level: .Info)
+        SKit.log("KCPTUN: #######################", level: .Info)
         return c
     }
     //new tcp stream income
@@ -365,11 +365,11 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         //        tun.inputDataAdapter(newdata)
         // api
         self.lastActive = Date()
-        AxLogger.log("write \(data as NSData)",level: .Debug)
+        SKit.log("write \(data as NSData)",level: .Debug)
         if let tun = tun {
             tun.input(data)
         }else {
-            AxLogger.log("kcptun not ready ", level: .Error)
+            SKit.log("kcptun not ready ", level: .Error)
         }
     }
     func outputCallBackApapter(_ data:Data){
@@ -383,7 +383,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     //only for kcptun
     //close ,remove tcp session
     public override func forceDisconnect(_ sessionID:UInt32){
-        AxLogger.log("\(sessionID) forceDisconnect", level: .Debug)
+        SKit.log("\(sessionID) forceDisconnect", level: .Debug)
         
         self.streams.removeValue(forKey: sessionID)
         sendFin(sessionID)

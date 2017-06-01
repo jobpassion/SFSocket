@@ -56,7 +56,7 @@ open class UDPDirectStack: IPStackProtocol, NWUDPSocketDelegate {
         }
         if IPPacket.peekProtocol(packet) == .udp {
             input(packet)
-            AxLogger.log("udp packet input ok", level: .Debug)
+            SKit.log("udp packet input ok", level: .Debug)
             return true
         }
         return false
@@ -73,12 +73,12 @@ open class UDPDirectStack: IPStackProtocol, NWUDPSocketDelegate {
     
     fileprivate func input(_ packetData: Data) {
         guard let packet = IPPacket(packetData: packetData) else {
-            AxLogger.log("IPPacket creat error", level: .Debug)
+            SKit.log("IPPacket creat error", level: .Debug)
             return
         }
         
         guard let (_, socket) = findOrCreateSocketForPacket(packet) else {
-            AxLogger.log("udp socket  creat error", level: .Debug)
+            SKit.log("udp socket  creat error", level: .Debug)
             return
         }
         

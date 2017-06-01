@@ -28,7 +28,7 @@ class SFHTTPRequest: SFConnection{
         self.reqInfo.mode  = .HTTP
         reqInfo.lport = info.tun.port
         
-       //AxLogger.log("\(cIDString) start at \(reqInfo.sTime)",level: .Debug )
+       //SKit.log("\(cIDString) start at \(reqInfo.sTime)",level: .Debug )
     }
     func processData(_ reason:String){
         
@@ -64,12 +64,12 @@ class SFHTTPRequest: SFConnection{
                 if reqInfo.rule.policy == .Reject {
                     byebyeRequest()
                 }else {
-                    AxLogger.log("\(cIDString) Not Reject Will Send Req",level: .Debug)
+                    SKit.log("\(cIDString) Not Reject Will Send Req",level: .Debug)
                     //setUpConnector()
                 }
                 
             }else {
-                AxLogger.log("\(cIDString) \(reqInfo.host) Waiting Rule",level: .Debug)
+                SKit.log("\(cIDString) \(reqInfo.host) Waiting Rule",level: .Debug)
             }
         }else {
            byebyeRequest()
@@ -105,7 +105,7 @@ class SFHTTPRequest: SFConnection{
             return ips.first!
         }else {
             
-            AxLogger.log("\(cIDString) don't find DNS cache:\(newDomain)", level: .Trace)
+            SKit.log("\(cIDString) don't find DNS cache:\(newDomain)", level: .Trace)
         }
             
         return ""
@@ -123,7 +123,7 @@ class SFHTTPRequest: SFConnection{
         }
         let port = reqInfo.port
         let message = String.init(format: "%@ %@",self.reqInfo.url, self.reqInfo.rule.policy.description)
-        AxLogger.log(cIDString + " "  + message + " now setUpConnector",level: .Debug)
+        SKit.log(cIDString + " "  + message + " now setUpConnector",level: .Debug)
 
         if reqInfo.rule.policy == .Reject {
             byebyeRequest()
@@ -140,7 +140,7 @@ class SFHTTPRequest: SFConnection{
                 }
                 
                 
-                AxLogger.log("\(cIDString) DIRECT \(reqInfo.host) \(destIP)",level: .Trace)
+                SKit.log("\(cIDString) DIRECT \(reqInfo.host) \(destIP)",level: .Trace)
                 
                 
                 setUpConnector(destIP, port: UInt16(port))
@@ -158,7 +158,7 @@ class SFHTTPRequest: SFConnection{
         connection(10)
     }
     override func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
-       //AxLogger.log("\(cIDString) didWriteDataWithTag \(_tag) \(tag)",level: .Debug)
+       //SKit.log("\(cIDString) didWriteDataWithTag \(_tag) \(tag)",level: .Debug)
         //NSLog("currrent tag: \(tag) == \(_tag)")
         reqInfo.status = .Transferring
         
@@ -171,7 +171,7 @@ class SFHTTPRequest: SFConnection{
             client_socks_send_handler_done(len!)
             bufArrayInfo.removeValue(forKey: x)
             reqInfo.updateSendTraffic(len!)
-           //AxLogger.log("\(cIDString) tag:\(tag) time:\(reqInfo.transferTiming) packet sended and delete flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx)",level: .Debug)
+           //SKit.log("\(cIDString) tag:\(tag) time:\(reqInfo.transferTiming) packet sended and delete flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx)",level: .Debug)
             // 这个地方有问题 https over http ,how to send this?
             
             
@@ -190,7 +190,7 @@ class SFHTTPRequest: SFConnection{
         //self.reqInfo.mode = .HTTPS
         //httpStat = .HttpReqBody
         guard let h = reqInfo.reqHeader else {return}
-        //AxLogger.log("\(cIDString) tel lwip  CONNECT head \(h.length) received and send fake replay \(SSL_CONNECTION_RESPONSE)",level: .Debug)
+        //SKit.log("\(cIDString) tel lwip  CONNECT head \(h.length) received and send fake replay \(SSL_CONNECTION_RESPONSE)",level: .Debug)
         client_socks_send_handler_done(h.length)
         guard  let s = SSL_CONNECTION_RESPONSE.data(using: .utf8, allowLossyConversion: false) else {
                 return
@@ -198,7 +198,7 @@ class SFHTTPRequest: SFConnection{
         if let header  = SFHTTPResponseHeader.init(data: s) {
             reqInfo.respHeader = header
         }else {
-            AxLogger.log(" CONNECT Response parser error",level: .Error)
+            SKit.log(" CONNECT Response parser error",level: .Error)
         }
         let newData = s
         socks_recv_bufArray.append(newData)
@@ -208,7 +208,7 @@ class SFHTTPRequest: SFConnection{
     }
     func sendFakeCONNECTResponse() ->Bool{
         //链接建立
-        AxLogger.log("\(cIDString) send sendFakeCONNECTResponse",level: .Debug)
+        SKit.log("\(cIDString) send sendFakeCONNECTResponse",level: .Debug)
         var need = false
         if reqInfo.mode == .HTTPS  {
             need = true

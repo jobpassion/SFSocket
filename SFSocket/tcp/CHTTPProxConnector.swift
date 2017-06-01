@@ -24,18 +24,18 @@ class CHTTPProxConnector: HTTPProxyConnector {
     override func readCallback(data: Data?, tag: Int) {
         
         guard let data = data else {
-            AxLogger.log("\(cIDString) read nil", level: .Debug)
+            SKit.log("\(cIDString) read nil", level: .Debug)
             return
         }
         queueCall {
             
-            //AxLogger.log("read data \(data)", level: .Debug)
+            //SKit.log("read data \(data)", level: .Debug)
             if self.httpConnected == false {
                 if self.respHeader == nil {
                     let len = self.recvHeaderData(data: data)
                     
                     if len == 0{
-                        AxLogger.log("http  don't found resp header",level: .Warning)
+                        SKit.log("http  don't found resp header",level: .Warning)
                     }else {
                         //找到resp header
                         self.httpConnected = true
@@ -51,7 +51,7 @@ class CHTTPProxConnector: HTTPProxyConnector {
                                 self.delegate?.didReadData( newdata.1, withTag: tag, from: self)
                             })
                             
-                            //AxLogger.log("\(cIDString) CONNECT response data\(data)",level: .Error)
+                            //SKit.log("\(cIDString) CONNECT response data\(data)",level: .Error)
                         }
                     }
                 }

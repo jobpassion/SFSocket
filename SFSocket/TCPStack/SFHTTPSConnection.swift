@@ -24,7 +24,7 @@ class SFHTTPSConnection: SFHTTPRequest {
     
     override func incomingData(_ d:Data,len:Int){
         
-       //AxLogger.log("\(cIDString) incoming data len \(len)",level: .Debug)
+       //SKit.log("\(cIDString) incoming data len \(len)",level: .Debug)
         if d.count > 0 {
             
             #if LOGGER
@@ -39,7 +39,7 @@ class SFHTTPSConnection: SFHTTPRequest {
             switch httpStat {
             case .httpDefault:
                 httpStat = .httpReqHeader
-               //AxLogger.log("\(cIDString) connection init",level: .Debug)
+               //SKit.log("\(cIDString) connection init",level: .Debug)
                 return
             case .httpReqHeader:
                 let r = d.range(of: hData, options: Data.SearchOptions.init(rawValue: 0), in: Range(0 ..< len))
@@ -62,7 +62,7 @@ class SFHTTPSConnection: SFHTTPRequest {
                         
                         //print( "############ \(reqInfo.url) \(reqInfo.app)",errStream)
                         
-                       //AxLogger.log("\(cIDString) req \(reqHeader.Method) \(reqHeader.Url)\n)",level: .Debug)
+                       //SKit.log("\(cIDString) req \(reqHeader.Method) \(reqHeader.Url)\n)",level: .Debug)
                         
                         
                         //why don't add to bufArray, header need fix url, ss socks and other proxy don't need send CONNECT
@@ -75,13 +75,13 @@ class SFHTTPSConnection: SFHTTPRequest {
                             let d = d.subdata(in: Range(r.lowerBound+4 ..< len))
                             bufArray.append(d)
                             //need test
-                           //AxLogger.log("\(cIDString) reqbody:\(bufArray)",level: .Debug)
+                           //SKit.log("\(cIDString) reqbody:\(bufArray)",level: .Debug)
                         }else{
-                           //AxLogger.log("\(cIDString) no data left for http request body",level: .Debug)
+                           //SKit.log("\(cIDString) no data left for http request body",level: .Debug)
                         }
                         
                     }else {
-                       //AxLogger.log("\(cIDString) parser http header failure",level: .Error)
+                       //SKit.log("\(cIDString) parser http header failure",level: .Error)
                     }
                     
                 }else {
@@ -110,7 +110,7 @@ class SFHTTPSConnection: SFHTTPRequest {
 //            
 //            reqInfo.respHeader = HTTPResponseHeader(data: headerData)
 //            if let code = NSString.init(data: headerData, encoding: NSUTF8StringEncoding) {
-//               //AxLogger.log("\(cIDString) resp \(code)",level: .Warning)
+//               //SKit.log("\(cIDString) resp \(code)",level: .Warning)
 //            }
 //            
 //            //reqHeader = nil
@@ -134,12 +134,12 @@ class SFHTTPSConnection: SFHTTPRequest {
 //        }
 //        
 //        let reqh = NSString.init(data: httpdata, encoding: NSUTF8StringEncoding)
-//       //AxLogger.log("\(cIDString) http req header:\(reqh!)",level: .Debug)
+//       //SKit.log("\(cIDString) http req header:\(reqh!)",level: .Debug)
 //        if reqbody.length > 0 {
 //            httpdata.appendData(reqbody)
 //            reqbody = NSMutableData()
 //        }
-//       //AxLogger.log("\(cIDString) sendbuffer count \(bufArray.count)")
+//       //SKit.log("\(cIDString) sendbuffer count \(bufArray.count)")
 ////        if let _ = respHeader {
 ////            bufArray.append(httpdata)
 ////        }else {
@@ -154,7 +154,7 @@ class SFHTTPSConnection: SFHTTPRequest {
     
     func connect(){
         if connector == nil {
-           //AxLogger.log("\(cIDString) connector don't init and init it",level: .Debug)
+           //SKit.log("\(cIDString) connector don't init and init it",level: .Debug)
             configConnector()
         }
         //https direct don't need send CONNECT
@@ -162,10 +162,10 @@ class SFHTTPSConnection: SFHTTPRequest {
         if reqInfo.mode == .HTTPS{
             //https
             if reqInfo.rule.policy == .Direct {
-               //AxLogger.log("\(cIDString) \(reqInfo.mode) Direct don't need send CONNCET ",level: .Debug)
+               //SKit.log("\(cIDString) \(reqInfo.mode) Direct don't need send CONNCET ",level: .Debug)
             }else {
                 guard let p = reqInfo.proxy else {
-                   //AxLogger.log("\(cIDString) can't find proxy",level: .Debug)
+                   //SKit.log("\(cIDString) can't find proxy",level: .Debug)
                     return
                 }
                 if p.type == .HTTP || p.type == .HTTPS {
@@ -184,10 +184,10 @@ class SFHTTPSConnection: SFHTTPRequest {
         
     }
     override func processData(_ reason:String) {
-       //AxLogger.log("\(cIDString) stat:\(httpStat) mode:\(reqInfo.mode) processData reason \(reason)",level: .Debug)
+       //SKit.log("\(cIDString) stat:\(httpStat) mode:\(reqInfo.mode) processData reason \(reason)",level: .Debug)
         if reqInfo.mode == .HTTPS{
             
-           //AxLogger.log("\(cIDString) will sending data \(bufArray.count)", level: .Trace)
+           //SKit.log("\(cIDString) will sending data \(bufArray.count)", level: .Trace)
             //client_send_to_socks()
             if (bufArray.count > 0) {
                 client_send_to_socks()
@@ -198,10 +198,10 @@ class SFHTTPSConnection: SFHTTPRequest {
                
             }
             
-            //AxLogger.log("\(cIDString) recv packet",level: .Debug)
+            //SKit.log("\(cIDString) recv packet",level: .Debug)
             
         }else {
-            //AxLogger.log("\(cIDString) prepare upgrade",level: .Warning)
+            //SKit.log("\(cIDString) prepare upgrade",level: .Warning)
             connect()
             
         }
@@ -214,7 +214,7 @@ class SFHTTPSConnection: SFHTTPRequest {
     override func client_send_to_socks(){
         let st = (reqInfo.status == .Established) || (reqInfo.status == .Transferring)
         if st  {
-           //AxLogger.log("\(cIDString) now sending data buffer count:\(bufArray.count)",level: .Debug)
+           //SKit.log("\(cIDString) now sending data buffer count:\(bufArray.count)",level: .Debug)
             super.client_send_to_socks()
 
         }else {
@@ -235,13 +235,13 @@ class SFHTTPSConnection: SFHTTPRequest {
         case .event_ERROR:
             reqInfo.status = .Complete
             reqInfo.closereason = .closedError
-           AxLogger.log("\(cIDString) \(reqInfo.transferTiming) RemoteError",level: .Trace)
+           SKit.log("\(cIDString) \(reqInfo.transferTiming) RemoteError",level: .Trace)
             client_free_socks()
         case .event_UP:
             //assert(!reqInfo.socks_up)
             reqInfo.activeTime = Date()
             reqInfo.estTime = Date()
-            AxLogger.log("\(cIDString) ESTABLISHED \(reqInfo.connectionTiming)",level: .Trace)
+            SKit.log("\(cIDString) ESTABLISHED \(reqInfo.connectionTiming)",level: .Trace)
             reqInfo.status = .Established
             configClient_sent_func(pcb)
             reqInfo.socks_up = true
@@ -252,7 +252,7 @@ class SFHTTPSConnection: SFHTTPRequest {
             
         //processData("ESTABLISHED")
         case .event_ERROR_CLOSED:
-           AxLogger.log("\(cIDString) \(reqInfo.transferTiming) RemoteClosed",level: .Trace)
+           SKit.log("\(cIDString) \(reqInfo.transferTiming) RemoteClosed",level: .Trace)
             //socks5 有问题
             //assert(reqInfo.socks_up)
             if reqInfo.estTime == Date.init(timeIntervalSince1970: 0){
@@ -270,7 +270,7 @@ class SFHTTPSConnection: SFHTTPRequest {
         }
     }
 //    override func connectorDidDisconnect(connector:Connector ,withError:NSError){
-//       //AxLogger.log("\(cIDString) \(reqInfo.traffice.tx):\(reqInfo.traffice.rx) \(withError)",level: .Debug)
+//       //SKit.log("\(cIDString) \(reqInfo.traffice.tx):\(reqInfo.traffice.rx) \(withError)",level: .Debug)
 //        debugLog("connectorDidDisconnect \(self.reqInfo.url)" + withError.description)
 //        client_socks_handler(.EVENT_ERROR_CLOSED)
 //    }
@@ -282,7 +282,7 @@ class SFHTTPSConnection: SFHTTPRequest {
         //reqInfo.updateSpeed(UInt(data.length),stat: true)
         reqInfo.updaterecvTraffic(data.count)
         //reqInfo.traffice.addRx(data.length)
-        //AxLogger.log("\(cIDString) time:\(reqInfo.activeDesc) tag:\(tag):\(rTag) receive Data length  \(data.length) flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx) ",level: .Trace)
+        //SKit.log("\(cIDString) time:\(reqInfo.activeDesc) tag:\(tag):\(rTag) receive Data length  \(data.length) flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx) ",level: .Trace)
         //critLock.lockBeforeDate( NSDate( timeIntervalSinceNow: 0.05))
         rTag += 1
         //RawRepresentable
@@ -306,33 +306,33 @@ class SFHTTPSConnection: SFHTTPRequest {
         
     }
     override func checkStatus() {
-        //AxLogger.log("\(cIDString) header queue:\(reqHeaderQueue.count) index:\(requestIndex) ",level: .Debug)
+        //SKit.log("\(cIDString) header queue:\(reqHeaderQueue.count) index:\(requestIndex) ",level: .Debug)
         if let _ = reqInfo.respHeader {
-            //AxLogger.log("\(cIDString) resp:\(h.mode) \(h.bodyLeftLength) ",level: .Debug)
+            //SKit.log("\(cIDString) resp:\(h.mode) \(h.bodyLeftLength) ",level: .Debug)
             if socks_recv_bufArray.count == 0 && bufArray.count == 0 && reqInfo.traffice.rx > 0 {
                 if SFOpt.shouldKepp(host: reqInfo.host) {
                     if reqInfo.idleTimeing > SFOpt.HTTPLongConnect{
-                        AxLogger.log("\(cIDString) \(reqInfo.host)  timeout1 ",level: .Warning)
+                        SKit.log("\(cIDString) \(reqInfo.host)  timeout1 ",level: .Warning)
                         client_free_socks()
                         
                     }
                 }else {
                     if reqInfo.idleTimeing > SFOpt.HTTPSTimeout{
-                        AxLogger.log("\(cIDString) \(reqInfo.host)  timeout1 ",level: .Warning)
+                        SKit.log("\(cIDString) \(reqInfo.host)  timeout1 ",level: .Warning)
                         client_free_socks()
                         
                     }
                 }
                
             }else if  reqInfo.idleTimeing > SFOpt.HTTPSTimeout {
-                AxLogger.log("\(cIDString) \(reqInfo.host)  timeout2 ",level: .Warning)
+                SKit.log("\(cIDString) \(reqInfo.host)  timeout2 ",level: .Warning)
                 client_free_socks()
 
             }
             
         }else {
             if  reqInfo.idleTimeing > SFOpt.HTTPNoHeaderTimeout {
-                AxLogger.log("\(cIDString) \(reqInfo.host)  no resp header disconnect ",level: .Warning)
+                SKit.log("\(cIDString) \(reqInfo.host)  no resp header disconnect ",level: .Warning)
                 client_free_socks()
                 
             }
@@ -344,12 +344,12 @@ class SFHTTPSConnection: SFHTTPRequest {
         let result = reqInfo.shouldClose()
         if result {
             if socks_recv_bufArray.count == 0 && bufArray.count == 0{
-                AxLogger.log("\(reqInfo.host) idle \(reqInfo.idleTimeing) to long close socket",level: .Warning)
+                SKit.log("\(reqInfo.host) idle \(reqInfo.idleTimeing) to long close socket",level: .Warning)
                 client_free_socks()
             }
         }else {
-            AxLogger.log("\(reqInfo.host) recv memoryWarning buffer recv:\(socks_recv_bufArray) send:\(bufArray) ",level: .Warning)
-            AxLogger.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
+            SKit.log("\(reqInfo.host) recv memoryWarning buffer recv:\(socks_recv_bufArray) send:\(bufArray) ",level: .Warning)
+            SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
             client_free_socks()
         }
         

@@ -37,7 +37,7 @@ class SSAdapter:Adapter {
             
             header.append(SOCKS_IPV4)
             addr_len += 1
-            //AxLogger.log("\(cIDString) target host use ip \(targetHost) ",level: .Debug)
+            //SKit.log("\(cIDString) target host use ip \(targetHost) ",level: .Debug)
             let i :UInt32 = inet_addr(realHost.cString(using: .utf8)!)
             header.append(i)
             header.append(realPort.byteSwapped)
@@ -64,7 +64,7 @@ class SSAdapter:Adapter {
             if let data =  toIPv6Addr(ipString: targetHost) {
                 
                 //not work
-                //AxLogger.log("\(cIDString) convert \(targetHost) to Data:\(data)",level: .Info)
+                //SKit.log("\(cIDString) convert \(targetHost) to Data:\(data)",level: .Info)
                 header.append(data)
                 let x = targetPort.byteSwapped
                 //let v = UnsafeBufferPointer(start: &x, count: 2)
@@ -72,7 +72,7 @@ class SSAdapter:Adapter {
                 header.append(x)
                 addr_len += 2
             }else {
-                //AxLogger.log("\(cIDString) convert \(targetHost) to in6_addr error )",level: .Warning)
+                //SKit.log("\(cIDString) convert \(targetHost) to in6_addr error )",level: .Warning)
                 //return
             }
             //2001:0b28:f23f:f005:0000:0000:0000:000a
@@ -87,7 +87,7 @@ class SSAdapter:Adapter {
             header.data.replaceSubrange(0 ..< 1, with: [atype])
             let hash = engine.ss_onetimeauth(buffer: header.data)
             header.append(hash)
-            AxLogger.log("ota enabled", level: .Debug)
+            SKit.log("ota enabled", level: .Debug)
         }
         return header.data
         
@@ -109,7 +109,7 @@ class SSAdapter:Adapter {
         if !headSent {
             var temp = Data()
             let head = buildHead()
-            AxLogger.log("Adapter-SS: header: \(head as NSData) via \(targetHost):\(targetPort)", level: .Debug)
+            SKit.log("Adapter-SS: header: \(head as NSData) via \(targetHost):\(targetPort)", level: .Debug)
             temp.append(head)
             headSent = true
             if data.count > 0 {
@@ -124,7 +124,7 @@ class SSAdapter:Adapter {
             
             
             datatemp = temp
-            //AxLogger.log("\(cIDString) will send \(head.length) \(head) ",level: .Trace)
+            //SKit.log("\(cIDString) will send \(head.length) \(head) ",level: .Trace)
         }else {
             if ota {
                 
@@ -145,7 +145,7 @@ class SSAdapter:Adapter {
                 return cipher
             }
         }else {
-            AxLogger.log("encrypt init error or data length 0",level: .Error)
+            SKit.log("encrypt init error or data length 0",level: .Error)
             fatalError()
             
         }

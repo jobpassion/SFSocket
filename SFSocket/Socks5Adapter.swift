@@ -13,7 +13,7 @@ class Socks5Adapter: Adapter {
     var recvBuffer:Data?
     override func recv(_ data: Data) throws -> (Bool,Data) {
         
-        AxLogger.log("recv new data  \(data as NSData)",level: .Debug)
+        SKit.log("recv new data  \(data as NSData)",level: .Debug)
         if stage == .Auth {
             //ans 0500
             if recvBuffer == nil {
@@ -26,7 +26,7 @@ class Socks5Adapter: Adapter {
             guard var buffer = recvBuffer else {
                 throw SFAdapterError.invalidSocksResp
             }
-            AxLogger.log(".Auth  respon buf \(buffer as NSData)",level: .Debug)
+            SKit.log(".Auth  respon buf \(buffer as NSData)",level: .Debug)
             let version : UnsafeMutablePointer<UInt8> =  UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
             buffer.copyBytes(to: version, count: 1)
             
@@ -47,7 +47,7 @@ class Socks5Adapter: Adapter {
                         recvBuffer = Data()
                     }
                     stage = .Bind
-                    //AxLogger.log("\(cIDString) recv .Auth respon and send Bind req",level: .Debug)
+                    //SKit.log("\(cIDString) recv .Auth respon and send Bind req",level: .Debug)
                     let sdata = sendBind()
                     return (false,sdata)
                 }else if auth.pointee == 0x02 {
@@ -62,16 +62,16 @@ class Socks5Adapter: Adapter {
                     let sdata = sendUserAndPassword()
                     return (false,sdata)
                 }else if auth.pointee == 0xff {
-                    AxLogger.log("socks5 client don't have auth type, need close",level: .Error)
+                    SKit.log("socks5 client don't have auth type, need close",level: .Error)
                     throw SFAdapterError.invalidSocksAuth
                 } else {
-                    AxLogger.log("socks5 auth type:\(auth.pointee) don't support, need close",level: .Error)
+                    SKit.log("socks5 auth type:\(auth.pointee) don't support, need close",level: .Error)
                     throw SFAdapterError.invalidSocksResp
                 }
                 
             }else {
                 throw SFAdapterError.invalidSocksResp
-                AxLogger.log("socks5 client don't recv  respon ver error ver:\(version.pointee)",level: .Debug)
+                SKit.log("socks5 client don't recv  respon ver error ver:\(version.pointee)",level: .Debug)
             }
             
         }else if stage == .AuthSend {
@@ -86,7 +86,7 @@ class Socks5Adapter: Adapter {
             guard var buffer = recvBuffer else {
                 throw SFAdapterError.invalidSocksResp
             }
-            AxLogger.log(" .AuthSend   respon buf \(buffer as NSData )",level: .Debug)
+            SKit.log(" .AuthSend   respon buf \(buffer as NSData )",level: .Debug)
             /*
              recvBuffer = nil
              
@@ -110,12 +110,12 @@ class Socks5Adapter: Adapter {
                 }else {
                     recvBuffer = Data()
                 }
-                AxLogger.log("  .Auth Success and send BIND CMD",level: .Warning)
+                SKit.log("  .Auth Success and send BIND CMD",level: .Warning)
                 let sdata = sendBind()
                 stage = .Bind
                 return (false,sdata)
             }else {
-                AxLogger.log("socks5 client  .Auth failure",level: .Warning)
+                SKit.log("socks5 client  .Auth failure",level: .Warning)
                 throw SFAdapterError.invalidSocksResp
             }
             
@@ -129,7 +129,7 @@ class Socks5Adapter: Adapter {
             guard let buffer = recvBuffer else {
                 throw SFAdapterError.invalidSocksResp
             }
-            AxLogger.log(".Bind  respon buf \(buffer as NSData)",level: .Debug)
+            SKit.log(".Bind  respon buf \(buffer as NSData)",level: .Debug)
             let version : UnsafeMutablePointer<UInt8> =  UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
             buffer.copyBytes(to: version, count: 1)
             
@@ -157,7 +157,7 @@ class Socks5Adapter: Adapter {
                         port.deallocate(capacity: 2)
                     }
                     buffer.copyBytes(to: port, from: Range(8 ..< 10))
-                    //AxLogger.log("\(cIDString) Bind respond \(ip.pointee):\(port.pointee)",level: .Debug)
+                    //SKit.log("\(cIDString) Bind respond \(ip.pointee):\(port.pointee)",level: .Debug)
                     if buffer.count > 10  {
                         recvBuffer = buffer.subdata(in: Range(10 ..<  buffer.count))
                     }else {
@@ -174,7 +174,7 @@ class Socks5Adapter: Adapter {
                         port.deallocate(capacity: 1)
                     }
                     buffer.copyBytes(to: port, from: Range(5+Int(length.pointee) ..< 7+Int(length.pointee)))
-                    //AxLogger.log("\(cIDString) Bind respond domain name length:\(length.pointee) \(domainname):\(port.pointee)",level: .Debug)
+                    //SKit.log("\(cIDString) Bind respond domain name length:\(length.pointee) \(domainname):\(port.pointee)",level: .Debug)
                     let len = 5+Int(length.pointee) + 2
                     if buffer.count >  len {
                         recvBuffer = buffer.subdata(in: Range(len ..< buffer.count ))
@@ -184,7 +184,7 @@ class Socks5Adapter: Adapter {
                     
                 }else if type.pointee == SOCKS_IPV6 {
                     
-                    AxLogger.log(" Bind respond ipv6 currnetly don't support",level:.Error)
+                    SKit.log(" Bind respond ipv6 currnetly don't support",level:.Error)
                     throw SFAdapterError.invalidSocksResp
                 }
                 
@@ -193,7 +193,7 @@ class Socks5Adapter: Adapter {
                 
                 
             }else {
-                AxLogger.log("don't recv .Bind respon",level: .Debug)
+                SKit.log("don't recv .Bind respon",level: .Debug)
             }
           
         }else if stage == .Connected {
@@ -233,7 +233,7 @@ class Socks5Adapter: Adapter {
             
         }
         
-        AxLogger.log("send  .Auth req \(buffer as NSData)",level:.Debug)
+        SKit.log("send  .Auth req \(buffer as NSData)",level:.Debug)
         return buffer
     }
     func sendUserAndPassword() ->Data{
@@ -247,7 +247,7 @@ class Socks5Adapter: Adapter {
         len = UInt8(proxy.password.characters.count)
         buffer.append(len)
         buffer.append(proxy.password.data(using: .utf8)!)
-        AxLogger.log("send  .Auth req \(buffer as NSData)",level:.Debug)
+        SKit.log("send  .Auth req \(buffer as NSData)",level:.Debug)
         return buffer
     }
     func sendBind() ->Data{
@@ -280,17 +280,17 @@ class Socks5Adapter: Adapter {
             if let data =  toIPv6Addr(ipString: targetHost) {
                 
                 
-                AxLogger.log("convert \(targetHost) to Data:\(data)",level: .Info)
+                SKit.log("convert \(targetHost) to Data:\(data)",level: .Info)
                 buffer.append(data)
                 //buffer.append(targetPort.byteSwapped)
             }else {
-                AxLogger.log("convert \(targetHost) to in6_addr error )",level: .Warning)
+                SKit.log("convert \(targetHost) to in6_addr error )",level: .Warning)
                 fatalError()
             }
             
         }
         
-        AxLogger.log("send  .Bind req \(buffer.data as NSData)",level: .Debug)
+        SKit.log("send  .Bind req \(buffer.data as NSData)",level: .Debug)
         return buffer.data
     }
     override func send(_ data: Data) -> Data {

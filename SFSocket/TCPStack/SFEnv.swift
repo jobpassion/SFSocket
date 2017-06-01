@@ -158,7 +158,7 @@ public class SFEnv {
             }
             let wifi  = currentSSIDs()
             if !wifi.isEmpty{
-                AxLogger.log("Now Network Type: \(hwType.description) SSID:\(wifi.first!) connected",level:.Info)
+                SKit.log("Now Network Type: \(hwType.description) SSID:\(wifi.first!) connected",level:.Info)
             }
             
         }

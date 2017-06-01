@@ -64,7 +64,7 @@ public class Socks5Connector:ProxyConnector{
 
         }
         
-       AxLogger.log("\(cIDString) send  .Auth req \(buffer as NSData)",level:.Debug)
+       SKit.log("\(cIDString) send  .Auth req \(buffer as NSData)",level:.Debug)
         self.writeData(buffer,withTag: Socks5Connector.ReadTag)
     }
     func sendUserAndPassword(){
@@ -78,7 +78,7 @@ public class Socks5Connector:ProxyConnector{
         len = UInt8(proxy.password.characters.count)
         buffer.append(len)
         buffer.append(proxy.password.data(using: .utf8)!)
-        AxLogger.log("\(cIDString) send  .Auth req \(buffer as NSData)",level:.Debug)
+        SKit.log("\(cIDString) send  .Auth req \(buffer as NSData)",level:.Debug)
         self.writeData( buffer, withTag: Socks5Connector.ReadTag)
         
     }
@@ -112,17 +112,17 @@ public class Socks5Connector:ProxyConnector{
             if let data =  toIPv6Addr(ipString: targetHost) {
                 
              
-               AxLogger.log("\(cIDString) convert \(targetHost) to Data:\(data)",level: .Info)
+               SKit.log("\(cIDString) convert \(targetHost) to Data:\(data)",level: .Info)
                 buffer.append(data)
                 //buffer.append(targetPort.byteSwapped)
             }else {
-               AxLogger.log("\(cIDString) convert \(targetHost) to in6_addr error )",level: .Warning)
+               SKit.log("\(cIDString) convert \(targetHost) to in6_addr error )",level: .Warning)
                 return
             }
             
         }
     
-       AxLogger.log("\(cIDString) send  .Bind req \(buffer.data as NSData)",level: .Debug)
+       SKit.log("\(cIDString) send  .Bind req \(buffer.data as NSData)",level: .Debug)
         self.writeData(buffer.data, withTag: Socks5Connector.ReadTag)
     }
     public override func socketConnectd(){
@@ -138,10 +138,10 @@ public class Socks5Connector:ProxyConnector{
     override func readCallback(data: Data?, tag: Int) {
         
         guard let data = data else {
-            AxLogger.log("\(cIDString) read nil", level: .Debug)
+            SKit.log("\(cIDString) read nil", level: .Debug)
             return
         }
-        AxLogger.log("\(cIDString) recv new data  \(data as NSData)",level: .Debug)
+        SKit.log("\(cIDString) recv new data  \(data as NSData)",level: .Debug)
         if stage == .Auth {
             //ans 0500
             if recvBuffer == nil {
@@ -152,7 +152,7 @@ public class Socks5Connector:ProxyConnector{
             
            
             guard var buffer = recvBuffer else {return }
-            AxLogger.log("\(cIDString)  .Auth  respon buf \(buffer as NSData)",level: .Debug)
+            SKit.log("\(cIDString)  .Auth  respon buf \(buffer as NSData)",level: .Debug)
             let version : UnsafeMutablePointer<UInt8> =  UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
             buffer.copyBytes(to: version, count: 1)
             
@@ -169,7 +169,7 @@ public class Socks5Connector:ProxyConnector{
                         recvBuffer = Data()
                     }
                     stage = .Bind
-                   //AxLogger.log("\(cIDString) recv .Auth respon and send Bind req",level: .Debug)
+                   //SKit.log("\(cIDString) recv .Auth respon and send Bind req",level: .Debug)
                     sendBind()
                 }else if auth.pointee == 0x02 {
                     //user/password auth
@@ -182,15 +182,15 @@ public class Socks5Connector:ProxyConnector{
                     stage = .AuthSend
                     sendUserAndPassword()
                 }else if auth.pointee == 0xff {
-                   AxLogger.log("socks5 client don't have auth type, need close",level: .Error)
+                   SKit.log("socks5 client don't have auth type, need close",level: .Error)
                     self.forceDisconnect()
                 } else {
-                   AxLogger.log("socks5 auth type:\(auth.pointee) don't support, need close",level: .Error)
+                   SKit.log("socks5 auth type:\(auth.pointee) don't support, need close",level: .Error)
                     self.forceDisconnect()
                 }
                 
             }else {
-               AxLogger.log("socks5 client don't recv  respon ver error ver:\(version.pointee)",level: .Debug)
+               SKit.log("socks5 client don't recv  respon ver error ver:\(version.pointee)",level: .Debug)
             }
             version.deallocate(capacity: 1)
             auth.deallocate(capacity: 1)
@@ -204,7 +204,7 @@ public class Socks5Connector:ProxyConnector{
             
            
             guard var buffer = recvBuffer else {return }
-            AxLogger.log("\(cIDString)  .AuthSend   respon buf \(buffer as NSData )",level: .Debug)
+            SKit.log("\(cIDString)  .AuthSend   respon buf \(buffer as NSData )",level: .Debug)
             /*
             recvBuffer = nil
             
@@ -225,11 +225,11 @@ public class Socks5Connector:ProxyConnector{
                 }else {
                     recvBuffer = Data()
                 }
-               AxLogger.log("\(cIDString)  .Auth Success and send BIND CMD",level: .Warning)
+               SKit.log("\(cIDString)  .Auth Success and send BIND CMD",level: .Warning)
                 sendBind()
                 stage = .Bind
             }else {
-                AxLogger.log("socks5 client  .Auth failure",level: .Warning)
+                SKit.log("socks5 client  .Auth failure",level: .Warning)
                 self.disconnect()
             }
             version.deallocate(capacity: 1)
@@ -242,7 +242,7 @@ public class Socks5Connector:ProxyConnector{
            
             //05000001 c0a80251 c4bf
             guard let buffer = recvBuffer else {return }
-            AxLogger.log("\(cIDString)  .Bind  respon buf \(buffer as NSData)",level: .Debug)
+            SKit.log("\(cIDString)  .Bind  respon buf \(buffer as NSData)",level: .Debug)
             let version : UnsafeMutablePointer<UInt8> =  UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
             buffer.copyBytes(to: version, count: 1)
             
@@ -262,7 +262,7 @@ public class Socks5Connector:ProxyConnector{
                     
                     let port: UnsafeMutablePointer<UInt8> =  UnsafeMutablePointer<UInt8>.allocate(capacity: 2)
                     buffer.copyBytes(to: port, from: Range(8 ..< 10))
-                   //AxLogger.log("\(cIDString) Bind respond \(ip.pointee):\(port.pointee)",level: .Debug)
+                   //SKit.log("\(cIDString) Bind respond \(ip.pointee):\(port.pointee)",level: .Debug)
                     if buffer.count > 10  {
                         recvBuffer = buffer.subdata(in: Range(10 ..<  buffer.count))
                     }else {
@@ -276,7 +276,7 @@ public class Socks5Connector:ProxyConnector{
                     _ = buffer.subdata(in: Range(5 ..< 5 +  Int(length.pointee)))
                     let port: UnsafeMutablePointer<UInt8> =  UnsafeMutablePointer<UInt8>.allocate(capacity: 2)
                     buffer.copyBytes(to: port, from: Range(5+Int(length.pointee) ..< 7+Int(length.pointee)))
-                   //AxLogger.log("\(cIDString) Bind respond domain name length:\(length.pointee) \(domainname):\(port.pointee)",level: .Debug)
+                   //SKit.log("\(cIDString) Bind respond domain name length:\(length.pointee) \(domainname):\(port.pointee)",level: .Debug)
                     let len = 5+Int(length.pointee) + 2
                     if buffer.count >  len {
                         recvBuffer = buffer.subdata(in: Range(len ..< buffer.count ))
@@ -286,7 +286,7 @@ public class Socks5Connector:ProxyConnector{
                     length.deallocate(capacity: 1)
                     port.deallocate(capacity: 1)
                 }else if type.pointee == SOCKS_IPV6 {
-                    AxLogger.log("\(cIDString) Bind respond ipv6 currnetly don't support",level:.Error)
+                    SKit.log("\(cIDString) Bind respond ipv6 currnetly don't support",level:.Error)
                 }
                 
                 stage = .Connected
@@ -295,7 +295,7 @@ public class Socks5Connector:ProxyConnector{
                 reserved.deallocate(capacity: 1)
                 type.deallocate(capacity: 1)
             }else {
-               AxLogger.log("\(cIDString) don't recv .Bind respon",level: .Debug)
+               SKit.log("\(cIDString) don't recv .Bind respon",level: .Debug)
             }
             version.deallocate(capacity: 1)
             result.deallocate(capacity: 1)
@@ -338,12 +338,12 @@ public class Socks5Connector:ProxyConnector{
     
     public override func sendData(data: Data, withTag tag: Int) {
         if writePending {
-            AxLogger.log("Socket-\(cID) writePending error", level: .Debug)
+            SKit.log("Socket-\(cID) writePending error", level: .Debug)
             return
         }
         writePending = true
         if isConnected == false {
-            AxLogger.log("Socket-\(cID)  isConnected error", level: .Error)
+            SKit.log("Socket-\(cID)  isConnected error", level: .Error)
             return
         }
         self.connection!.write(data) {[weak self] error in
@@ -351,7 +351,7 @@ public class Socks5Connector:ProxyConnector{
             strong.writePending = false
             
             guard error == nil else {
-                AxLogger.log("  NWTCPSocket got an error when writing data: \(error!.localizedDescription)",level: .Debug)
+                SKit.log("  NWTCPSocket got an error when writing data: \(error!.localizedDescription)",level: .Debug)
                 strong.forceDisconnect()
                 return
             }

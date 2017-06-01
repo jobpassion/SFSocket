@@ -24,7 +24,7 @@ public class SFNetworkInterfaceManager: NSObject {
 
 
      static public  func updateIPAddress(){
-        AxLogger.log("clear ipaddress",level: .Info)
+        SKit.log("clear ipaddress",level: .Info)
 //        WiFiIPAddress  = ""
 //        WWANIPAddress = ""
         networkInfo  = getIFAddresses()
@@ -45,8 +45,8 @@ public class SFNetworkInterfaceManager: NSObject {
             defaultIPAddress = WWANIPAddress
         }
 
-        AxLogger.log("Now default IPaddr \(defaultIPAddress)",level: .Info)
-        AxLogger.log("WI-FI:\(WiFiIPAddress) CELL:\(WWANIPAddress)",level: .Info)
+        SKit.log("Now default IPaddr \(defaultIPAddress)",level: .Info)
+        SKit.log("WI-FI:\(WiFiIPAddress) CELL:\(WWANIPAddress)",level: .Info)
         SFEnv.updateEnvIP(defaultIPAddress)
         showRouter()
         
@@ -55,12 +55,12 @@ public class SFNetworkInterfaceManager: NSObject {
      static public  func showRouter() {
 //                dispatch_async(dispatch_get_main_queue()){
 //                    let routers = currntRouter()
-//                    AxLogger.log("router IPV4 \(routers)")
+//                    SKit.log("router IPV4 \(routers)")
 //                }
 //        
 //                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 //                    let routers = currntRouter()
-//                    AxLogger.log("router IPV4 \(routers)",level: .Info)
+//                    SKit.log("router IPV4 \(routers)",level: .Info)
 //                }
     }
      static public  func interfaceMTUWithName(_ name:String) ->Int {

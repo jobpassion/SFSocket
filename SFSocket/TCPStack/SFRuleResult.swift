@@ -36,6 +36,6 @@ public class SFRuleResult {
         return r
     }
     deinit {
-        AxLogger.log("[SFSettingModule] RuleResult deinit ",level: .Debug)
+        SKit.log("[SFSettingModule] RuleResult deinit ",level: .Debug)
     }
 }

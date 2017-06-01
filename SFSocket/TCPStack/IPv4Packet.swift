@@ -20,7 +20,7 @@ public class IPv4Packet:NSObject{
     public init(PacketData:Data){
         
         if PacketData.count < 20 {
-            //AxLogger.log("PacketData lenth error",)
+            //SKit.log("PacketData lenth error",)
             fatalError()
         }
         _rawData = PacketData;

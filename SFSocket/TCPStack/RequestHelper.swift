@@ -45,7 +45,7 @@ public class RequestHelper{
                 
                 //initDatabase(db!)
             }catch let e as NSError{
-                AxLogger.log("open log  db error \(p) \(e.description)",level: .Error)
+                SKit.log("open log  db error \(p) \(e.description)",level: .Error)
             }
         
         
@@ -94,7 +94,7 @@ public class RequestHelper{
                 
                 
             }catch let e as NSError{
-                AxLogger.log("create table error: \(e.description)",level: .Error)
+                SKit.log("create table error: \(e.description)",level: .Error)
             }
         }
         
@@ -102,7 +102,7 @@ public class RequestHelper{
     }
     func saveReqInfo(_ infoReq:SFRequestInfo){
         if infoReq.url.isEmpty {
-            AxLogger.log("\(infoReq.reqID) don't have url and don't save record",level: .Error)
+            SKit.log("\(infoReq.reqID) don't have url and don't save record",level: .Error)
             return
         }
         requests.append(infoReq)
@@ -116,7 +116,7 @@ public class RequestHelper{
         
         let address = info.localIPaddress as NSString
         if address.contains("/") {
-            AxLogger.log("\(info.localIPaddress) error",level: .Error)
+            SKit.log("\(info.localIPaddress) error",level: .Error)
             return
         }
         //debugLog("\(info.url)   \(info.traffice.rx):\(info.traffice.tx)")
@@ -146,12 +146,12 @@ public class RequestHelper{
                     }
                
             } catch let e  as NSError {
-                AxLogger.log("insert error \(e.description)",level:.Error)
+                SKit.log("insert error \(e.description)",level:.Error)
             }
             
         }else {
             
-            AxLogger.log("insert error no db ",level:.Error)
+            SKit.log("insert error no db ",level:.Error)
         }
         self.requests.removeFirst()
         

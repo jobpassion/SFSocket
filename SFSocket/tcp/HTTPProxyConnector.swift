@@ -35,20 +35,20 @@ public  class HTTPProxyConnector:ProxyConnector {
     deinit {
         //reqHeader = nil
         //respHeader = nil
-        AxLogger.log("\(cIDString) deinit", level: .Debug)
+        SKit.log("\(cIDString) deinit", level: .Debug)
     }
     func sendReq() {
         if let req = reqHeader  {
             if let data = req.buildCONNECTHead(self.proxy) {
-                AxLogger.log("\(cIDString) sending CONNECTHead \(data) \(req.method)",level: .Debug)
+                SKit.log("\(cIDString) sending CONNECTHead \(data) \(req.method)",level: .Debug)
                 self.writeData(data, withTag: HTTPProxyConnector.ReadTag)
             }else {
-               AxLogger.log("\(cIDString) buildCONNECTHead error",level: .Error)
+               SKit.log("\(cIDString) buildCONNECTHead error",level: .Error)
             }
         }else {
             //sleep(1)
             //sendReq()
-           AxLogger.log("\(cIDString)  not reqHeader  error",level: .Error)
+           SKit.log("\(cIDString)  not reqHeader  error",level: .Error)
         }
 
     }
@@ -66,11 +66,11 @@ public  class HTTPProxyConnector:ProxyConnector {
             
             respHeader = SFHTTPResponseHeader(data: headerData)
             if let r = respHeader, r.sCode != 200 {
-                AxLogger.log("\(self) CONNECT status\(r.sCode) ",level: .Error)
+                SKit.log("\(self) CONNECT status\(r.sCode) ",level: .Error)
                 //有bug
                 
                 //let e = NSError(domain:errDomain , code: 10,userInfo:["reason":"http auth failure!!!"])
-                AxLogger.log("socketDidCloseReadStream  \(data)",level:.Error)
+                SKit.log("socketDidCloseReadStream  \(data)",level:.Error)
                 self.forceDisconnect()
                 //sendReq()
                 //NSLog("CONNECT status\(r.sCode) ")
@@ -89,18 +89,18 @@ public  class HTTPProxyConnector:ProxyConnector {
     override func readCallback(data: Data?, tag: Int) {
         
         guard let data = data else {
-            AxLogger.log("\(cIDString) read nil", level: .Debug)
+            SKit.log("\(cIDString) read nil", level: .Debug)
             return
         }
         queueCall {
           
-            //AxLogger.log("read data \(data)", level: .Debug)
+            //SKit.log("read data \(data)", level: .Debug)
             if self.httpConnected == false {
                 if self.respHeader == nil {
                     let len = self.recvHeaderData(data: data)
                     
                     if len == 0{
-                        AxLogger.log("http  don't found resp header",level: .Warning)
+                        SKit.log("http  don't found resp header",level: .Warning)
                     }else {
                         //找到resp header
                         self.httpConnected = true
@@ -114,7 +114,7 @@ public  class HTTPProxyConnector:ProxyConnector {
                                 self.delegate?.didReadData( dataX, withTag: tag, from: self)
                             })
                             
-                            //AxLogger.log("\(cIDString) CONNECT response data\(data)",level: .Error)
+                            //SKit.log("\(cIDString) CONNECT response data\(data)",level: .Error)
                         }
                     }
                 }
@@ -142,12 +142,12 @@ public  class HTTPProxyConnector:ProxyConnector {
 
     public override func sendData(data: Data, withTag tag: Int) {
         if writePending {
-            AxLogger.log("Socket-\(cID)  writePending error", level: .Debug)
+            SKit.log("Socket-\(cID)  writePending error", level: .Debug)
             return
         }
         writePending = true
         if isConnected == false {
-            AxLogger.log("isConnected error", level: .Error)
+            SKit.log("isConnected error", level: .Error)
             return
         }
         self.connection!.write(data) {[weak self] error in
@@ -155,7 +155,7 @@ public  class HTTPProxyConnector:ProxyConnector {
             strong.writePending = false
             
             guard error == nil else {
-                AxLogger.log("NWTCPSocket got an error when writing data: \(error!.localizedDescription)",level: .Debug)
+                SKit.log("NWTCPSocket got an error when writing data: \(error!.localizedDescription)",level: .Debug)
                 strong.forceDisconnect()
                 return
             }
@@ -182,12 +182,12 @@ public  class HTTPProxyConnector:ProxyConnector {
        
         
         if object == nil {
-            AxLogger.log("\(cIDString) connection lost", level: .Error)
+            SKit.log("\(cIDString) connection lost", level: .Error)
             disconnect()
             return
         }
         if let error = connection?.error {
-            AxLogger.log("Socket-\(cIDString) state: \(error.localizedDescription)", level: .Debug)
+            SKit.log("Socket-\(cIDString) state: \(error.localizedDescription)", level: .Debug)
         }
         
         switch connection!.state {
@@ -222,9 +222,9 @@ public  class HTTPProxyConnector:ProxyConnector {
         //
         //        }
         if let error = connection!.error {
-            AxLogger.log("\(cIDString) \(error.localizedDescription)", level: .Error)
+            SKit.log("\(cIDString) \(error.localizedDescription)", level: .Error)
         }
-        AxLogger.log("\(cIDString) stat: \(connection!.state.description)", level: .Debug)
+        SKit.log("\(cIDString) stat: \(connection!.state.description)", level: .Debug)
     }
 
     public static func connectorWithSelectorPolicy(targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,delegate: RawSocketDelegate, queue: DispatchQueue) ->HTTPProxyConnector{

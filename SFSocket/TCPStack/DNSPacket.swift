@@ -104,7 +104,7 @@ class DNSPacket: NSObject {
     init(data:Data) {
         if data.count < 12 {
             
-            AxLogger.log("DNS data error data",level: .Error)
+            SKit.log("DNS data error data",level: .Error)
         }
        
         rawData = data
@@ -160,7 +160,7 @@ class DNSPacket: NSObject {
                 ptr = ptr?.successor()
                 
                 if (ptr?.distance(to:endptr))! < len   {
-                    AxLogger.log("DNS error return ",level: .Debug)
+                    SKit.log("DNS error return ",level: .Debug)
                     
                 }else {
                     if let s = NSString(bytes: ptr!, length: len, encoding: String.Encoding.utf8.rawValue){
@@ -262,7 +262,7 @@ class DNSPacket: NSObject {
                     let buffer = NSMutableData()
                     memcpy(buffer.mutableBytes, ptr, Int(len))
                     ptr = ptr?.advanced(by:  Int(len))
-                    AxLogger.log("IPv6 AAAA record found \(buffer)",level: .Notify)
+                    SKit.log("IPv6 AAAA record found \(buffer)",level: .Notify)
                 }else {
                     while (ptr?.pointee != 0x0) {
                         let len = Int((ptr?.pointee)!)
@@ -287,7 +287,7 @@ class DNSPacket: NSObject {
                     ptr = ptr?.advanced(by: 1)
                 }
                 
-                AxLogger.log(" \(domain) \(domainString)",level: .Debug)
+                SKit.log(" \(domain) \(domainString)",level: .Debug)
                 
             }
         }
@@ -295,17 +295,17 @@ class DNSPacket: NSObject {
         
         if let d = queryDomains.first {
             if qr == 0 {
-                AxLogger.log("DNS Request: \(d) ",level: .Debug)
+                SKit.log("DNS Request: \(d) ",level: .Debug)
                 
             }else {
                 //NSLog("DNS Response Packet %@", d)
-                AxLogger.log("DNS Response: \(d) :\(ipString) ",level: .Debug)
+                SKit.log("DNS Response: \(d) :\(ipString) ",level: .Debug)
                 if    !self.ipString.isEmpty {
                     let r = DNSCache.init(d: d, i: ipString)
                     SFSettingModule.setting.addDNSCacheRecord(r)
-                    AxLogger.log("DNS \(d) IN A \(ipString)", level: .Trace)
+                    SKit.log("DNS \(d) IN A \(ipString)", level: .Trace)
                 }else {
-                     AxLogger.log("DNS \(d) IN not found record", level: .Trace)
+                     SKit.log("DNS \(d) IN not found record", level: .Trace)
                 }
             }
             
@@ -340,7 +340,7 @@ class DNSPacket: NSObject {
         return domainString
     }
     deinit{
-         AxLogger.log("DNSPacket deinit",level: .Debug)
+         SKit.log("DNSPacket deinit",level: .Debug)
     }
     static func genPacketData(_ ips:[String],domain:String,identifier:UInt16) ->Data {
         //IPv4

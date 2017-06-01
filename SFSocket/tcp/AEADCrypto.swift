@@ -57,22 +57,22 @@ class loadSys {
     static func addIV(ctx:CCCryptorRef,iv:Data) {
         let c = (iv as NSData).bytes
         let r = CCCryptorGCMAddIV(ctx,c,CInt(iv.count))
-        AxLogger.log("CCCryptorGCMAddIV \(r)", level: .Debug)
+        SKit.log("CCCryptorGCMAddIV \(r)", level: .Debug)
     }
     static func addAAD(ctx:CCCryptorRef,aData:Data){
         let c = (aData as NSData).bytes
         let r = CCCryptorGCMaddAAD(ctx,c,CInt(aData.count))
-        AxLogger.log("CCCryptorGCMaddAAD \(r)", level: .Debug)
+        SKit.log("CCCryptorGCMaddAAD \(r)", level: .Debug)
     }
     static func  update(ctx:CCCryptorRef,data:Data,dataOut:UnsafeMutableRawPointer,tagOut:UnsafeMutableRawPointer,tagLength:UnsafeMutablePointer<Int>,en:Bool){
         let c = (data as NSData).bytes
         if en {
             let r =  gcmen_update(ctx,c,CInt(data.count),dataOut)
-            AxLogger.log("gcm_update \(r)", level: .Debug)
+            SKit.log("gcm_update \(r)", level: .Debug)
             print("-- \(r)")
         }else {
             let r =  gcmde_update(ctx,c,CInt(data.count),dataOut)
-            AxLogger.log("gcm_update \(r)", level: .Debug)
+            SKit.log("gcm_update \(r)", level: .Debug)
             print("-- \(r)")
         }
         
@@ -80,7 +80,7 @@ class loadSys {
         
         
         let rr = CCCryptorGCMFinal(ctx,tagOut,tagLength)
-        AxLogger.log("CCCryptorGCMaddAAD \(rr)", level: .Debug)
+        SKit.log("CCCryptorGCMaddAAD \(rr)", level: .Debug)
     }
 }
 
@@ -128,7 +128,7 @@ public class AEAD {
         
         let ramdonData = SSEncrypt.getSecureRandom(bytesCount: key_len )
         key.append(ramdonData)
-        AxLogger.log("\(base64) invalid ", level: .Error)
+        SKit.log("\(base64) invalid ", level: .Error)
         return key_len
     }
 }
@@ -159,7 +159,7 @@ public class aead_ctx {
         if !enc_ctx.sodiumInited {
             if sodium_init() == -1 {
                 //print("sodium_init failure")
-                AxLogger.log("sodium_init failure todo fix",level: .Error)
+                SKit.log("sodium_init failure todo fix",level: .Error)
             }
         }
     }
@@ -187,7 +187,7 @@ public class aead_ctx {
             //cryptor.deallocate(capacity: 1)
             //return ptr
         }else {
-            AxLogger.log("create crypto ctx error",level: .Error)
+            SKit.log("create crypto ctx error",level: .Error)
             //return nil
         }
         
@@ -245,7 +245,7 @@ public class aead_ctx {
                 cryptoInit = true
                 ctx = temp
             }else {
-                AxLogger.log("create crypto ctx error",level: .Error)
+                SKit.log("create crypto ctx error",level: .Error)
                 
             }
             
@@ -337,7 +337,7 @@ public class AEADCrypto {
         //ramdonKey  = SSEncrypt.evpBytesToKey(password: password,keyLen: m.key_size)
         if sodium_init() == -1 {
             //print("sodium_init failure")
-            AxLogger.log("sodium_init failure todo fix",level: .Error)
+            SKit.log("sodium_init failure todo fix",level: .Error)
         }
         ramdonKey = Data()
         if !key.isEmpty {
@@ -349,13 +349,13 @@ public class AEADCrypto {
         //let iv =  SSEncrypt.getSecureRandom(bytesCount: m.iv_size)
         
         send_ctx = aead_ctx.init(key: ramdonKey!, iv: salt, encrypt: true,method:m )
-        AxLogger.log("Key \(ramdonKey! as NSData) salt:\(salt as NSData)", level: .Debug)
+        SKit.log("Key \(ramdonKey! as NSData) salt:\(salt as NSData)", level: .Debug)
         
     }
     func recvCTX(iv:Data){
         //debugLog(message: "use iv create ctx \(iv)")
         if SSEncrypt.have_iv(i: iv,m:m)  && !testenable{
-            AxLogger.log("cryto iv dup error",level: .Error)
+            SKit.log("cryto iv dup error",level: .Error)
             
         }else {
             recv_ctx = aead_ctx.init(key: ramdonKey!, iv: iv, encrypt: false,method:m)
@@ -425,7 +425,7 @@ public class AEADCrypto {
             
             if encrypt_bytes.count + ivBuffer.count < iv_len {
                 ivBuffer.append(encrypt_bytes)
-                AxLogger.log("recv iv not finished,waiting recv iv",level: .Warning)
+                SKit.log("recv iv not finished,waiting recv iv",level: .Warning)
                 return nil
             }else {
                 let iv_need_len = iv_len - ivBuffer.count
@@ -452,7 +452,7 @@ public class AEADCrypto {
         }
         if recv_ctx == nil && encrypt_bytes.count < send_ctx.m.iv_size {
             
-            AxLogger.log("socket read less iv_len",level: .Error)
+            SKit.log("socket read less iv_len",level: .Error)
         }
         //leaks
         if let left = genData(encrypt_bytes: encrypt_bytes) {
@@ -460,7 +460,7 @@ public class AEADCrypto {
             // Alloc Data Out
             guard let  ctx =  recv_ctx else {
                 //print("ctx error")
-                AxLogger.log("recv_ctx not init ",level: .Error)
+                SKit.log("recv_ctx not init ",level: .Error)
                 return nil }
             
             if ctx.m.rawValue >= CryptoMethod.SALSA20.rawValue {
@@ -530,20 +530,20 @@ public class AEADCrypto {
                     
                     if (final != CCCryptorStatus( 0))
                     {
-                        AxLogger.log("decrypt CCCryptorFinal failure",level: .Error)
+                        SKit.log("decrypt CCCryptorFinal failure",level: .Error)
                         
                     }
                     
                     return cipherDataDecrypt as Data ;//cipherFinalDecrypt;
                 }else {
-                    AxLogger.log("decrypt CCCryptorUpdate failure",level: .Error)
+                    SKit.log("decrypt CCCryptorUpdate failure",level: .Error)
                 }
                 
             }
             
         }else {
             
-            AxLogger.log("decrypt no Data",level: .Warning)
+            SKit.log("decrypt no Data",level: .Warning)
         }
         
         
@@ -652,14 +652,14 @@ public class AEADCrypto {
                     
                     
                 }else {
-                    AxLogger.log("CCCryptorFinal error \(final)",level:.Error)
+                    SKit.log("CCCryptorFinal error \(final)",level:.Error)
                 }
                 
-                //AxLogger.log("cipher length:\(d.length % 16)")
+                //SKit.log("cipher length:\(d.length % 16)")
                 
                 
             }else {
-                AxLogger.log("CCCryptorUpdate error \(update)",level:.Error)
+                SKit.log("CCCryptorUpdate error \(update)",level:.Error)
             }
             
         }
@@ -689,7 +689,7 @@ public class AEADCrypto {
         default:
             break
         }
-        AxLogger.log("\(message)",level: .Debug)
+        SKit.log("\(message)",level: .Debug)
     }
     
     

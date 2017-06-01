@@ -24,7 +24,7 @@ class Channel {
 //        self.realPort = p
     }
     func close(){
-        AxLogger.log("Tun Channel \(cId) close", level: .Info)
+        SKit.log("Tun Channel \(cId) close", level: .Info)
     }
     func send(_ data:Data) {
         

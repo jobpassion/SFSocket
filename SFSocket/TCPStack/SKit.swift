@@ -168,7 +168,7 @@ public class SKit {
     static var provier:NEPacketTunnelProvider?
     static var confirmMessage:Set<String> = []
     public static func prepareTunnel(provier:NEPacketTunnelProvider,reset:Bool,pendingStartCompletion: (@escaping (Error?) ->Void)){
-        AxLogger.log("SKit prepareTunnel",level: .Info)
+        SKit.log("SKit prepareTunnel",level: .Info)
         let setting = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "240.89.6.4")
         let ipv4 = NEIPv4Settings(addresses: [tunIP], subnetMasks: ["255.255.255.0"])// iPhone @2007 MacWorld
         self.provier = provier
@@ -181,9 +181,9 @@ public class SKit {
         if reset {
             if dest == "0.0.0.0" && defaultRoute.gatewayAddress == nil{
                 includedRoutes.append(defaultRoute)
-                //AxLogger.log("default router: \(defaultRoute.destinationAddress) \(defaultRoute.gatewayAddress)",level:.Debug)
+                //SKit.log("default router: \(defaultRoute.destinationAddress) \(defaultRoute.gatewayAddress)",level:.Debug)
             }else {
-                //AxLogger.log("default router####: \(defaultRoute.destinationAddress) \(defaultRoute.gatewayAddress)",level:.Debug)
+                //SKit.log("default router####: \(defaultRoute.destinationAddress) \(defaultRoute.gatewayAddress)",level:.Debug)
             }
         }else {
             includedRoutes.append(defaultRoute)
@@ -208,11 +208,11 @@ public class SKit {
         guard let rule = SFSettingModule.setting.rule else  {
             let reason = NEProviderStopReason.providerFailed
             provier.alert(message: "Don't Find Conf File,Please Use Main Application Dial VPN",reason:reason)
-            AxLogger.log("Don't find conf file",level: .Error)
+            SKit.log("Don't find conf file",level: .Error)
             return
         }
         if let general =  rule.general  {
-            AxLogger.log("Bypass-tun count \(general.bypasstun.count) ",level: .Info)
+            SKit.log("Bypass-tun count \(general.bypasstun.count) ",level: .Info)
             for item in general.bypasstun {
                 let x = item.components(separatedBy: "/")
                 if x.count == 2{
@@ -245,7 +245,7 @@ public class SKit {
                 excludedRoutes.append(route)
             }else {
                 let wxRecords = query(proxy.serverAddress)
-                AxLogger.log(" pass tun proxy.serverAddress:\(wxRecords)",level: .Info)
+                SKit.log(" pass tun proxy.serverAddress:\(wxRecords)",level: .Info)
                 for v in wxRecords {
                     route = NEIPv4Route(destinationAddress: v, subnetMask: "255.255.255.240")
                     route.gatewayAddress = NEIPv4Route.default().gatewayAddress
@@ -255,16 +255,16 @@ public class SKit {
             }
         }
         if  ProxyGroupSettings.share.proxyChain {
-            AxLogger.log("Proxy Chain Enable",level:.Info)
+            SKit.log("Proxy Chain Enable",level:.Info)
             ProxyChain.shared.proxy = ProxyGroupSettings.share.chainProxy
         }
         let ips = query("dns.weixin.qq.com")
         if  !ips.isEmpty {
             let r = DNSCache.init(d: "dns.weixin.qq.com.", i: ips)
             SFSettingModule.setting.addDNSCacheRecord(r)
-            AxLogger.log("DNS \(ips) IN A \(ipString)", level: .Trace)
+            SKit.log("DNS \(ips) IN A \(ipString)", level: .Trace)
         }else {
-            AxLogger.log("DNS \(ips) IN not found record", level: .Trace)
+            SKit.log("DNS \(ips) IN not found record", level: .Trace)
         }
         
         for v in ips {
@@ -278,16 +278,16 @@ public class SKit {
         let dnsservers =  SFDNSManager.manager.updateSetting()
         if let path = provier.defaultPath {
             if path.isExpensive {
-                AxLogger.log("Cell DNS \(dnsservers)",level: .Info)
+                SKit.log("Cell DNS \(dnsservers)",level: .Info)
             }else {
-                AxLogger.log("WI-FI DNS \(dnsservers)",level: .Info)
+                SKit.log("WI-FI DNS \(dnsservers)",level: .Info)
             }
             
         }
         let dnsSetting =  SFDNSManager.manager.tunDNSSetting()
         setting.dnsSettings = NEDNSSettings(servers: dnsSetting)
         if let _ = setting.dnsSettings{
-            //AxLogger.log("dns setting: \(d)",level: .Info)
+            //SKit.log("dns setting: \(d)",level: .Info)
             
             
         }
@@ -300,10 +300,10 @@ public class SKit {
         
         
         setting.iPv4Settings?.excludedRoutes = excludedRoutes
-        //AxLogger.log("http \(server) port:\(port)")
+        //SKit.log("http \(server) port:\(port)")
         let proxySettings = NEProxySettings()
         
-        //AxLogger.log("http \(server) port:\(port)")
+        //SKit.log("http \(server) port:\(port)")
         if SFSettingModule.setting.httpProxyModeSocket  {
             proxySettings.httpServer = NEProxyServer(address: loopbackAddr, port: httpsocketProxyPort)
             proxySettings.httpEnabled = true
@@ -339,7 +339,7 @@ public class SKit {
                     let js = try  String.init(contentsOfFile: path)
                     proxySettings.proxyAutoConfigurationJavaScript = js
                 }catch let e as NSError {
-                    AxLogger.log("Now use autoproxy!!!!! \(e)",level:.Info)
+                    SKit.log("Now use autoproxy!!!!! \(e)",level:.Info)
                 }
                 
                 
@@ -358,12 +358,12 @@ public class SKit {
         }
     }
     static public func writestart() {
-        //AxLogger.log("mem:\(memoryUsed()) VPN:starting ",level: .Info)
+        //SKit.log("mem:\(memoryUsed()) VPN:starting ",level: .Info)
         
-        //AxLogger.log("App Info:\(appInfo())",level:.Info)
-        AxLogger.log("App Info:\(appInfo())",level: .Info)
+        //SKit.log("App Info:\(appInfo())",level:.Info)
+        SKit.log("App Info:\(appInfo())",level: .Info)
         if SFSettingModule.setting.udprelayer {
-            AxLogger.log("UDP forward enabled",level: .Info)
+            SKit.log("UDP forward enabled",level: .Info)
         }
         
     }
@@ -374,12 +374,12 @@ public class SKit {
         if self.confirmMessage.contains(message){
             return
         }
-        AxLogger.log("will alert \(message)",level:.Info)
+        SKit.log("will alert \(message)",level:.Info)
         if #available(iOSApplicationExtension 10.0, *) {
             //VPN can alert
             if #available(OSXApplicationExtension 10.12, *) {
                 self.provier!.displayMessage(message, completionHandler: { (fin) in
-                    AxLogger.log("clicked \(message)",level:.Info)
+                    SKit.log("clicked \(message)",level:.Info)
                     self.confirmMessage.update(with: message)
                 })
             } else {
@@ -387,7 +387,7 @@ public class SKit {
             }
             
         }
-        AxLogger.log(message,level:.Info)
+        SKit.log(message,level:.Info)
     }
     static public func loadConfig(){
         
@@ -406,7 +406,7 @@ public class SKit {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         formatter.timeZone = NSTimeZone.system
-        AxLogger.log("Config FileModificationDate \(formatter.string(from: SFSettingModule.setting.configFileData as Date))",level:.Info)
+        SKit.log("Config FileModificationDate \(formatter.string(from: SFSettingModule.setting.configFileData as Date))",level:.Info)
         let  path = groupContainerURL().appendingPathComponent(fn).path
         SFSettingModule.setting.config(path)
         
@@ -415,7 +415,16 @@ public class SKit {
         
         
         
-        //AxLogger.log("",level: .Debug)
+        //SKit.log("",level: .Debug)
         
+    }
+    static func log(_ msg:String,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
+        #if Debug
+            AxLogger.log(msg,level:level)
+        #else
+            if level != AxLoggerLevel.Debug {
+                AxLogger.log(msg,level:level)
+            }
+        #endif
     }
 }

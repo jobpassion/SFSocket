@@ -135,7 +135,7 @@ public class SFConfig {
             content = try String.init(contentsOf: URL.init(fileURLWithPath: path))
             //content = try  NSString.init(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
         }catch let error {
-            AxLogger.log("read \(path) failure \(error.localizedDescription)", level: .Error)
+            SKit.log("read \(path) failure \(error.localizedDescription)", level: .Error)
             return
         }
         let x = content.components(separatedBy: "\n")

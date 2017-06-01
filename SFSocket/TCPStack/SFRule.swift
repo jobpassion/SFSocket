@@ -94,40 +94,40 @@ class SFRule:SFConfig {
 //        //        mylog("reportMemory \(reportMemory())")
 //    }
     func configInfo() {
-        AxLogger.log("Config:\(configName)",level: .Info)
-        AxLogger.log("Hosts:\(hosts.count)", level: .Info)
+        SKit.log("Config:\(configName)",level: .Info)
+        SKit.log("Hosts:\(hosts.count)", level: .Info)
         
-        AxLogger.log("KEYWORD:\(keyworldRulers.count)" ,level: .Info)
-        AxLogger.log("DOMAIN:\(sufixRulers.count)",level: .Info)
-        AxLogger.log("GEOIP:\(geoipRulers.count)",level: .Info)
-        AxLogger.log("AGENT:\(agentRuler.count)",level: .Info)
-        AxLogger.log("IPCIDR:\(ipcidrRulers.count)",level: .Info)
-        AxLogger.log("FINAL:\(finalRuler.proxyName)",level: .Info)
+        SKit.log("KEYWORD:\(keyworldRulers.count)" ,level: .Info)
+        SKit.log("DOMAIN:\(sufixRulers.count)",level: .Info)
+        SKit.log("GEOIP:\(geoipRulers.count)",level: .Info)
+        SKit.log("AGENT:\(agentRuler.count)",level: .Info)
+        SKit.log("IPCIDR:\(ipcidrRulers.count)",level: .Info)
+        SKit.log("FINAL:\(finalRuler.proxyName)",level: .Info)
         let count = hosts.count + keyworldRulers.count + sufixRulers.count + geoipRulers.count + agentRuler.count + ipcidrRulers.count
         if ProxyGroupSettings.share.historyEnable {
-            AxLogger.log("Request History enabled",level: .Info)
+            SKit.log("Request History enabled",level: .Info)
         }else {
-            AxLogger.log("Request History disabled",level: .Info)
+            SKit.log("Request History disabled",level: .Info)
         }
         if self.ipRuleEnable {
             
-            AxLogger.log("IP Address base rule enable",level: .Info)
+            SKit.log("IP Address base rule enable",level: .Info)
         }else {
-            AxLogger.log("IP Address base rule disable",level: .Info)
+            SKit.log("IP Address base rule disable",level: .Info)
         }
-        AxLogger.log("Rule Count:\(count)",level: .Info)
+        SKit.log("Rule Count:\(count)",level: .Info)
     }
     func config() {
         
         
         for item in geoipRulers {
             if item.name == "CN" {
-                AxLogger.log("GEOIP CN enabled",level: .Info)
+                SKit.log("GEOIP CN enabled",level: .Info)
                 if let path = Bundle.main.path(forResource: "CNIP.bin", ofType: nil) {
                     let x  = try! Data.init(contentsOf: URL.init(fileURLWithPath: path))
                         cnIPList = x
                         cnIPCount = x.count / 8
-                        AxLogger.log("CN Network Count :\(cnIPCount)",level: .Info)
+                        SKit.log("CN Network Count :\(cnIPCount)",level: .Info)
                     
                     
                 }
@@ -147,7 +147,7 @@ class SFRule:SFConfig {
             //rule.proxyName = "DIRECT"
             
             //ipcidrRulers.append(rule)
-            AxLogger.log("Config Apple 17.0.0.0/8 please use config file",level: .Info)
+            SKit.log("Config Apple 17.0.0.0/8 please use config file",level: .Info)
 //            let iplist = getIFAddresses()
 //            
 //            var wifi:NetInfo?
@@ -315,7 +315,7 @@ class SFRule:SFConfig {
             return false
         }
         db = d
-       AxLogger.log("GeoLite2 loaded, maybe have memory issue",level: .Warning)
+       SKit.log("GeoLite2 loaded, maybe have memory issue",level: .Warning)
         return true
 
     }
@@ -410,7 +410,7 @@ class SFRule:SFConfig {
                     
                 }else {
                     #if os(iOS)
-                    AxLogger.log("use cnIPList don't found result \(ipString)",level: .Trace)
+                    SKit.log("use cnIPList don't found result \(ipString)",level: .Trace)
                     return nil
                     #endif
                 }
@@ -427,7 +427,7 @@ class SFRule:SFConfig {
                     #if DEBUG
                         //fatalError()
                     #endif
-                    AxLogger.log("use MMDBCountry match",level: .Trace)
+                    SKit.log("use MMDBCountry match",level: .Trace)
                     if let country:MMDBCountry = db!.lookup(ipString){
                         let isoCode = country.isoCode
                         for item in geoipRulers {

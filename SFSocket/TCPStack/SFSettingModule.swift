@@ -79,7 +79,7 @@ open  class SFSettingModule {
         if let r = findRuleByString(dest, useragent: "") {
             if r.result.policy == .Reject {
                 //对于raw tcp , 之间返回127.0.0.1 可以做去广告
-                AxLogger.log("DNS-request \(d):127.0.0.1", level: .Warning)
+                SKit.log("DNS-request \(d):127.0.0.1", level: .Warning)
                 return ["127.0.0.1"]
             }
         }
@@ -113,21 +113,21 @@ open  class SFSettingModule {
 
         //var  fn = ProxyGroupSettings.share.config
         
-        AxLogger.log("Read Config From :\(path)", level: .Info)
+        SKit.log("Read Config From :\(path)", level: .Info)
         if  fm.fileExists(atPath:path) {
             rule = SFRule.init(path: path, loadRule: true)
             rule!.config()
             rule!.configInfo()
             if let g = rule!.general {
                 AxLogger.logleve = g.axloglevel
-                AxLogger.log("log level :\(g.axloglevel.description) ",level: .Info)
+                SKit.log("log level :\(g.axloglevel.description) ",level: .Info)
                 
             }
-            AxLogger.log("Config load Finished ",level: .Info)
+            SKit.log("Config load Finished ",level: .Info)
         }else {
             let u = fm.containerURL(forSecurityApplicationGroupIdentifier: SKit.groupIdentifier)!
-            AxLogger.log("Config File Don't exist \(u.path) ",level: .Info)
-            AxLogger.log("Config File Don't exist \(path) ",level: .Info)
+            SKit.log("Config File Don't exist \(u.path) ",level: .Info)
+            SKit.log("Config File Don't exist \(path) ",level: .Info)
         }
         
     }
@@ -355,7 +355,7 @@ open  class SFSettingModule {
             }else {
                 
                 if let ip = findIPFromCache(hostname) {
-                    //AxLogger.log("\(hostname):\(ip) and find ip base rule", level:.Debug)
+                    //SKit.log("\(hostname):\(ip) and find ip base rule", level:.Debug)
                     
                     ruler = findIPRuler(ip)
                     debugLog(String.init(format:"######## %@ DNS %@ rule:%@", hostname,ip,ruler.proxyName))
@@ -410,14 +410,14 @@ open  class SFSettingModule {
             }else {
                 
                 if let ip = findIPFromCache(hostname) {
-                     //AxLogger.log("\(hostname):\(ip) and find ip base rule", level:.Debug)
+                     //SKit.log("\(hostname):\(ip) and find ip base rule", level:.Debug)
                     //host
-                    AxLogger.log(String.init(format:"%@ DNS %@", hostname,ip),level: .Debug)
+                    SKit.log(String.init(format:"%@ DNS %@", hostname,ip),level: .Debug)
                     ruler = findIPRuler(ip)
                     ipaddr = ip
                     //ruler.name
                 }else {
-                    AxLogger.log("now send async dns request \(hostname)",level: .Debug)
+                    SKit.log("now send async dns request \(hostname)",level: .Debug)
                     //ruler = rule!.finalRuler
                     return nil
                 }
@@ -457,7 +457,7 @@ open  class SFSettingModule {
             }
             return ruler
         }else  {
-            AxLogger.log("Don't find config, all FINAL DIRECT",level: .Info)
+            SKit.log("Don't find config, all FINAL DIRECT",level: .Info)
             ruler.type = .final
             ruler.proxyName = "DIRECT"
             return ruler

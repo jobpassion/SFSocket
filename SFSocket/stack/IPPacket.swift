@@ -198,7 +198,7 @@ open class IPPacket {
         
         let vhl = scanner.readByte()!
         guard let v = IPVersion(rawValue: vhl >> 4) else {
-            AxLogger.log("Got unknown ip packet version \(vhl >> 4)",level: .Error)
+            SKit.log("Got unknown ip packet version \(vhl >> 4)",level: .Error)
             return nil
         }
         version = v
@@ -211,7 +211,7 @@ open class IPPacket {
         tos = scanner.readByte()!
         
         guard totalLength == scanner.read16()! else {
-            AxLogger.log("Packet length mismatches from header.",level: .Error)
+            SKit.log("Packet length mismatches from header.",level: .Error)
             return nil
         }
         
@@ -220,7 +220,7 @@ open class IPPacket {
         TTL = scanner.readByte()!
         
         guard let proto = TransportProtocol(rawValue: scanner.readByte()!) else {
-            AxLogger.log("Get unsupported packet protocol.",level: .Error)
+            SKit.log("Get unsupported packet protocol.",level: .Error)
             return nil
         }
         transportProtocol = proto
@@ -234,7 +234,7 @@ open class IPPacket {
             destinationAddress = IPv4Address(fromUInt32InHostOrder: scanner.read32()!)
         default:
             // IPv6 is not supported yet.
-            AxLogger.log("IPv6 is not supported yet.",level: .Error)
+            SKit.log("IPv6 is not supported yet.",level: .Error)
             return nil
         }
         
@@ -245,7 +245,7 @@ open class IPPacket {
             }
             self.protocolParser = parser
         default:
-            AxLogger.log("Can not parse packet header of type \(transportProtocol) yet",level: .Error)
+            SKit.log("Can not parse packet header of type \(transportProtocol) yet",level: .Error)
             return nil
         }
     }

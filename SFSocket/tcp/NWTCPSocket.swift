@@ -193,7 +193,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
         //endpoint = nil
         connection = c
         if let _ = connection!.error {
-           // AxLogger.log("\(cIDString) \(e.localizedDescription) \(host):\(port)", level: .Debug)
+           // SKit.log("\(cIDString) \(e.localizedDescription) \(host):\(port)", level: .Debug)
            // throw e
 
             connection!.addObserver(self, forKeyPath: "state", options: [.initial, .new], context: nil)
@@ -252,7 +252,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
             guard  let c = connection else {return }
             if let a = c.localAddress {
                 let addr = a as! NWHostEndpoint
-                AxLogger.log("\(cIDString) \(addr) readPending ", level: .Debug)
+                SKit.log("\(cIDString) \(addr) readPending ", level: .Debug)
             }
             
                 
@@ -262,7 +262,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
         }
         readPending = true
         if isConnected == false {
-            AxLogger.log("\(cIDString) not connected ", level: .Debug)
+            SKit.log("\(cIDString) not connected ", level: .Debug)
             return
         }
         
@@ -273,7 +273,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
                     strong.readPending = false
                     guard error == nil else {
                         if let s = self , let c = s.connection, c.state != .connected {
-                            AxLogger.log("\(self!.cIDString) NWTCPSocket got an error when reading data: \(error!.localizedDescription) state:\(c.state.description) ",level: .Error)
+                            SKit.log("\(self!.cIDString) NWTCPSocket got an error when reading data: \(error!.localizedDescription) state:\(c.state.description) ",level: .Error)
                             s.disconnect()
                         }
                         
@@ -360,11 +360,11 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
         }
         //crash
 //        if let  e = connection.error {
-//            AxLogger.log("\(cIDString) error:\(e.localizedDescription)", level: .Error)
+//            SKit.log("\(cIDString) error:\(e.localizedDescription)", level: .Error)
 //        }
 
         if object ==  nil  {
-            AxLogger.log("\(cIDString) error:connection error", level: .Error)
+            SKit.log("\(cIDString) error:connection error", level: .Error)
             //return
         }
         
@@ -372,7 +372,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
         //crash 
         guard let connection = connection else {return}
         if let error = connection.error {
-            AxLogger.log("Socket-\(cIDString) Error: \(error.localizedDescription)", level: .Debug)
+            SKit.log("Socket-\(cIDString) Error: \(error.localizedDescription)", level: .Debug)
         }
         switch connection.state {
         case .connected:
@@ -411,12 +411,12 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
 //        if let  x = connection.endpoint as! NWHostEndpoint {
 //            
 //        }
-        AxLogger.log("\(cIDString) state: \(connection.state.description)", level: .Debug)
+        SKit.log("\(cIDString) state: \(connection.state.description)", level: .Debug)
     }
 
     func readCallback(data: Data?, tag: Int) {
         guard let data = data else {
-            AxLogger.log("\(cIDString) read nil", level: .Debug)
+            SKit.log("\(cIDString) read nil", level: .Debug)
             return
         }
 //        guard !cancelled else {
@@ -432,11 +432,11 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
                     }
                     
                 }else {
-                    AxLogger.log("delegate nil", level: .Error)
+                    SKit.log("delegate nil", level: .Error)
                 }
                 
             }else {
-                AxLogger.log("NWTCPSocket  nil", level: .Error)
+                SKit.log("NWTCPSocket  nil", level: .Error)
             }
             
         }
@@ -444,7 +444,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
 
     public func sendData(data: Data, withTag tag: Int) {
         if writePending {
-            AxLogger.log("Socket-\(cID)  writePending error", level: .Debug)
+            SKit.log("Socket-\(cID)  writePending error", level: .Debug)
             return
         }
         writePending = true
@@ -466,7 +466,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
             }
 
         }else {
-            AxLogger.log("\(cIDString) not connected", level: .Error)
+            SKit.log("\(cIDString) not connected", level: .Error)
         }
         //dispatch_async(socketQueue) {[weak self] in
          //   if let strong = self {
@@ -505,7 +505,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
 
     public func checkStatus() {
         if closeAfterWriting && !writePending {
-            AxLogger.log("Socket-\(cID) cancle", level: .Debug)
+            SKit.log("Socket-\(cID) cancle", level: .Debug)
             cancel()
         }
     }
@@ -513,18 +513,18 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
     deinit {
         delegate = nil
         if connection != nil {
-            AxLogger.log("\(cIDString) .", level: .Debug)
+            SKit.log("\(cIDString) .", level: .Debug)
             connection!.removeObserver(self, forKeyPath: "state")
             if connection!.state != .cancelled  {
                 connection!.cancel()
             }
             //connection.writeClose()
-            AxLogger.log("\(cIDString) deiniting state:\(connection!.state.description)", level: .Debug)
+            SKit.log("\(cIDString) deiniting state:\(connection!.state.description)", level: .Debug)
             
             connection = nil
 
         }
-        AxLogger.log("Socket-\(cID) clean", level: .Info)
+        SKit.log("Socket-\(cID) clean", level: .Info)
         queue = nil
         //socketQueue = nil
     }

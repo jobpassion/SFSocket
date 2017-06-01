@@ -79,7 +79,7 @@ public class TCPSession: RawSocketDelegate {
     init(s:UInt32) {
         
         sessionID = s
-        AxLogger.log("Income session:\(sessionID)", level: .Info)
+        SKit.log("Income session:\(sessionID)", level: .Info)
     }
     public var useCell:Bool {
         get {
@@ -107,7 +107,7 @@ public class TCPSession: RawSocketDelegate {
      - parameter from:    The socket where the data is read from.
      */
     public func didReadData(_ data: Data, withTag: Int, from: RawSocketProtocol){
-        AxLogger.log(desc + " recv \(data as NSData)", level: .Debug)
+        SKit.log(desc + " recv \(data as NSData)", level: .Debug)
         if let adapter = adapter {
             
             do  {
@@ -115,25 +115,25 @@ public class TCPSession: RawSocketDelegate {
                 let result = try adapter.recv(data)
                 if result.0 {
                     //成功解析返回包，对于ss 是解密成功
-                    AxLogger.log(desc + " data:\(result.1 as NSData))", level: .Debug)
+                    SKit.log(desc + " data:\(result.1 as NSData))", level: .Debug)
                     if adapter.proxy.type != .SS {
                         if cnnectflag {
                             //streaming
                             if result.1.count > 0 && readingTag >= 0   {
-                                //AxLogger.log(desc + " shake hand with data",level:.Info)
+                                //SKit.log(desc + " shake hand with data",level:.Info)
                                 delegate?.didReadData(result.1, withTag: readingTag, from: self)
                             }
                             
-                            //AxLogger.log(desc + " shake hand finished error", level: .Debug)
+                            //SKit.log(desc + " shake hand finished error", level: .Debug)
                         }else {
                             let newcflag = adapter.streaming
                             if cnnectflag != newcflag {
-                                AxLogger.log(desc + " shake hand finished", level: .Debug)
+                                SKit.log(desc + " shake hand finished", level: .Debug)
                                 //变动第一次才发这个event
                                 if let d = delegate {
                                     d.didConnect(self)
                                 }else {
-                                    AxLogger.log(desc + " session closed", level: .Debug)
+                                    SKit.log(desc + " session closed", level: .Debug)
                                     forceDisconnect()
                                 }
                                 
@@ -154,12 +154,12 @@ public class TCPSession: RawSocketDelegate {
                 }else {
                     //send data direct
                     //socks5 proxy 还需要tun
-                    AxLogger.log("recv failure", level: .Error)
+                    SKit.log("recv failure", level: .Error)
                     //self.sendRowData(result.1, withTag: frameNegoTag)
                 }
                 
             }catch let e {
-                AxLogger.log(desc + "\(e.localizedDescription)", level: .Error)
+                SKit.log(desc + "\(e.localizedDescription)", level: .Error)
             }
             
         }else {
@@ -187,7 +187,7 @@ public class TCPSession: RawSocketDelegate {
      - parameter socket: The connected socket.
      */
     public func didConnect(_ socket: RawSocketProtocol) {
-        AxLogger.log(desc + " connected", level: .Debug)
+        SKit.log(desc + " connected", level: .Debug)
         if let adapter = adapter {
             //send http/socks5 shakehang data ,ss send header data
             self.sendRowData(Data(), withTag: frameZeroTag)
@@ -225,7 +225,7 @@ public class TCPSession: RawSocketDelegate {
                 let connector = HTTPProxyConnector.connectorWithSelectorPolicy(targetHostname: targetHost, targetPort: Port, p: chain,delegate: s , queue:queue)
                 let data = SFHTTPRequestHeader.buildCONNECTHead(targetHost, port: String(Port),proxy: chain)
                 let message = String.init(format:"http proxy %@ %d", targetHost,Port )
-                AxLogger.log(message,level: .Trace)
+                SKit.log(message,level: .Trace)
                 //let c = connector as! HTTPProxyConnector
                 connector.reqHeader = SFHTTPRequestHeader(data: data)
                 if connector.reqHeader == nil {
@@ -249,7 +249,7 @@ public class TCPSession: RawSocketDelegate {
                     let connector = CHTTPProxConnector.create(targetHostname: adapter.targetHost, targetPort: adapter.targetPort, p: chain,adapter:adapter, delegate: s, queue: queue)
                     let data = SFHTTPRequestHeader.buildCONNECTHead(adapter.targetHost, port: String(adapter.targetPort),proxy: chain)
                     let message = String.init(format:"http proxy %@ %d", adapter.targetHost,adapter.targetPort )
-                    AxLogger.log(message,level: .Trace)
+                    SKit.log(message,level: .Trace)
                     //let c = connector as! HTTPProxyConnector
                     connector.reqHeader = SFHTTPRequestHeader(data: data)
                     if connector.reqHeader == nil {
@@ -268,14 +268,14 @@ public class TCPSession: RawSocketDelegate {
             }else {
                 guard let p = p else { return nil}
                 let message = String.init(format:"proxy server %@:%@", p.serverAddress,p.serverPort)
-                AxLogger.log(message,level: .Trace)
+                SKit.log(message,level: .Trace)
                 if !p.kcptun {
                     switch p.type {
                     case .HTTP,.HTTPS:
                         let connector = HTTPProxyConnector.connectorWithSelectorPolicy(targetHostname: targetHost, targetPort: Port, p: p, delegate: s, queue: queue)
                         let data = SFHTTPRequestHeader.buildCONNECTHead(targetHost, port: String(Port),proxy: p)
                         let message = String.init(format:"http proxy %@ %d", targetHost,Port )
-                        AxLogger.log(message,level: .Trace)
+                        SKit.log(message,level: .Trace)
                         //let c = connector as! HTTPProxyConnector
                         connector.reqHeader = SFHTTPRequestHeader(data: data)
                         if connector.reqHeader == nil {
@@ -294,14 +294,14 @@ public class TCPSession: RawSocketDelegate {
                         s.socket =   Socks5Connector.connectorWithSelectorPolicy(policy, targetHostname: targetHost, targetPort: Port, p: p, delegate: s, queue: queue)
                         
                     default:
-                        AxLogger.log("Config not support", level: .Error)
+                        SKit.log("Config not support", level: .Error)
                         return nil
                     }
                 }else {
                     guard let adapter = Adapter.createAdapter(p, host: targetHost, port: Port) else  {
                         return nil
                     }
-                    AxLogger.log("TCP incoming :\(streamID)", level: .Debug)
+                    SKit.log("TCP incoming :\(streamID)", level: .Debug)
                     s.adapter = adapter
                     s.queue = queue
                     s.socket = Smux.sharedTunnel
@@ -326,14 +326,14 @@ public class TCPSession: RawSocketDelegate {
         
     }
     public  func sendData(_ data: Data, withTag tag: Int) {
-        AxLogger.log(desc + "send \(data as NSData) \(tag)", level: .Debug)
+        SKit.log(desc + "send \(data as NSData) \(tag)", level: .Debug)
         if let t = socket {
             if let adapter = adapter {
                 
                 if adapter.isKcp() {
                     //加密处理 and http / socks5 handshake
                     let newData = adapter.send(data)
-                     AxLogger.log(desc + "adapter  send:data \(newData as NSData) \(tag)", level: .Debug)
+                     SKit.log(desc + "adapter  send:data \(newData as NSData) \(tag)", level: .Debug)
                     var databuffer:Data = Data()
                     //基本不可能有0 的情况
                     
@@ -366,7 +366,7 @@ public class TCPSession: RawSocketDelegate {
         
     }
     public  func sendRowData(_ data: Data, withTag tag: Int) {
-        AxLogger.log(desc + " sendraw \(data as NSData) \(tag)", level: .Debug)
+        SKit.log(desc + " sendraw \(data as NSData) \(tag)", level: .Debug)
         if let t = socket {
             if let adapter = adapter {
                 
@@ -386,7 +386,7 @@ public class TCPSession: RawSocketDelegate {
                     }
                     
                     let newData = adapter.send(data)
-                    AxLogger.log(desc + " sendraw new:\(newData as NSData) \(tag)", level: .Debug)
+                    SKit.log(desc + " sendraw new:\(newData as NSData) \(tag)", level: .Debug)
                     let frames = split(newData, cmd: cmdPSH, sid: sessionID)
                     for f in frames {
                         databuffer.append(f.frameData())

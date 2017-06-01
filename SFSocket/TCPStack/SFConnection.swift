@@ -57,7 +57,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
 
     
     public func didSendBufferLen(_ buf_used: Int) {
-            AxLogger.log("didSendBufferLen error", level: .Info)
+            SKit.log("didSendBufferLen error", level: .Info)
     }
 
 
@@ -149,9 +149,9 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     }
     deinit {
 
-        AxLogger.log("\(cIDString) deinit )",level: .Debug)
+        SKit.log("\(cIDString) deinit )",level: .Debug)
         //free(pcb)
-        AxLogger.log("Connection-\(reqInfo.reqID) clean", level: .Warning)
+        SKit.log("Connection-\(reqInfo.reqID) clean", level: .Warning)
         
     }
   
@@ -162,7 +162,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     }
     func checkStatus(){
         if reqInfo.idleTimeing > 15 {
-             AxLogger.log("\(cIDString) idle \(reqInfo.idleTimeing)",level: .Trace)
+             SKit.log("\(cIDString) idle \(reqInfo.idleTimeing)",level: .Trace)
         }
 
         
@@ -188,7 +188,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         
         reqInfo.ruleStartTime = Date() as Date
         var j:SFRuleResult
-        AxLogger.log("\(cIDString) Find Rule For  DEST:   " + dest ,level:  .Debug)
+        SKit.log("\(cIDString) Find Rule For  DEST:   " + dest ,level:  .Debug)
         
         if let r = SFTCPConnectionManager.manager.findRuleResult(dest){
             j = r
@@ -212,12 +212,12 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 }else {
                     if SFSettingModule.setting.ipRuleEnable {
                         reqInfo.waitingRule = true
-                        AxLogger.log("async send dns  For  DEST:   " + dest ,level:  .Debug)
+                        SKit.log("async send dns  For  DEST:   " + dest ,level:  .Debug)
                         //findIPaddress()
                         
                         findIPaddressSys(reqInfo.host)
                     }else {
-                        AxLogger.log("\(cIDString) ipRuleEnable disable ,use final rule", level: .Debug)
+                        SKit.log("\(cIDString) ipRuleEnable disable ,use final rule", level: .Debug)
                         reqInfo.waitingRule = true
                         self.findIPRule("")
                         
@@ -259,12 +259,12 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                         
 
                     }else {
-                        AxLogger.log("dispatch queue error",level: .Error)
+                        SKit.log("dispatch queue error",level: .Error)
                     }
                     
                 }
             }else {
-                AxLogger.log("weak error",level: .Error)
+                SKit.log("weak error",level: .Error)
             }
             
 
@@ -281,7 +281,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         d.querey(reqInfo.host) {[weak self] (record) in
             if let s  = self {
                 if record?.type != DNSServiceErrorType.init(0)  {//kDNSServiceErr_NoError
-                    AxLogger.log("DNS request error \(String(describing: record?.type.description)) and send request again",level:.Trace)
+                    SKit.log("DNS request error \(String(describing: record?.type.description)) and send request again",level:.Trace)
                     s.findIPAddress2()
                 }else {
                     //
@@ -296,7 +296,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                     //}
                 }
             }else {
-                AxLogger.log("weak error",level: .Error)
+                SKit.log("weak error",level: .Error)
             }
            
         }
@@ -332,7 +332,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                         s.findIPRule(result)
                     }
                 }else {
-                    AxLogger.log("\(s.reqInfo.host) dns query failure",level: .Error)
+                    SKit.log("\(s.reqInfo.host) dns query failure",level: .Error)
                     let queue = s.manager!.dispatchQueue
                     //s.findIPRule(result)
                     queue.async{
@@ -342,7 +342,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                     
                 }
             }else {
-                AxLogger.log("weak error",level: .Error)
+                SKit.log("weak error",level: .Error)
             }
             
 
@@ -350,7 +350,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         
     }
     func findIPRule(_ ip:String) {
-        AxLogger.log("async request dns back \(self.reqInfo.host):\(ip)",level:.Trace)
+        SKit.log("async request dns back \(self.reqInfo.host):\(ip)",level:.Trace)
         let r  = SFSettingModule.setting.findIPRuler(ip)
         
         let result:SFRuleResult = SFRuleResult.init(request:self.reqInfo.host ,r: r)
@@ -364,28 +364,28 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     }
     func findProxy(_ r:SFRuleResult,cache:Bool) {
         
-        AxLogger.log("\(cIDString) Rule Result \(r.result.proxyName)",level: .Debug)
+        SKit.log("\(cIDString) Rule Result \(r.result.proxyName)",level: .Debug)
         reqInfo.findProxy(r,cache: cache)
        
         if !reqInfo.waitingRule {
-             AxLogger.log("\(cIDString) recv rule \(reqInfo.rule.policy), now exit waiting",level: .Warning)
+             SKit.log("\(cIDString) recv rule \(reqInfo.rule.policy), now exit waiting",level: .Warning)
             
             let tim = String(format: cIDString + " rule :%.6f", reqInfo.ruleTiming)
-            AxLogger.log(tim, level: .Info)
+            SKit.log(tim, level: .Info)
             setUpConnector()
         }else {
-            AxLogger.log("\(cIDString) recv rule waiting",level: .Debug)
+            SKit.log("\(cIDString) recv rule waiting",level: .Debug)
         }
         
     }
     func memoryWarning(_ level:DispatchSource.MemoryPressureEvent) {
         if reqInfo.waitingRule {
             if reqInfo.ruleTiming > 1 {
-                AxLogger.log("\(reqInfo.host) memoryWarning Wait Rule \(reqInfo.ruleTiming)",level: .Warning)
+                SKit.log("\(reqInfo.host) memoryWarning Wait Rule \(reqInfo.ruleTiming)",level: .Warning)
             }
         }else {
             if reqInfo.socks_up {
-                AxLogger.log("close: \(self.reqInfo.url)",level: .Notify)
+                SKit.log("close: \(self.reqInfo.url)",level: .Notify)
                 //let e = NSError.init(domain: errDomain, code: -1, userInfo: ["reason":"client_murder"])
                 connector?.forceDisconnect()
             }
@@ -423,7 +423,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                     //s.socketQueue = manager.socketQueue
                     //s.start()
                 }else {
-                    AxLogger.log("TCP Manager error", level: .Error)
+                    SKit.log("TCP Manager error", level: .Error)
                     byebyeRequest()
                 }
                 
@@ -440,7 +440,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     func byebyeRequest() {
 
         //return
-        AxLogger.log("\(cIDString) byebyeRequest ",level: .Debug)
+        SKit.log("\(cIDString) byebyeRequest ",level: .Debug)
         reqInfo.closereason = .clientReject
         reqInfo.status = .Complete
         if reqInfo.socks_up == false  {
@@ -471,7 +471,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     }
 
 //    func shutDownRejectconnection(){
-//       //AxLogger.log("\(cIDString) Reject , now close",level: .Info)
+//       //SKit.log("\(cIDString) Reject , now close",level: .Info)
 //        client_handle_freed_client()
 //    }
     internal func client_socks_handler(_ event:SocketEvent){
@@ -533,7 +533,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
 //            bufArrayInfo.removeValueForKey(tag)
 //            tag += 1
 //        } else {
-//           //AxLogger.log("\(cIDString) currrent tag: \(tag) != \(_tag)",level: .Debug)
+//           //SKit.log("\(cIDString) currrent tag: \(tag) != \(_tag)",level: .Debug)
 //        }
 //        
 //    }
@@ -583,7 +583,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                         m.tcpOperating = true
                         let err = tcp_output(self.pcb)
                         if err != 0 {
-                           //AxLogger.log("\(self.cIDString) tcp_output error:\(err)",level:.Error)
+                           //SKit.log("\(self.cIDString) tcp_output error:\(err)",level:.Error)
                             self.client_abort_client()
                             //return -1
                         }
@@ -602,7 +602,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 //have problem
                 let err = tcp_output(pcb)
                 if err != 0 {
-                   //AxLogger.log("\(cIDString) tcp_output error:\(err)",level: .Error)
+                   //SKit.log("\(cIDString) tcp_output error:\(err)",level: .Error)
                     client_abort_client()
                     //return -1
                 }
@@ -622,7 +622,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                         //let err = tcp_output(StrongSelf.pcb)
                         tcp_recved(self.pcb, UInt16(len))
 //                        if err != 0 {
-//                           //AxLogger.log("\(StrongSelf.cIDString) tcp_output error:\(err)")
+//                           //SKit.log("\(StrongSelf.cIDString) tcp_output error:\(err)")
 //                            StrongSelf.client_abort_client()
 //                            //return -1
 //                        }
@@ -640,13 +640,13 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 let err = tcp_output(pcb)
                 
                 if err != 0 {
-                   //AxLogger.log("\(cIDString) tcp_output error",level: .Error)
+                   //SKit.log("\(cIDString) tcp_output error",level: .Error)
                     client_abort_client()
                 }
                 m.tcpOperating = false
                 
             }else {
-                //AxLogger.log("\(cIDString) tcp_output error",level: .Error)
+                //SKit.log("\(cIDString) tcp_output error",level: .Error)
             }
 
             
@@ -669,11 +669,11 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
 //            buf_size = CLIENT_SOCKS_RECV_BUF_SIZE_UInt
 //        }
         if reqInfo.status !=  .RecvWaiting {
-            AxLogger.log("\(cIDString)  reading....",level:.Trace)
+            SKit.log("\(cIDString)  reading....",level:.Trace)
             c.readDataWithTag(rTag)
             
         }else {
-            AxLogger.log("\(cIDString)  recv waiting length:\(socks_recv_bufArray.count)",level:.Trace)
+            SKit.log("\(cIDString)  recv waiting length:\(socks_recv_bufArray.count)",level:.Trace)
             // debugLog("\(cIDString) recv waiting")
         }
         
@@ -698,14 +698,14 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         if socks_recv_bufArray.count > 0{
             repeat {
                 if socks_recv_bufArray.count == socks_sendout_length{
-                    AxLogger.log("\(cIDString) should tcp_output", level: .Debug)
+                    SKit.log("\(cIDString) should tcp_output", level: .Debug)
                     break
                 }
                 let sndbuf = snd_buf(pcb)
                 if sndbuf == 0 {
                     break
                 }
-                //AxLogger.log("\(cIDString) lwip check space, buffer:\(socks_recv_bufArray.length) sended:\(socks_sendout_length) sendbuf:\(sndbuf)",level: .Debug)
+                //SKit.log("\(cIDString) lwip check space, buffer:\(socks_recv_bufArray.length) sended:\(socks_sendout_length) sendbuf:\(sndbuf)",level: .Debug)
                 let left = socks_recv_bufArray.count - socks_sendout_length
                 let to_write = min(left, Int(sndbuf))
                 if to_write == 0{
@@ -715,7 +715,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 }
                 //will failure here todo fix it
                 if tcp_write_check(pcb) <  0  {
-                   AxLogger.log("\(cIDString) lwip write check failure \(reqInfo.url)  will fix ",level: .Debug)
+                   SKit.log("\(cIDString) lwip write check failure \(reqInfo.url)  will fix ",level: .Debug)
                     //client_abort_client()
                     //return -1
                     break
@@ -726,15 +726,15 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 
                 if err != 0 {
                     if err == -1 {
-                       AxLogger.log("\(cIDString) tcp_write ERR_MEM",level:.Trace)
+                       SKit.log("\(cIDString) tcp_write ERR_MEM",level:.Trace)
                        return  -1
                     }
-                   //AxLogger.log("\(cIDString) tcp_write error \(err)",level: .Error)
+                   //SKit.log("\(cIDString) tcp_write error \(err)",level: .Error)
                     
                     if err < -9 {
-                        AxLogger.log("\(cIDString) tcp_pcb error  ",level: .Error)
+                        SKit.log("\(cIDString) tcp_pcb error  ",level: .Error)
                         tcp_recv(pcb,nil)
-                        AxLogger.log("\(cIDString) tcp_write write error ",level: .Error)
+                        SKit.log("\(cIDString) tcp_write write error ",level: .Error)
                        
                         
                         return Int(err)
@@ -747,7 +747,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 }
                 //let total = socks_recv_bufArray
                 //todo turning performance
-               ////AxLogger.log("\(cIDString) lwip write: \(socks_sendout_length) = \(socks_recv_bufArray.length)",level: .Debug)
+               ////SKit.log("\(cIDString) lwip write: \(socks_sendout_length) = \(socks_recv_bufArray.length)",level: .Debug)
                 
 //                else{
 //                   let r = NSMakeRange(Int(to_write),total.length-Int(to_write))
@@ -755,9 +755,9 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
 //                   socks_recv_bufArray.insert(y, atIndex: 0)
 //                }
                 //err = tcp_output(pcb)
-                //AxLogger.log("\(cIDString) buffer count:\(socks_recv_bufArray.length-socks_sendout_length)",level: .Debug)
+                //SKit.log("\(cIDString) buffer count:\(socks_recv_bufArray.length-socks_sendout_length)",level: .Debug)
 //                if err != 0 {
-//                   //AxLogger.log("\(cIDString) tcp_output error",level: .Debug)
+//                   //SKit.log("\(cIDString) tcp_output error",level: .Debug)
 //                    client_abort_client()
 //                }
                 
@@ -773,7 +773,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
 //                    let err = tcp_output(StrongSelf.pcb)
 //                    
 //                    if err != 0 {
-//                       //AxLogger.log("\(StrongSelf.cIDString) tcp_output error:\(err)")
+//                       //SKit.log("\(StrongSelf.cIDString) tcp_output error:\(err)")
 //                        StrongSelf.client_abort_client()
 //                        //return -1
 //                    }
@@ -792,13 +792,13 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                     let err = tcp_output(pcb)
                     
                     if err != 0 {
-                        AxLogger.log("\(cIDString) tcp_output error",level:.Error)
+                        SKit.log("\(cIDString) tcp_output error",level:.Error)
                         client_abort_client()
                         return -1
                     }
  
                 }else {
-                    AxLogger.log("\(cIDString) no buffer,now  tcp_output ",level:.Debug)
+                    SKit.log("\(cIDString) no buffer,now  tcp_output ",level:.Debug)
                     let err = tcp_output(pcb)
                     result = Int(err)
                 }
@@ -806,11 +806,11 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 m.tcpOperating = false
                 
             }else {
-                 AxLogger.log("\(cIDString) tcpOperating  ",level:.Debug)
+                 SKit.log("\(cIDString) tcpOperating  ",level:.Debug)
             }
 
         }else {
-             AxLogger.log("\(cIDString) manager nil  ",level:.Debug)
+             SKit.log("\(cIDString) manager nil  ",level:.Debug)
         }
         
         //let len = socks_recv_bufArray.length - socks_sendout_length
@@ -844,7 +844,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         assert(!reqInfo.client_closed)
         assert(reqInfo.socks_up)
         let len = socks_recv_bufArray.count - socks_sendout_length
-        AxLogger.log("\(cIDString)  client_sent_func \(len) ",level:  .Debug)
+        SKit.log("\(cIDString)  client_sent_func \(len) ",level:  .Debug)
 
         if len == 0 {
             //全copy
@@ -852,14 +852,14 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
             //socks_recv_bufArray.length = 0
             if reqInfo.socks_closed  {
                 tcp_recv(pcb,nil)
-                AxLogger.log("\(cIDString) client_free_client ", level:  .Debug)
+                SKit.log("\(cIDString) client_free_client ", level:  .Debug)
                 client_free_client()
                 
             }else {
                 if forceClose {
                     if let c = connector{
                         if reqInfo.socks_up{
-                            AxLogger.log("\(cIDString) foreceClose \(self.reqInfo.url)",level: .Debug)
+                            SKit.log("\(cIDString) foreceClose \(self.reqInfo.url)",level: .Debug)
                             //c.disconnectWithError(NSError.init(domain: errDomain, code: 0, userInfo: ["reason":"forceClose"]))
                             c.forceDisconnect()
                         }
@@ -877,12 +877,12 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
             }
             let error = client_socks_recv_send_out()
             if  error < -9 {
-                AxLogger.log("\(cIDString) client_socks_recv_send_out error:\(error)",level: .Error)
+                SKit.log("\(cIDString) client_socks_recv_send_out error:\(error)",level: .Error)
                 client_abort_client()
                 
                 //ERR_ABRT
             }else {
-               AxLogger.log("\(cIDString) client_socks_recv_send_out success \(len) ",level: .Debug)
+               SKit.log("\(cIDString) client_socks_recv_send_out success \(len) ",level: .Debug)
 //                if socks_recv_bufArray.length == 0  {
 //                    reqInfo.status = .Transferring
 //                    client_socks_recv_initiate()
@@ -902,15 +902,15 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         
         if len > 0 {
             if client_socks_recv_send_out() < 0 {
-               AxLogger.log("\(cIDString) client_socks_recv_send_out error",level: .Error)
+               SKit.log("\(cIDString) client_socks_recv_send_out error",level: .Error)
             
             }
         }else {
             if reqInfo.status !=  .RecvWaiting{
                 client_socks_recv_initiate()
             }else {
-                //AxLogger.log("\(cIDString) status:\(reqInfo.status) ",level: .Debug)
-                AxLogger.log("\(cIDString) status:\(reqInfo.status) waitting",level: .Verbose)
+                //SKit.log("\(cIDString) status:\(reqInfo.status) ",level: .Debug)
+                SKit.log("\(cIDString) status:\(reqInfo.status) waitting",level: .Verbose)
             }
         }
 //        if (reqInfo.client_closed) {
@@ -964,13 +964,13 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     }
 
     func client_free_socks(){
-        AxLogger.log( "\(cIDString) \(reqInfo.url) + \(reqInfo.closereason.description)  client_free_socks maybe crash",level: .Verbose)
+        SKit.log( "\(cIDString) \(reqInfo.url) + \(reqInfo.closereason.description)  client_free_socks maybe crash",level: .Verbose)
         //assert(!reqInfo.socks_closed)
         //可能是网络错误或者结束，或者lwip 链接结束了
         //这里比较复杂，导致connection 不被释放
        
         //let msg = "\(cIDString) Close:\(forceClose) sendbuf:\(bufArray.count) recvbuf:\(bufArray.count) c:\(connector) s:\(connector?.socket)"
-       //AxLogger.log(msg,level: .Debug)
+       //SKit.log(msg,level: .Debug)
         
         //NSLog(msg)
         if reqInfo.socks_up {
@@ -989,7 +989,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 if reqInfo.socks_up && reqInfo.socks_closed == false {
                     let e = NSError.init(domain: "com.yarshure.surf", code: 0, userInfo: ["reason":"client_free_socks"])
                     self.connector!.delegate = nil
-                    AxLogger.log("\(e.localizedDescription) \(self.reqInfo.url)",level: .Verbose)
+                    SKit.log("\(e.localizedDescription) \(self.reqInfo.url)",level: .Verbose)
                     //reqInfo.status = .Complete
                     //self.connector!.disconnectWithError(e)
                     self.connector!.forceDisconnect()
@@ -1003,7 +1003,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         
         
         if socks_recv_bufArray.count > 0 {
-            AxLogger.log("\(cIDString) need send data to lwip length:\(socks_recv_bufArray.count)",level:.Trace)
+            SKit.log("\(cIDString) need send data to lwip length:\(socks_recv_bufArray.count)",level:.Trace)
             //bug
             // lwip还有数据没发送完socket就断开了
             //let status =  TCPPcbWrap.pcbStatus(pcb)
@@ -1025,7 +1025,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         }else {
             //            tcp_recv(pcb, nil);
             //reqInfo.socks_closed = true
-            AxLogger.log("\(cIDString) 1048 client_free_client ",level: .Debug)
+            SKit.log("\(cIDString) 1048 client_free_client ",level: .Debug)
             //
             if reqInfo.client_closed {
                 client_dealloc()
@@ -1044,19 +1044,19 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     
         if connector != nil {
 //            if c.socks_reading {
-//                AxLogger.log("client_dealloc reading" + cIDString,level: .Warning)
+//                SKit.log("client_dealloc reading" + cIDString,level: .Warning)
 //            }
 //            if c.socks_writing {
-//                AxLogger.log("client_dealloc writing" + cIDString,level: .Warning)
+//                SKit.log("client_dealloc writing" + cIDString,level: .Warning)
 //            }
         }
-        AxLogger.log("client_dealloc " + cIDString,level: .Verbose)
+        SKit.log("client_dealloc " + cIDString,level: .Verbose)
         reqInfo.eTime = Date()
         
         if let m = manager {
             m.removeConnectionRef(self)
         }else {
-            AxLogger.log("manager error manager = nil",level: .Error)
+            SKit.log("manager error manager = nil",level: .Error)
         }
         
     }
@@ -1067,7 +1067,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         assert(reqInfo.socks_up)
         let st = (reqInfo.status == .Established) || (reqInfo.status == .Transferring)
         if  st && !bufArray.isEmpty{
-            //AxLogger.log("\(cIDString) sending buffer count \(bufArray.count)",level: .Debug)
+            //SKit.log("\(cIDString) sending buffer count \(bufArray.count)",level: .Debug)
             var sendData:Data = bufArray.first!
             for x in bufArray.dropFirst() {
                 sendData.append(x)
@@ -1078,7 +1078,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 return
             }
             guard let connector = connector  else {return }
-            //AxLogger.log("\(cIDString) writing to Host:\(h):\(p) tag:\(tag)   length \(d.length)",level: .Trace)
+            //SKit.log("\(cIDString) writing to Host:\(h):\(p) tag:\(tag)   length \(d.length)",level: .Trace)
             //NSLog("%@ will send data tag:%d", reqInfo.url,tag)
             bufArray.removeAll()
             bufArrayInfo[tag] = sendData.count
@@ -1099,7 +1099,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
 //        }else {
 //            
 //            if  ts > TCP_CONNECTIPN_TIMEPUT {
-//               //AxLogger.log("\(reqInfo.url) not active 30s !!!!",level:.Warning)
+//               //SKit.log("\(reqInfo.url) not active 30s !!!!",level:.Warning)
 //                if let c = connector {
 //                    c.disconnectWithError(NSError.init(domain: "com.abigt.tcp", code: 1, userInfo: ["reason":"Close"]))
 //                }else {
@@ -1107,7 +1107,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
 //                    //client_dealloc()
 //                }
 //            } else {
-//                //AxLogger.log(msg)
+//                //SKit.log(msg)
 //                
 //            }
 //        }
@@ -1118,7 +1118,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         
         if reqInfo.client_closed{
             reqInfo.status = .Complete
-            AxLogger.log("\(cIDString) 1009 client_handle_freed_client",level: .Debug)
+            SKit.log("\(cIDString) 1009 client_handle_freed_client",level: .Debug)
             client_dealloc()
             return
         }
@@ -1131,7 +1131,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
             reqInfo.socks_up = false
         }
         if socks_recv_bufArray.count > 0 && reqInfo.status != .Complete{
-           AxLogger.log("\(cIDString) waiting untill buffered data is sent to remote server",level: .Warning)
+           SKit.log("\(cIDString) waiting untill buffered data is sent to remote server",level: .Warning)
         }else {
             
             if (!reqInfo.socks_closed)  && reqInfo.socks_up{
@@ -1141,7 +1141,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 client_free_socks()
             } else {
                 reqInfo.status = .Complete
-                AxLogger.log("\(cIDString) 1158 client_handle_freed_client",level: .Debug)
+                SKit.log("\(cIDString) 1158 client_handle_freed_client",level: .Debug)
                 client_dealloc()
             }
 
@@ -1155,7 +1155,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     }
     func client_abort_client(){
         //assert(!reqInfo.client_closed)
-        AxLogger.log("\(reqInfo.host) client_abort_client",level: .Debug)
+        SKit.log("\(reqInfo.host) client_abort_client",level: .Debug)
         close_lwip_pcb(true)
         
         client_handle_freed_client()
@@ -1164,10 +1164,10 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         //lwip socket close 关闭入口1
         //ASSERT(!client.client_closed)
         
-        //AxLogger.log(" \(tcp_debug_state_str(status)",)
-        AxLogger.log("\(cIDString) 1146  client_free_client",level: .Debug)
+        //SKit.log(" \(tcp_debug_state_str(status)",)
+        SKit.log("\(cIDString) 1146  client_free_client",level: .Debug)
         //debugLog(cIDString)
-       //AxLogger.log("\(cIDString) PCB:\(pcbStatus())", level:.Trace)
+       //SKit.log("\(cIDString) PCB:\(pcbStatus())", level:.Trace)
                         //client_log(client, BLOG_INFO, "client_free_client");
         close_lwip_pcb(false)
         client_handle_freed_client()
@@ -1177,11 +1177,11 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     
     func close_lwip_pcb(_ abort:Bool) {
         let status =  pcbStat(pcb)
-       //AxLogger.log("\(cIDString) close_lwip_pcb \(pcbStatus()) abort:\(abort)",level: .Debug)
+       //SKit.log("\(cIDString) close_lwip_pcb \(pcbStatus()) abort:\(abort)",level: .Debug)
 
         if reqInfo.client_closed != true  {
 //            if socks_recv_bufArray.length > 0 {
-//               //AxLogger.log("\(cIDString) need send data to lwip ,closeTCP",level:  .Debug)
+//               //SKit.log("\(cIDString) need send data to lwip ,closeTCP",level:  .Debug)
 //                client_socks_recv_send_out()
 //                return
 //            }
@@ -1198,24 +1198,24 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
             if status.rawValue != 0  && status.rawValue <= 10{
                 
                 if abort {
-                    AxLogger.log("\(cIDString) tcp_about pcb",level:  .Debug)
+                    SKit.log("\(cIDString) tcp_about pcb",level:  .Debug)
                     tcp_abort(pcb);
                 }else {
                    // tcp_abort(pcb);
                     let err :err_t = tcp_close(pcb)//tcp_shutdown(pcb,1,1)//;
                     if (err != 0) {
                         //client_log(client, BLOG_INFO, "tcp_close failed (%d)", err);
-                        AxLogger.log("\(cIDString) tcp_about pcb",level:  .Debug)
+                        SKit.log("\(cIDString) tcp_about pcb",level:  .Debug)
                         //tcp_abort(pcb);
                     }else {
-                         AxLogger.log("\(cIDString) tcp_closed pcb",level:  .Debug)
+                         SKit.log("\(cIDString) tcp_closed pcb",level:  .Debug)
                     }
                 }
             }
             reqInfo.client_closed = true
             
         }else {
-            AxLogger.log("\(cIDString) have client_closed",level: .Debug)
+            SKit.log("\(cIDString) have client_closed",level: .Debug)
         }
         
         //let status =  TCPPcbWrap.pcbStatus(pcb)
@@ -1229,7 +1229,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         if reqInfo.status != .Complete {
             if let c = connector {
                 if reqInfo.socks_up {
-                    AxLogger.log("murder \(self.reqInfo.url)",level: .Notify)
+                    SKit.log("murder \(self.reqInfo.url)",level: .Notify)
                     //c.disconnectWithError(NSError.init(domain: errDomain, code: -1, userInfo: ["reason":"client_murder"]))
                     c.delegate = nil
                     c.forceDisconnect()
@@ -1240,13 +1240,13 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
             }
             reqInfo.status = .Complete
         }else {
-            AxLogger.log("\(cIDString) Complete clearn up",level: .Notify)
+            SKit.log("\(cIDString) Complete clearn up",level: .Notify)
         }
     }
     
     //delegate func
     func didDisconnect(_ socket: TCPSession){
-        AxLogger.log("\(cIDString) socket didDisconnect", level: .Debug)
+        SKit.log("\(cIDString) socket didDisconnect", level: .Debug)
         
         
         if reqInfo.status == .Complete {
@@ -1272,7 +1272,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         }
     }
     func didReadData(_ data: Data, withTag: Int, from: TCPSession){
-        AxLogger.log("\(cIDString) socket didReadData", level: .Debug)
+        SKit.log("\(cIDString) socket didReadData", level: .Debug)
         if socks_recv_bufArray.count != 0{
             fatalError()
         }
@@ -1281,7 +1281,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
 
     }
     func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
-        AxLogger.log("\(cIDString) socket didWriteData \(tag)", level: .Debug)
+        SKit.log("\(cIDString) socket didWriteData \(tag)", level: .Debug)
         if self.tag == tag {
             //let d = bufArray.removeFirst()
             let len = bufArrayInfo[tag]
@@ -1289,12 +1289,12 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
             bufArrayInfo.removeValue(forKey: tag)
             tag += 1
         } else {
-            AxLogger.log("\(cIDString) currrent tag: \(tag) != \(self.tag)",level: .Debug)
+            SKit.log("\(cIDString) currrent tag: \(tag) != \(self.tag)",level: .Debug)
         }
     }
     func didConnect(_ socket: TCPSession){
-        AxLogger.log("\(cIDString) Connect OK with Socket", level: .Info)
-        //AxLogger.log("\(cIDString)  host:\(connector.targetHost) port:\(connector.targetPort) ESTABLISHED",level: .Verbose)
+        SKit.log("\(cIDString) Connect OK with Socket", level: .Info)
+        //SKit.log("\(cIDString)  host:\(connector.targetHost) port:\(connector.targetPort) ESTABLISHED",level: .Verbose)
         
         
         reqInfo.interfaceCell  = socket.useCell ? 1: 0
@@ -1315,12 +1315,12 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
 //                reqInfo.remoteIPaddress =  destip
 //            }
 //        }
-        AxLogger.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
+        SKit.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
         client_socks_handler(.event_UP)
     }
     func connectorDidSetupFailed(_ connector:TCPSession, withError:NSError){
         
-        AxLogger.log("\(cIDString)socket DidDisconnect:\((withError))",level: .Error)
+        SKit.log("\(cIDString)socket DidDisconnect:\((withError))",level: .Error)
         
         
         client_socks_handler(.event_ERROR)

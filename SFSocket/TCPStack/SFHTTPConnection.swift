@@ -44,7 +44,7 @@ class SFHTTPConnection: SFHTTPRequest {
         
         
         // reqInfo.eTime = Date()
-        //AxLogger.log("\(cIDString) deinit at \(reqInfo.eTime) \(reqInfo.status.description) runing:\(reqInfo.runing)",level: .Debug )
+        //SKit.log("\(cIDString) deinit at \(reqInfo.eTime) \(reqInfo.status.description) runing:\(reqInfo.runing)",level: .Debug )
         
         //reqInfo.status = .Complete
     }
@@ -65,7 +65,7 @@ class SFHTTPConnection: SFHTTPRequest {
     func updateReq(_ req:SFRequestInfo){
         if req == reqInfo {
             // 有bug
-            AxLogger.log("\(cIDString) reqInfo error",level: .Error)
+            SKit.log("\(cIDString) reqInfo error",level: .Error)
         }
         req.mode = .HTTP
         req.app = reqInfo.app
@@ -109,21 +109,21 @@ class SFHTTPConnection: SFHTTPRequest {
             // body found
             
             headerData.append( d.subdata(in: Range(0 ..< r.lowerBound)))
-            AxLogger.log("\(cIDString) header-- \(headerData as Data)", level: .Debug)
+            SKit.log("\(cIDString) header-- \(headerData as Data)", level: .Debug)
             //MARK: - todo fixme
             guard let reqHeader   = SFHTTPRequestHeader(data: headerData as Data) else {
-                AxLogger.log("\(cIDString) parser header error \(headerData)",level: .Error)
+                SKit.log("\(cIDString) parser header error \(headerData)",level: .Error)
                 return false
             }
             
             // host rewrite
             if reqHeader.checkRewrite() {
-                AxLogger.log("rewrite \(reqHeader.Host) to \(reqHeader.Host)",level: .Debug)
+                SKit.log("rewrite \(reqHeader.Host) to \(reqHeader.Host)",level: .Debug)
             }
             headerData.count = 0
             
             
-            AxLogger.log("\(cIDString) req \(reqHeader.method)   \(reqHeader.Url) http://\(reqHeader.Host)\(reqHeader.genPath())\n)",level: .Debug)
+            SKit.log("\(cIDString) req \(reqHeader.method)   \(reqHeader.Url) http://\(reqHeader.Host)\(reqHeader.genPath())\n)",level: .Debug)
             
             forceSend = reqHeader.forceSend()
             
@@ -133,7 +133,7 @@ class SFHTTPConnection: SFHTTPRequest {
             //是否进入队列
             // 头数据优先进发送队列
             if enqueue {
-                AxLogger.log("\(cIDString) pipeline enqueue header ",level: .Trace)
+                SKit.log("\(cIDString) pipeline enqueue header ",level: .Trace)
                 reqHeaderQueue.append(reqHeader)
             }else {
                 req.url = reqHeader.Url
@@ -145,7 +145,7 @@ class SFHTTPConnection: SFHTTPRequest {
                     
                     bufArray.append(httpdata)
                 }else {
-                    AxLogger.log("\(cIDString) \(reqInfo.url) ####### CONNECT don't need send header",level: .Debug)
+                    SKit.log("\(cIDString) \(reqInfo.url) ####### CONNECT don't need send header",level: .Debug)
                 }
                 req.reqHeader = reqHeader
             }
@@ -157,10 +157,10 @@ class SFHTTPConnection: SFHTTPRequest {
                 
                 reqHeader.bodyLeftLength -= body.count
                 
-                AxLogger.log("\(cIDString) \(reqHeader.contentLength) left:\(reqHeader.bodyLeftLength)",level: .Debug)
+                SKit.log("\(cIDString) \(reqHeader.contentLength) left:\(reqHeader.bodyLeftLength)",level: .Debug)
             }else{
                 
-                AxLogger.log("\(cIDString) \(reqHeader.Url) no data left for http request body",level: .Debug)
+                SKit.log("\(cIDString) \(reqHeader.Url) no data left for http request body",level: .Debug)
             }
             
             if reqHeader.bodyReadFinish() {
@@ -172,30 +172,30 @@ class SFHTTPConnection: SFHTTPRequest {
             //这个时候有reqhead 了
             if reqHeader.method == .CONNECT {
                 httpStat = .httpReqSending //不用收body 了
-                AxLogger.log("\(cIDString) HTTP CONNECT \(req.url)",level: .Trace)
+                SKit.log("\(cIDString) HTTP CONNECT \(req.url)",level: .Trace)
             }
-            AxLogger.log("\(cIDString) http stat \(httpStat)",level: .Debug)
+            SKit.log("\(cIDString) http stat \(httpStat)",level: .Debug)
             
         }else {
             
             headerData.append(d)
-            AxLogger.log("\(cIDString) don't found header ,wait req header buffer len:\(headerData.count)",level: .Warning)
+            SKit.log("\(cIDString) don't found header ,wait req header buffer len:\(headerData.count)",level: .Warning)
             return false
         }
         return true
         
     }
     func currentRequest() ->SFRequestInfo{
-        AxLogger.log("\(cIDString)  index:\(requestIndex),\(reqHeaderQueue.count)",level: .Debug)
+        SKit.log("\(cIDString)  index:\(requestIndex),\(reqHeaderQueue.count)",level: .Debug)
         //来header 或者body 会调用这个方法
         
         if reqHeaderQueue.count > 0  { // pipeling , other one by one
-            AxLogger.log("\(cIDString) http pipeline support not full tested",level: .Warning)
+            SKit.log("\(cIDString) http pipeline support not full tested",level: .Warning)
             if let resp = reqInfo.respHeader {
                 if resp.finished {
                     reqInfo.status = .Complete
                     manager!.saveConnectionInfo(self) //write db
-                    AxLogger.log("\(cIDString) pipeline create SFRequestInfo",level: .Debug)
+                    SKit.log("\(cIDString) pipeline create SFRequestInfo",level: .Debug)
                     let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                     let header = reqHeaderQueue.remove(at: 0)
                     req.reqHeader = header
@@ -204,10 +204,10 @@ class SFHTTPConnection: SFHTTPRequest {
                     let httpdata = header.headerData(nil)
                     //why don't add to bufArray, header need fix url
                     if header.method != .CONNECT {
-                        AxLogger.log("\(cIDString) \(header.Url) pepeline add header data",level: .Warning)
+                        SKit.log("\(cIDString) \(header.Url) pepeline add header data",level: .Warning)
                         bufArray.append(httpdata)
                     }else {
-                        AxLogger.log("\(cIDString) \(reqInfo.url) ####### CONNECT don't need send header",level: .Error)
+                        SKit.log("\(cIDString) \(reqInfo.url) ####### CONNECT don't need send header",level: .Error)
                     }
                     if recvHeaderData.count != 0 {
                         recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
@@ -222,7 +222,7 @@ class SFHTTPConnection: SFHTTPRequest {
                 if reqInfo.respReadFinish  {
                     reqInfo.status = .Complete
                     manager!.saveConnectionInfo(self) //write db
-                    AxLogger.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
+                    SKit.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
                     let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                     if recvHeaderData.count != 0 {
                         recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
@@ -231,31 +231,31 @@ class SFHTTPConnection: SFHTTPRequest {
                     reqInfo = req
                     
                 }else {
-                    AxLogger.log("\(cIDString) \(reqInfo.url) read finishd? ",level: .Info)
+                    SKit.log("\(cIDString) \(reqInfo.url) read finishd? ",level: .Info)
                     reqInfo.status = .Complete
                     manager!.saveConnectionInfo(self) //write db
-                    AxLogger.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
+                    SKit.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
                     let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                     if recvHeaderData.count != 0 {
                         recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
                     }
                     updateReq(req)
                     reqInfo = req
-                    AxLogger.log("\(cIDString) reqinfo have reset ",level: .Info)
+                    SKit.log("\(cIDString) reqinfo have reset ",level: .Info)
                 }
             }else {
                 if reqInfo.reqHeader == nil {
-                    AxLogger.log("\(cIDString) reqHeader incoming ",level: .Info)
+                    SKit.log("\(cIDString) reqHeader incoming ",level: .Info)
                     //                    reqInfo.status = .Complete
                     //                    manager!.saveConnectionInfo(self) //write db
-                    //                    AxLogger.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
+                    //                    SKit.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
                     //                    let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                     //
                     //                    updateReq(req)
                     //                    reqInfo = req
-                    //                    AxLogger.log("\(cIDString) reqinfo have reset ",level: .Info)
+                    //                    SKit.log("\(cIDString) reqinfo have reset ",level: .Info)
                 }else {
-                    AxLogger.log("\(cIDString) \(reqInfo.url) pipeline? not recv header ",level: .Info)
+                    SKit.log("\(cIDString) \(reqInfo.url) pipeline? not recv header ",level: .Info)
                 }
                 
             }
@@ -269,8 +269,8 @@ class SFHTTPConnection: SFHTTPRequest {
         
         //NSLog("http recv %@", d)
         
-        //AxLogger.log("\(cIDString) incoming data len \(d as NSData) \(len)",level: .Debug) // \(d)
-        AxLogger.log("\(cIDString) bufArray length: \(bufArray.count)",level: .Trace)
+        //SKit.log("\(cIDString) incoming data len \(d as NSData) \(len)",level: .Debug) // \(d)
+        SKit.log("\(cIDString) bufArray length: \(bufArray.count)",level: .Trace)
         if d.count > 0 {
             
             #if LOGGER
@@ -282,7 +282,7 @@ class SFHTTPConnection: SFHTTPRequest {
         switch httpStat {
         case .httpDefault:
             httpStat = .httpReqHeader
-            //AxLogger.log("\(cIDString) connection init",level: .Debug)
+            //SKit.log("\(cIDString) connection init",level: .Debug)
             return
         case .httpReqHeader:
             
@@ -290,29 +290,29 @@ class SFHTTPConnection: SFHTTPRequest {
             currentReqInf.activeTime =   Date()
             if currentReqInf.reqHeader == nil {
                 if processBufer(d,req: currentReqInf,enqueue: false) == false {
-                    AxLogger.log("\(cIDString) req header not finishd ",level: .Warning)
+                    SKit.log("\(cIDString) req header not finishd ",level: .Warning)
                     return
                 }else {
-                    AxLogger.log("\(cIDString) \(requestIndex) header Fin \(currentReqInf.reqHeader!.mode)",level: .Trace)
-                    AxLogger.log("\(cIDString) req:\(reqInfo.url)",level: .Info)
+                    SKit.log("\(cIDString) \(requestIndex) header Fin \(currentReqInf.reqHeader!.mode)",level: .Trace)
+                    SKit.log("\(cIDString) req:\(reqInfo.url)",level: .Info)
                     
                 }
                 
                 //updateReq(currentReqInf)
             }else {
                 
-                AxLogger.log("\(cIDString) HttpReqHeader  incoming date,shoud not go here http pipeline? \(currentReqInf.url)",level: .Trace)
+                SKit.log("\(cIDString) HttpReqHeader  incoming date,shoud not go here http pipeline? \(currentReqInf.url)",level: .Trace)
                 if processBufer(d,req: currentReqInf,enqueue: true) == false {
-                    AxLogger.log("\(cIDString) pipeline req header not finishd ",level: .Warning)
+                    SKit.log("\(cIDString) pipeline req header not finishd ",level: .Warning)
                     return
                 }else {
-                    AxLogger.log("\(cIDString) \(requestIndex) pipeline header Fin",level: .Trace)
+                    SKit.log("\(cIDString) \(requestIndex) pipeline header Fin",level: .Trace)
                     
                 }
                 if let header = currentReqInf.reqHeader {
                     if header.method == .CONNECT {
                         
-                        AxLogger.log("\(cIDString) HTTP CONNECT \(reqInfo.url) pipeline should not have CONNECT",level: .Error)
+                        SKit.log("\(cIDString) HTTP CONNECT \(reqInfo.url) pipeline should not have CONNECT",level: .Error)
                     }
                 }
                 
@@ -326,15 +326,15 @@ class SFHTTPConnection: SFHTTPRequest {
             //Sequences of GET and HEAD requests can always be pipelined.
             //这里不能是pipeline
             if reqHeaderQueue.count > 0 {
-                AxLogger.log("\(cIDString) pipeline should not have body data",level: .Error)
+                SKit.log("\(cIDString) pipeline should not have body data",level: .Error)
                 return
             }
             let  currentReqInf:SFRequestInfo = reqInfo// currentRequest()
-            AxLogger.log("\(cIDString) HttpReqBody connection Body",level: .Debug)
+            SKit.log("\(cIDString) HttpReqBody connection Body",level: .Debug)
             guard let req = currentReqInf.reqHeader else  {return }
             //可能有超出问题
             if d.count > req.bodyLeftLength {
-                AxLogger.log("\(cIDString) \(currentReqInf.url) incoming data length > req.bodyLeftLength",level: .Notify)
+                SKit.log("\(cIDString) \(currentReqInf.url) incoming data length > req.bodyLeftLength",level: .Notify)
             }
             
             bufArray.append(d)
@@ -342,11 +342,11 @@ class SFHTTPConnection: SFHTTPRequest {
             if req.bodyReadFinish() {
                 
                 httpStat = .httpReqHeader
-                AxLogger.log("\(cIDString) Body Finish",level: .Debug)
+                SKit.log("\(cIDString) Body Finish",level: .Debug)
             }else {
                 let left = req.bodyLeftLength
                 
-                AxLogger.log("\(cIDString) Body left:\(left)",level: .Debug)
+                SKit.log("\(cIDString) Body left:\(left)",level: .Debug)
             }
             
             break
@@ -358,10 +358,10 @@ class SFHTTPConnection: SFHTTPRequest {
                     bufArray.append(d)
                     break
                 }else {
-                    AxLogger.log("\(cIDString)  \(header.method) have data \(d) incoming",level: .Trace)
+                    SKit.log("\(cIDString)  \(header.method) have data \(d) incoming",level: .Trace)
                 }
             }else {
-                AxLogger.log("\(cIDString) no  request header error",level: .Error)
+                SKit.log("\(cIDString) no  request header error",level: .Error)
             }
             
         }
@@ -380,16 +380,16 @@ class SFHTTPConnection: SFHTTPRequest {
         //recvHeaderData 可能有html 数据
         if let r1 = checkBufferHaveData(recvHeaderData, data: http) {
             if let r2 = checkBufferHaveData(recvHeaderData, data: hData){
-                AxLogger.log("\(cIDString) find HTTP and hData length: \(r2.lowerBound)",level: .Debug)
+                SKit.log("\(cIDString) find HTTP and hData length: \(r2.lowerBound)",level: .Debug)
                
                 //let left = recvHeaderData.length - len
                 return Range( r1.lowerBound ..< r2.lowerBound)
             }else {
-                AxLogger.log("\(cIDString) only find HTTP \(r1.lowerBound) \(recvHeaderData)",level: .Debug)
+                SKit.log("\(cIDString) only find HTTP \(r1.lowerBound) \(recvHeaderData)",level: .Debug)
             }
         }else {
             //bug here
-            AxLogger.log("\(cIDString) only find HTTP and location != 0 \(recvHeaderData)",level: .Debug)
+            SKit.log("\(cIDString) only find HTTP and location != 0 \(recvHeaderData)",level: .Debug)
         }
         
         return nil
@@ -417,13 +417,13 @@ class SFHTTPConnection: SFHTTPRequest {
         //        if requests.count == 0 && reqInfo.respHeader != nil{
         //            recvHeaderData.length = 0
         //            //需要判断是否完成
-        //             AxLogger.log("\(cIDString) resp have header and don't have sub requests",level: .Debug)
+        //             SKit.log("\(cIDString) resp have header and don't have sub requests",level: .Debug)
         //            return
         //        }
         //主要是为了解析头部使用，和发现包结尾
-        AxLogger.log("\(cIDString) recv Data:\(data.count) buffer_len:\(recvHeaderData.count)",level: .Debug)
+        SKit.log("\(cIDString) recv Data:\(data.count) buffer_len:\(recvHeaderData.count)",level: .Debug)
         
-        AxLogger.log("\(cIDString) processRecvData:\(data)",level:.Debug)
+        SKit.log("\(cIDString) processRecvData:\(data)",level:.Debug)
         var used_length = 0
         recvHeaderData.append(data)
         if currentReq.respHeader == nil {
@@ -435,14 +435,14 @@ class SFHTTPConnection: SFHTTPRequest {
             used_length += range.lowerBound
             
             
-            AxLogger.log("\(cIDString) respsonseIndex:\(requestIndex) found header",level: .Debug)
+            SKit.log("\(cIDString) respsonseIndex:\(requestIndex) found header",level: .Debug)
             let temp = recvHeaderData.subdata(in: range)
             used_length += 4 //let left_len = recvHeaderData.length - len - 4 //\r\n\r\n
             if let x = SFHTTPResponseHeader(data: temp) {
                 
-                AxLogger.log("\(cIDString) respsonseIndex:\(requestIndex) mode:\(x.mode) body length: \(x.contentLength) ",level: .Info)
+                SKit.log("\(cIDString) respsonseIndex:\(requestIndex) mode:\(x.mode) body length: \(x.contentLength) ",level: .Info)
                 
-                AxLogger.log("\(cIDString) params: \(x.params)",level: .Trace)
+                SKit.log("\(cIDString) params: \(x.params)",level: .Trace)
                 
                 currentReq.respHeader  = x
                 
@@ -455,15 +455,15 @@ class SFHTTPConnection: SFHTTPRequest {
                 let (fin, used)  = currentReq.checkReadFinish(left)
                 if  fin{ //no content-length
                     //if currentReq != reqInfo {
-                    AxLogger.log("\(cIDString):\(requestIndex) body  finish \(x.mode)",level: .Trace)
+                    SKit.log("\(cIDString):\(requestIndex) body  finish \(x.mode)",level: .Trace)
                     requestIndex += 1
                     //x.finished = true
                     currentReq.respReadFinish = true
                     //currentReq.status = .Complete
                     //不能close
                 }else {
-                    AxLogger.log("\(cIDString): \(requestIndex) body not finish \(currentReq.respHeader!.bodyLeftLength) \(x.mode)",level: .Debug)
-                    AxLogger.log("\(cIDString) code \(currentReq.respHeader!.sCode)",level: .Debug)
+                    SKit.log("\(cIDString): \(requestIndex) body not finish \(currentReq.respHeader!.bodyLeftLength) \(x.mode)",level: .Debug)
+                    SKit.log("\(cIDString) code \(currentReq.respHeader!.sCode)",level: .Debug)
                 }
                 used_length += used
                 if left.count - used > 0 {
@@ -472,14 +472,14 @@ class SFHTTPConnection: SFHTTPRequest {
                     let x  = left.subdata(in: Range(used ..< left.count))
                     recvHeaderData = x
                     
-                    AxLogger.log("\(cIDString) have new header \(recvHeaderData)",level: .Debug)
+                    SKit.log("\(cIDString) have new header \(recvHeaderData)",level: .Debug)
                 }else {
                     recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
                 }
                 
-                AxLogger.log("\(cIDString) used \(used_length)",level: .Verbose)
+                SKit.log("\(cIDString) used \(used_length)",level: .Verbose)
             }else {
-                AxLogger.log("\(temp) parser failure",level: .Error)
+                SKit.log("\(temp) parser failure",level: .Error)
             }
             
         }else {
@@ -487,16 +487,16 @@ class SFHTTPConnection: SFHTTPRequest {
             guard let h = currentReq.respHeader else {return }
             if h.mode == .TransferEncoding {
                 //recvHeaderData.append(data)
-                AxLogger.log("\(cIDString) \(h.bodyLeftLength) \(currentReq.url)   TransferEncoding mode",level: .Debug)
+                SKit.log("\(cIDString) \(h.bodyLeftLength) \(currentReq.url)   TransferEncoding mode",level: .Debug)
                 
                 let (fin, used) = currentReq.checkReadFinish(recvHeaderData)
                 if fin {
-                    AxLogger.log("\(cIDString):\(requestIndex) mode:\(h.mode) body  finish \(used) ",level: .Warning)
+                    SKit.log("\(cIDString):\(requestIndex) mode:\(h.mode) body  finish \(used) ",level: .Warning)
                     //h.finished = true
                     currentReq.respReadFinish = true
                     requestIndex += 1
                 }else {
-                    AxLogger.log("\(cIDString): \(requestIndex) body not finish \(used) \(h.bodyLeftLength) ",level: .Trace)
+                    SKit.log("\(cIDString): \(requestIndex) body not finish \(used) \(h.bodyLeftLength) ",level: .Trace)
                 }
                 if recvHeaderData.count - used > 0 {
                     
@@ -509,17 +509,17 @@ class SFHTTPConnection: SFHTTPRequest {
             }else  if h.mode == .ContentLength{ //fixed reqInfo error bug
                 //recvHeaderData.append(data)
                 let need = reqsonseBodyLeft(currentReq)
-                AxLogger.log("\(cIDString) \(requestIndex) ContentLength left length: \(need)",level: .Trace)
+                SKit.log("\(cIDString) \(requestIndex) ContentLength left length: \(need)",level: .Trace)
                 let (fin, used)  = currentReq.checkReadFinish(recvHeaderData)
                 
                 if fin {
                     //currentReq.status = .Complete
-                    AxLogger.log("\(cIDString) \(requestIndex) mode:\(h.mode) body Fin ",level: .Trace)
+                    SKit.log("\(cIDString) \(requestIndex) mode:\(h.mode) body Fin ",level: .Trace)
                     //h.finished = true
                     currentReq.respReadFinish = true
                     requestIndex += 1
                 }else {
-                    AxLogger.log("\(cIDString) \(requestIndex) unFin left \(currentReq.respHeader!.bodyLeftLength)",level: .Debug)
+                    SKit.log("\(cIDString) \(requestIndex) unFin left \(currentReq.respHeader!.bodyLeftLength)",level: .Debug)
                 }
                 if recvHeaderData.count - used > 0 {
                     let x  = recvHeaderData.subdata(in: Range(used ..< recvHeaderData.count))
@@ -530,16 +530,16 @@ class SFHTTPConnection: SFHTTPRequest {
                 
             }else {
                 let (_, used)  = currentReq.checkReadFinish(data)
-                AxLogger.log("\(cIDString) \(requestIndex) mode:\(h.mode) content_len:\(h.contentLength) left:\(h.bodyLeftLength) used: \(used)",level: .Trace)
+                SKit.log("\(cIDString) \(requestIndex) mode:\(h.mode) content_len:\(h.contentLength) left:\(h.bodyLeftLength) used: \(used)",level: .Trace)
             }
             
         }
         if recvHeaderData.count > 1024*8{
             //fixed one bug
             if let respHeader = reqInfo.respHeader {
-                AxLogger.log("\(cIDString) recv buffer too bigger mode:\(respHeader.mode) \(recvHeaderData.count)",level: .Debug)
+                SKit.log("\(cIDString) recv buffer too bigger mode:\(respHeader.mode) \(recvHeaderData.count)",level: .Debug)
             }else {
-                AxLogger.log("\(cIDString) recv buffer too bigger length:\(recvHeaderData.length) will clear cache",level: .Error)
+                SKit.log("\(cIDString) recv buffer too bigger length:\(recvHeaderData.length) will clear cache",level: .Error)
             }
             
             recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
@@ -547,7 +547,7 @@ class SFHTTPConnection: SFHTTPRequest {
     }
     func connect(){
         if connector == nil {
-            //AxLogger.log("\(cIDString) connector don't init and init it",level: .Debug)
+            //SKit.log("\(cIDString) connector don't init and init it",level: .Debug)
             configConnector()
         }
         if let p = reqInfo.proxy {
@@ -562,23 +562,23 @@ class SFHTTPConnection: SFHTTPRequest {
     }
     
     override func processData(_ reason:String) {
-        AxLogger.log("\(cIDString) stat:\(httpStat.description) mode:\(reqInfo.mode) prcessData reason \(reason)",level: .Debug)
+        SKit.log("\(cIDString) stat:\(httpStat.description) mode:\(reqInfo.mode) prcessData reason \(reason)",level: .Debug)
         //NSLog("\(cIDString) processData \(reqInfo.url) \(httpStat.description)")
         
         if !reqInfo.started {
             guard let head = reqInfo.reqHeader else { return }
-            AxLogger.log("\(cIDString) \(head.params)",level:.Debug)
+            SKit.log("\(cIDString) \(head.params)",level:.Debug)
             //if connertor
             if let _ = connector {
-                //AxLogger.log("\(cIDString) \(httpStat.description)",level:.Trace)
-                AxLogger.log("\(cIDString) connector  setup OK",level: .Debug)
+                //SKit.log("\(cIDString) \(httpStat.description)",level:.Trace)
+                SKit.log("\(cIDString) connector  setup OK",level: .Debug)
             }else {
-                AxLogger.log("\(cIDString) will process rule re enter",level: .Debug)
+                SKit.log("\(cIDString) will process rule re enter",level: .Debug)
                 configConnector() //重入bug ,不允许
             }
             reqInfo.started = true
         }else {
-            AxLogger.log("\(cIDString) connected  sending",level: .Debug)
+            SKit.log("\(cIDString) connected  sending",level: .Debug)
             client_send_to_socks()
         }
         
@@ -588,7 +588,7 @@ class SFHTTPConnection: SFHTTPRequest {
         let st = (reqInfo.status == .Established) || (reqInfo.status == .Transferring)
         if st  {
             if bufArray.count > 0{
-                AxLogger.log("\(cIDString) now sending data buffer count:\(bufArray.count)",level: .Debug)
+                SKit.log("\(cIDString) now sending data buffer count:\(bufArray.count)",level: .Debug)
                 super.client_send_to_socks()
             }else {
                 //if rTag == 0  {
@@ -597,7 +597,7 @@ class SFHTTPConnection: SFHTTPRequest {
                 
             }
         }else {
-            AxLogger.log("\(cIDString) not ESTABLISHED ",level: .Debug)
+            SKit.log("\(cIDString) not ESTABLISHED ",level: .Debug)
         }
         
     }
@@ -611,7 +611,7 @@ class SFHTTPConnection: SFHTTPRequest {
             reqInfo.closereason = .closedError
             //            reqInfo.socks_up = false
             reqInfo.socks_closed = true
-            //AxLogger.log("\(cIDString) \(reqInfo.transferTiming) RemoteError",level: .Debug)
+            //SKit.log("\(cIDString) \(reqInfo.transferTiming) RemoteError",level: .Debug)
             client_free_socks()
         case .event_UP:
             assert(!reqInfo.socks_up)
@@ -623,7 +623,7 @@ class SFHTTPConnection: SFHTTPRequest {
             //            }
             configClient_sent_func(pcb)
             reqInfo.socks_up = true
-            //AxLogger.log("\(cIDString) ESTABLISHED \(reqInfo.connectionTiming)",level: .Debug)
+            //SKit.log("\(cIDString) ESTABLISHED \(reqInfo.connectionTiming)",level: .Debug)
             if let header = reqInfo.reqHeader {
                 if header.method == .CONNECT{
                     _ = sendFakeCONNECTResponse()
@@ -639,7 +639,7 @@ class SFHTTPConnection: SFHTTPRequest {
             //            }
         //prcessData("ESTABLISHED")
         case .event_ERROR_CLOSED:
-            //AxLogger.log("\(cIDString) \(reqInfo.transferTiming) RemoteClosed",level: .Debug)
+            //SKit.log("\(cIDString) \(reqInfo.transferTiming) RemoteClosed",level: .Debug)
             //protocol error
             //assert(reqInfo.socks_up)
             reqInfo.status = .Complete
@@ -660,8 +660,8 @@ class SFHTTPConnection: SFHTTPRequest {
         guard let _ = reqInfo.reqHeader else {return}
         let  currentReq:SFRequestInfo = reqInfo
         
-        //AxLogger.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length:\(data):\(data.length) flow:\(currentReq.traffice.tx):\(currentReq.traffice.rx) ",level: .Debug)
-        AxLogger.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length:\(data.length):\(data.length) flow:\(currentReq.traffice.tx):\(currentReq.traffice.rx) ",level: .Debug)
+        //SKit.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length:\(data):\(data.length) flow:\(currentReq.traffice.tx):\(currentReq.traffice.rx) ",level: .Debug)
+        SKit.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length:\(data.length):\(data.length) flow:\(currentReq.traffice.tx):\(currentReq.traffice.rx) ",level: .Debug)
         //critLock.lockBeforeDate( NSDate( timeIntervalSinceNow: 0.05))
         rTag += 1
         //NSLog("%@,%d didReadData", cIDString,tag)
@@ -676,7 +676,7 @@ class SFHTTPConnection: SFHTTPRequest {
         
         
         if reqInfo.status == .Complete {
-            AxLogger.log(cIDString + "didReadData done Complete 000 " + reqInfo.url,level: .Debug)
+            SKit.log(cIDString + "didReadData done Complete 000 " + reqInfo.url,level: .Debug)
         }
         
         if reqInfo.mode == .HTTPS{
@@ -688,7 +688,7 @@ class SFHTTPConnection: SFHTTPRequest {
             currentReq.updaterecvTraffic(data.count)
             
             //5K
-            //AxLogger.log("\(cIDString) http recv data length:\(data.length)",level: .Debug)
+            //SKit.log("\(cIDString) http recv data length:\(data.length)",level: .Debug)
             //leak
             processRecvData(data, currentReq: currentReq)
             if let resp =  currentReq.respHeader{
@@ -698,11 +698,11 @@ class SFHTTPConnection: SFHTTPRequest {
                     //disable this build
                     //disable this feature
                     if !location.hasPrefix("https") && !location.hasSuffix("http://ipv4.google") {
-                        AxLogger.log("\(cIDString) status \(resp.sCode) location:\(location)",level: .Debug)
+                        SKit.log("\(cIDString) status \(resp.sCode) location:\(location)",level: .Debug)
                         //processLocationEvent(location)
                         //return
                     }else {
-                        AxLogger.log("\(cIDString)  location:\(location) http->https don't support",level: .Debug)
+                        SKit.log("\(cIDString)  location:\(location) http->https don't support",level: .Debug)
                     }
                     
                 }
@@ -755,7 +755,7 @@ class SFHTTPConnection: SFHTTPRequest {
                 }
             }
             if reqInfo.respReadFinish || hostChanged {
-                AxLogger.log("\(cIDString) respReadFinish, process 302 ", level: .Debug)
+                SKit.log("\(cIDString) respReadFinish, process 302 ", level: .Debug)
                 let data = request.updateWithLocation(location)
                 if bufArray.count > 0{
                     bufArray.removeAll()
@@ -764,18 +764,18 @@ class SFHTTPConnection: SFHTTPRequest {
                 
                 //disconnect socket
                 if request.hostChanged {
-                    AxLogger.log("\(cIDString) hostChanged, disconnect socket", level: .Debug)
+                    SKit.log("\(cIDString) hostChanged, disconnect socket", level: .Debug)
                     if connector != nil  {
                         connector?.delegate = nil
                         connector?.forceDisconnect()
                         connector = nil
                     }
                 }else {
-                    AxLogger.log("\(cIDString) not change", level: .Debug)
+                    SKit.log("\(cIDString) not change", level: .Debug)
                 }
                 //占不了多少内存
                 bufArray.append(data)
-                AxLogger.log("\(cIDString) \(data)", level: .Debug)
+                SKit.log("\(cIDString) \(data)", level: .Debug)
                 let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                 //reset status
                 //req.subID += 1
@@ -830,12 +830,12 @@ class SFHTTPConnection: SFHTTPRequest {
                 self.reqInfo = req
 
             }else {
-                AxLogger.log("\(cIDString)  302 Location have no use info ", level: .Debug)
+                SKit.log("\(cIDString)  302 Location have no use info ", level: .Debug)
             }
             
             processData("processLocationEvent")
         }else {
-            AxLogger.log("\(cIDString) header error", level: .Debug)
+            SKit.log("\(cIDString) header error", level: .Debug)
         }
         
         
@@ -843,7 +843,7 @@ class SFHTTPConnection: SFHTTPRequest {
         
     }
     override func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
-        AxLogger.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
+        SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
         //NSLog("currrent tag: \(tag) == \(_tag)")
         guard let _ = reqInfo.reqHeader else {return}
         let currentReq:SFRequestInfo = reqInfo
@@ -859,11 +859,11 @@ class SFHTTPConnection: SFHTTPRequest {
             bufArrayInfo.removeValue(forKey: x)
             reqInfo.updateSendTraffic(len)
         }else {
-            AxLogger.log("\(cIDString) not find send packet", level: .Debug)
+            SKit.log("\(cIDString) not find send packet", level: .Debug)
         }
         
         
-        //AxLogger.log("\(cIDString) tag:\(tag) time:\(reqInfo.transferTiming) packet sended and delete flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx)",level: .Debug)
+        //SKit.log("\(cIDString) tag:\(tag) time:\(reqInfo.transferTiming) packet sended and delete flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx)",level: .Debug)
         // 这个地方有问题 https over http ,how to send this?
         
         
@@ -879,15 +879,15 @@ class SFHTTPConnection: SFHTTPRequest {
     //    override func connectorDidDisconnect(connector:Connector ,withError:NSError){
     //        debugLog("connectorDidDisconnect \(self.reqInfo.url)" + withError.description)
     //        if let head = reqInfo.respHeader  {
-    //           //AxLogger.log("\(cIDString) \(reqInfo.traffice.tx):\(reqInfo.traffice.rx) \(withError)",level: .Warning)
+    //           //SKit.log("\(cIDString) \(reqInfo.traffice.tx):\(reqInfo.traffice.rx) \(withError)",level: .Warning)
     //            if head.mode == .ContentLength {
     //                if requests.count == 0{
     //                    //let total = head.contentLength + UInt(head.length)
     //                    if reqInfo.respReadFinish {
-    //                       //AxLogger.log("\(cIDString) HTTP body read Finish",level: .Debug)
+    //                       //SKit.log("\(cIDString) HTTP body read Finish",level: .Debug)
     //                    }else {
     //
-    //                       //AxLogger.log("\(cIDString) HTTP body read not Finish send:\(reqInfo.traffice.tx) \(head.contentLength)==\(reqInfo.traffice.rx) \(withError)",level: .Debug)
+    //                       //SKit.log("\(cIDString) HTTP body read not Finish send:\(reqInfo.traffice.tx) \(head.contentLength)==\(reqInfo.traffice.rx) \(withError)",level: .Debug)
     //                        //fatalError()
     //                    }
     //
@@ -895,9 +895,9 @@ class SFHTTPConnection: SFHTTPRequest {
     //                    var index = 0
     //                    for req in requests {
     //                        if let resp = req!.respHeader {
-    //                           //AxLogger.log("\(cIDString) send:\(req!.traffice.tx) \(resp.contentLength)==\(reqInfo.traffice.rx) \(withError)",level: .Debug)
+    //                           //SKit.log("\(cIDString) send:\(req!.traffice.tx) \(resp.contentLength)==\(reqInfo.traffice.rx) \(withError)",level: .Debug)
     //                        }else {
-    //                           //AxLogger.log("\(cIDString) \(req!.url) Request No Response Header",level: .Error)
+    //                           //SKit.log("\(cIDString) \(req!.url) Request No Response Header",level: .Error)
     //                            //fatalError()
     //                        }
     //                    }
@@ -905,7 +905,7 @@ class SFHTTPConnection: SFHTTPRequest {
     //                }
     //
     //            }else {
-    //               //AxLogger.log("\(cIDString) \(reqInfo.traffice.tx):\(reqInfo.traffice.rx) \(withError)",level: .Debug)
+    //               //SKit.log("\(cIDString) \(reqInfo.traffice.tx):\(reqInfo.traffice.rx) \(withError)",level: .Debug)
     //            }
     //
     //        }
@@ -922,7 +922,7 @@ class SFHTTPConnection: SFHTTPRequest {
         
         //        if let _ = reqInfo.respHeader{
         //            if reqInfo.respReadFinish {
-        //                AxLogger.log("\(cIDString) respReadFinish ,wait next read", level: .Warning)
+        //                SKit.log("\(cIDString) respReadFinish ,wait next read", level: .Warning)
         //                return
         //            }
         //        }
@@ -930,7 +930,7 @@ class SFHTTPConnection: SFHTTPRequest {
         if reqInfo.status != .Complete  {
             
             guard let c = connector else {
-                AxLogger.log("\(cIDString) socket dead , exit ", level: .Error)
+                SKit.log("\(cIDString) socket dead , exit ", level: .Error)
                 client_free_socks()
                 return
             }
@@ -938,7 +938,7 @@ class SFHTTPConnection: SFHTTPRequest {
             
             
             if socks_recv_bufArray.count > 0 {
-                AxLogger.log("\(cIDString) buffer have data need write to lwip,recv waiting",level: .Debug)
+                SKit.log("\(cIDString) buffer have data need write to lwip,recv waiting",level: .Debug)
                 //client_tcp_output()
                 //NSLog("%@ client_socks_recv_send_out", cIDString)
                 _ = client_socks_recv_send_out()
@@ -956,16 +956,16 @@ class SFHTTPConnection: SFHTTPRequest {
                         }
                         if let resp = reqInfo.respHeader, resp.shouldColse2(hostname: header.Host) == true {
                             if reqInfo.respReadFinish {
-                                AxLogger.log("\(cIDString)  HTTP STATUS:302 close now respReadFinish",level:.Notify)
+                                SKit.log("\(cIDString)  HTTP STATUS:302 close now respReadFinish",level:.Notify)
 
                             }else {
-                                AxLogger.log("\(cIDString)  HTTP STATUS:302 close now not respReadFinish",level:.Notify)
+                                SKit.log("\(cIDString)  HTTP STATUS:302 close now not respReadFinish",level:.Notify)
                             }
                             
                             //client_free_socks()
                             let e = NSError.init(domain: "com.yarshure.surf", code: 0, userInfo: ["reason":"status:302 close"])
                             //self.connector!.delegate = nil
-                            AxLogger.log("\(e.localizedDescription) \(self.reqInfo.url)",level: .Verbose)
+                            SKit.log("\(e.localizedDescription) \(self.reqInfo.url)",level: .Verbose)
                             //reqInfo.status = .Complete
                             if let connector = connector{
                                 connector.forceDisconnect()
@@ -978,19 +978,19 @@ class SFHTTPConnection: SFHTTPRequest {
                     }
                     
                 }else {
-                    AxLogger.log("\(cIDString)  recv waiting",level:.Trace)
+                    SKit.log("\(cIDString)  recv waiting",level:.Trace)
                     
                 }
             }
         }else {
-            AxLogger.log("\(cIDString) request Finished ,shoud  close?",level: .Debug)
+            SKit.log("\(cIDString) request Finished ,shoud  close?",level: .Debug)
             //单个请求
             if let h = reqInfo.respHeader {
                 if h.shouldClose() {
-                    AxLogger.log("\(cIDString) request Finished close socket",level: .Warning)
+                    SKit.log("\(cIDString) request Finished close socket",level: .Warning)
                     client_free_socks()
                 }else {
-                    AxLogger.log("\(cIDString) request Finished should not go here",level: .Trace)
+                    SKit.log("\(cIDString) request Finished should not go here",level: .Trace)
                 }
             }
             
@@ -1000,23 +1000,23 @@ class SFHTTPConnection: SFHTTPRequest {
     override func checkStatus() {
         //
         if socks_recv_bufArray.count > 1024*50{
-            AxLogger.log("\(cIDString) recv queue too long \(socks_recv_bufArray.length)  ",level: .Warning)
+            SKit.log("\(cIDString) recv queue too long \(socks_recv_bufArray.length)  ",level: .Warning)
             client_socks_recv_send_out()
             return
         }
         if let h = reqInfo.respHeader {
-            //AxLogger.log("\(cIDString) resp:\(h.mode) \(h.bodyLeftLength) ",level: .Debug)
+            //SKit.log("\(cIDString) resp:\(h.mode) \(h.bodyLeftLength) ",level: .Debug)
             if let alive  = h.params["Connection"], alive == "close" {
                 if socks_recv_bufArray.count == 0 && bufArray.count == 0  {
                     if reqInfo.respReadFinish {
                         if reqInfo.idleTimeing > SFOpt.HTTPSTimeout{
-                            AxLogger.log("\(cIDString) \(reqInfo.host)  timeout , will close 1",level: .Warning)
+                            SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close 1",level: .Warning)
                             client_free_socks()
                             
                         }
                     }else {
                         if reqInfo.idleTimeing > SFOpt.HTTPVeryTimeout {//15
-                            AxLogger.log("\(cIDString) \(reqInfo.host)  timeout , will close 2",level: .Warning)
+                            SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close 2",level: .Warning)
                             client_free_socks()
                             
                         }
@@ -1024,26 +1024,26 @@ class SFHTTPConnection: SFHTTPRequest {
                     
                 }else {
                     if reqInfo.idleTimeing > SFOpt.HTTPVeryTimeout {
-                        AxLogger.log("\(cIDString) \(reqInfo.host)  timeout , will close 3",level: .Warning)
+                        SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close 3",level: .Warning)
                         client_free_socks()
                         
                     }
                 }
             }else {
                 if let url = h.params["Location"] {
-                    AxLogger.log("\(cIDString) code \(h.sCode) change to \(url)", level: .Debug)
+                    SKit.log("\(cIDString) code \(h.sCode) change to \(url)", level: .Debug)
                     client_free_socks()
                 }
                 if socks_recv_bufArray.count == 0 && bufArray.count == 0 {
                     
                     if reqInfo.respReadFinish  {
                         if reqInfo.idleTimeing > SFOpt.HTTPSTimeout{
-                            AxLogger.log("\(cIDString) \(reqInfo.host)  timeout , will close 4",level: .Warning)
+                            SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close 4",level: .Warning)
                             client_free_socks()
                             
                         } else {
                             if reqInfo.idleTimeing > SFOpt.HTTPVeryTimeout{
-                                AxLogger.log("\(cIDString) \(reqInfo.host)  timeout , will close 5",level: .Warning)
+                                SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close 5",level: .Warning)
                                 client_free_socks()
                                 
                             }
@@ -1052,13 +1052,13 @@ class SFHTTPConnection: SFHTTPRequest {
                         if reqInfo.idleTimeing > SFOpt.HTTPVeryTimeout/2.0{
                             if let c = connector {
                                 if c.readPending == false {
-                                    AxLogger.log("\(cIDString) \(reqInfo.host)  resume reading",level: .Warning)
+                                    SKit.log("\(cIDString) \(reqInfo.host)  resume reading",level: .Warning)
                                     client_socks_recv_initiate()
                                 }
                             }
                         }else if reqInfo.idleTimeing > SFOpt.HTTPVeryTimeout{
                             
-                            AxLogger.log("\(cIDString) \(reqInfo.host)  timeout , will close 6",level: .Warning)
+                            SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close 6",level: .Warning)
                             client_free_socks()
                             
                         }else {
@@ -1070,7 +1070,7 @@ class SFHTTPConnection: SFHTTPRequest {
                     
                 } else {
                     if reqInfo.idleTimeing > SFOpt.HTTPVeryTimeout {
-                        AxLogger.log("\(cIDString) \(reqInfo.host)  timeout , will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count) 7",level: .Warning)
+                        SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count) 7",level: .Warning)
                         if socks_recv_bufArray.count > 0 {
                             client_socks_recv_handler_done(socks_recv_bufArray.count)
                         } else {
@@ -1084,7 +1084,7 @@ class SFHTTPConnection: SFHTTPRequest {
             
         }else {
             if  reqInfo.idleTimeing > SFOpt.HTTPNoHeaderTimeout {
-                AxLogger.log("\(cIDString) \(reqInfo.host)  no resp header disconnect ",level: .Warning)
+                SKit.log("\(cIDString) \(reqInfo.host)  no resp header disconnect ",level: .Warning)
                 client_free_socks()
                 
             }
@@ -1096,13 +1096,13 @@ class SFHTTPConnection: SFHTTPRequest {
         let result = reqInfo.shouldClose()
         if result {
             if socks_recv_bufArray.count == 0 && bufArray.count == 0{
-                AxLogger.log("\(reqInfo.host) idle \(reqInfo.idleTimeing) to long close socket",level: .Warning)
+                SKit.log("\(reqInfo.host) idle \(reqInfo.idleTimeing) to long close socket",level: .Warning)
                 client_free_socks()
             }
         }else {
             
-            AxLogger.log("\(reqInfo.host) recv memoryWarning  header queue:\(reqHeaderQueue.count) index:\(requestIndex) http recv header buffer :\(recvHeaderData.length)",level: .Warning)
-            AxLogger.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
+            SKit.log("\(reqInfo.host) recv memoryWarning  header queue:\(reqHeaderQueue.count) index:\(requestIndex) http recv header buffer :\(recvHeaderData.length)",level: .Warning)
+            SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
             client_free_socks()
         }
         

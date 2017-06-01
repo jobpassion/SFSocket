@@ -14,7 +14,7 @@ struct Config {
     var MaxFrameSize:Int = 4096
     var MaxReceiveBuffer:Int = 4194304
     func VerifyConfig() {
-        AxLogger.log("VerifyConfig not imp", level: .Warning)
+        SKit.log("VerifyConfig not imp", level: .Warning)
     }
     
 }

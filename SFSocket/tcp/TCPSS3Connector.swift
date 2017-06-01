@@ -43,7 +43,7 @@ public class  TCPSS3Connector:ProxyConnector{
             
             header.append(SOCKS_IPV4)
             addr_len += 1
-            //AxLogger.log("\(cIDString) target host use ip \(targetHost) ",level: .Debug)
+            //SKit.log("\(cIDString) target host use ip \(targetHost) ",level: .Debug)
             let i :UInt32 = inet_addr(targetHost.cString(using: .utf8)!)
             header.append(i)
             header.append(targetPort.byteSwapped)
@@ -70,7 +70,7 @@ public class  TCPSS3Connector:ProxyConnector{
             if let data =  toIPv6Addr(ipString: targetHost) {
                 
                 
-                //AxLogger.log("\(cIDString) convert \(targetHost) to Data:\(data)",level: .Info)
+                //SKit.log("\(cIDString) convert \(targetHost) to Data:\(data)",level: .Info)
                 header.append(data)
                 let x = targetPort.byteSwapped
                 //let v = UnsafeBufferPointer(start: &x, count: 2)
@@ -78,7 +78,7 @@ public class  TCPSS3Connector:ProxyConnector{
                 header.append(x)
                 addr_len += 2
             }else {
-                //AxLogger.log("\(cIDString) convert \(targetHost) to in6_addr error )",level: .Warning)
+                //SKit.log("\(cIDString) convert \(targetHost) to in6_addr error )",level: .Warning)
                 //return
             }
             //2001:0b28:f23f:f005:0000:0000:0000:000a
@@ -96,7 +96,7 @@ public class  TCPSS3Connector:ProxyConnector{
     
     override func readCallback(data: Data?, tag: Int) {
         guard let data = data else {
-            AxLogger.log("\(cIDString) read nil", level: .Debug)
+            SKit.log("\(cIDString) read nil", level: .Debug)
             return
         }
         
@@ -111,10 +111,10 @@ public class  TCPSS3Connector:ProxyConnector{
                     }
                 }
             }else {
-                AxLogger.log(" didReadData Connection deal drop data ",level: .Error)
+                SKit.log(" didReadData Connection deal drop data ",level: .Error)
             }
         }else {
-            AxLogger.log("SS Engine Decrypt Error ",level: .Error)
+            SKit.log("SS Engine Decrypt Error ",level: .Error)
         }
         
         
@@ -128,14 +128,14 @@ public class  TCPSS3Connector:ProxyConnector{
         if !headSent {
             var temp = Data()
             let head = buildHead()
-            AxLogger.log("Adapter-SS3 header:\(targetHost):\(targetPort) \(head )", level: .Debug)
+            SKit.log("Adapter-SS3 header:\(targetHost):\(targetPort) \(head )", level: .Debug)
             temp.append(head)
             headSent = true
             
             temp.append(data)
             
             datatemp = temp
-            //AxLogger.log("\(cIDString) will send \(head.length) \(head) ",level: .Trace)
+            //SKit.log("\(cIDString) will send \(head.length) \(head) ",level: .Trace)
         }else {
             
             datatemp = data
@@ -148,7 +148,7 @@ public class  TCPSS3Connector:ProxyConnector{
                 super.writeData(cipher, withTag: tag)
             }
         }else {
-            AxLogger.log("encrypt init error or data length 0",level: .Error)
+            SKit.log("encrypt init error or data length 0",level: .Error)
         }
         
     }

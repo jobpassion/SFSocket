@@ -124,7 +124,7 @@ open class  SFHTTPHeader {
         return ""
     }
     deinit {
-        AxLogger.log("HTTPHeader dealloc",level: .Debug)
+        SKit.log("HTTPHeader dealloc",level: .Debug)
     }
 }
 public enum HTTPResponseMode :String{
@@ -192,7 +192,7 @@ open  class  SFHTTPResponseHeader :SFHTTPHeader{
             self.version = c[0]
             self.sCode = Int(c[1])!
         }else {
-            //AxLogger.log("\(row) packet error",level: .Error)
+            //SKit.log("\(row) packet error",level: .Error)
             //print("http \(row) response no params")
         }
         
@@ -380,14 +380,14 @@ open  class  SFHTTPResponseHeader :SFHTTPHeader{
                 return false
             }
         }else {
-            AxLogger.log("Transfer-Encoding parser will support future",level: .Notify)
+            SKit.log("Transfer-Encoding parser will support future",level: .Notify)
             return false
         }
     }
     
     
     deinit {
-        AxLogger.log("[HTTPRespHeader] deinit",level: .Debug)
+        SKit.log("[HTTPRespHeader] deinit",level: .Debug)
     }
 }
 
@@ -468,7 +468,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
         return false
     }
     deinit {
-        AxLogger.log("HTTPRequestHeader dealloc",level: .Debug)
+        SKit.log("HTTPRequestHeader dealloc",level: .Debug)
     }
     
     public override init? (data:Data){
@@ -510,7 +510,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
             self.Url = c[1]
             //NSLog("url %@",self.Url)
             if self.Url.isEmpty {
-                AxLogger.log("HTTPRequest \(row) not url  \(c) ",level: .Trace)
+                SKit.log("HTTPRequest \(row) not url  \(c) ",level: .Trace)
                 
             }
             if self.method == .CONNECT {
@@ -527,7 +527,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
                 
                 if let u = NSURL.init(string: self.Url) {
                     if self.method == .POST {
-                        AxLogger.log("request \(Url)",level: .Trace)
+                        SKit.log("request \(Url)",level: .Trace)
                     }
                     if  let port = u.port {
                         self.Port = port.intValue
@@ -548,20 +548,20 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
                             self.Host = uhost
                         }
                         //let c = HTTPRequestHeader.listGroups(uhost)
-                        //AxLogger.log("Host:\(uhost)",level: .Trace)
+                        //SKit.log("Host:\(uhost)",level: .Trace)
                         
                         //                        if let ip = c.first {
                         //                            let type = validateIpAddr(ip)
                         //                            if  type  == .IPV4 {
                         //                                self.ipAddressV4 = ip
-                        //                                AxLogger.log("IP:\(self.ipAddressV4)",level:.Trace)
+                        //                                SKit.log("IP:\(self.ipAddressV4)",level:.Trace)
                         //                                //self.Url = "http://" + self.ipAddressV4 + self.Url
                         //                            }else {
                         //                                //self.Url = "http://" + uhost + self.Url
                         //                            }
-                        //                            AxLogger.log("\(type.description)",level:.Trace)
+                        //                            SKit.log("\(type.description)",level:.Trace)
                         //                        }else {
-                        //                            AxLogger.log("\(uhost) ::ffff: failure",level: .Warning)
+                        //                            SKit.log("\(uhost) ::ffff: failure",level: .Warning)
                         //                            //self.Url = "http://" + uhost + self.Url
                         //                        }
                         //if uhost.range(of:"[")
@@ -571,7 +571,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
                         }
                     }
                     if self.method == .POST {
-                        AxLogger.log("new request \(Url)",level:.Trace)
+                        SKit.log("new request \(Url)",level:.Trace)
                     }
                 }else {
                     //tcp raw 80
@@ -587,8 +587,8 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
             
             self.version = c[2]
         }else {
-            //AxLogger.log("header error: \(c)",level: .Error)
-            AxLogger.log("http \(row) response error",level:.Error)
+            //SKit.log("header error: \(c)",level: .Error)
+            SKit.log("http \(row) response error",level:.Error)
         }
         
         
@@ -648,7 +648,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
         return p
     }
     func debugPareas (){
-        //AxLogger.log("\(params)")
+        //SKit.log("\(params)")
     }
     
     open override func headerString(_ proxy:SFProxy?)->String {
@@ -742,7 +742,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
                         f = method.rawValue + " " + path + " " + version + s
                     }
                     
-                    //AxLogger.log("new request send line \(f)",level:.Trace)
+                    //SKit.log("new request send line \(f)",level:.Trace)
                 }else {
                     // fatalError()
                     f = method.rawValue + " / " + version + s

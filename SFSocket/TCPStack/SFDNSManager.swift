@@ -40,7 +40,7 @@ open class SFDNSManager {
         let system = DNSServer.currentSystemDns()
         for s in system {
             if  s == SKit.proxyIpAddr {
-                AxLogger.log("DNS invalid \(s) ",level: .Error)
+                SKit.log("DNS invalid \(s) ",level: .Error)
             }else {
                 
                 if !s.isEmpty{
@@ -49,7 +49,7 @@ open class SFDNSManager {
                     result.append(d)
                     
                     SFEnv.updateEnvIP(s)
-                    AxLogger.log("system dns \(s) type:\( SFEnv.ipType)",level: .Info)
+                    SKit.log("system dns \(s) type:\( SFEnv.ipType)",level: .Info)
                 }
                 
             }
@@ -61,13 +61,13 @@ open class SFDNSManager {
         
         let dnss = DNS.loadSystemDNSServer()
         if let f = dnss?.first, f == SKit.proxyIpAddr {
-            AxLogger.log("DNS don't need  update",level: .Info)
+            SKit.log("DNS don't need  update",level: .Info)
         }else {
             dnsServers.removeAll()
             for item in dnss!{
                 dnsServers.append(item)
             }
-            AxLogger.log("System DNS \(dnsServers)",level: .Info)
+            SKit.log("System DNS \(dnsServers)",level: .Info)
         }
         
         

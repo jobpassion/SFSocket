@@ -51,7 +51,7 @@ class LWIPTraffic {
                 
             }
             //            #if DEBUG
-            //           //AxLogger.log("\(url) speed: \(msec)/\(recvSpped) ms \n",level:.Trace)
+            //           //SKit.log("\(url) speed: \(msec)/\(recvSpped) ms \n",level:.Trace)
             //            #endif
             lwipInputTime = now
         }
@@ -157,12 +157,12 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         //timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "tcp_timer_handler:", userInfo: nil, repeats: true)
     }
     func checkConnectionStatus() {
-        ////AxLogger.log("TCP Connection Count:\(connections.count)",level: .Debug)
+        ////SKit.log("TCP Connection Count:\(connections.count)",level: .Debug)
         //NSLog("startup reportMemory %@ %@ [%d]",reportMemory(),#file,#line)
         
         //return;
         //        if connections.count > 10 {
-        //            AxLogger.log("TCP Connection Count:\(connections.count)",level: .Warning)
+        //            SKit.log("TCP Connection Count:\(connections.count)",level: .Warning)
         //
         //        }
         var connectionsCount = 40
@@ -219,7 +219,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     func removeConnectionRef(_ ref:SFConnection){
         //ref.manager = nil
         //connections.remo
-        //AxLogger.log("removeConnectionRef \(ref.cIDString) left:\(connections.count-1)",level: .Debug)
+        //SKit.log("removeConnectionRef \(ref.cIDString) left:\(connections.count-1)",level: .Debug)
         let sport  = ref.info.tun.port
         
         saveConnectionInfo(ref)
@@ -273,7 +273,7 @@ extension SFTCPConnectionManager{
     func recvMemoryWarning(_ level:DispatchSource.MemoryPressureEvent){
         self.memoryWarninglevel = level
         let message = String.init(format:"recvMemoryWarning %d connection:%d", level.rawValue,connections.count)
-        AxLogger.log(message,level: .Warning)
+        SKit.log(message,level: .Warning)
         switch level {
         case DispatchSource.MemoryPressureEvent.normal:
             //logStream.write("Memory Warning NORMAL")
@@ -338,7 +338,7 @@ extension SFTCPConnectionManager{
         //        let xport = dport.byteSwapped
         //        let yport = dport.bigEndian
         var c:SFConnection
-        AxLogger.log("\(srcip.pointee) \(dstip.pointee) \(sport.pointee) \(dport.pointee) incomming tcp", level: .Info)
+        SKit.log("\(srcip.pointee) \(dstip.pointee) \(sport.pointee) \(dport.pointee) incomming tcp", level: .Info)
         let ip:UInt32 =  inet_addr(SKit.proxyIpAddr.cString(using: String.Encoding.utf8)!)  //0x030000f0
         
         if isHTTP(tcp,ip) {
@@ -354,7 +354,7 @@ extension SFTCPConnectionManager{
                 return
             }
             
-            //AxLogger.log("http connection incoming \(c)",level: .Debug)
+            //SKit.log("http connection incoming \(c)",level: .Debug)
             
         }else{
             let ip:UInt32 =  inet_addr(SKit.xxIpAddr.cString(using: String.Encoding.utf8)!)
@@ -387,14 +387,14 @@ extension SFTCPConnectionManager{
         
     }
     public func cleanConnection() {
-        AxLogger.log("[SFTCPConnectionManager] Connection :\(connections.count)",level: .Notify)
+        SKit.log("[SFTCPConnectionManager] Connection :\(connections.count)",level: .Notify)
         //self.cancel()
         dispatchQueue.async { [unowned self] in
             self.closeAllConnection()
             Smux.sharedTunnel.shutdown()
             self.ruleTestResult.removeAll()
             self.lwipInputSpeed.removeAll()
-            AxLogger.log("[SFTCPConnectionManager] Connection clean Done!",level: .Notify)
+            SKit.log("[SFTCPConnectionManager] Connection clean Done!",level: .Notify)
         }
         //
         //        closeTW()
@@ -404,7 +404,7 @@ extension SFTCPConnectionManager{
         //        if self.dispatch_timer != nil {
         //            dispatch_source_cancel(dispatch_timer)
         //        }
-        AxLogger.log("should cancel timer", level: .Debug)
+        SKit.log("should cancel timer", level: .Debug)
     }
     public func resume() {
         startWithInterval(SKit.lwip_timer_second)
@@ -432,7 +432,7 @@ extension SFTCPConnectionManager{
             }
         }
         dispatch_timer.setCancelHandler {//[unowned self] in
-            AxLogger.log("dispatch_timer cancel", level: .Info)
+            SKit.log("dispatch_timer cancel", level: .Info)
         }
         dispatch_timer.resume()
         
@@ -444,8 +444,8 @@ extension SFTCPConnectionManager{
         if lwip_init_finished == false {
             //init not finish ,input packet will
             //drop the packet
-            //AxLogger.log("lwip init not finish drop packet \(data)",level: .Info)
-            AxLogger.log("lwip_init_finished false",level: .Error)
+            //SKit.log("lwip init not finish drop packet \(data)",level: .Info)
+            SKit.log("lwip_init_finished false",level: .Error)
             return
         }
         
@@ -473,7 +473,7 @@ extension SFTCPConnectionManager{
             let d2 = Date().timeIntervalSince(d1)
             if d2 > 1.0 {
                 let m = String.init(format: "device_read_handler_sendPackets %.2f" ,d2)
-                AxLogger.log(m,level: .Warning)
+                SKit.log(m,level: .Warning)
             }
             
             DispatchQueue.global().async {
@@ -490,8 +490,8 @@ extension SFTCPConnectionManager{
         if lwip_init_finished == false {
             //init not finish ,input packet will
             //drop the packet
-            //AxLogger.log("lwip init not finish drop packet \(data)",level: .Info)
-            AxLogger.log("lwip_init_finished false",level: .Error)
+            //SKit.log("lwip init not finish drop packet \(data)",level: .Info)
+            SKit.log("lwip_init_finished false",level: .Error)
             return
         }
         dispatchQueue.async { [weak self] () -> Void in
@@ -554,7 +554,7 @@ extension SFTCPConnectionManager{
         if lwip_init_finished == false {
             //init not finish ,input packet will
             //drop the packet
-            //AxLogger.log("lwip init not finish drop packet \(data)",level: .Info)
+            //SKit.log("lwip init not finish drop packet \(data)",level: .Info)
             return
         }
         
@@ -595,7 +595,7 @@ extension SFTCPConnectionManager{
         do {
             try data = j.rawData()
         }catch let error  {
-            //AxLogger.log("ruleResultData error \(error.localizedDescription)")
+            //SKit.log("ruleResultData error \(error.localizedDescription)")
             //let x = error.localizedDescription
             data = error.localizedDescription.data(using: .utf8)!// NSData()
         }
@@ -655,7 +655,7 @@ extension SFTCPConnectionManager{
         do {
             try data = j.rawData()
         }catch let error  {
-            //AxLogger.log("ruleResultData error \(error)")
+            //SKit.log("ruleResultData error \(error)")
             print(error)
             data = Data()
         }
@@ -684,11 +684,11 @@ extension SFTCPConnectionManager{
 extension SFTCPConnectionManager {
     func process_device_udp_packet (_ data:Data, data_len:Int,p:NSNumber,info:SFIPConnectionInfo){
         if p.int32Value == AF_INET6 {
-            //AxLogger.log("[SFTCPConnectionManager] receive IPV6 udp packet",level:.Error)
+            //SKit.log("[SFTCPConnectionManager] receive IPV6 udp packet",level:.Error)
         }else if p.int32Value == AF_INET {
             
         }else {
-            //AxLogger.log("[SFTCPConnectionManager] receive \(p) udp packet",level:.Error)
+            //SKit.log("[SFTCPConnectionManager] receive \(p) udp packet",level:.Error)
         }
         //not dns packet
     }

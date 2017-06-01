@@ -129,9 +129,9 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
             completion(possibleTrust!)
             return
         }
-        AxLogger.log("debug :\(remoteAddress.hostname)", level: .Debug)
+        SKit.log("debug :\(remoteAddress.hostname)", level: .Debug)
         if x != 0 {
-             AxLogger.log("debug :\(remoteAddress.hostname) \(x)", level: .Debug)
+             SKit.log("debug :\(remoteAddress.hostname) \(x)", level: .Debug)
         }
         if let trust = possibleTrust {
             //let's do test by ourself first
@@ -139,19 +139,19 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
              var trustResult : SecTrustResultType = .invalid
              let r = SecTrustEvaluate(trust, &trustResult)
             if r != 0{
-                AxLogger.log("debug :\(remoteAddress.hostname) error code:\(r)", level: .Debug)
+                SKit.log("debug :\(remoteAddress.hostname) error code:\(r)", level: .Debug)
             }
             if trustResult == .proceed {
-                AxLogger.log("debug :\(remoteAddress.hostname) Proceed", level: .Debug)
+                SKit.log("debug :\(remoteAddress.hostname) Proceed", level: .Debug)
             }else {
-                AxLogger.log("debug :\(remoteAddress.hostname) Proceed error", level: .Debug)
+                SKit.log("debug :\(remoteAddress.hostname) Proceed error", level: .Debug)
             }
              //print(trustResult)  // the result is 5, is it
              //kSecTrustResultRecoverableTrustFailure?
              
             completion(trust)
         }else {
-             AxLogger.log("debug :\(remoteAddress.hostname) error", level: .Debug)
+             SKit.log("debug :\(remoteAddress.hostname) error", level: .Debug)
         }
     }
  
@@ -165,7 +165,7 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
 //            case .Connected:
 //                stateString = "Connected"
 //                if proxy.tlsEnable == true && proxy.type != .SS {
-//                    AxLogger.log("\(cIDString) host:\(x) tls handshake passed", level: .Debug)
+//                    SKit.log("\(cIDString) host:\(x) tls handshake passed", level: .Debug)
 //                }
 //                    queueCall {
 //                        self.socketConnectd()
@@ -190,7 +190,7 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
 //                stateString = "Invalid"
 //                
 //            }
-//            AxLogger.log("\(cIDString) host:\(x) " + stateString, level: .Debug)
+//            SKit.log("\(cIDString) host:\(x) " + stateString, level: .Debug)
 //        }
 // 
 //    }

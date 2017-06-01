@@ -317,7 +317,7 @@ public class enc_ctx {
         if !enc_ctx.sodiumInited {
             if sodium_init() == -1 {
                 //print("sodium_init failure")
-                AxLogger.log("sodium_init failure todo fix",level: .Error)
+                SKit.log("sodium_init failure todo fix",level: .Error)
             }
         }
     }
@@ -345,7 +345,7 @@ public class enc_ctx {
             //cryptor.deallocate(capacity: 1)
             //return ptr
         }else {
-            AxLogger.log("create crypto ctx error",level: .Error)
+            SKit.log("create crypto ctx error",level: .Error)
             //return nil
         }
         
@@ -403,7 +403,7 @@ public class enc_ctx {
                 cryptoInit = true
                 ctx = temp
             }else {
-                AxLogger.log("create crypto ctx error",level: .Error)
+                SKit.log("create crypto ctx error",level: .Error)
                 
             }
           
@@ -489,7 +489,7 @@ public class SSEncrypt {
     func recvCTX(iv:Data){
         //debugLog(message: "use iv create ctx \(iv)")
         if SSEncrypt.have_iv(i: iv,m:m)  && !testenable{
-            AxLogger.log("cryto iv dup error",level: .Error)
+            SKit.log("cryto iv dup error",level: .Error)
             recv_ctx = enc_ctx.init(key: ramdonKey!, iv: iv, encrypt: false,method:m)
         }else {
             recv_ctx = enc_ctx.init(key: ramdonKey!, iv: iv, encrypt: false,method:m)
@@ -591,7 +591,7 @@ public class SSEncrypt {
             
             if encrypt_bytes.count + ivBuffer.count < iv_len {
                 ivBuffer.append(encrypt_bytes)
-                AxLogger.log("recv iv not finished,waiting recv iv",level: .Warning)
+                SKit.log("recv iv not finished,waiting recv iv",level: .Warning)
                 return nil
             }else {
                 let iv_need_len = iv_len - ivBuffer.count
@@ -618,7 +618,7 @@ public class SSEncrypt {
         }
         if recv_ctx == nil && encrypt_bytes.count < send_ctx.m.iv_size {
             self.genData(encrypt_bytes:encrypt_bytes)
-            AxLogger.log("socket read less iv_len",level: .Error)
+            SKit.log("socket read less iv_len",level: .Error)
         }
         //leaks
         if let left = genData(encrypt_bytes: encrypt_bytes) {
@@ -626,7 +626,7 @@ public class SSEncrypt {
             // Alloc Data Out
             guard let  ctx =  recv_ctx else {
                 //print("ctx error")
-                AxLogger.log("recv_ctx not init ",level: .Error)
+                SKit.log("recv_ctx not init ",level: .Error)
                 return nil }
             
             if ctx.m.rawValue >= CryptoMethod.SALSA20.rawValue {
@@ -685,14 +685,14 @@ public class SSEncrypt {
                     
                     return cipherDataDecrypt //cipherFinalDecrypt;
                 }else {
-                    AxLogger.log("decrypt CCCryptorUpdate failure",level: .Error)
+                    SKit.log("decrypt CCCryptorUpdate failure",level: .Error)
                 }
                 
             }
             
         }else {
             
-            AxLogger.log("decrypt no Data",level: .Warning)
+            SKit.log("decrypt no Data",level: .Warning)
         }
         
         
@@ -806,7 +806,7 @@ public class SSEncrypt {
                 
                 
             }else {
-                AxLogger.log("CCCryptorUpdate error \(update)",level:.Error)
+                SKit.log("CCCryptorUpdate error \(update)",level:.Error)
             }
             
         }
@@ -836,7 +836,7 @@ public class SSEncrypt {
         default:
             break
         }
-        AxLogger.log("\(message)",level: .Debug)
+        SKit.log("\(message)",level: .Debug)
     }
     func ss_onetimeauth(buffer:Data) ->Data {
         
@@ -846,7 +846,7 @@ public class SSEncrypt {
         
         keyData.append(ramdonKey!)
         let hash = buffer.hmacsha1(keyData: keyData)
-        AxLogger.log("ss_onetimeauth \(hash)",level: .Debug)
+        SKit.log("ss_onetimeauth \(hash)",level: .Debug)
         return hash
     }
     func ss_gen_hash(buffer:Data,counter:Int32) ->Data {

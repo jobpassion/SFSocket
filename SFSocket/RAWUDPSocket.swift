@@ -130,7 +130,7 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
             sSelf.updateActivityTimer()
             
             guard error == nil else {
-                AxLogger.log("Error when reading from remote server. \(String(describing: error))",level: .Error)
+                SKit.log("Error when reading from remote server. \(String(describing: error))",level: .Error)
                 return
             }
             
@@ -245,7 +245,7 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
             sSelf.updateActivityTimer()
             
             guard error == nil else {
-                AxLogger.log("Error when reading from remote server. \(String(describing: error))",level: .Error)
+                SKit.log("Error when reading from remote server. \(String(describing: error))",level: .Error)
                 return
             }
             
@@ -336,11 +336,11 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
         }
         //crash
         //        if let  e = connection.error {
-        //            AxLogger.log("\(cIDString) error:\(e.localizedDescription)", level: .Error)
+        //            SKit.log("\(cIDString) error:\(e.localizedDescription)", level: .Error)
         //        }
         
         if object ==  nil  {
-            AxLogger.log("\(cIDString) error:connection error", level: .Error)
+            SKit.log("\(cIDString) error:connection error", level: .Error)
             //return
         }
         
@@ -385,7 +385,7 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
         //        if let  x = connection.endpoint as! NWHostEndpoint {
         //
         //        }
-        AxLogger.log("\(cIDString) state: \(connection.state.description)", level: .Debug)
+        SKit.log("\(cIDString) state: \(connection.state.description)", level: .Debug)
     }
     func cancel() {
         if let s = session  {

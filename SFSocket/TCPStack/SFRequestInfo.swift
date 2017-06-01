@@ -120,7 +120,7 @@ public class SFRequestInfo {
                 limit = false
             }
 //            #if DEBUG
-//           //AxLogger.log("\(url) speed: \(msec)/\(recvSpped) ms \n",level:.Trace)
+//           //SKit.log("\(url) speed: \(msec)/\(recvSpped) ms \n",level:.Trace)
 //            #endif
             
         }
@@ -312,7 +312,7 @@ public class SFRequestInfo {
         return formatter.string(from: d)
     }
     public func writeFLow(){
-        //AxLogger.log("[SFRequestInfo-\(reqID)] write data",level: .Debug)
+        //SKit.log("[SFRequestInfo-\(reqID)] write data",level: .Debug)
         #if LOGGER
         let url1 = groupContainerURL().appendingPathComponent("\(url)\(reqID)_\(sTime)send.bin")
         try! sendData.write(to: url1, options: .atomic)

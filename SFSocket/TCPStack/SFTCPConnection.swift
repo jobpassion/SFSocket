@@ -35,7 +35,7 @@ class SFTCPConnection: SFConnection {
         if let domain = SFSettingModule.setting.searchIPAddress(ip){
             
             let d = domain.delLastN(1)
-            AxLogger.log("\(cIDString) TCP " + ip  + " Find domain " +  d,level: .Trace)
+            SKit.log("\(cIDString) TCP " + ip  + " Find domain " +  d,level: .Trace)
             domainName = d
         }
         
@@ -46,7 +46,7 @@ class SFTCPConnection: SFConnection {
         }
         reqInfo.lport = info.tun.port
         self.reqInfo.remoteIPaddress = ip
-        AxLogger.log("\(cIDString) remote:\(reqInfo.remoteIPaddress):\(remote.port) init",level: .Warning)
+        SKit.log("\(cIDString) remote:\(reqInfo.remoteIPaddress):\(remote.port) init",level: .Warning)
       
     }
     
@@ -56,10 +56,10 @@ class SFTCPConnection: SFConnection {
         reqInfo.sTime = Date() as Date
         //change to use db
         //SFTCPConnectionManager.manager.addReqInfo(self.reqInfo)
-       //AxLogger.log("\(cIDString) ",level:.Debug)
+       //SKit.log("\(cIDString) ",level:.Debug)
     }
     override func configConnection(){
-        AxLogger.log("\(cIDString) \(reqInfo.url) configConnection" ,level: .Trace)
+        SKit.log("\(cIDString) \(reqInfo.url) configConnection" ,level: .Trace)
         
         var dest = reqInfo.remoteIPaddress
         
@@ -75,12 +75,12 @@ class SFTCPConnection: SFConnection {
             if reqInfo.rule.policy == .Reject {
                 byebyeRequest()
             }else {
-                 AxLogger.log("\(cIDString) shoud start",level: .Trace)
+                 SKit.log("\(cIDString) shoud start",level: .Trace)
             }
            
         }else {
             
-            AxLogger.log(":\(cIDString)\(reqInfo.url) should not waiting? ",level: .Warning)
+            SKit.log(":\(cIDString)\(reqInfo.url) should not waiting? ",level: .Warning)
         }
         
         
@@ -90,7 +90,7 @@ class SFTCPConnection: SFConnection {
         
         let port = info.remote.port
         
-       AxLogger.log("\(cIDString)  \(host):\(port) \(reqInfo.rule.policy) \(String(describing: reqInfo.proxy?.type))",level: .Debug)
+       SKit.log("\(cIDString)  \(host):\(port) \(reqInfo.rule.policy) \(String(describing: reqInfo.proxy?.type))",level: .Debug)
        
         if reqInfo.rule.policy == .Reject {
             byebyeRequest()
@@ -113,7 +113,7 @@ class SFTCPConnection: SFConnection {
         }
         let message = String.init(format:"#### TCP:%@", reqInfo.url)
         
-        AxLogger.log(message,level: .Trace)
+        SKit.log(message,level: .Trace)
         connection(30)
         
         
@@ -126,12 +126,12 @@ class SFTCPConnection: SFConnection {
         reqInfo.activeTime = Date()
       
         if reqInfo.rule.policy == .Reject{
-           AxLogger.log("\(cIDString)  drop data  request ip: \(info.remote.ipString()) port: \(info.remote.port)",level: .Debug)
+           SKit.log("\(cIDString)  drop data  request ip: \(info.remote.ipString()) port: \(info.remote.port)",level: .Debug)
             reqInfo.status = .Complete
             reqInfo.closereason = .clientReject
             return
         } else {
-            AxLogger.log("\(cIDString)  incomingData  \(reqInfo.url) \(d.count)",level:  .Debug)
+            SKit.log("\(cIDString)  incomingData  \(reqInfo.url) \(d.count)",level:  .Debug)
             bufArray.append(d)
         }
         
@@ -149,10 +149,10 @@ class SFTCPConnection: SFConnection {
         
         
         if reqInfo.status !=  .RecvWaiting {
-             AxLogger.log("\(cIDString) readData tag:\(rTag)",level: .Debug)
+             SKit.log("\(cIDString) readData tag:\(rTag)",level: .Debug)
             c.readDataWithTag(rTag)
         }else {
-            AxLogger.log("\(cIDString)  recv waiting length:\(socks_recv_bufArray.length)",level:.Trace)
+            SKit.log("\(cIDString)  recv waiting length:\(socks_recv_bufArray.length)",level:.Trace)
             // debugLog("\(cIDString) recv waiting")
         }
         
@@ -162,7 +162,7 @@ class SFTCPConnection: SFConnection {
         let st = (reqInfo.status == .Established) || (reqInfo.status == .Transferring)
         if st  {
             if bufArray.count > 0{
-                AxLogger.log("\(cIDString) now sending data buffer count:\(bufArray.count)",level: .Debug)
+                SKit.log("\(cIDString) now sending data buffer count:\(bufArray.count)",level: .Debug)
                 super.client_send_to_socks()
                 
             }else {
@@ -174,7 +174,7 @@ class SFTCPConnection: SFConnection {
         }
     }
     override func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
-       AxLogger.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
+       SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
         
         reqInfo.status = .Transferring
         let x = Int64(withTag)
@@ -193,7 +193,7 @@ class SFTCPConnection: SFConnection {
         
         
         
-           //AxLogger.log("\(cIDString) tag:\(tag) time:\(reqInfo.transferTiming) packet sended and delete flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx)",level: .Debug)
+           //SKit.log("\(cIDString) tag:\(tag) time:\(reqInfo.transferTiming) packet sended and delete flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx)",level: .Debug)
             // 这个地方有问题 https over http ,how to send this?
         
         
@@ -205,16 +205,16 @@ class SFTCPConnection: SFConnection {
     override func  didReadData(_ data: Data, withTag: Int, from: TCPSession){
         
         reqInfo.status = .Transferring
-        AxLogger.log("\(cIDString) didReadData \(reqInfo.url):\(data.length)",level:  .Debug)
+        SKit.log("\(cIDString) didReadData \(reqInfo.url):\(data.length)",level:  .Debug)
         //reqInfo.updateSpeed(UInt(data.length),stat: true)
         reqInfo.updaterecvTraffic(data.count)
         
-       //AxLogger.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length  \(data.length) flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx) ",level: .Trace)
+       //SKit.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length  \(data.length) flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx) ",level: .Trace)
 //        critLock.lockBeforeDate( NSDate( timeIntervalSinceNow: 0.05))
         rTag += 1
         //critLock.unlock()
 //        if reqInfo.rule.policy == .Direct {
-//           //AxLogger.log("\(cIDString) Direct don't need process recv data ",level: .Warning)
+//           //SKit.log("\(cIDString) Direct don't need process recv data ",level: .Warning)
 //        }else {
 //            guard let proxy = reqInfo.proxy else {return}
 //
@@ -235,17 +235,17 @@ class SFTCPConnection: SFConnection {
         client_socks_recv_handler_done(data.count)
     }
     override func checkStatus() {
-        //AxLogger.log("\(cIDString) header queue:\(reqHeaderQueue.count) index:\(requestIndex) ",level: .Debug)
+        //SKit.log("\(cIDString) header queue:\(reqHeaderQueue.count) index:\(requestIndex) ",level: .Debug)
         
         if socks_recv_bufArray.count == 0 && bufArray.count == 0{
             if reqInfo.idleTimeing > 60.0 * 10{
-                AxLogger.log("\(cIDString) \(reqInfo.host) checkStatus timeout",level: .Warning)
+                SKit.log("\(cIDString) \(reqInfo.host) checkStatus timeout",level: .Warning)
                 client_free_socks()
                 
             }
         }else {
             if reqInfo.idleTimeing > 60.0 * 5{
-                AxLogger.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
+                SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
                 client_free_socks()
             }
             
@@ -259,18 +259,18 @@ class SFTCPConnection: SFConnection {
     override func memoryWarning(_ level:DispatchSource.MemoryPressureEvent) {
         if reqInfo.waitingRule {
             if reqInfo.ruleTiming > 1 {
-                AxLogger.log("\(reqInfo.host) memoryWarning Wait Rule \(reqInfo.ruleTiming)",level: .Warning)
+                SKit.log("\(reqInfo.host) memoryWarning Wait Rule \(reqInfo.ruleTiming)",level: .Warning)
             }
         }else {
             let close = reqInfo.shouldClose()
             if close {
-                    AxLogger.log("\(reqInfo.host) memoryWarning \(reqInfo.idleTimeing) will close recv:\(socks_recv_bufArray) && send:\(bufArray.count)",level: .Warning)
+                    SKit.log("\(reqInfo.host) memoryWarning \(reqInfo.idleTimeing) will close recv:\(socks_recv_bufArray) && send:\(bufArray.count)",level: .Warning)
                     client_free_socks()
                 
             }else {
-                AxLogger.log("\(reqInfo.host) memoryWarning  \(reqInfo.ruleTiming) :recv:\(socks_recv_bufArray) && send:\(bufArray.count)",level: .Warning)
+                SKit.log("\(reqInfo.host) memoryWarning  \(reqInfo.ruleTiming) :recv:\(socks_recv_bufArray) && send:\(bufArray.count)",level: .Warning)
                 //client_dealloc()
-                AxLogger.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
+                SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
                 client_free_socks()
             }
         }

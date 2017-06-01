@@ -20,7 +20,7 @@ extension SFRequestInfo {
         }
         
         let x = String.init(format: "%.2f second", rule.timming)
-        AxLogger.log("\(reqID)-\(host) found rule now timing \(x) ,begin find proxy rule:\(rule.policyString())",level: .Trace)
+        SKit.log("\(reqID)-\(host) found rule now timing \(x) ,begin find proxy rule:\(rule.policyString())",level: .Trace)
         //NSLog("%@ %@",dest,useragent)
         
         switch  rule.policy{
@@ -42,7 +42,7 @@ extension SFRequestInfo {
         }
         let message3 = String.init(format: "%@ %@",url, self.rule.policy.description)
         
-        AxLogger.log("\(message3) recv result , now exit waiting",level:.Debug)
+        SKit.log("\(message3) recv result , now exit waiting",level:.Debug)
         if waitingRule {
             waitingRule = false
         }
@@ -74,7 +74,7 @@ extension SFRequestInfo {
         if header.mode == .ContentLength {
            
             
-            AxLogger.log("HTTP \(header.mode) BodyLength: \(BodyLength) left:\(header.bodyLeftLength) recv len:\(len)", level: .Debug)
+            SKit.log("HTTP \(header.mode) BodyLength: \(BodyLength) left:\(header.bodyLeftLength) recv len:\(len)", level: .Debug)
             
             if header.bodyLeftLength  == 0 {
                 respReadFinish = true
@@ -97,7 +97,7 @@ extension SFRequestInfo {
             }
         }else if header.mode == .TransferEncoding{
             //traffice.addRx(x: len)//bodylen
-            AxLogger.log("HTTP \(header.mode) received:\(traffice.rx)",level:.Trace)
+            SKit.log("HTTP \(header.mode) received:\(traffice.rx)",level:.Trace)
             let (r,used) = header.parser(data)
             respReadFinish = r
             return (r,used)
@@ -107,7 +107,7 @@ extension SFRequestInfo {
             //            }else {
             //
             //            }
-            //AxLogger.log("HTTP header .mode error \(header.params)",level:.Debug)
+            //SKit.log("HTTP header .mode error \(header.params)",level:.Debug)
             //traffice.addRx(x: len)
             //header.length += len
             header.contentLength += len
@@ -198,14 +198,14 @@ extension SFHTTPResponseHeader {
         let total = data.count
         let opt = NSData.SearchOptions.init(rawValue: 0)
         var packets :[chunked] = []
-        AxLogger.log("bodyLeftLength left:\(bodyLeftLength) new data len:\(data.count)",level: .Trace)
+        SKit.log("bodyLeftLength left:\(bodyLeftLength) new data len:\(data.count)",level: .Trace)
         if let chunk_packet = chunk_packet {
             //last 没有读完
             if total >= chunk_packet.leftLen {
                 
                 used += chunk_packet.leftLen
                 bodyLeftLength = 0
-                AxLogger.log("used:\(used) left:\(bodyLeftLength) Finished",level: .Trace)
+                SKit.log("used:\(used) left:\(bodyLeftLength) Finished",level: .Trace)
                 self.chunk_packet = nil
                 //inst 是结束\r\n
                 
@@ -215,7 +215,7 @@ extension SFHTTPResponseHeader {
                 used += total
                 self.chunk_packet!.leftLen -= used
                 bodyLeftLength -= used
-                AxLogger.log("used:\(used) left:\(bodyLeftLength) not Finished ",level: .Trace)
+                SKit.log("used:\(used) left:\(bodyLeftLength) not Finished ",level: .Trace)
                 return (false,used)
             }
         }else {
@@ -233,7 +233,7 @@ extension SFHTTPResponseHeader {
             let r = data.range(of:sepData, options: opt, in: Range(used ..< data.count)  )
             
             if let r =  r  {
-                AxLogger.log("used length: \(used) sepdata location:\(r)",level: .Trace)
+                SKit.log("used length: \(used) sepdata location:\(r)",level: .Trace)
                 //let l = data.subdata(with: NSMakeRange(used, r.location - used))
                 let l = data.subdata(in: Range(used ..< r.upperBound ))
                 
@@ -248,7 +248,7 @@ extension SFHTTPResponseHeader {
                         used += r2.length()
                     }
                     if used == total{
-                        AxLogger.log("used length: \(used) Last Find",level: .Trace)
+                        SKit.log("used length: \(used) Last Find",level: .Trace)
                         bodyLeftLength = 0
                         chunk_packet = nil
                         //finished = true
@@ -256,7 +256,7 @@ extension SFHTTPResponseHeader {
                     }
                     
                 }
-                AxLogger.log("thunk len: \(c_leng) check:\(used + c_leng):\(total)",level: .Debug)
+                SKit.log("thunk len: \(c_leng) check:\(used + c_leng):\(total)",level: .Debug)
                 if used + c_leng <= total {
                     let p = chunked.init(l: c_leng,left:0)
                     if used + c_leng == total {
@@ -270,7 +270,7 @@ extension SFHTTPResponseHeader {
                         used += c_leng
                         
                         used += sepData.count //\r\n chunk fins
-                        AxLogger.log("found chunk fins\(used) \(r)  \(used) ", level: .Debug)
+                        SKit.log("found chunk fins\(used) \(r)  \(used) ", level: .Debug)
                     }
                     
                 }else {
@@ -278,12 +278,12 @@ extension SFHTTPResponseHeader {
                     bodyLeftLength = c_leng - (total - used)
                     chunk_packet = chunked.init(l: c_leng, left: bodyLeftLength)
                     used = total
-                    AxLogger.log("found \(used + c_leng ) left:\(bodyLeftLength)  \(r) \(used) ", level: .Debug)
+                    SKit.log("found \(used + c_leng ) left:\(bodyLeftLength)  \(r) \(used) ", level: .Debug)
                     return (false,used)
                 }
                 
             }else {
-                AxLogger.log("Don't Find sepdata",level: .Debug)
+                SKit.log("Don't Find sepdata",level: .Debug)
                 return (false,used)
             }
             
