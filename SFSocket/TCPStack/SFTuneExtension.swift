@@ -107,7 +107,7 @@ extension SFRequestInfo {
             //            }else {
             //
             //            }
-            AxLogger.log("HTTP header .mode error \(header.params)",level:.Debug)
+            //AxLogger.log("HTTP header .mode error \(header.params)",level:.Debug)
             //traffice.addRx(x: len)
             //header.length += len
             header.contentLength += len
