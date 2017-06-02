@@ -39,7 +39,6 @@
 		69116B061E967AD7007C2FBA /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
 		69116B091E967B3B007C2FBA /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B071E967B3B007C2FBA /* Crypto.framework */; };
 		69116B0B1E967B52007C2FBA /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
-		69116B0C1E967B52007C2FBA /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
 		69116B0E1E967B63007C2FBA /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
 		69116B0F1E967B63007C2FBA /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
 		69116B111E9680A3007C2FBA /* ProxyGroupSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B101E9680A3007C2FBA /* ProxyGroupSettings.swift */; };
@@ -156,6 +155,25 @@
 		695F6E861E900E1A00C72E5E /* TCPPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E4D1E900E1A00C72E5E /* TCPPacket.swift */; };
 		695F6E871E900E1A00C72E5E /* UDPPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E4E1E900E1A00C72E5E /* UDPPacket.swift */; };
 		695F6E881E900E1A00C72E5E /* UDPPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E4E1E900E1A00C72E5E /* UDPPacket.swift */; };
+		69639C021EE1B02800893D18 /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C011EE1B02800893D18 /* AxLogger.framework */; };
+		69639C041EE1B02E00893D18 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */; };
+		69639C061EE1B03800893D18 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C051EE1B03800893D18 /* CommonCrypto.framework */; };
+		69639C081EE1B04300893D18 /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C071EE1B04300893D18 /* DarwinCore.framework */; };
+		69639C0A1EE1B04700893D18 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C091EE1B04700893D18 /* GRDB.framework */; };
+		69639C0C1EE1B04F00893D18 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C0B1EE1B04F00893D18 /* kcp.framework */; };
+		69639C0D1EE1B07400893D18 /* RawSocketProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CEDB71E8B752C002D1ECD /* RawSocketProtocol.swift */; };
+		69639C0E1EE1B07E00893D18 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFBF1E88B15A00332D82 /* Adapter.swift */; };
+		69639C0F1EE1B08800893D18 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F20F1E8A4F600033A46D /* Frame.swift */; };
+		69639C101EE1B0A000893D18 /* Smux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FAE4C71E82478400FE91CD /* Smux.swift */; };
+		69639C111EE1B0F100893D18 /* RAWUDPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CEDBA1E8B8052002D1ECD /* RAWUDPSocket.swift */; };
+		69639C121EE1B19F00893D18 /* Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2111E8A5BE60033A46D /* Mux.swift */; };
+		69639C131EE1B1C100893D18 /* CHTTPProxConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFC31E88B6C900332D82 /* CHTTPProxConnector.swift */; };
+		69639C141EE1B1CE00893D18 /* CSocks5Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFBD1E88B0F700332D82 /* CSocks5Connector.swift */; };
+		69639C151EE1B20900893D18 /* HTTPAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFC11E88B63000332D82 /* HTTPAdapter.swift */; };
+		69639C161EE1B21800893D18 /* Socks5Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */; };
+		69639C171EE1B22000893D18 /* SSAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFB91E88B09800332D82 /* SSAdapter.swift */; };
+		69639C181EE1B22900893D18 /* SS3Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFBB1E88B0B400332D82 /* SS3Adapter.swift */; };
+		69639C1A1EE1B28600893D18 /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C191EE1B28600893D18 /* DarwinCore.framework */; };
 		6976B9801EC61DA500A7F0A5 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6976B97D1EC61D9700A7F0A5 /* kcp.framework */; };
 		6976B9811EC61DA500A7F0A5 /* kcp.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6976B97D1EC61D9700A7F0A5 /* kcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		697B7C431DE067C500584179 /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C421DE067C500584179 /* AxLogger.framework */; };
@@ -295,6 +313,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		69639BFF1EE1ADF300893D18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6976B9771EC61D9700A7F0A5 /* libkcp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 69639BD51EE1AAC100893D18;
+			remoteInfo = kcpOSX;
+		};
 		6976B97C1EC61D9700A7F0A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6976B9771EC61D9700A7F0A5 /* libkcp.xcodeproj */;
@@ -434,6 +459,13 @@
 		695F6E4C1E900E1A00C72E5E /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		695F6E4D1E900E1A00C72E5E /* TCPPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCPPacket.swift; sourceTree = "<group>"; };
 		695F6E4E1E900E1A00C72E5E /* UDPPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPPacket.swift; sourceTree = "<group>"; };
+		69639C011EE1B02800893D18 /* AxLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AxLogger.framework; path = Carthage/Build/Mac/AxLogger.framework; sourceTree = "<group>"; };
+		69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
+		69639C051EE1B03800893D18 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/Mac/CommonCrypto.framework; sourceTree = "<group>"; };
+		69639C071EE1B04300893D18 /* DarwinCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DarwinCore.framework; path = Carthage/Build/Mac/DarwinCore.framework; sourceTree = "<group>"; };
+		69639C091EE1B04700893D18 /* GRDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRDB.framework; path = Carthage/Build/Mac/GRDB.framework; sourceTree = "<group>"; };
+		69639C0B1EE1B04F00893D18 /* kcp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = kcp.framework; path = Carthage/Build/Mac/kcp.framework; sourceTree = "<group>"; };
+		69639C191EE1B28600893D18 /* DarwinCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DarwinCore.framework; path = Carthage/Build/Mac/DarwinCore.framework; sourceTree = "<group>"; };
 		6976B9771EC61D9700A7F0A5 /* libkcp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libkcp.xcodeproj; path = ../../../libkcp/iOSLib/libkcp/libkcp.xcodeproj; sourceTree = "<group>"; };
 		697B7C421DE067C500584179 /* AxLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AxLogger.framework; path = Carthage/Build/Mac/AxLogger.framework; sourceTree = SOURCE_ROOT; };
 		697B7C441DE067CC00584179 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = SOURCE_ROOT; };
@@ -524,15 +556,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69639C0A1EE1B04700893D18 /* GRDB.framework in Frameworks */,
 				69116B061E967AD7007C2FBA /* lwip.framework in Frameworks */,
 				69116B091E967B3B007C2FBA /* Crypto.framework in Frameworks */,
 				697B7C451DE067CC00584179 /* CocoaAsyncSocket.framework in Frameworks */,
+				69639C021EE1B02800893D18 /* AxLogger.framework in Frameworks */,
+				69639C081EE1B04300893D18 /* DarwinCore.framework in Frameworks */,
 				697B7C491DE067D800584179 /* Crypto.framework in Frameworks */,
+				69639C0C1EE1B04F00893D18 /* kcp.framework in Frameworks */,
 				697B7C4D1DE067E300584179 /* SwiftyJSON.framework in Frameworks */,
+				69639C041EE1B02E00893D18 /* CocoaAsyncSocket.framework in Frameworks */,
 				697B7C471DE067D300584179 /* CommonCrypto.framework in Frameworks */,
 				697B7C431DE067C500584179 /* AxLogger.framework in Frameworks */,
+				69639C061EE1B03800893D18 /* CommonCrypto.framework in Frameworks */,
 				697B7C4B1DE067DD00584179 /* Sodium.framework in Frameworks */,
-				69116B0C1E967B52007C2FBA /* GRDB.framework in Frameworks */,
+				69639C1A1EE1B28600893D18 /* DarwinCore.framework in Frameworks */,
 				69116B0F1E967B63007C2FBA /* DarwinCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -600,6 +638,7 @@
 		692128541E9CBA6C00560DEC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				69639BFC1EE1ADF300893D18 /* osx */,
 				692128551E9CBA6C00560DEC /* NetworkExtension.framework */,
 			);
 			name = Frameworks;
@@ -656,11 +695,26 @@
 			path = TCPStack;
 			sourceTree = "<group>";
 		};
+		69639BFC1EE1ADF300893D18 /* osx */ = {
+			isa = PBXGroup;
+			children = (
+				69639C191EE1B28600893D18 /* DarwinCore.framework */,
+				69639C0B1EE1B04F00893D18 /* kcp.framework */,
+				69639C091EE1B04700893D18 /* GRDB.framework */,
+				69639C071EE1B04300893D18 /* DarwinCore.framework */,
+				69639C051EE1B03800893D18 /* CommonCrypto.framework */,
+				69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */,
+				69639C011EE1B02800893D18 /* AxLogger.framework */,
+			);
+			name = osx;
+			sourceTree = "<group>";
+		};
 		6976B9781EC61D9700A7F0A5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				6976B97D1EC61D9700A7F0A5 /* kcp.framework */,
 				6976B97F1EC61D9700A7F0A5 /* kcptest.app */,
+				69639C001EE1ADF300893D18 /* kcp.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1123,6 +1177,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		69639C001EE1ADF300893D18 /* kcp.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = kcp.framework;
+			remoteRef = 69639BFF1EE1ADF300893D18 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		6976B97D1EC61D9700A7F0A5 /* kcp.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1184,6 +1245,7 @@
 				69BF6C4B1DE57E28000ABF09 /* ObserverFactory.swift in Sources */,
 				695F6E561E900E1A00C72E5E /* DNSServer.swift in Sources */,
 				695F6E821E900E1A00C72E5E /* SFUitl.swift in Sources */,
+				69639C0F1EE1B08800893D18 /* Frame.swift in Sources */,
 				69B955071DDF820F006AF669 /* PacketProtocolParser.swift in Sources */,
 				695F6E641E900E1A00C72E5E /* SFDNSManager.swift in Sources */,
 				69BF6C301DE57D05000ABF09 /* Tunnel.swift in Sources */,
@@ -1191,8 +1253,10 @@
 				69116B1B1E968187007C2FBA /* TUNConnection.swift in Sources */,
 				69116B271E9681BB007C2FBA /* SFHTTPRequest.swift in Sources */,
 				695F6E581E900E1A00C72E5E /* General.swift in Sources */,
+				69639C181EE1B22900893D18 /* SS3Adapter.swift in Sources */,
 				69C1ED771DF5A4DD0019AFFC /* DNSSessionMatchResult.swift in Sources */,
 				69B955101DDF822E006AF669 /* ProxyConnector.swift in Sources */,
+				69639C171EE1B22000893D18 /* SSAdapter.swift in Sources */,
 				69BF6C4E1DE57E3A000ABF09 /* EventType.swift in Sources */,
 				69B954FB1DDF81E0006AF669 /* SFData.swift in Sources */,
 				69B954FA1DDF81DC006AF669 /* SFVPNStatistics.swift in Sources */,
@@ -1204,6 +1268,7 @@
 				69B955061DDF820C006AF669 /* ConnectRequest.swift in Sources */,
 				695F6E6C1E900E1A00C72E5E /* SFNetworkInterfaceManager.swift in Sources */,
 				69116B151E9680CB007C2FBA /* SFRequestInfo.swift in Sources */,
+				69639C0D1EE1B07400893D18 /* RawSocketProtocol.swift in Sources */,
 				69116B331E968370007C2FBA /* SFVPNSession.swift in Sources */,
 				69BF6C481DE57E15000ABF09 /* TunnelQueueFactory.swift in Sources */,
 				69116B3C1E9695F4007C2FBA /* RequestHelper.swift in Sources */,
@@ -1213,6 +1278,7 @@
 				69BF6C331DE57D5A000ABF09 /* SocketProtocol.swift in Sources */,
 				69C8DA001E7AA5A700A65301 /* AEADCrypto.swift in Sources */,
 				695F6E7E1E900E1A00C72E5E /* SFUDPConnector.swift in Sources */,
+				69639C151EE1B20900893D18 /* HTTPAdapter.swift in Sources */,
 				69B9550D1DDF8224006AF669 /* Socks5Connector.swift in Sources */,
 				69BF6C571DE57E74000ABF09 /* Atomic.swift in Sources */,
 				69B955141DDF823A006AF669 /* NWTCPSocket.swift in Sources */,
@@ -1227,22 +1293,28 @@
 				69B954FC1DDF81E3006AF669 /* SwiftExtension.swift in Sources */,
 				6994E01B1DEFBEB6009394F9 /* DNSSessionMatchType.swift in Sources */,
 				69116B121E9680A3007C2FBA /* ProxyGroupSettings.swift in Sources */,
+				69639C101EE1B0A000893D18 /* Smux.swift in Sources */,
 				69BF6C2A1DE57C36000ABF09 /* GCDProxyServer.swift in Sources */,
 				69B955131DDF8238006AF669 /* GCDTCPSocket.swift in Sources */,
 				695F6E741E900E1A00C72E5E /* SFSettingModule.swift in Sources */,
 				695F6E7C1E900E1A00C72E5E /* SFTunUtility.swift in Sources */,
+				69639C141EE1B1CE00893D18 /* CSocks5Connector.swift in Sources */,
 				695F6E721E900E1A00C72E5E /* SFRuleResult.swift in Sources */,
 				695F6E781E900E1A00C72E5E /* SFTuneExtension.swift in Sources */,
+				69639C131EE1B1C100893D18 /* CHTTPProxConnector.swift in Sources */,
 				69B954FE1DDF81ED006AF669 /* SFEncrypt.swift in Sources */,
 				695F6E7A1E900E1A00C72E5E /* SFTunFunc.swift in Sources */,
 				69B955011DDF81FB006AF669 /* Checksum.swift in Sources */,
+				69639C121EE1B19F00893D18 /* Mux.swift in Sources */,
 				69BF6C5A1DE57E82000ABF09 /* ProxyServerEvent.swift in Sources */,
+				69639C111EE1B0F100893D18 /* RAWUDPSocket.swift in Sources */,
 				69B9550C1DDF8221006AF669 /* SFProxy.swift in Sources */,
 				695F6E621E900E1A00C72E5E /* SFDNSForwarder.swift in Sources */,
 				69B955111DDF8232006AF669 /* TCPSSConnector.swift in Sources */,
 				69BF6C391DE57DAE000ABF09 /* SocketTag.swift in Sources */,
 				69B955021DDF81FE006AF669 /* IPAddress.swift in Sources */,
 				69116B391E968749007C2FBA /* SKit.swift in Sources */,
+				69639C0E1EE1B07E00893D18 /* Adapter.swift in Sources */,
 				695F6E521E900E1A00C72E5E /* DNSPacket.swift in Sources */,
 				69B955091DDF8216006AF669 /* UDPDirectStack.swift in Sources */,
 				69116B361E968646007C2FBA /* SFConfig.swift in Sources */,
@@ -1263,6 +1335,7 @@
 				695F6E541E900E1A00C72E5E /* DNSQueue.swift in Sources */,
 				69B955081DDF8212006AF669 /* IPStackProtocol.swift in Sources */,
 				695F6E801E900E1A00C72E5E /* SFUDPForwarder.swift in Sources */,
+				69639C161EE1B21800893D18 /* Socks5Adapter.swift in Sources */,
 				6994E0181DEFBE9E009394F9 /* Rule.swift in Sources */,
 				69116B291E9681BB007C2FBA /* SFHTTPSConnection.swift in Sources */,
 				695F6E661E900E1A00C72E5E /* SFEnv.swift in Sources */,

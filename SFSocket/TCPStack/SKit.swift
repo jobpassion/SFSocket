@@ -207,7 +207,9 @@ public class SKit {
         
         guard let rule = SFSettingModule.setting.rule else  {
             let reason = NEProviderStopReason.providerFailed
+            #if os(iOS)
             provier.alert(message: "Don't Find Conf File,Please Use Main Application Dial VPN",reason:reason)
+                #endif
             SKit.log("Don't find conf file",level: .Error)
             return
         }

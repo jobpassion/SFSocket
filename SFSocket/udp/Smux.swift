@@ -36,9 +36,9 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     static let SMuxTimeOut = 13.0 //没数据就timeout
     
     var tun:SFKcpTun?
-    var channels:[Channel] = []
+    //var channels:[Channel] = []
     var config:TunConfig = TunConfig()
-    var block:BlockCrypt!
+    //var block:BlockCrypt!
     var smuxConfig:Config = Config()
     var ready:Bool = false
     var readBuffer:Data = Data()

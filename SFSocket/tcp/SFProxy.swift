@@ -119,6 +119,7 @@ public class Proxys:CommonModel {
         
     }
     func changeIndex(_ srcPath:IndexPath,destPath:IndexPath){
+        #if os(iOS)
         if srcPath.section == destPath.section {
             if srcPath.row == 0 {
                 changeIndex(srcPath.row, dest: destPath.row, proxylist: &proxys)
@@ -134,6 +135,7 @@ public class Proxys:CommonModel {
                 proxys.insert(p, at: destPath.row)
             }
         }
+        #endif
     }
     public func changeIndex(_ src:Int,dest:Int,proxylist:inout [SFProxy] ){
         let r = proxylist.remove(at: src)

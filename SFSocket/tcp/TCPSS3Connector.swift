@@ -8,7 +8,7 @@
 //
 // update shadowsocks-libev protocol 3 
 // ota rm
-import UIKit
+
 import Foundation
 import AxLogger
 
