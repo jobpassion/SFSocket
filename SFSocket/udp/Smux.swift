@@ -337,11 +337,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     override var useCell:Bool{
         get {
             if let t = tun {
-                let l = t.localAddress()
-                let ll = SFNetworkInterfaceManager.WWANIPAddress
-                if l == ll {
-                    return true
-                }
+                t.useCell()
             }
             return false
         }

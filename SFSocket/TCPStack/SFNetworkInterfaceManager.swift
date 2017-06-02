@@ -11,7 +11,7 @@ import DarwinCore
 import AxLogger
 func getIFAddresses() -> [NetInfo] {
     var addresses = [NetInfo]()
-    let x = DarwinCore.IPAddr.cellAddress()
+    let x = DCIPAddr.cellAddress()
     for (key,value) in x! {
         let info = NetInfo.init(ip: value as! String, netmask: "255.255.255.0", ifName: key as! String)
         addresses.append(info)
