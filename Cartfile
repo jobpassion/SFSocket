@@ -1,7 +1,7 @@
 github "robbiehanson/CocoaAsyncSocket" "7.5.1"
 github "networkextension/AxLogger" "0.2.4"
 github "networkextension/libkcp" "cc9e950a5ec413fed9bbef11ca72010300e1749f"
-github "networkextension/snappy-ios" "ce30dc143e63e5d8e16ea4a7b5da4c1c50c5f5b5"
+github "networkextension/snappy-ios" "72c2b14842943a1f21eb2a76c06d76689fd7aa57"
 github "zhuhaow/Sodium-framework" "v1.0.10.1"
 github "networkextension/SwiftyJSON" "3.1.4"
 github "soffes/CommonCrypto" "v1.1.0"

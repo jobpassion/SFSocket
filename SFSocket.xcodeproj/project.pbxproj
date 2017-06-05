@@ -79,6 +79,8 @@
 		692128561E9CBA6C00560DEC /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692128551E9CBA6C00560DEC /* NetworkExtension.framework */; };
 		69263EF51EE50788005F0C76 /* SnappyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69263EF41EE50788005F0C76 /* SnappyHelper.swift */; };
 		69263EF61EE50788005F0C76 /* SnappyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69263EF41EE50788005F0C76 /* SnappyHelper.swift */; };
+		69263EFE1EE50F74005F0C76 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69263EFD1EE50F74005F0C76 /* snappy.framework */; };
+		69263F011EE50FC7005F0C76 /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69263F001EE50FC7005F0C76 /* lwip.framework */; };
 		692DD53A1DD5C98C0079493D /* DirectConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5391DD5C98C0079493D /* DirectConnector.swift */; };
 		692DD53C1DD5C9940079493D /* HTTPProxyConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD53B1DD5C9940079493D /* HTTPProxyConnector.swift */; };
 		692DD53E1DD5C99E0079493D /* Socks5Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD53D1DD5C99E0079493D /* Socks5Connector.swift */; };
@@ -406,6 +408,8 @@
 		691883581DDDA52E0051DAAE /* Port.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Port.swift; sourceTree = "<group>"; };
 		692128551E9CBA6C00560DEC /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		69263EF41EE50788005F0C76 /* SnappyHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnappyHelper.swift; sourceTree = "<group>"; };
+		69263EFD1EE50F74005F0C76 /* snappy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = snappy.framework; path = Carthage/Build/Mac/snappy.framework; sourceTree = "<group>"; };
+		69263F001EE50FC7005F0C76 /* lwip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = lwip.framework; path = Carthage/Build/Mac/lwip.framework; sourceTree = "<group>"; };
 		692DD5391DD5C98C0079493D /* DirectConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = DirectConnector.swift; path = tcp/DirectConnector.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		692DD53B1DD5C9940079493D /* HTTPProxyConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPProxyConnector.swift; path = tcp/HTTPProxyConnector.swift; sourceTree = "<group>"; };
 		692DD53D1DD5C99E0079493D /* Socks5Connector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = Socks5Connector.swift; path = tcp/Socks5Connector.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -552,6 +556,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69263F011EE50FC7005F0C76 /* lwip.framework in Frameworks */,
 				69639C0A1EE1B04700893D18 /* GRDB.framework in Frameworks */,
 				69116B061E967AD7007C2FBA /* lwip.framework in Frameworks */,
 				69116B091E967B3B007C2FBA /* Crypto.framework in Frameworks */,
@@ -563,6 +568,7 @@
 				697B7C4D1DE067E300584179 /* SwiftyJSON.framework in Frameworks */,
 				69639C041EE1B02E00893D18 /* CocoaAsyncSocket.framework in Frameworks */,
 				697B7C471DE067D300584179 /* CommonCrypto.framework in Frameworks */,
+				69263EFE1EE50F74005F0C76 /* snappy.framework in Frameworks */,
 				697B7C431DE067C500584179 /* AxLogger.framework in Frameworks */,
 				69639C061EE1B03800893D18 /* CommonCrypto.framework in Frameworks */,
 				697B7C4B1DE067DD00584179 /* Sodium.framework in Frameworks */,
@@ -694,6 +700,8 @@
 		69639BFC1EE1ADF300893D18 /* osx */ = {
 			isa = PBXGroup;
 			children = (
+				69263F001EE50FC7005F0C76 /* lwip.framework */,
+				69263EFD1EE50F74005F0C76 /* snappy.framework */,
 				69639C191EE1B28600893D18 /* DarwinCore.framework */,
 				69639C0B1EE1B04F00893D18 /* kcp.framework */,
 				69639C091EE1B04700893D18 /* GRDB.framework */,
