@@ -101,6 +101,24 @@
 		6938BFC01E88B15A00332D82 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFBF1E88B15A00332D82 /* Adapter.swift */; };
 		6938BFC21E88B63000332D82 /* HTTPAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFC11E88B63000332D82 /* HTTPAdapter.swift */; };
 		6938BFC41E88B6C900332D82 /* CHTTPProxConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFC31E88B6C900332D82 /* CHTTPProxConnector.swift */; };
+		694719881EE528F60059BEF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694719871EE528F60059BEF8 /* AppDelegate.swift */; };
+		6947198A1EE528F60059BEF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694719891EE528F60059BEF8 /* ViewController.swift */; };
+		6947198C1EE528F60059BEF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6947198B1EE528F60059BEF8 /* Assets.xcassets */; };
+		6947198F1EE528F60059BEF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6947198D1EE528F60059BEF8 /* Main.storyboard */; };
+		694719951EE5292E0059BEF8 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C0B1EE1B04F00893D18 /* kcp.framework */; };
+		694719961EE5292E0059BEF8 /* kcp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C0B1EE1B04F00893D18 /* kcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		694719981EE529310059BEF8 /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69263F001EE50FC7005F0C76 /* lwip.framework */; };
+		694719991EE529310059BEF8 /* lwip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69263F001EE50FC7005F0C76 /* lwip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6947199A1EE529330059BEF8 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69263EFD1EE50F74005F0C76 /* snappy.framework */; };
+		6947199B1EE529330059BEF8 /* snappy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69263EFD1EE50F74005F0C76 /* snappy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6947199C1EE529360059BEF8 /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C191EE1B28600893D18 /* DarwinCore.framework */; };
+		6947199D1EE529360059BEF8 /* DarwinCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C191EE1B28600893D18 /* DarwinCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6947199E1EE529500059BEF8 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C051EE1B03800893D18 /* CommonCrypto.framework */; };
+		6947199F1EE529500059BEF8 /* CommonCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C051EE1B03800893D18 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		694719A01EE529520059BEF8 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */; };
+		694719A11EE529520059BEF8 /* CocoaAsyncSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		694719A21EE529540059BEF8 /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C011EE1B02800893D18 /* AxLogger.framework */; };
+		694719A31EE529540059BEF8 /* AxLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C011EE1B02800893D18 /* AxLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6952F8711E97E06D003EB1CB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; };
 		6952F8721E97E06D003EB1CB /* SwiftyJSON.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		695F6E4F1E900E1A00C72E5E /* DNSCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E321E900E1A00C72E5E /* DNSCache.swift */; };
@@ -162,7 +180,6 @@
 		69639C021EE1B02800893D18 /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C011EE1B02800893D18 /* AxLogger.framework */; };
 		69639C041EE1B02E00893D18 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */; };
 		69639C061EE1B03800893D18 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C051EE1B03800893D18 /* CommonCrypto.framework */; };
-		69639C081EE1B04300893D18 /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C071EE1B04300893D18 /* DarwinCore.framework */; };
 		69639C0A1EE1B04700893D18 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C091EE1B04700893D18 /* GRDB.framework */; };
 		69639C0C1EE1B04F00893D18 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C0B1EE1B04F00893D18 /* kcp.framework */; };
 		69639C0D1EE1B07400893D18 /* RawSocketProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CEDB71E8B752C002D1ECD /* RawSocketProtocol.swift */; };
@@ -348,6 +365,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		694719971EE5292E0059BEF8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				694719A11EE529520059BEF8 /* CocoaAsyncSocket.framework in Embed Frameworks */,
+				694719991EE529310059BEF8 /* lwip.framework in Embed Frameworks */,
+				6947199B1EE529330059BEF8 /* snappy.framework in Embed Frameworks */,
+				6947199D1EE529360059BEF8 /* DarwinCore.framework in Embed Frameworks */,
+				694719A31EE529540059BEF8 /* AxLogger.framework in Embed Frameworks */,
+				6947199F1EE529500059BEF8 /* CommonCrypto.framework in Embed Frameworks */,
+				694719961EE5292E0059BEF8 /* kcp.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69FC1B121DDBFAE400EF8AAC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -430,6 +464,12 @@
 		6938BFBF1E88B15A00332D82 /* Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Adapter.swift; path = tcp/Adapter.swift; sourceTree = "<group>"; };
 		6938BFC11E88B63000332D82 /* HTTPAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = HTTPAdapter.swift; path = tcp/HTTPAdapter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6938BFC31E88B6C900332D82 /* CHTTPProxConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = CHTTPProxConnector.swift; path = tcp/CHTTPProxConnector.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		694719851EE528F60059BEF8 /* OSXTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OSXTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		694719871EE528F60059BEF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		694719891EE528F60059BEF8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6947198B1EE528F60059BEF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6947198E1EE528F60059BEF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		694719901EE528F60059BEF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6952F8701E97D2CD003EB1CB /* SFSocketTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SFSocketTest.entitlements; sourceTree = "<group>"; };
 		695F6E321E900E1A00C72E5E /* DNSCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNSCache.swift; sourceTree = "<group>"; };
 		695F6E331E900E1A00C72E5E /* DNSPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DNSPacket.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -462,7 +502,6 @@
 		69639C011EE1B02800893D18 /* AxLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AxLogger.framework; path = Carthage/Build/Mac/AxLogger.framework; sourceTree = "<group>"; };
 		69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
 		69639C051EE1B03800893D18 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/Mac/CommonCrypto.framework; sourceTree = "<group>"; };
-		69639C071EE1B04300893D18 /* DarwinCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DarwinCore.framework; path = Carthage/Build/Mac/DarwinCore.framework; sourceTree = "<group>"; };
 		69639C091EE1B04700893D18 /* GRDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRDB.framework; path = Carthage/Build/Mac/GRDB.framework; sourceTree = "<group>"; };
 		69639C0B1EE1B04F00893D18 /* kcp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = kcp.framework; path = Carthage/Build/Mac/kcp.framework; sourceTree = "<group>"; };
 		69639C191EE1B28600893D18 /* DarwinCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DarwinCore.framework; path = Carthage/Build/Mac/DarwinCore.framework; sourceTree = "<group>"; };
@@ -552,6 +591,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		694719821EE528F60059BEF8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				694719A01EE529520059BEF8 /* CocoaAsyncSocket.framework in Frameworks */,
+				694719981EE529310059BEF8 /* lwip.framework in Frameworks */,
+				6947199A1EE529330059BEF8 /* snappy.framework in Frameworks */,
+				6947199C1EE529360059BEF8 /* DarwinCore.framework in Frameworks */,
+				694719A21EE529540059BEF8 /* AxLogger.framework in Frameworks */,
+				6947199E1EE529500059BEF8 /* CommonCrypto.framework in Frameworks */,
+				694719951EE5292E0059BEF8 /* kcp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69B954EE1DDF81CF006AF669 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -562,7 +615,6 @@
 				69116B091E967B3B007C2FBA /* Crypto.framework in Frameworks */,
 				697B7C451DE067CC00584179 /* CocoaAsyncSocket.framework in Frameworks */,
 				69639C021EE1B02800893D18 /* AxLogger.framework in Frameworks */,
-				69639C081EE1B04300893D18 /* DarwinCore.framework in Frameworks */,
 				697B7C491DE067D800584179 /* Crypto.framework in Frameworks */,
 				69639C0C1EE1B04F00893D18 /* kcp.framework in Frameworks */,
 				697B7C4D1DE067E300584179 /* SwiftyJSON.framework in Frameworks */,
@@ -646,6 +698,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		694719861EE528F60059BEF8 /* OSXTest */ = {
+			isa = PBXGroup;
+			children = (
+				694719871EE528F60059BEF8 /* AppDelegate.swift */,
+				694719891EE528F60059BEF8 /* ViewController.swift */,
+				6947198B1EE528F60059BEF8 /* Assets.xcassets */,
+				6947198D1EE528F60059BEF8 /* Main.storyboard */,
+				694719901EE528F60059BEF8 /* Info.plist */,
+			);
+			path = OSXTest;
+			sourceTree = "<group>";
+		};
 		695F6E311E900E1A00C72E5E /* TCPStack */ = {
 			isa = PBXGroup;
 			children = (
@@ -705,7 +769,6 @@
 				69639C191EE1B28600893D18 /* DarwinCore.framework */,
 				69639C0B1EE1B04F00893D18 /* kcp.framework */,
 				69639C091EE1B04700893D18 /* GRDB.framework */,
-				69639C071EE1B04300893D18 /* DarwinCore.framework */,
 				69639C051EE1B03800893D18 /* CommonCrypto.framework */,
 				69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */,
 				69639C011EE1B02800893D18 /* AxLogger.framework */,
@@ -900,6 +963,7 @@
 				69C298901DD593FF00E4C3BD /* SFSocket */,
 				69FC1AFE1DDBFAB000EF8AAC /* SFSocketTest */,
 				69B954F31DDF81CF006AF669 /* SFSocketOSX */,
+				694719861EE528F60059BEF8 /* OSXTest */,
 				69C2988F1DD593FF00E4C3BD /* Products */,
 				692128541E9CBA6C00560DEC /* Frameworks */,
 			);
@@ -911,6 +975,7 @@
 				69C2988E1DD593FF00E4C3BD /* SFSocket.framework */,
 				69FC1AFD1DDBFAB000EF8AAC /* SFSocketTest.app */,
 				69B954F21DDF81CF006AF669 /* SFSocket.framework */,
+				694719851EE528F60059BEF8 /* OSXTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1061,6 +1126,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		694719841EE528F60059BEF8 /* OSXTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 694719941EE528F60059BEF8 /* Build configuration list for PBXNativeTarget "OSXTest" */;
+			buildPhases = (
+				694719811EE528F60059BEF8 /* Sources */,
+				694719821EE528F60059BEF8 /* Frameworks */,
+				694719831EE528F60059BEF8 /* Resources */,
+				694719971EE5292E0059BEF8 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OSXTest;
+			productName = OSXTest;
+			productReference = 694719851EE528F60059BEF8 /* OSXTest.app */;
+			productType = "com.apple.product-type.application";
+		};
 		69B954F11DDF81CF006AF669 /* SFSocketOSX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 69B954F91DDF81CF006AF669 /* Build configuration list for PBXNativeTarget "SFSocketOSX" */;
@@ -1123,10 +1206,15 @@
 		69C298851DD593FF00E4C3BD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Kong XiangBo";
 				TargetAttributes = {
+					694719841EE528F60059BEF8 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 745WQDK4L7;
+						ProvisioningStyle = Automatic;
+					};
 					69B954F11DDF81CF006AF669 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = 745WQDK4L7;
@@ -1176,6 +1264,7 @@
 				69C2988D1DD593FF00E4C3BD /* SFSocket */,
 				69FC1AFC1DDBFAB000EF8AAC /* SFSocketTest */,
 				69B954F11DDF81CF006AF669 /* SFSocketOSX */,
+				694719841EE528F60059BEF8 /* OSXTest */,
 			);
 		};
 /* End PBXProject section */
@@ -1198,6 +1287,15 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		694719831EE528F60059BEF8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6947198C1EE528F60059BEF8 /* Assets.xcassets in Resources */,
+				6947198F1EE528F60059BEF8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69B954F01DDF81CF006AF669 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1225,6 +1323,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		694719811EE528F60059BEF8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6947198A1EE528F60059BEF8 /* ViewController.swift in Sources */,
+				694719881EE528F60059BEF8 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69B954ED1DDF81CF006AF669 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1499,6 +1606,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6947198D1EE528F60059BEF8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6947198E1EE528F60059BEF8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		69FC1B031DDBFAB000EF8AAC /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1518,6 +1633,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		694719911EE528F60059BEF8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 745WQDK4L7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = OSXTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.Surf.OSXTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		694719921EE528F60059BEF8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 745WQDK4L7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = OSXTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.Surf.OSXTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		69B954F71DDF81CF006AF669 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1773,6 +1932,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		694719941EE528F60059BEF8 /* Build configuration list for PBXNativeTarget "OSXTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				694719911EE528F60059BEF8 /* Debug */,
+				694719921EE528F60059BEF8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		69B954F91DDF81CF006AF669 /* Build configuration list for PBXNativeTarget "SFSocketOSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

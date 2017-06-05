@@ -113,12 +113,12 @@ public class TCPSession: RawSocketDelegate {
             
             do  {
                 let  cnnectflag = adapter.streaming
-                var newData = data
-                if adapter.proxy.config.noComp {
-                    //
-                    newData = SnappyHelper.decompress(data)
-                }
-                let result = try adapter.recv(newData)
+                //var newData = data
+//                if adapter.proxy.config.noComp {
+//                    //
+//                    newData = SnappyHelper.decompress(data)
+//                }
+                let result = try adapter.recv(data)
                 if result.0 {
                     //成功解析返回包，对于ss 是解密成功
                     SKit.log(desc + " data:\(result.1 as NSData))", level: .Debug)
@@ -338,10 +338,10 @@ public class TCPSession: RawSocketDelegate {
                 
                 if adapter.isKcp() {
                     //加密处理 and http / socks5 handshake
-                    var newData = adapter.send(data)
-                    if adapter.proxy.config.noComp {
-                        newData = SnappyHelper.compress(newData)
-                    }
+                    let newData = adapter.send(data)
+//                    if adapter.proxy.config.noComp {
+//                        newData = SnappyHelper.compress(newData)
+//                    }
                      SKit.log(desc + "adapter  send:data \(newData as NSData) \(tag)", level: .Debug)
                     var databuffer:Data = Data()
                     //基本不可能有0 的情况
@@ -360,7 +360,13 @@ public class TCPSession: RawSocketDelegate {
                         
                     }
                     self.delegate?.didWriteData(data, withTag: tag, from: self)
-                    t.writeData(databuffer, withTag: 0)
+                    if adapter.proxy.config.noComp {
+                        let newdatabuffer = SnappyHelper.compress(databuffer)
+                        t.writeData(newdatabuffer, withTag: 0)
+                    }else {
+                        t.writeData(databuffer, withTag: 0)
+                    }
+                    
                     
                     
                 }else {
@@ -394,17 +400,22 @@ public class TCPSession: RawSocketDelegate {
                         
                     }
                     
-                    var  newData = adapter.send(data)
-                    if adapter.proxy.config.noComp {
-                        newData = SnappyHelper.compress(newData)
-                    }
+                    let  newData = adapter.send(data)
+
                     SKit.log(desc + " sendraw new:\(newData as NSData) \(tag)", level: .Debug)
                     let frames = split(newData, cmd: cmdPSH, sid: sessionID)
                     for f in frames {
                         databuffer.append(f.frameData())
                         
                     }
-                    t.writeData(databuffer, withTag: 0)
+                    if adapter.proxy.config.noComp {
+                        let newdatabuffer = SnappyHelper.compress(databuffer)
+                        t.writeData(newdatabuffer, withTag: 0)
+                    }else {
+                        t.writeData(databuffer, withTag: 0)
+                    }
+                    
+                    
                     
                 }else {
                     t.writeData(data, withTag: tag)

@@ -120,7 +120,15 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     }
     public func didRecevied(_ data: Data!){
         self.lastActive = Date()
-        self.readBuffer.append(data)
+        if let p = proxy {
+            if p.config.noComp {
+               let newData = SnappyHelper.decompress(data)
+               self.readBuffer.append(newData)
+            }else {
+                self.readBuffer.append(data)
+            }
+        }
+        
         SKit.log("mux recv data: \(data.count) \(data as NSData)",level: .Debug)
         let ss = streams.flatMap{ k,v in
             return k
@@ -264,7 +272,15 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         let frame = Frame(cmdNOP,sid:0)
         let data = frame.frameData()
         //self.streams[0] = session
-        self.writeData(data, withTag: 0)
+        if let p = proxy {
+            if p.config.noComp {
+                let newData = SnappyHelper.compress(data)
+                self.writeData(newData, withTag: 0)
+            }else {
+                self.writeData(data, withTag: 0)
+            }
+        }
+        
 
     }
     func createTunConfig(_ p:SFProxy) ->TunConfig {
@@ -402,7 +418,15 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         let frame = Frame(cmdFIN,sid:sessionID)
         let data = frame.frameData()
         if let tun = tun {
-            tun.input(data)
+            if let p = proxy {
+                if p.config.noComp {
+                    let newData = SnappyHelper.compress(data)
+                    tun.input(newData)
+                }else {
+                    tun.input(data)
+                }
+            }
+            
         }
     }
     /**
