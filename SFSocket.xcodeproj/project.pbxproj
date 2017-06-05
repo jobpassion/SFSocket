@@ -355,6 +355,13 @@
 			remoteGlobalIDString = 692AE3201EB2EE59006A4B9D;
 			remoteInfo = kcp;
 		};
+		69D0B4A01EE5527F00D592C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6976B9771EC61D9700A7F0A5 /* libkcp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 69639BD51EE1AAC100893D18;
+			remoteInfo = kcpOSX;
+		};
 		69FC1B1B1DDC00A100EF8AAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 69C298851DD593FF00E4C3BD /* Project object */;
@@ -781,6 +788,7 @@
 			children = (
 				6976B97D1EC61D9700A7F0A5 /* kcp.framework */,
 				6976B97F1EC61D9700A7F0A5 /* kcptest.app */,
+				69D0B4A11EE5527F00D592C9 /* kcp.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1282,6 +1290,13 @@
 			fileType = wrapper.application;
 			path = kcptest.app;
 			remoteRef = 6976B97E1EC61D9700A7F0A5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		69D0B4A11EE5527F00D592C9 /* kcp.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = kcp.framework;
+			remoteRef = 69D0B4A01EE5527F00D592C9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1939,6 +1954,7 @@
 				694719921EE528F60059BEF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		69B954F91DDF81CF006AF669 /* Build configuration list for PBXNativeTarget "SFSocketOSX" */ = {
 			isa = XCConfigurationList;

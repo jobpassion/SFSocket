@@ -360,13 +360,14 @@ public class TCPSession: RawSocketDelegate {
                         
                     }
                     self.delegate?.didWriteData(data, withTag: tag, from: self)
-                    if adapter.proxy.config.noComp {
-                        let newdatabuffer = SnappyHelper.compress(databuffer)
-                        t.writeData(newdatabuffer, withTag: 0)
-                    }else {
-                        t.writeData(databuffer, withTag: 0)
-                    }
+//                    if adapter.proxy.config.noComp {
+//                        let newdatabuffer = SnappyHelper.compress(databuffer)
+//                        t.writeData(newdatabuffer, withTag: 0)
+//                    }else {
+//                       
+//                    }
                     
+                    t.writeData(databuffer, withTag: 0)
                     
                     
                 }else {
@@ -408,14 +409,14 @@ public class TCPSession: RawSocketDelegate {
                         databuffer.append(f.frameData())
                         
                     }
-                    if adapter.proxy.config.noComp {
-                        let newdatabuffer = SnappyHelper.compress(databuffer)
-                        t.writeData(newdatabuffer, withTag: 0)
-                    }else {
-                        t.writeData(databuffer, withTag: 0)
-                    }
+//                    if adapter.proxy.config.noComp {
+//                        let newdatabuffer = SnappyHelper.compress(databuffer)
+//                        t.writeData(newdatabuffer, withTag: 0)
+//                    }else {
+//                        
+//                    }
                     
-                    
+                    t.writeData(databuffer, withTag: 0)
                     
                 }else {
                     t.writeData(data, withTag: tag)

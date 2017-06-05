@@ -36,6 +36,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     static let SMuxTimeOut = 13.0 //没数据就timeout
     
     var tun:SFKcpTun?
+    var snappy:SnappyHelper?
     //var channels:[Channel] = []
     var config:TunConfig = TunConfig()
     //var block:BlockCrypt!
@@ -120,10 +121,12 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
     }
     public func didRecevied(_ data: Data!){
         self.lastActive = Date()
-        if let p = proxy {
-            if p.config.noComp {
-               let newData = SnappyHelper.decompress(data)
-               self.readBuffer.append(newData)
+        if let _ = proxy {
+            if let  s = snappy {
+                if let newData = s.decompress(data) {
+                     self.readBuffer.append(newData)
+                }
+              
             }else {
                 self.readBuffer.append(data)
             }
@@ -231,6 +234,9 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
            // fatalError()
         }
         self.proxy = proxy
+        if proxy.config.noComp {
+            snappy = SnappyHelper()
+        }
         dispatchQueue = queue
         let c = createTunConfig( proxy)
         
@@ -273,8 +279,8 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         let data = frame.frameData()
         //self.streams[0] = session
         if let p = proxy {
-            if p.config.noComp {
-                let newData = SnappyHelper.compress(data)
+            if let s = snappy {
+                let newData = s.compress(data)
                 self.writeData(newData, withTag: 0)
             }else {
                 self.writeData(data, withTag: 0)
@@ -333,6 +339,11 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         SKit.log("KCPTUN: Crypto = \(p.config.crypt)", level: .Info)
         SKit.log("KCPTUN: key = \(c.key as NSData)", level: .Debug)
 
+        if p.config.noComp {
+            SKit.log("KCPTUN: compress = true", level: .Info)
+        }else {
+            SKit.log("KCPTUN: compress = false", level: .Info)
+        }
         SKit.log("KCPTUN: mode = \(p.config.mode)", level: .Info)
         SKit.log("KCPTUN: datashard = \(p.config.datashard)", level: .Info)
         SKit.log("KCPTUN: parityshard = \(p.config.parityshard)", level: .Info)
@@ -418,9 +429,9 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         let frame = Frame(cmdFIN,sid:sessionID)
         let data = frame.frameData()
         if let tun = tun {
-            if let p = proxy {
-                if p.config.noComp {
-                    let newData = SnappyHelper.compress(data)
+            if let _ = proxy {
+                if let s = snappy {
+                    let newData = s.compress(data)
                     tun.input(newData)
                 }else {
                     tun.input(data)
