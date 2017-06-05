@@ -77,6 +77,8 @@
 		6914F2161E8A5C0D0033A46D /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2151E8A5C0D0033A46D /* Stream.swift */; };
 		691883591DDDA52E0051DAAE /* Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691883581DDDA52E0051DAAE /* Port.swift */; };
 		692128561E9CBA6C00560DEC /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692128551E9CBA6C00560DEC /* NetworkExtension.framework */; };
+		69263EF51EE50788005F0C76 /* SnappyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69263EF41EE50788005F0C76 /* SnappyHelper.swift */; };
+		69263EF61EE50788005F0C76 /* SnappyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69263EF41EE50788005F0C76 /* SnappyHelper.swift */; };
 		692DD53A1DD5C98C0079493D /* DirectConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5391DD5C98C0079493D /* DirectConnector.swift */; };
 		692DD53C1DD5C9940079493D /* HTTPProxyConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD53B1DD5C9940079493D /* HTTPProxyConnector.swift */; };
 		692DD53E1DD5C99E0079493D /* Socks5Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD53D1DD5C99E0079493D /* Socks5Connector.swift */; };
@@ -313,13 +315,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		69639BFF1EE1ADF300893D18 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6976B9771EC61D9700A7F0A5 /* libkcp.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 69639BD51EE1AAC100893D18;
-			remoteInfo = kcpOSX;
-		};
 		6976B97C1EC61D9700A7F0A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6976B9771EC61D9700A7F0A5 /* libkcp.xcodeproj */;
@@ -410,6 +405,7 @@
 		6914F2151E8A5C0D0033A46D /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		691883581DDDA52E0051DAAE /* Port.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Port.swift; sourceTree = "<group>"; };
 		692128551E9CBA6C00560DEC /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		69263EF41EE50788005F0C76 /* SnappyHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnappyHelper.swift; sourceTree = "<group>"; };
 		692DD5391DD5C98C0079493D /* DirectConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = DirectConnector.swift; path = tcp/DirectConnector.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		692DD53B1DD5C9940079493D /* HTTPProxyConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPProxyConnector.swift; path = tcp/HTTPProxyConnector.swift; sourceTree = "<group>"; };
 		692DD53D1DD5C99E0079493D /* Socks5Connector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = Socks5Connector.swift; path = tcp/Socks5Connector.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -714,7 +710,6 @@
 			children = (
 				6976B97D1EC61D9700A7F0A5 /* kcp.framework */,
 				6976B97F1EC61D9700A7F0A5 /* kcptest.app */,
-				69639C001EE1ADF300893D18 /* kcp.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -795,6 +790,7 @@
 			isa = PBXGroup;
 			children = (
 				697CEDC11E8B8EC9002D1ECD /* SFTCPSession.swift */,
+				69263EF41EE50788005F0C76 /* SnappyHelper.swift */,
 			);
 			name = session;
 			sourceTree = "<group>";
@@ -1177,13 +1173,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		69639C001EE1ADF300893D18 /* kcp.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = kcp.framework;
-			remoteRef = 69639BFF1EE1ADF300893D18 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6976B97D1EC61D9700A7F0A5 /* kcp.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1316,6 +1305,7 @@
 				69116B391E968749007C2FBA /* SKit.swift in Sources */,
 				69639C0E1EE1B07E00893D18 /* Adapter.swift in Sources */,
 				695F6E521E900E1A00C72E5E /* DNSPacket.swift in Sources */,
+				69263EF61EE50788005F0C76 /* SnappyHelper.swift in Sources */,
 				69B955091DDF8216006AF669 /* UDPDirectStack.swift in Sources */,
 				69116B361E968646007C2FBA /* SFConfig.swift in Sources */,
 				69116B251E9681BB007C2FBA /* SFHTTPConnection.swift in Sources */,
@@ -1436,6 +1426,7 @@
 				69BF6C591DE57E82000ABF09 /* ProxyServerEvent.swift in Sources */,
 				695F6E571E900E1A00C72E5E /* General.swift in Sources */,
 				695F6E7D1E900E1A00C72E5E /* SFUDPConnector.swift in Sources */,
+				69263EF51EE50788005F0C76 /* SnappyHelper.swift in Sources */,
 				695F6E771E900E1A00C72E5E /* SFTuneExtension.swift in Sources */,
 				698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */,
 				695F6E531E900E1A00C72E5E /* DNSQueue.swift in Sources */,

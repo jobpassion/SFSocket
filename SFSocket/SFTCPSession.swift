@@ -113,7 +113,12 @@ public class TCPSession: RawSocketDelegate {
             
             do  {
                 let  cnnectflag = adapter.streaming
-                let result = try adapter.recv(data)
+                var newData = data
+                if adapter.proxy.config.noComp {
+                    //
+                    newData = SnappyHelper.decompress(data)
+                }
+                let result = try adapter.recv(newData)
                 if result.0 {
                     //成功解析返回包，对于ss 是解密成功
                     SKit.log(desc + " data:\(result.1 as NSData))", level: .Debug)
@@ -333,7 +338,10 @@ public class TCPSession: RawSocketDelegate {
                 
                 if adapter.isKcp() {
                     //加密处理 and http / socks5 handshake
-                    let newData = adapter.send(data)
+                    var newData = adapter.send(data)
+                    if adapter.proxy.config.noComp {
+                        newData = SnappyHelper.compress(newData)
+                    }
                      SKit.log(desc + "adapter  send:data \(newData as NSData) \(tag)", level: .Debug)
                     var databuffer:Data = Data()
                     //基本不可能有0 的情况
@@ -386,7 +394,10 @@ public class TCPSession: RawSocketDelegate {
                         
                     }
                     
-                    let newData = adapter.send(data)
+                    var  newData = adapter.send(data)
+                    if adapter.proxy.config.noComp {
+                        newData = SnappyHelper.compress(newData)
+                    }
                     SKit.log(desc + " sendraw new:\(newData as NSData) \(tag)", level: .Debug)
                     let frames = split(newData, cmd: cmdPSH, sid: sessionID)
                     for f in frames {
