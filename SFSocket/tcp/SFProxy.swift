@@ -621,8 +621,25 @@ public class SFProxy:CommonModel {
         
         //let string = "aes-256-cfb:fb4b532cb4180c9037c5b64bb3c09f7e@108.61.126.194:14860"//
         let utf8str = string.data(using: .utf8)
-        let base64Encoded = type.description.lowercased()  + "://" + utf8str!.base64EncodedString(options: .endLineWithLineFeed) +   "?tlsEnable=" + tls + "&chain=" + c
-        return base64Encoded
+        if kcptun {
+            
+            let cc = config.noComp ? "1" : "0"
+            var base64Encoded = type.description.lowercased()  + "://" + utf8str!.base64EncodedString(options: .endLineWithLineFeed)
+            base64Encoded += "?tlsEnable=" + tls
+        
+            base64Encoded += "&chain=" + c
+            base64Encoded += "&kcptun=1&crypt=" + config.crypt
+            base64Encoded += "&key=" + config.key
+            base64Encoded += "&datashard=" + String(config.datashard)
+            base64Encoded += "&parityshard=" + String(config.parityshard)
+            base64Encoded += "&mode=" + config.mode
+            base64Encoded += "&nocomp=" + cc
+            return base64Encoded
+        }else {
+            let base64Encoded = type.description.lowercased()  + "://" + utf8str!.base64EncodedString(options: .endLineWithLineFeed) +   "?tlsEnable=" + tls + "&chain=" + c
+            return base64Encoded
+        }
+        
     }
     
     deinit{
