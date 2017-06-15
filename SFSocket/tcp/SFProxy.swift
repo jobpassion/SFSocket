@@ -194,6 +194,7 @@ public class Proxys:CommonModel {
         }
         if found {
             deleteproxys[index] = proxy
+            return -1
         }
         found = false
         
@@ -209,12 +210,15 @@ public class Proxys:CommonModel {
         if found {
             proxys.remove(at: index)
             proxys.insert(proxy, at: index)
+            
+            return index
         }else {
             proxys.append(proxy)
+            let selectIndex = proxys.count - 1
+            return selectIndex
             
         }
-        let selectIndex = proxys.count - 1
-        return selectIndex
+        
     }
 }
 public class SFKCPTunConfig:CommonModel {
