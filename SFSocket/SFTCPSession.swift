@@ -97,8 +97,35 @@ public class TCPSession: RawSocketDelegate {
     //MARK: - tobe add
     public var destinationIPAddress: String? {
         
+        if let _ = adapter {
+            //kcp
+        }else {
+            if let socket = socket {
+                if let x = socket.destinationIPAddress  {
+                    let destip = x.presentation
+                    
+                    return destip
+                }
+            }
+        }
         
         return "no imp"
+    }
+    public var sourceIPAddress: String? {
+        
+        
+        if let _ = adapter {
+            //kcp
+        }else {
+            if let socket = socket {
+                if let x = socket.sourceIPAddress  {
+                    let s = x.presentation
+                    
+                    return s
+                }
+            }
+        }
+        return "local"
     }
     /**
      The socket did read some data.

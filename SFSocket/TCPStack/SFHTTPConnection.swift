@@ -1072,7 +1072,8 @@ class SFHTTPConnection: SFHTTPRequest {
                     if reqInfo.idleTimeing > SFOpt.HTTPVeryTimeout {
                         SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count) 7",level: .Warning)
                         if socks_recv_bufArray.count > 0 {
-                            client_socks_recv_handler_done(socks_recv_bufArray.count)
+                            //bug here
+                            //client_socks_recv_handler_done(socks_recv_bufArray.count)
                         } else {
                              client_free_socks()
                         }

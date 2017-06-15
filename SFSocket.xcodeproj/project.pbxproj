@@ -547,7 +547,6 @@
 		69B954F21DDF81CF006AF669 /* SFSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SFSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B954F41DDF81CF006AF669 /* SFSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSocket.h; sourceTree = "<group>"; };
 		69B954F51DDF81CF006AF669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		69BF6C211DE579D9000ABF09 /* SFConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFConnection.swift; sourceTree = "<group>"; };
 		69BF6C251DE57BFA000ABF09 /* GCDHTTPProxyServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDHTTPProxyServer.swift; sourceTree = "<group>"; };
 		69BF6C281DE57C36000ABF09 /* GCDProxyServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDProxyServer.swift; sourceTree = "<group>"; };
 		69BF6C2B1DE57CAE000ABF09 /* ProxyServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyServer.swift; sourceTree = "<group>"; };
@@ -927,7 +926,6 @@
 		69BF6C201DE579C9000ABF09 /* connection */ = {
 			isa = PBXGroup;
 			children = (
-				69BF6C211DE579D9000ABF09 /* SFConnection.swift */,
 			);
 			path = connection;
 			sourceTree = "<group>";

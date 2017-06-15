@@ -1299,22 +1299,8 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         
         reqInfo.interfaceCell  = socket.useCell ? 1: 0
         //MARK: fixme
-//        if let x = connector!.sourceIPAddress  {
-//            let sourceip = x.presentation
-//            reqInfo.localIPaddress = sourceip
-//            
-//        }
-//        
-//        if let x = connector!.destinationIPAddress  {
-//            let destip = x.presentation
-//            
-//            //todo fix
-//            if !reqInfo.remoteIPaddress.isEmpty && reqInfo.remoteIPaddress != destip {
-//                reqInfo.remoteIPaddress += " via " + destip
-//            }else {
-//                reqInfo.remoteIPaddress =  destip
-//            }
-//        }
+        reqInfo.localIPaddress = socket.sourceIPAddress!
+        reqInfo.remoteIPaddress = socket.destinationIPAddress!
         SKit.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
         client_socks_handler(.event_UP)
     }
