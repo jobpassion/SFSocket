@@ -53,6 +53,12 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         self.destoryTun()
     }
     //tun delegate
+    func localAddress() ->String {
+        if let tun = tun {
+            return tun.localAddress()
+        }
+        return "local"
+    }
     public func connected(_ tun: SFKcpTun!){
         
     }

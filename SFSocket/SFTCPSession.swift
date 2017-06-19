@@ -97,8 +97,9 @@ public class TCPSession: RawSocketDelegate {
     //MARK: - tobe add
     public var destinationIPAddress: String? {
         
-        if let _ = adapter {
+        if let adapter = adapter {
             //kcp
+            return adapter.proxy.serverAddress
         }else {
             if let socket = socket {
                 if let x = socket.destinationIPAddress  {
@@ -116,6 +117,7 @@ public class TCPSession: RawSocketDelegate {
         
         if let _ = adapter {
             //kcp
+            return Smux.sharedTunnel.localAddress()
         }else {
             if let socket = socket {
                 if let x = socket.sourceIPAddress  {
@@ -410,6 +412,9 @@ public class TCPSession: RawSocketDelegate {
     }
     public  func sendRowData(_ data: Data, withTag tag: Int) {
         SKit.log(desc + " sendraw \(data as NSData) \(tag)", level: .Debug)
+        if let info = String.init(data: data, encoding: .utf8) {
+            SKit.log(desc + " sendraw " + info, level: .Debug)
+        }
         if let t = socket {
             if let adapter = adapter {
                 
