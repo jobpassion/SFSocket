@@ -80,7 +80,7 @@ func query(_ domain:String) ->[String] {
 }
 var kProxyGroupFile = ".ProxyGroup"
 
-public class SKit {
+public class SKit:TextOutputStream {
     static var env = SKit()
     static var sampleConfig = "surf.conf"
     static var DefaultConfig = "Default.conf"
@@ -430,7 +430,9 @@ public class SKit {
         #endif
     }
     static func log2(_ msg:String,items: Any...,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
+       
         #if Debug
+            
             AxLogger.log(msg,level:level)
             
         #else
@@ -438,5 +440,8 @@ public class SKit {
                 AxLogger.log(msg,level:level)
             }
         #endif
+    }
+    public func write(_ string: String){
+        
     }
 }

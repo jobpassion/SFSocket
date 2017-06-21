@@ -430,16 +430,41 @@ public class SFProxy:CommonModel {
                 for xy in x {
                     let x2 = xy.components(separatedBy: "=")
                     if x2.count == 2 {
+                        
                         if x2.first! == "remark" {
                             proxy.proxyName = x2.last!.removingPercentEncoding!
-                        }
-                        if x2.first! == "tlsEnable"{
+                        }else if x2.first! == "tlsEnable"{
                             let v = Int(x2.last!)
                             if v == 1  {
                                 proxy.tlsEnable = true
                             }else {
                                 proxy.tlsEnable = false
                             }
+                        } else if x2.first! == "kcptun" {
+                            proxy.kcptun = true
+                        } else if x2.first! == "crypt" {
+                            proxy.config.crypt = x2.last!
+                            
+                        }else if x2.first == "key" {
+                            let base64Str = x2.last!
+                            let d = Data.init(base64Encoded: base64Str, options: .ignoreUnknownCharacters)
+                            if let key =  String.init(data: d! , encoding: .utf8){
+                                proxy.config.key = key
+                            }
+                        }else if x2.first == "nocomp" {
+                            if let v = Int(x2.last!) {
+                                if v == 1 {
+                                    proxy.config.noComp = true
+                                }else {
+                                    proxy.config.noComp = false
+                                }
+                            }
+                        }else if x2.first! == "mode" {
+                            proxy.config.mode = x2.last!
+                        }else if x2.first! == "datashard"{
+                            proxy.config.datashard = Int(x2.last!)!
+                        }else if x2.first! == "parityshard"{
+                            proxy.config.parityshard = Int(x2.last!)!
                         }
                     }
                 }
@@ -633,7 +658,9 @@ public class SFProxy:CommonModel {
         
             base64Encoded += "&chain=" + c
             base64Encoded += "&kcptun=1&crypt=" + config.crypt
-            base64Encoded += "&key=" + config.key
+            let keyData = config.key.data(using: .utf8)!
+            
+            base64Encoded += "&key=" + keyData.base64EncodedString(options: .endLineWithLineFeed)
             base64Encoded += "&datashard=" + String(config.datashard)
             base64Encoded += "&parityshard=" + String(config.parityshard)
             base64Encoded += "&mode=" + config.mode

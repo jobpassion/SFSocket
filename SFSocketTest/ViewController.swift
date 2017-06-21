@@ -16,9 +16,9 @@ class ViewController: UIViewController {
     var http:HTTPTester?
     override func viewDidLoad() {
         super.viewDidLoad()
-        Frame.testframe()
-         testsnappy()
-        let _:Float = 10.23
+//        Frame.testframe()
+//         testsnappy()
+//        let _:Float = 10.23
         testaead()
 //        print(String.init(format: "%.0f", a))
 //        
