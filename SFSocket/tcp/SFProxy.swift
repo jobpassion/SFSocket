@@ -121,7 +121,7 @@ public class Proxys:CommonModel {
     func changeIndex(_ srcPath:IndexPath,destPath:IndexPath){
         #if os(iOS)
         if srcPath.section == destPath.section {
-            if srcPath.row == 0 {
+            if srcPath.section == 0 {
                 changeIndex(srcPath.row, dest: destPath.row, proxylist: &proxys)
             }else {
                 changeIndex(srcPath.row, dest: destPath.row, proxylist: &chainProxys)
