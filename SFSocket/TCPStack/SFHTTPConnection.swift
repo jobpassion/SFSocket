@@ -1052,7 +1052,7 @@ class SFHTTPConnection: SFHTTPRequest {
                         if reqInfo.idleTimeing > SFOpt.HTTPVeryTimeout/2.0{
                             if let c = connector {
                                 if c.readPending == false {
-                                    SKit.log("\(cIDString) \(reqInfo.host)  resume reading",level: .Warning)
+                                    //SKit.log("\(cIDString) \(reqInfo.host)  resume reading",level: .Warning)
                                     client_socks_recv_initiate()
                                 }
                             }
