@@ -273,6 +273,10 @@ public class ProxyGroupSettings:CommonModel {
         //todo
         proxyMan!.updateProxy(p)
     }
+    public func saveReceipt(_ r:Receipt) throws{
+        self.receipt = r
+        try save()
+    }
     public func save() throws {//save to group dir
         
         if let js = self.toJSONString() {
