@@ -133,7 +133,7 @@ public class ProxyGroupSettings:CommonModel {
     public var config:String = "surf.conf"
     public var saveDBIng:Bool = false
     public var lastupData:Date = Date()
-    public var receipt:Receipt?
+    public var receipt:Receipt = Receipt()
     public required init?(map: Map) {
         //super.init(map: map)
         super.init()
@@ -260,13 +260,18 @@ public class ProxyGroupSettings:CommonModel {
     
     public func addProxy(_ proxy:SFProxy) -> Bool {
         
-        
-        let x  = proxyMan!.addProxy(proxy)
-        if x != -1 {
-            selectIndex = x
+        if let p = proxyMan {
+            let x  = p.addProxy(proxy)
+            if x != -1 {
+                selectIndex = x
+            }
+            try! save()
+            return true
+        }else {
+            return false
         }
-        try! save()
-        return true
+        
+        
     }
     
     public func updateProxy(_ p:SFProxy){

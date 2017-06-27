@@ -137,7 +137,7 @@ public class TCPSession: RawSocketDelegate {
      - parameter from:    The socket where the data is read from.
      */
     public func didReadData(_ data: Data, withTag: Int, from: RawSocketProtocol){
-        SKit.log(desc + " recv \(data as NSData)", level: .Debug)
+        //SKit.log(desc + " recv \(data as NSData)", level: .Debug)
         if let adapter = adapter {
             
             do  {
@@ -150,7 +150,7 @@ public class TCPSession: RawSocketDelegate {
                 let result = try adapter.recv(data)
                 if result.0 {
                     //成功解析返回包，对于ss 是解密成功
-                    SKit.log(desc + " data:\(result.1 as NSData))", level: .Debug)
+                    //SKit.log(desc + " data:\(result.1 as NSData))", level: .Debug)
                     if adapter.proxy.type != .SS {
                         if cnnectflag {
                             //streaming
