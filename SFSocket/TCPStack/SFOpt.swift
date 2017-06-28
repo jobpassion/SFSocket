@@ -14,7 +14,7 @@ struct SFOpt {
     static var  longConnect = ["userstream.twitter.com","api.twitter.com"]
     static var HTTPVeryTimeout:Double = 15.0
     static var HTTPSTimeout:Double = 30.0
-    static var HTTPNoHeaderTimeout:Double = 10
+    static var HTTPNoHeaderTimeout:Double = 30
     static var HTTPLongConnect:Double = 30
     
     static func shouldKepp(host:String) ->Bool {

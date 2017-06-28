@@ -133,7 +133,7 @@ public class ProxyGroupSettings:CommonModel {
     public var config:String = "surf.conf"
     public var saveDBIng:Bool = false
     public var lastupData:Date = Date()
-    public var receipt:Receipt = Receipt()
+    public var receipt:Receipt?
     public required init?(map: Map) {
         //super.init(map: map)
         super.init()
