@@ -1073,7 +1073,7 @@ class SFHTTPConnection: SFHTTPRequest {
                         SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count) 7",level: .Warning)
                         if socks_recv_bufArray.count > 0 {
                             //bug here
-                            //client_socks_recv_handler_done(socks_recv_bufArray.count)
+                            client_socks_recv_handler_done(socks_recv_bufArray.count)
                         } else {
                              client_free_socks()
                         }

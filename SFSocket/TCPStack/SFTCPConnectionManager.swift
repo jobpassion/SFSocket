@@ -157,29 +157,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         //timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "tcp_timer_handler:", userInfo: nil, repeats: true)
     }
     func checkConnectionStatus() {
-        ////SKit.log("TCP Connection Count:\(connections.count)",level: .Debug)
-        //NSLog("startup reportMemory %@ %@ [%d]",reportMemory(),#file,#line)
-        
-        //return;
-        //        if connections.count > 10 {
-        //            SKit.log("TCP Connection Count:\(connections.count)",level: .Warning)
-        //
-        //        }
-        var connectionsCount = 40
-        
-        let limit = sysVersion()
-        if limit < 10 {
-            connectionsCount = 15
-        }
-        
-        //var long_idle:NSTimeInterval = 0.0
-//        if connections.count > connectionsCount {
-//            //find long idle connection , and kill it
-//            //var idleConnection:SFConnection?
-//            
-//            
-//            
-//        }
+    
         for (_,c) in connections {
             c.checkStatus()
             

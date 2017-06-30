@@ -901,8 +901,9 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         // if client was closed, stop receiving
         
         if len > 0 {
-            if client_socks_recv_send_out() < 0 {
-               SKit.log("\(cIDString) client_socks_recv_send_out error",level: .Error)
+            let slen = client_socks_recv_send_out()
+            if  slen < 0 {
+               SKit.log("\(cIDString) client_socks_recv_send_out error \(slen)",level: .Error)
             
             }
         }else {
