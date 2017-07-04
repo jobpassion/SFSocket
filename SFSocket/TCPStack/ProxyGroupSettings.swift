@@ -265,7 +265,13 @@ public class ProxyGroupSettings:CommonModel {
             if x != -1 {
                 selectIndex = x
             }
-            try! save()
+           
+            do {
+                try save()
+            }catch let e {
+                print("add proxy failure \(e.localizedDescription)")
+            }
+            
             return true
         }else {
             return false

@@ -343,6 +343,7 @@ public class SFProxy:CommonModel {
     public var isoCode:String = ""
     public var udpRelay:Bool = false
     
+    public var editEnable:Bool = true
    
     public var kcptun:Bool = false
     public var config:SFKCPTunConfig = SFKCPTunConfig()
@@ -379,6 +380,7 @@ public class SFProxy:CommonModel {
         tcpValue <- map["tcpValue"]
         priority <- map["priority"]
         pingValue <- map["pingValue"]//
+        editEnable <- map["editEnable"]
         //birthday    <- (map["birthday"], DateTransform())
         
         

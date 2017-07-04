@@ -27,6 +27,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
     
     //var packet:DNSPacket?
     var socket:GCDAsyncUdpSocket?
+    var socketN:GCDAsyncUdpSocket?
     var waittingQueriesMap:[Int:UInt16] = [:]// iden:port
     //var queries:[DNSPacket] = []
     //var queryIDCounter:UInt16 = 0

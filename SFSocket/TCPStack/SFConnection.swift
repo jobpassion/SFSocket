@@ -730,10 +730,12 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                        return  -1
                     }
                    //SKit.log("\(cIDString) tcp_write error \(err)",level: .Error)
-                    
+                    //send
                     if err < -9 {
                         SKit.log("\(cIDString) tcp_pcb error  ",level: .Error)
-                        tcp_recv(pcb,nil)
+                        //tcp_recv(pcb,nil)
+                        //bug??
+                        client_abort_client()
                         SKit.log("\(cIDString) tcp_write write error ",level: .Error)
                        
                         

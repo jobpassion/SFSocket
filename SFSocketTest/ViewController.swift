@@ -10,15 +10,60 @@ import UIKit
 import SFSocket
 import ObjectMapper
 import snappy
+import CommonCrypto
+extension String{
+    //: ### Base64 encoding a string
+    func base64Encoded() -> String? {
+        if let data = self.data(using: .utf8) {
+            return data.base64EncodedString()
+        }
+        return nil
+    }
+    
+    //: ### Base64 decoding a string
+    func base64Decoded() -> String? {
+        if let data = Data(base64Encoded: self) {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil
+    }
+}
 class ViewController: UIViewController {
     let q = DispatchQueue.init(label: "com.yarshure.test")
     var data = Data()
     var http:HTTPTester?
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 //        Frame.testframe()
 //         testsnappy()
 //        let _:Float = 10.23
+        let iv = "This is an IV456" // should be of 16 characters.
+        //here we are convert nsdata to String
+        let encryptedString = "YFAz+BYqSpawy3FK52MFgw=="
+        let ss = SSEncrypt.init(password:"This is a key123This is an IV456" , method: "aes-256-cfb",ivsys: iv)
+        
+        guard  let xx = ss.encrypt(encrypt_bytes: "The answer is no".data(using: .utf8)!) else {
+            return
+        }
+        print(xx as NSData)
+        print("****")
+        let sub = xx.subdata(in: 16..<xx.count-1)
+        let pwd  = sub.base64EncodedString()
+        var data = iv.data(using: .utf8)!
+        data.append(Data(base64Encoded: pwd)!)
+
+        if let passwd = ss.decrypt(encrypt_bytes: xx){
+            print(passwd as NSData)
+            print(String.init(data: passwd, encoding: .utf8)!)
+        }
+        //now we are decrypting
+        
+//        if let decryptedString = encryptedString.aesDecrypt(key: , iv: iv) // 32 char pass key
+//        {
+//            // Your decryptedString
+//            print(decryptedString)
+//        }
         testaead()
 //        print(String.init(format: "%.0f", a))
 //        
@@ -35,7 +80,9 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
        
     }
-    
+    func testxx(){
+      
+    }
     func testsnappy(){
         let st = "sdlfjlsadfjalsdjfalsdfjlasf".data(using: .utf8)!
        

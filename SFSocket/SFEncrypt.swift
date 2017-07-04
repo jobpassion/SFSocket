@@ -474,15 +474,30 @@ public class SSEncrypt {
         }
         return data.data
     }
-    public init(password:String,method:String) {
+    public init(password:String,method:String,ivsys:String = "") {
         
         m = CryptoMethod.init(cipher: method)
         //print("method:\(m.description)")
+        
         ramdonKey  = SSEncrypt.evpBytesToKey(password: password,keyLen: m.key_size)
-        
-        let iv =  SSEncrypt.getSecureRandom(bytesCount: m.iv_size)
-        
-        send_ctx = enc_ctx.init(key: ramdonKey!, iv: iv, encrypt: true,method:m )
+        if ivsys.isEmpty {
+            let iv =  SSEncrypt.getSecureRandom(bytesCount: m.iv_size)
+            
+            send_ctx = enc_ctx.init(key: ramdonKey!, iv: iv, encrypt: true,method:m )
+
+        }else {
+            
+            if m.iv_size == ivsys.characters.count {
+                
+                send_ctx = enc_ctx.init(key: ramdonKey!, iv: ivsys.data(using: .utf8)!, encrypt: true,method:m )
+            }else {
+                let iv =  SSEncrypt.getSecureRandom(bytesCount: m.iv_size)
+                
+                send_ctx = enc_ctx.init(key: ramdonKey!, iv: iv, encrypt: true,method:m )
+            }
+            
+
+        }
         
         
     }

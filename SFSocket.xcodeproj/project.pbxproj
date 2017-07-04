@@ -113,6 +113,8 @@
 		692DD5B41DD5CEA30079493D /* ConnectRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5B31DD5CEA30079493D /* ConnectRequest.swift */; };
 		692DD5B61DD5CEFD0079493D /* BinaryDataScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5B51DD5CEFD0079493D /* BinaryDataScanner.swift */; };
 		692DD5B81DD5CF120079493D /* Checksum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5B71DD5CF120079493D /* Checksum.swift */; };
+		693539981F0B780F00F57B49 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6976B97D1EC61D9700A7F0A5 /* kcp.framework */; };
+		693539991F0B780F00F57B49 /* kcp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6976B97D1EC61D9700A7F0A5 /* kcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6938BFBA1E88B09800332D82 /* SSAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFB91E88B09800332D82 /* SSAdapter.swift */; };
 		6938BFBC1E88B0B400332D82 /* SS3Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFBB1E88B0B400332D82 /* SS3Adapter.swift */; };
 		6938BFBE1E88B0F700332D82 /* CSocks5Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFBD1E88B0F700332D82 /* CSocks5Connector.swift */; };
@@ -359,6 +361,13 @@
 			remoteGlobalIDString = 69B954F11DDF81CF006AF669;
 			remoteInfo = SFSocketOSX;
 		};
+		6935399A1F0B780F00F57B49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6976B9771EC61D9700A7F0A5 /* libkcp.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 692AE3201EB2EE59006A4B9D;
+			remoteInfo = kcp;
+		};
 		6976B97C1EC61D9700A7F0A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6976B9771EC61D9700A7F0A5 /* libkcp.xcodeproj */;
@@ -415,6 +424,7 @@
 				692806291EFA7C26007FCF6A /* SwiftyJSON.framework in Embed Frameworks */,
 				694719A31EE529540059BEF8 /* AxLogger.framework in Embed Frameworks */,
 				692806211EFA7BC6007FCF6A /* GRDB.framework in Embed Frameworks */,
+				693539991F0B780F00F57B49 /* kcp.framework in Embed Frameworks */,
 				6947199F1EE529500059BEF8 /* CommonCrypto.framework in Embed Frameworks */,
 				694719961EE5292E0059BEF8 /* kcp.framework in Embed Frameworks */,
 			);
@@ -642,6 +652,7 @@
 				692806281EFA7C26007FCF6A /* SwiftyJSON.framework in Frameworks */,
 				6928061A1EFA7B79007FCF6A /* SFSocket.framework in Frameworks */,
 				692806231EFA7BFA007FCF6A /* Crypto.framework in Frameworks */,
+				693539981F0B780F00F57B49 /* kcp.framework in Frameworks */,
 				6928062B1EFA7C40007FCF6A /* Sodium.framework in Frameworks */,
 				694719A01EE529520059BEF8 /* CocoaAsyncSocket.framework in Frameworks */,
 				692806321EFA7D3F007FCF6A /* ObjectMapper.framework in Frameworks */,
@@ -1198,6 +1209,7 @@
 			);
 			dependencies = (
 				6928061D1EFA7B79007FCF6A /* PBXTargetDependency */,
+				6935399B1F0B780F00F57B49 /* PBXTargetDependency */,
 			);
 			name = OSXTest;
 			productName = OSXTest;
@@ -1664,6 +1676,11 @@
 			isa = PBXTargetDependency;
 			target = 69B954F11DDF81CF006AF669 /* SFSocketOSX */;
 			targetProxy = 6928061C1EFA7B79007FCF6A /* PBXContainerItemProxy */;
+		};
+		6935399B1F0B780F00F57B49 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = kcp;
+			targetProxy = 6935399A1F0B780F00F57B49 /* PBXContainerItemProxy */;
 		};
 		6976B9831EC61DA500A7F0A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
