@@ -40,19 +40,19 @@ class ViewController: UIViewController {
 //        let _:Float = 10.23
         let iv = "This is an IV456" // should be of 16 characters.
         //here we are convert nsdata to String
-        let encryptedString = "YFAz+BYqSpawy3FK52MFgw=="
+       
         let ss = SSEncrypt.init(password:"This is a key123This is an IV456" , method: "aes-256-cfb",ivsys: iv)
         
-        guard  let xx = ss.encrypt(encrypt_bytes: "The answer is no".data(using: .utf8)!) else {
+        guard  let xx = ss.encrypt(encrypt_bytes: "dadn-ojhi-nolu-bvch".data(using: .utf8)!) else {
             return
         }
         print(xx as NSData)
         print("****")
-        let sub = xx.subdata(in: 16..<xx.count-1)
+        let sub = xx.subdata(in: 16..<xx.count)
         let pwd  = sub.base64EncodedString()
-        var data = iv.data(using: .utf8)!
-        data.append(Data(base64Encoded: pwd)!)
-
+        print(pwd)
+        let xxx = Data.init(base64Encoded: pwd, options: .ignoreUnknownCharacters)!
+        print(xxx as NSData)
         if let passwd = ss.decrypt(encrypt_bytes: xx){
             print(passwd as NSData)
             print(String.init(data: passwd, encoding: .utf8)!)
