@@ -183,10 +183,30 @@ public class  TCPSSConnector:ProxyConnector{
         c.ota = proxy.tlsEnable
         c.delegate = delegate
         c.queue = queue
-        c.aes = SSEncrypt.init(password: proxy.password, method: proxy.method)
+        if proxy.editEnable == false {
+            let iv = "This is an IV456" // should be of 16 characters.
+            //here we are convert nsdata to String
+           
+            let ss = SSEncrypt.init(password:"This is a key123This is an IV456" , method: "aes-256-cfb",ivsys: iv)
+            
+            var data = iv.data(using: .utf8)!
+            data.append(Data(base64Encoded: proxy.password)!)
+            
+            if let passwd = ss.decrypt(encrypt_bytes: data){
+                
+                let pw = String.init(data: passwd, encoding: .utf8)!
+                c.aes = SSEncrypt.init(password: pw, method: proxy.method)
+            }
+            
+            
+        }else {
+           c.aes = SSEncrypt.init(password: proxy.password, method: proxy.method)
+        }
+        
         c.start()
         return c
     }
+    
 //    public static func connectorWithSelectorPolicy(_ selectorPolicy:SFPolicy ,targetHostname hostname:String, targetPort port:UInt16,p:SFProxy) ->TCPSSConnector{
 //        let c:TCPSSConnector = TCPSSConnector( p: p)
 //        //c.manager = man
