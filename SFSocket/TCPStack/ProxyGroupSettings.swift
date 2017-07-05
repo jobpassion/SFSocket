@@ -331,8 +331,12 @@ public class ProxyGroupSettings:CommonModel {
         }
     }
     public var proxys:[SFProxy] {
+        
         get {
             return proxyMan!.proxys
+        }
+        set {
+            proxyMan?.proxys = newValue
         }
     }
 }
