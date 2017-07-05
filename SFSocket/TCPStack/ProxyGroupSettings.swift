@@ -257,7 +257,16 @@ public class ProxyGroupSettings:CommonModel {
     }
    
 
-    
+    public func cleanDeleteProxy(){
+        if let p = proxyMan {
+            p.deleteproxys.removeAll()
+            do {
+                try save()
+            }catch let e {
+                print("cleanDeleteProxy \(e.localizedDescription)")
+            }
+        }
+    }
     public func addProxy(_ proxy:SFProxy) -> Bool {
         
         if let p = proxyMan {

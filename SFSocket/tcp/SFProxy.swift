@@ -192,9 +192,11 @@ public class Proxys:CommonModel {
             }
             index += 1
         }
-        if found {
-            deleteproxys[index] = proxy
-            return -1
+        if !proxy.serverAddress.isEmpty && !proxy.serverPort.isEmpty{
+            if found {
+                deleteproxys[index] = proxy
+                return -1
+            }
         }
         found = false
         
