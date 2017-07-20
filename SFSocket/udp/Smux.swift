@@ -138,11 +138,12 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
             }
         }
         
-        SKit.log("mux recv data: \(data.count) \(data as NSData)",level: .Debug)
-        let ss = streams.flatMap{ k,v in
+        //SKit.log("mux recv data: \(data.count) \(data as NSData)",level: .Debug)
+        let _ = streams.flatMap{ k,v in
             return k
         }
-        SKit.log("\(ss.sorted()) all active stream", level: .Debug)
+        //cpu high
+        //SKit.log("\(ss.sorted()) all active stream", level: .Debug)
         while self.readBuffer.count >= headerSize {
             let r = readFrame()
             if let f = r.0 {

@@ -80,7 +80,7 @@ func query(_ domain:String) ->[String] {
 }
 var kProxyGroupFile = ".ProxyGroup"
 
-public class SKit:TextOutputStream {
+public class SKit {
     static var env = SKit()
     static var sampleConfig = "surf.conf"
     static var DefaultConfig = "Default.conf"
@@ -441,7 +441,5 @@ public class SKit:TextOutputStream {
             }
         #endif
     }
-    public func write(_ string: String){
-        
-    }
+   
 }
