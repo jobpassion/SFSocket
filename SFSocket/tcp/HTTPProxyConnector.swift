@@ -35,15 +35,15 @@ public  class HTTPProxyConnector:ProxyConnector {
     deinit {
         //reqHeader = nil
         //respHeader = nil
-        SKit.log("\(cIDString) deinit", level: .Debug)
+        SKit.log(cIDString + "deinit", level: .Debug)
     }
     func sendReq() {
         if let req = reqHeader  {
             if let data = req.buildCONNECTHead(self.proxy) {
-                SKit.log("\(cIDString) sending CONNECTHead \(data) \(req.method)",level: .Debug)
+                SKit.log(cIDString + " sending CONNECTHead",items: data,req.method,level: .Debug)
                 self.writeData(data, withTag: HTTPProxyConnector.ReadTag)
             }else {
-               SKit.log("\(cIDString) buildCONNECTHead error",level: .Error)
+               SKit.log(cIDString + " buildCONNECTHead error",level: .Error)
             }
         }else {
             //sleep(1)
@@ -66,11 +66,11 @@ public  class HTTPProxyConnector:ProxyConnector {
             
             respHeader = SFHTTPResponseHeader(data: headerData)
             if let r = respHeader, r.sCode != 200 {
-                SKit.log("\(self) CONNECT status\(r.sCode) ",level: .Error)
+                SKit.log("HTTP PRoxy CONNECT status",items:r.sCode,level: .Error)
                 //有bug
                 
                 //let e = NSError(domain:errDomain , code: 10,userInfo:["reason":"http auth failure!!!"])
-                SKit.log("socketDidCloseReadStream  \(data)",level:.Error)
+                SKit.log("socketDidCloseReadStream",items: data,level:.Error)
                 self.forceDisconnect()
                 //sendReq()
                 //NSLog("CONNECT status\(r.sCode) ")
@@ -155,7 +155,7 @@ public  class HTTPProxyConnector:ProxyConnector {
             strong.writePending = false
             
             guard error == nil else {
-                SKit.log("NWTCPSocket got an error when writing data: \(error!.localizedDescription)",level: .Debug)
+                SKit.log("NWTCPSocket got an error when writing data: ",items: error!.localizedDescription,level: .Debug)
                 strong.forceDisconnect()
                 return
             }
@@ -187,7 +187,7 @@ public  class HTTPProxyConnector:ProxyConnector {
             return
         }
         if let error = connection?.error {
-            SKit.log("Socket-\(cIDString) state: \(error.localizedDescription)", level: .Debug)
+            SKit.log("Socket-\(cIDString) state:",items:error.localizedDescription, level: .Debug)
         }
         
         switch connection!.state {
@@ -222,9 +222,9 @@ public  class HTTPProxyConnector:ProxyConnector {
         //
         //        }
         if let error = connection!.error {
-            SKit.log("\(cIDString) \(error.localizedDescription)", level: .Error)
+            SKit.log("\(cIDString) ",items: error.localizedDescription, level: .Error)
         }
-        SKit.log("\(cIDString) stat: \(connection!.state.description)", level: .Debug)
+        SKit.log("\(cIDString) stat:",items: connection!.state.description, level: .Debug)
     }
 
     public static func connectorWithSelectorPolicy(targetHostname hostname:String, targetPort port:UInt16,p:SFProxy,delegate: RawSocketDelegate, queue: DispatchQueue) ->HTTPProxyConnector{

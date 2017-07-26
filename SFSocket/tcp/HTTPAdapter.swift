@@ -57,11 +57,11 @@ class HTTPAdapter: Adapter {
                 
                 respHeader = SFHTTPResponseHeader(data: headerData)
                 if let r = respHeader, r.sCode != 200 {
-                    SKit.log("\(self) CONNECT status\(r.sCode) ",level: .Error)
+                    SKit.log("HTTP CONNECT status:",items:r.sCode,level: .Error)
                     //有bug
                     
                     //let e = NSError(domain:errDomain , code: 10,userInfo:["reason":"http auth failure!!!"])
-                    SKit.log("socketDidCloseReadStream  \(data)",level:.Error)
+                    SKit.log("HTTP socketDidCloseReadStream",items: data,level:.Error)
                     throw SFAdapterError.invalidHTTPCode
                     //sendReq()
                     //NSLog("CONNECT status\(r.sCode) ")

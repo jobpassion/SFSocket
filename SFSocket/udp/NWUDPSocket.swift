@@ -50,7 +50,7 @@ open class NWUDPSocket {
             sSelf.updateActivityTimer()
             
             guard error == nil else {
-                SKit.log("Error when reading from remote server. \(String(describing: error))",level: .Error)
+                SKit.log("Error when reading from remote server.",items: error!.localizedDescription,level: .Error)
                 return
             }
             

@@ -134,7 +134,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
         if !targetHost.isEmpty && targetHost != SKit.proxyIpAddr{
             dnsSetting =  DNSServer.init(ip:targetHost,sys:true)
         }else{
-            dnsSetting = SFDNSManager.manager.giveMeAserver()
+            dnsSetting = SFDNSManager.manager.giveMeAserver(system: true)
         }
         guard let dnsSetting = dnsSetting else {return}
         SKit.log("\(cIdString) use dns server:\(dnsSetting.ipaddr)",level: .Debug)

@@ -21,7 +21,7 @@ public class DirectConnector:NWTCPSocket{
             try  super.connectTo(self.targetHost, port: self.targetPort, enableTLS: false, tlsSettings: nil)
         }catch let e as NSError {
             //throw e
-            SKit.log("connectTo error \(e.localizedDescription)", level: .Error)
+            SKit.log("DirectConnector connectTo error",items:targetHost,e.localizedDescription, level: .Error)
             }
         }
     }

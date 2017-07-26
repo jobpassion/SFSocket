@@ -262,7 +262,7 @@ class DNSPacket: NSObject {
                     let buffer = NSMutableData()
                     memcpy(buffer.mutableBytes, ptr, Int(len))
                     ptr = ptr?.advanced(by:  Int(len))
-                    SKit.log("IPv6 AAAA record found \(buffer)",level: .Notify)
+                    SKit.log("IPv6 AAAA record found ",items: buffer,level: .Notify)
                 }else {
                     while (ptr?.pointee != 0x0) {
                         let len = Int((ptr?.pointee)!)
@@ -287,7 +287,7 @@ class DNSPacket: NSObject {
                     ptr = ptr?.advanced(by: 1)
                 }
                 
-                SKit.log(" \(domain) \(domainString)",level: .Debug)
+                SKit.log("DNS",items:domain,domainString,level: .Debug)
                 
             }
         }
@@ -295,17 +295,17 @@ class DNSPacket: NSObject {
         
         if let d = queryDomains.first {
             if qr == 0 {
-                SKit.log("DNS Request: \(d) ",level: .Debug)
+                SKit.log("DNS Request:",items: d,level: .Debug)
                 
             }else {
                 //NSLog("DNS Response Packet %@", d)
-                SKit.log("DNS Response: \(d) :\(ipString) ",level: .Debug)
+                SKit.log("DNS Response:",items: ipString,level: .Debug)
                 if    !self.ipString.isEmpty {
                     let r = DNSCache.init(d: d, i: ipString)
                     SFSettingModule.setting.addDNSCacheRecord(r)
-                    SKit.log("DNS \(d) IN A \(ipString)", level: .Trace)
+                    
                 }else {
-                     SKit.log("DNS \(d) IN not found record", level: .Trace)
+                     SKit.log("DNS  IN not found record",items: d, level: .Error)
                 }
             }
             
@@ -344,7 +344,7 @@ class DNSPacket: NSObject {
     }
     static func genPacketData(_ ips:[String],domain:String,identifier:UInt16) ->Data {
         //IPv4
-        var respData = SFData()
+        let respData = SFData()
         respData.append(identifier)
         let x:UInt16 = 0x8180
         let y:UInt32 = 0x00010000 + UInt32(ips.count)

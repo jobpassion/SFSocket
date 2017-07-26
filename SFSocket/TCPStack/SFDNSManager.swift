@@ -75,8 +75,14 @@ open class SFDNSManager {
         return dnsServers
         
     }
-    func giveMeAserver() ->DNSServer{
+    func giveMeAserver(system:Bool) ->DNSServer{
         
+        if system {
+            let ls = settings.filter{$0.system}
+            if !ls.isEmpty {
+                return ls.first!
+            }
+        }
         
         if index == settings.count  {
             index = 0

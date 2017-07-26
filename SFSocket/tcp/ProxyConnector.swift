@@ -155,43 +155,5 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
         }
     }
  
-//    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-//        let x = connection.endpoint as! NWHostEndpoint
-//        if  keyPath == "state" {
-//            
-//            
-//            var stateString = ""
-//            switch connection.state {
-//            case .Connected:
-//                stateString = "Connected"
-//                if proxy.tlsEnable == true && proxy.type != .SS {
-//                    SKit.log("\(cIDString) host:\(x) tls handshake passed", level: .Debug)
-//                }
-//                    queueCall {
-//                        self.socketConnectd()
-//                    }
-//            
-//            case .Disconnected:
-//                stateString =  "Disconnected"
-//                cancel()
-//            case .Cancelled:
-//                stateString =  "Cancelled"
-//                queueCall {
-//                    let delegate = self.delegate
-//                    self.delegate = nil
-//                    delegate?.didDisconnect(self)
-//                    
-//                }
-//            case .Connecting:
-//                stateString = "Connecting"
-//            case .Waiting:
-//                stateString =  "Waiting"
-//            case .Invalid:
-//                stateString = "Invalid"
-//                
-//            }
-//            SKit.log("\(cIDString) host:\(x) " + stateString, level: .Debug)
-//        }
-// 
-//    }
+
 }

@@ -24,12 +24,12 @@ class CHTTPProxConnector: HTTPProxyConnector {
     override func readCallback(data: Data?, tag: Int) {
         
         guard let data = data else {
-            SKit.log("\(cIDString) read nil", level: .Debug)
+            SKit.log(cIDString,items: "read nil", level: .Debug)
             return
         }
         queueCall {
             
-            //SKit.log("read data \(data)", level: .Debug)
+            SKit.log("\(self.cIDString) read data",items: data, level: .Debug)
             if self.httpConnected == false {
                 if self.respHeader == nil {
                     let len = self.recvHeaderData(data: data)

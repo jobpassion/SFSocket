@@ -114,32 +114,7 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
      - parameter host: The host.
      - parameter port: The port.
      */
-    /*
-    init?(host: String, port: Int) {
-        guard let udpsession = RawSocketFactory.TunnelProvider?.createUDPSession(to: NWHostEndpoint(hostname: host, port: "\(port)"), from: nil) else {
-            return nil
-        }
-       
-        session = udpsession
-        super.init()
-        session.setReadHandler({ [ weak self ] dataArray, error in
-            guard let sSelf = self else {
-                return
-            }
-            
-            sSelf.updateActivityTimer()
-            
-            guard error == nil else {
-                SKit.log("Error when reading from remote server. \(String(describing: error))",level: .Error)
-                return
-            }
-            
-            for data in dataArray! {
-                sSelf.delegate?.didReadData(data, withTag: 0, from: sSelf)
-            }
-            }, maxDatagrams: 32)
-    }
-    */
+
 
     
     /**

@@ -149,7 +149,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     }
     deinit {
 
-        SKit.log("\(cIDString) deinit )",level: .Debug)
+        SKit.log("\(cIDString) deinit ",level: .Debug)
         //free(pcb)
         SKit.log("Connection-\(reqInfo.reqID) clean", level: .Warning)
         
@@ -162,7 +162,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     }
     func checkStatus(){
         if reqInfo.idleTimeing > 15 {
-             SKit.log("\(cIDString) idle \(reqInfo.idleTimeing)",level: .Trace)
+            SKit.log("\(cIDString) idle", items:reqInfo.idleTimeing,level: .Trace)
         }
 
         
@@ -188,7 +188,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         
         reqInfo.ruleStartTime = Date() as Date
         var j:SFRuleResult
-        SKit.log("\(cIDString) Find Rule For  DEST:   " + dest ,level:  .Debug)
+        SKit.log("\(cIDString) Find Rule For  DEST:   " ,items:  dest ,level:  .Debug)
         
         if let r = SFTCPConnectionManager.manager.findRuleResult(dest){
             j = r
@@ -212,7 +212,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 }else {
                     if SFSettingModule.setting.ipRuleEnable {
                         reqInfo.waitingRule = true
-                        SKit.log("async send dns  For  DEST:   " + dest ,level:  .Debug)
+                        SKit.log("async send dns  For  DEST:   " ,items: dest ,level:  .Debug)
                         //findIPaddress()
                         
                         findIPaddressSys(reqInfo.host)
@@ -281,7 +281,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         d.querey(reqInfo.host) {[weak self] (record) in
             if let s  = self {
                 if record?.type != DNSServiceErrorType.init(0)  {//kDNSServiceErr_NoError
-                    SKit.log("DNS request error \(String(describing: record?.type.description)) and send request again",level:.Trace)
+                    SKit.log("DNS request error and send request again",items: record?.type.description,level:.Trace)
                     s.findIPAddress2()
                 }else {
                     //
@@ -350,7 +350,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         
     }
     func findIPRule(_ ip:String) {
-        SKit.log("async request dns back \(self.reqInfo.host):\(ip)",level:.Trace)
+        SKit.log("async request dns back \(self.reqInfo.host)",items: ip,level:.Trace)
         let r  = SFSettingModule.setting.findIPRuler(ip)
         
         let result:SFRuleResult = SFRuleResult.init(request:self.reqInfo.host ,r: r)
@@ -364,11 +364,11 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     }
     func findProxy(_ r:SFRuleResult,cache:Bool) {
         
-        SKit.log("\(cIDString) Rule Result \(r.result.proxyName)",level: .Debug)
+        SKit.log("\(cIDString) Rule Result ",items: r.result.proxyName,level: .Debug)
         reqInfo.findProxy(r,cache: cache)
        
         if !reqInfo.waitingRule {
-             SKit.log("\(cIDString) recv rule \(reqInfo.rule.policy), now exit waiting",level: .Warning)
+             SKit.log("\(cIDString) recv rule , now exit waiting",items: reqInfo.rule.policy,level: .Warning)
             
             let tim = String(format: cIDString + " rule :%.6f", reqInfo.ruleTiming)
             SKit.log(tim, level: .Info)
@@ -726,7 +726,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
                 
                 if err != 0 {
                     if err == -1 {
-                       SKit.log("\(cIDString) tcp_write ERR_MEM",level:.Trace)
+                       SKit.log("\(cIDString) tcp_write ERR_MEM",level:.Error)
                        return  -1
                     }
                    //SKit.log("\(cIDString) tcp_write error \(err)",level: .Error)

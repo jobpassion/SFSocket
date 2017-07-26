@@ -94,7 +94,7 @@ public class RequestHelper{
                 
                 
             }catch let e as NSError{
-                SKit.log("create table error: \(e.description)",level: .Error)
+                SKit.log("create table error:",items: e.localizedDescription,level: .Error)
             }
         }
         
@@ -146,7 +146,7 @@ public class RequestHelper{
                     }
                
             } catch let e  as NSError {
-                SKit.log("insert error \(e.description)",level:.Error)
+                SKit.log("insert error ",items: e.description,level:.Error)
             }
             
         }else {

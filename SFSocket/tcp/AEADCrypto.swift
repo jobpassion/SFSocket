@@ -57,22 +57,23 @@ class loadSys {
     static func addIV(ctx:CCCryptorRef,iv:Data) {
         let c = (iv as NSData).bytes
         let r = CCCryptorGCMAddIV(ctx,c,CInt(iv.count))
-        SKit.log("CCCryptorGCMAddIV \(r)", level: .Debug)
+        SKit.log("CCCryptorGCMAddIV", items:r,level: .Debug)
+       
     }
     static func addAAD(ctx:CCCryptorRef,aData:Data){
         let c = (aData as NSData).bytes
         let r = CCCryptorGCMaddAAD(ctx,c,CInt(aData.count))
-        SKit.log("CCCryptorGCMaddAAD \(r)", level: .Debug)
+        SKit.log("CCCryptorGCMaddAAD",items: r, level: .Debug)
     }
     static func  update(ctx:CCCryptorRef,data:Data,dataOut:UnsafeMutableRawPointer,tagOut:UnsafeMutableRawPointer,tagLength:UnsafeMutablePointer<Int>,en:Bool){
         let c = (data as NSData).bytes
         if en {
             let r =  gcmen_update(ctx,c,CInt(data.count),dataOut)
-            SKit.log("gcm_update \(r)", level: .Debug)
+            SKit.log("gcm_update",items: r, level: .Debug)
             print("-- \(r)")
         }else {
             let r =  gcmde_update(ctx,c,CInt(data.count),dataOut)
-            SKit.log("gcm_update \(r)", level: .Debug)
+            SKit.log("gcm_update",items: r, level: .Debug)
             print("-- \(r)")
         }
         
@@ -80,7 +81,7 @@ class loadSys {
         
         
         let rr = CCCryptorGCMFinal(ctx,tagOut,tagLength)
-        SKit.log("CCCryptorGCMaddAAD \(rr)", level: .Debug)
+        SKit.log("CCCryptorGCMaddAAD",items: rr, level: .Debug)
     }
 }
 
@@ -128,7 +129,7 @@ public class AEAD {
         
         let ramdonData = SSEncrypt.getSecureRandom(bytesCount: key_len )
         key.append(ramdonData)
-        SKit.log("\(base64) invalid ", level: .Error)
+        SKit.log("invalid",items: base64, level: .Error)
         return key_len
     }
 }
@@ -159,7 +160,7 @@ public class aead_ctx {
         if !enc_ctx.sodiumInited {
             if sodium_init() == -1 {
                 //print("sodium_init failure")
-                SKit.log("sodium_init failure todo fix",level: .Error)
+                SKit.log("aead_ctx",items:"sodium_init failure todo fix",level: .Error)
             }
         }
     }
@@ -349,7 +350,7 @@ public class AEADCrypto {
         //let iv =  SSEncrypt.getSecureRandom(bytesCount: m.iv_size)
         
         send_ctx = aead_ctx.init(key: ramdonKey!, iv: salt, encrypt: true,method:m )
-        SKit.log("Key \(ramdonKey! as NSData) salt:\(salt as NSData)", level: .Debug)
+        SKit.log("AEAD key/salt",items:(ramdonKey! as NSData), (salt as NSData), level: .Debug)
         
     }
     func recvCTX(iv:Data){
@@ -652,21 +653,21 @@ public class AEADCrypto {
                     
                     
                 }else {
-                    SKit.log("CCCryptorFinal error \(final)",level:.Error)
+                    SKit.log("CCCryptorFinal error",items: final,level:.Error)
                 }
                 
                 //SKit.log("cipher length:\(d.length % 16)")
                 
                 
             }else {
-                SKit.log("CCCryptorUpdate error \(update)",level:.Error)
+                SKit.log("CCCryptorUpdate error",items: update,level:.Error)
             }
             
         }
         
         return nil
     }
-    static func encryptErrorReason(r:Int32) {
+    static func encryptErrorReason(r:Int32) ->String {
         
         var message:String = "undefine error"
         switch  r{
@@ -689,7 +690,8 @@ public class AEADCrypto {
         default:
             break
         }
-        SKit.log("\(message)",level: .Debug)
+        return message
+        
     }
     
     

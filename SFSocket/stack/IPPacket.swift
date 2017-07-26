@@ -198,7 +198,7 @@ open class IPPacket {
         
         let vhl = scanner.readByte()!
         guard let v = IPVersion(rawValue: vhl >> 4) else {
-            SKit.log("Got unknown ip packet version \(vhl >> 4)",level: .Error)
+            SKit.log("Got unknown ip packet version",items: vhl >> 4,level: .Error)
             return nil
         }
         version = v
@@ -245,7 +245,7 @@ open class IPPacket {
             }
             self.protocolParser = parser
         default:
-            SKit.log("Can not parse packet header of type \(transportProtocol) yet",level: .Error)
+            SKit.log("Can not parse packet header of type  yet",items: transportProtocol,level: .Error)
             return nil
         }
     }

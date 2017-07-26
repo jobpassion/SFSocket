@@ -252,7 +252,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
             guard  let c = connection else {return }
             if let a = c.localAddress {
                 let addr = a as! NWHostEndpoint
-                SKit.log("\(cIDString) \(addr) readPending ", level: .Debug)
+                SKit.log("\(cIDString)  readPending",items:addr, level: .Debug)
             }
             
                 
@@ -411,7 +411,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
 //        if let  x = connection.endpoint as! NWHostEndpoint {
 //            
 //        }
-        SKit.log("\(cIDString) state: \(connection.state.description)", level: .Debug)
+        SKit.log("\(cIDString) state:",items:connection.state.description, level: .Debug)
     }
 
     func readCallback(data: Data?, tag: Int) {
