@@ -36,6 +36,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
     
     var proxy:SFProxy!
     var startTime:Date = Date()
+    
     var dnsSetting:DNSServer?
     var cacheData:Data?
     override public init(sip: Data, dip: Data, packet: UDPPacket) {
@@ -412,6 +413,8 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
         if let delegate = self.delegate {
             SKit.log("\(cIdString) IPPacket write to tune\(d.description)", level: .Debug)
             delegate.serverDidQuery(self, data: d.data,close:  packet.finished)
+        }else {
+            shutdownSocket()
         }
     }
     open func udpSocket(_ sock: GCDAsyncUdpSocket, didNotConnect error: Error?){
@@ -467,6 +470,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
             s.setDelegateQueue(nil)
             s.close()
         }
+        
     }
     deinit {
         if let _ = proxy {

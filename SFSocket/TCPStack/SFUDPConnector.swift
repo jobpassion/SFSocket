@@ -30,7 +30,7 @@ open class SFUDPConnector: NSObject {
     var dstPort:UInt16
     var connected:Bool = false
     //var waittingQueriesTimeMap:[UInt16:Date] = [:]
-    var activeTime:Date = Date()
+    public var activeTime:Date = Date()
     var queryIDCounter:UInt16 = 0 //DNS
     var protocol_family:UInt8 = 0 //DNS 17 
     var sendingQueue:[UDPPacket] = []

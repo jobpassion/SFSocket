@@ -291,7 +291,7 @@ class DNSPacket: NSObject {
                 
             }
         }
-        
+        finished = true
         
         if let d = queryDomains.first {
             if qr == 0 {

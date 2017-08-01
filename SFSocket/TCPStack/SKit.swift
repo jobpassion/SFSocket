@@ -431,15 +431,15 @@ public class SKit {
     }
     static func log(_ msg:String,items: Any...,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
        
-        #if Debug
-            
-            AxLogger.log(msg,level:level)
-            
-        #else
-            if level != AxLoggerLevel.Debug {
-                AxLogger.log(msg,level:level)
-            }
-        #endif
+//        #if Debug
+//            
+//            AxLogger.log(msg,level:level)
+//            
+//        #else
+//            if level != AxLoggerLevel.Debug {
+//                AxLogger.log(msg,level:level)
+//            }
+//        #endif
     }
    
 }
