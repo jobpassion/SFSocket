@@ -7,7 +7,7 @@ github "networkextension/SwiftyJSON" "3.1.4"
 github "soffes/CommonCrypto" "v1.1.0"
 github "yarshure/Crypto"  "v0.5.2"
 github "iosdevzone/IDZSwiftCommonCrypto"
-github "Hearst-DD/ObjectMapper" “0c116f44b5d052892146bcb94ad6c690b3dec40d”
+github "Hearst-DD/ObjectMapper" "0c116f44b5d052892146bcb94ad6c690b3dec40d"
 github "networkextension/liblwip" "0.2.5"
 github "networkextension/DarwinCore" "9828fb3d94714d55262c9aff672e93a104105e67"
 git "https://bitbucket.org/yarshure/mmdb-swift.git" "a357488a685efcc0d19f1c476e70fb20abc4fee5"
