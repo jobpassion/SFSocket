@@ -10,7 +10,7 @@ github "iosdevzone/IDZSwiftCommonCrypto"
 github "Hearst-DD/ObjectMapper" "0c116f44b5d052892146bcb94ad6c690b3dec40d"
 github "networkextension/liblwip" "0.2.5"
 github "networkextension/DarwinCore" "9828fb3d94714d55262c9aff672e93a104105e67"
-git "https://bitbucket.org/yarshure/mmdb-swift.git" "a357488a685efcc0d19f1c476e70fb20abc4fee5"
+github "yarshure/MMDB-Swift.git" "a357488a685efcc0d19f1c476e70fb20abc4fee5"
 github "networkextension/SystemKit" "56d5ff28f862f39f6e0a8aefe3964b75ade0dd31"
 github "groue/GRDB.swift" "6cede4975c50d1edbc2393e8e935558236e98f2c" #Swift3.1beta
 github "ashleymills/Reachability.swift" ~> 3.0
