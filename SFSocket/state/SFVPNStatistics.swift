@@ -78,6 +78,80 @@ public class SFTraffic {
         tx = UInt(j["tx"].int64Value)
     }
 }
+
+public enum FlowType:Int {
+    case total = 1
+    case current = 2
+    case last = 3
+    case max = 4
+    case wifi = 5
+    case cell = 6
+    case direct = 7
+    case proxy = 8
+}
+public final class NetFlow{
+    //public static let shared = NetFlow()
+    public var totalFlows:[SFTraffic] = []
+    public let currentFlows:[SFTraffic] = []
+    public let lastFlows:[SFTraffic] = []
+    public let maxFlows:[SFTraffic] = []
+    
+    public var wifiFlows:[SFTraffic] = []
+    public var cellFlows:[SFTraffic] = []
+    
+    public var directFlows:[SFTraffic] = []
+    public var proxyFlows:[SFTraffic] = []
+    public func update(_ flow:SFTraffic, type:FlowType){
+//        var tmp:[SFTraffic]
+//        switch type {
+//        case .total:
+//           tmp = totalFlows
+//        case .current :
+//           tmp = currentFlows
+//        case .last :
+//           tmp = lastFlows
+//        case .max:
+//           tmp = maxFlows
+//        case .wifi:
+//           tmp = wifiFlows
+//        case .cell:
+//           tmp = cellFlows
+//        case .direct:
+//            tmp = directFlows
+//        case .proxy:
+//            tmp = proxyFlows
+//        }
+        totalFlows.append(flow)
+        if totalFlows.count > 60 {
+            totalFlows.remove(at: 0)
+        }
+    }
+    public func resp() -> [String : AnyObject] {
+        var result:[String:AnyObject] = [:]
+        var x:[AnyObject] = []
+        for xx in totalFlows{
+            x.append(xx.resp() as AnyObject)
+        }
+        result["total"] = x as AnyObject
+        return result
+    }
+    public func mapObject(j: SwiftyJSON.JSON){
+        totalFlows.removeAll(keepingCapacity: true)
+        for xx in j["total"].arrayValue {
+            let x = SFTraffic()
+            x.mapObject(j: xx)
+            totalFlows.append(x)
+        }
+    }
+    public func flow(_ type:FlowType) ->[Double]{
+        var r:[Double] = []
+        for x in totalFlows {
+            r.append(Double(x.rx))
+        }
+        return r
+    }
+}
+
 open class SFVPNStatistics {
     public static let shared = SFVPNStatistics()
     public var startDate = Date()
@@ -98,6 +172,7 @@ open class SFVPNStatistics {
     public var memoryUsed:UInt64 = 0
     public var finishedCount:Int = 0
     public var workingCount:Int = 0
+    public var netflow:NetFlow = NetFlow()
     public var runing:String {
         get {
             let now = Date()
@@ -135,6 +210,7 @@ open class SFVPNStatistics {
         wifiTraffice.mapObject(j: j["wifi"])
         directTraffice.mapObject(j: j["direct"])
         proxyTraffice.mapObject(j: j["proxy"])
+        netflow.mapObject(j: j["netflow"])
         if let c  = j["memory"].uInt64 {
             memoryUsed = c
         }
@@ -144,6 +220,7 @@ open class SFVPNStatistics {
         if let tcp = j["workingCount"].int {
             workingCount = tcp
         }
+        
     }
     public func memoryString() ->String {
         let f = Float(memoryUsed)
