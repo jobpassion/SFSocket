@@ -132,6 +132,7 @@ public class ProxyGroupSettings:CommonModel {
     public var selectIndex:Int = 0
     public var config:String = "surf.conf"
     public var saveDBIng:Bool = false
+    public var widgetFlow:Bool = false
     public var lastupData:Date = Date()
     public var receipt:Receipt?
     public required init?(map: Map) {
@@ -178,6 +179,7 @@ public class ProxyGroupSettings:CommonModel {
         saveDBIng <- map["saveDBIng"]
         lastupData <- (map["lastupData"],self.dateTransform)
         receipt <- map["receipt"]
+        widgetFlow <- map["widgetFlow"]
     }
     
     public func updateStyle(_ s:Bool){
