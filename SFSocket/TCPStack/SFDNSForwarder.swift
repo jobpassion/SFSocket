@@ -26,7 +26,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
     var domains:[String] = []
     
     //var packet:DNSPacket?
-    var socket:GCDAsyncUdpSocket?
+    
     var socketN:GCDAsyncUdpSocket?
     var waittingQueriesMap:[Int:UInt16] = [:]// iden:port
     //var queries:[DNSPacket] = []
@@ -463,15 +463,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
             d.serverDidClose(self)
         }
     }
-    public func shutdownSocket(){
-        //maybe crash
-        if let s = socket {
-            s.setDelegate(nil)
-            s.setDelegateQueue(nil)
-            s.close()
-        }
-        
-    }
+    
     deinit {
         if let _ = proxy {
 //            bfree(sbuf)

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CocoaAsyncSocket
 //本地读取Packet, 理论没有丢包问题，由应用层解决吧
 // 对于UDP IP 层没有重传机制，wireshark 
 //使用stream id 表示
@@ -34,10 +35,18 @@ open class SFUDPConnector: NSObject {
     var queryIDCounter:UInt16 = 0 //DNS
     var protocol_family:UInt8 = 0 //DNS 17 
     var sendingQueue:[UDPPacket] = []
+    var socket:GCDAsyncUdpSocket?
     //need recv buffer?
     var  idel:TimeInterval {
         get {
             return Date().timeIntervalSince(activeTime)
+        }
+    }
+    public func shutdownSocket(){
+        if let s = socket {
+            s.setDelegate(nil)
+            s.setDelegateQueue(nil)
+            s.close()
         }
     }
     func idleTooLong() ->Bool{

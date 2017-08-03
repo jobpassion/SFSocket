@@ -15,7 +15,7 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
     
  
     
-    var socket:GCDAsyncUdpSocket?
+    //var socket:GCDAsyncUdpSocket?
     var targetHost:String = "" //cache dest ip
     //var targetPort:UInt16 = 0
     
@@ -265,7 +265,7 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
             d.serverDidClose(self)
         }
     }
-    public func shutdownSocket(){
+    public override func shutdownSocket(){
         //maybe crash
         if let s = socket {
             s.setDelegate(nil)
