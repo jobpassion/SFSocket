@@ -492,7 +492,7 @@ public class TCPSession: RawSocketDelegate {
                 t.readDataWithTag(tag)
             }else {
                 //udp don't need read
-                if reading {
+                if !reading {
                     t.readDataWithTag(tag)
                     return
                 }else {

@@ -312,17 +312,19 @@ public class ProxyGroupSettings:CommonModel {
     public func loadProxyFromFile() {
         //MARK: fixme
         let url = groupContainerURL().appendingPathComponent(kProxyGroupFile)
-        var content:String = "{}"
+        var content:Data
+        
         do {
-            content = try String.init(contentsOf: url, encoding: .utf8)
+            content = try Data.init(contentsOf: url)
+            let json = JSON.init(data: content)
+            self.widgetProxyCount = json["widgetProxyCount"].intValue
+            self.widgetFlow =  json["widgetFlow"].boolValue
+            self.selectIndex = json["selectIndex"].intValue
         }catch let e {
             print("\(e)")
         }
-        
-//        guard let set = Mapper<ProxyGroupSettings>().map(JSONString: content) else {
-//            fatalError()
-//        }
-//        self.mapping(map: <#T##Map#>)
+        //刷新配置选项
+      
         
         
 
