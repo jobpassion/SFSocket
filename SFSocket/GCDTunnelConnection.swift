@@ -32,6 +32,7 @@ class GCDTunnelConnection: TUNConnection {
         
         super.init(i:info)
         self.reqInfo.mode  = .HTTP
+        httpStat = .httpReqHeader
     }
     var cIDString:String {
         get {
@@ -1050,8 +1051,331 @@ class GCDTunnelConnection: TUNConnection {
         
     }
 
+    func httpArgu() ->Bool{
+        guard let _ = reqInfo.reqHeader else {
+            //fatalError()
+            return false
+        }
+        
+        if !reqInfo.host.isEmpty && reqInfo.port != 0 {
+            return true
+        }
+        return false
+    }
 
+    func findProxy(_ r:SFRuleResult,cache:Bool) {
+        
+        SKit.log("\(cIDString) Rule Result ",items: r.result.proxyName,level: .Debug)
+        reqInfo.findProxy(r,cache: cache)
+        
+        if !reqInfo.waitingRule {
+            SKit.log("\(cIDString) recv rule , now exit waiting",items: reqInfo.rule.policy,level: .Warning)
+            
+            let tim = String(format: cIDString + " rule :%.6f", reqInfo.ruleTiming)
+            SKit.log(tim, level: .Info)
+            setUpConnector()
+        }else {
+            SKit.log("\(cIDString) recv rule waiting",level: .Debug)
+        }
+        
+    }
+    func setUpConnector(){
+        
+        var  host  = reqInfo.host
+        let x = host.components(separatedBy: ":")
+        if x.count == 2 {
+            host = x.first!  //IPV6, 目前还不支持
+        }
+        let port = reqInfo.port
+        let message = String.init(format: "%@ %@",self.reqInfo.url, self.reqInfo.rule.policy.description)
+        SKit.log(cIDString + " "  + message + " now setUpConnector",level: .Debug)
+        
+        if reqInfo.rule.policy == .Reject {
+            byebyeRequest()
+            return
+        }else {
+            if reqInfo.rule.policy == .Direct {
+                //NSLog(" Direct connect to remote \(host) \(port)")
+                var  destIP:String = searchCache(host)
+                
+                
+                if destIP.isEmpty {
+                    
+                    destIP  = reqInfo.host
+                }
+                
+                
+                SKit.log("\(cIDString) DIRECT \(reqInfo.host) \(destIP)",level: .Trace)
+                
+                
+                setUpConnector(destIP, port: UInt16(port))
+                
+            }else {
+                //findProxy()
+                
+                
+                setUpConnector(host, port: UInt16(port))
+                
+            }
+        }
+        
+        //twitter 10 内加载不成功
+        connection(10)
+    }
+    func connection(_ timeout:TimeInterval) {
+        
+        if reqInfo.rule.policy != .Reject {
+            
+            
+            reqInfo.sTime = Date() as Date
+            if  let s = connector {
+                s.delegate = self
+                if let manager = manager {
+                    s.queue = manager.dispatchQueue
+                    //s.socketQueue = manager.socketQueue
+                    //s.start()
+                }else {
+                    SKit.log("TCP Manager error", level: .Error)
+                    byebyeRequest()
+                }
+                
+            }else {
+                byebyeRequest()
+            }
+            
+            
+            //NSLog("################# %@ start ", reqInfo.url)
+        }
+        
+        
+    }
+    func searchCache(_ domain:String) ->String {
+        
+        //var destIP:String
+        //对于微信 这个app 会是ip, 很早已经解析过
+        if let h  = reqInfo.reqHeader{
+            if !h.ipAddressV4.isEmpty {
+                reqInfo.remoteIPaddress = h.ipAddressV4
+                return   h.ipAddressV4
+            }
+        }
+        if !reqInfo.remoteIPaddress.isEmpty {
+            return  reqInfo.remoteIPaddress
+        }
+        let type = domain.validateIpAddr()
+        switch type {
+        case .IPV4:
+            return domain
+        case .IPV6:
+            return domain
+        default:
+            break
+        }
+        let newDomain = domain + "." //dns cache have .
+        let ips = SFSettingModule.setting.searchDomain(newDomain)
+        if !ips.isEmpty{
+            reqInfo.remoteIPaddress = ips.first!
+            return ips.first!
+        }else {
+            
+            SKit.log("\(cIDString) don't find DNS cache:\(newDomain)", level: .Trace)
+        }
+        
+        return ""
+        
+        
+        
+        
+    }
+    func genPolicy(_ dest:String,useragent:String) ->Bool{
+        //根据host 产生policy
+        //对于TCP 需要反查hostname,
+        //http 需要做dns 解析
+        //ip 呢？
+        
+        reqInfo.ruleStartTime = Date() as Date
+        var j:SFRuleResult
+        SKit.log("\(cIDString) Find Rule For  DEST:   " ,items:  dest ,level:  .Debug)
+        
+        if let r = SFTCPConnectionManager.manager.findRuleResult(dest){
+            j = r
+            reqInfo.rule = r.result
+            findProxy(j,cache: false)
+            
+        }else {
+            
+            if let ruler  = SFSettingModule.setting.findRuleByString(dest,useragent:useragent) {
+                j = ruler
+                
+                if !j.ipAddr.isEmpty {
+                    reqInfo.remoteIPaddress = j.ipAddr
+                }
+                reqInfo.rule = ruler.result
+                findProxy(j,cache: true)
+                
+            }else {
+                if !reqInfo.remoteIPaddress.isEmpty {
+                    findIPRule(reqInfo.remoteIPaddress)
+                }else {
+                    if SFSettingModule.setting.ipRuleEnable {
+                        reqInfo.waitingRule = true
+                        SKit.log("async send dns  For  DEST:   " ,items: dest ,level:  .Debug)
+                        //findIPaddress()
+                        
+                        findIPaddressSys(reqInfo.host)
+                    }else {
+                        SKit.log("\(cIDString) ipRuleEnable disable ,use final rule", level: .Debug)
+                        reqInfo.waitingRule = true
+                        self.findIPRule("")
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+        return !reqInfo.waitingRule
+        
+        
+    }
+    func findIPAddress2() {
+        let q  = DispatchQueue(label:"com.abigt.dns")
+        let hostName = self.reqInfo.host
+        q.async { [weak self] in
+            let host = CFHostCreateWithName(nil,hostName as CFString).takeRetainedValue()
+            //NSLog("getIPFromDNS %@", hostName)
+            //let d = NSDate()
+            var result:String?
+            CFHostStartInfoResolution(host, .addresses, nil)
+            var success: DarwinBoolean = false
+            if let addresses = CFHostGetAddressing(host, &success)?.takeUnretainedValue() as NSArray?,
+                let theAddress = addresses.firstObject as? NSData {
+                var hostname = [CChar](repeating: 0, count: Int(256))
+                let p = theAddress as Data
+                let value = p.withUnsafeBytes { (ptr: UnsafePointer<sockaddr>)  in
+                    return ptr
+                }
+                if getnameinfo(value, socklen_t(theAddress.length),
+                               &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
+                    result = String(cString:hostname)
+                    
+                }
+            }
+            if let s = self {
+                if let result = result {
+                    let queue = s.manager!.dispatchQueue
+                    //s.findIPRule(result)
+                    queue.async{
+                        s.findIPRule(result)
+                    }
+                }else {
+                    SKit.log("\(s.reqInfo.host) dns query failure",level: .Error)
+                    let queue = s.manager!.dispatchQueue
+                    //s.findIPRule(result)
+                    queue.async{
+                        s.findIPRule("")
+                    }
+                    
+                    
+                }
+            }else {
+                SKit.log("weak error",level: .Error)
+            }
+            
+            
+        }
+        
+    }
+    func findIPaddressSys(_ name:String) {
+        let q  = DispatchQueue(label:"com.abigt.dns",attributes:[])
+        
+        //let hostName = self.reqInfo.host
+        q.async{ [weak self] in
+            if let strong = self {
+                let remoteHostEnt = gethostbyname2((name as NSString).utf8String, AF_INET)
+                
+                if remoteHostEnt == nil {
+                    strong.findIPAddress2()
+                }else {
+                    let remoteAddr = UnsafeMutableRawPointer(remoteHostEnt?.pointee.h_addr_list[0])
+                    
+                    var output = [Int8](repeating: 0, count: Int(INET6_ADDRSTRLEN))
+                    inet_ntop(AF_INET, remoteAddr, &output, socklen_t(INET6_ADDRSTRLEN))
+                    let addr =  NSString(utf8String: output)! as String
+                    
+                    if let m = strong.manager {
+                        let dq = m.dispatchQueue
+                        dq.async(execute: {
+                            strong.findIPRule(addr)
+                        })
+                        
+                        
+                    }else {
+                        SKit.log("dispatch queue error",level: .Error)
+                    }
+                    
+                }
+            }else {
+                SKit.log("weak error",level: .Error)
+            }
+            
+            
+        }
+        
+        
+        
+    }
+    func findIPRule(_ ip:String) {
+        SKit.log("async request dns back \(self.reqInfo.host)",items: ip,level:.Trace)
+        let r  = SFSettingModule.setting.findIPRuler(ip)
+        
+        let result:SFRuleResult = SFRuleResult.init(request:self.reqInfo.host ,r: r)
+        result.ipAddr = ip
+        result.result.ipAddress = ip
+        if reqInfo.remoteIPaddress != ip {
+            reqInfo.remoteIPaddress = ip
+        }
+        
+        self.findProxy(result,cache: !ip.isEmpty)
+    }
     func configConnector(){
+        if httpArgu() {
+            var agent:String = ""
+            var domainName = reqInfo.host
+            if let h = reqInfo.reqHeader {
+                agent = h.app
+                if !h.ipAddressV4.isEmpty{
+                    domainName = h.ipAddressV4
+                }
+            }
+            
+            
+            if genPolicy(domainName,useragent:agent) {
+                if reqInfo.rule.policy == .Reject {
+                    byebyeRequest()
+                }else {
+                    SKit.log("\(cIDString) Not Reject Will Send Req",level: .Debug)
+                    //setUpConnector()
+                }
+                
+            }else {
+                SKit.log("\(cIDString) \(reqInfo.host) Waiting Rule",level: .Debug)
+            }
+        }else {
+            byebyeRequest()
+        }
+
+    }
+    func setUpConnector(_ host:String,port:UInt16){
+        let q = SFTCPConnectionManager.manager.dispatchQueue
+        guard let c = TCPSession.socketFromProxy(reqInfo.proxy, policy: reqInfo.rule.policy, targetHost: host, Port: port, sID: reqInfo.reqID, delegate: self, queue: q) else {
+            fatalError("")
+        }
+        connector = c
+    }
+    func byebyeRequest(){
         
     }
     func client_free_socks(){
@@ -1072,5 +1396,8 @@ class GCDTunnelConnection: TUNConnection {
     func checkBufferHaveData(_ buffer:Data,data:Data) -> Range<Data.Index>? {
         let r = buffer.range(of: data , options: Data.SearchOptions.init(rawValue: 0), in: Range(0 ..< buffer.count))
         return r
+    }
+    func forceCloseRemote(){
+        
     }
 }

@@ -405,7 +405,14 @@ open  class SFSettingModule {
         }else {
             //dmainSuffix test
             //移除前面, need deep dest
-            if let x  = rule!.keyword(hostname) {
+            guard let rule = rule else {
+                let ruler = SFRuler.init()
+                ruler.proxyName = "Proxy"
+                ruler.type = .final
+                let result:SFRuleResult = SFRuleResult.init(request: hostname,r: ruler)
+                return result
+            }
+            if let x  = rule.keyword(hostname) {
                ruler = x
             }else {
                 

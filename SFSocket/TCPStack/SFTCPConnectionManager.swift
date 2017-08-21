@@ -64,7 +64,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     open func lwipInitFinish() {
         lwip_init_finished = true
     }
-    var clientTree:AVLTree = AVLTree<Int32,GCDHTTPConnection>()
+    var clientTree:AVLTree = AVLTree<Int32,GCDTunnelConnection>()
     public static let manager:SFTCPConnectionManager = SFTCPConnectionManager()
     
     internal static func shared() -> SFTCPConnectionManager{
@@ -710,17 +710,17 @@ extension SFTCPConnectionManager:ClientDelegate {
     public func startGCDServer(){
         if let server = GCDSocketServer.shared(){
             server.accept = { fd,addr,port in
-                let c = GCDHTTPConnection.init(sfd: fd, delegate: self, q: DispatchQueue.main)
+                let c = GCDTunnelConnection.init(sfd: fd, rip: addr!, rport: UInt16(port), dip: "127.0.0.1", dport: 10081)
                 
                 self.clientTree.insert(key: fd, payload: c)
-                c.connect()
+                //c.connect()
                 print("\(fd) \(String(describing: addr)) \(port)")
             }
             server.colse = { fd in
                 print("\(fd) close")
                 //self.clientTree.delete(key: fd)
                 if let c = self.clientTree.search(input: fd){
-                    c.forceClose()
+                    c.forceCloseRemote()
                     self.clientTree.delete(key: fd)
                 }
             }
@@ -728,7 +728,7 @@ extension SFTCPConnectionManager:ClientDelegate {
                 print("\(fd) \(String(describing: data))")
                 
                 if let c = self.clientTree.search(input: fd){
-                    c.incoming(data: data!)
+                    c.incommingData(data!,len:data!.count)
                 }
                 //server.server_write_request(fd, buffer: "wello come\n", total: 11);
             }
