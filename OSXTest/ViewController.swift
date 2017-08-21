@@ -16,6 +16,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         testaead()
         testsnappy()
+        testServer()
         // Do any additional setup after loading the view.
     }
 
@@ -25,6 +26,9 @@ class ViewController: NSViewController {
         }
     }
 
+    func testServer(){
+        SFTCPConnectionManager.manager.startGCDServer()
+    }
     func testsnappy(){
         let st = "sdlfjlsadfjalsdjfalsdfjlasf".data(using: .utf8)!
         

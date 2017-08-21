@@ -114,7 +114,6 @@
 		692DD5B61DD5CEFD0079493D /* BinaryDataScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5B51DD5CEFD0079493D /* BinaryDataScanner.swift */; };
 		692DD5B81DD5CF120079493D /* Checksum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5B71DD5CF120079493D /* Checksum.swift */; };
 		693539981F0B780F00F57B49 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6976B97D1EC61D9700A7F0A5 /* kcp.framework */; };
-		693539991F0B780F00F57B49 /* kcp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6976B97D1EC61D9700A7F0A5 /* kcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6938BFBA1E88B09800332D82 /* SSAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFB91E88B09800332D82 /* SSAdapter.swift */; };
 		6938BFBC1E88B0B400332D82 /* SS3Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFBB1E88B0B400332D82 /* SS3Adapter.swift */; };
 		6938BFBE1E88B0F700332D82 /* CSocks5Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFBD1E88B0F700332D82 /* CSocks5Connector.swift */; };
@@ -335,6 +334,12 @@
 		69D5B32B1E8E23EC00D0E0A6 /* SFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D5B3291E8E23EC00D0E0A6 /* SFModel.swift */; };
 		69D5B32D1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69DD43591DDC4FBA00080CF1 /* SFVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */; };
+		69E40F3C1F4A7D5F00C1DDC3 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */; };
+		69E40F3D1F4A7D5F00C1DDC3 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */; };
+		69E40F421F4A7DF100C1DDC3 /* GCDServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F411F4A7DF100C1DDC3 /* GCDServer.swift */; };
+		69E40F431F4A7DF100C1DDC3 /* GCDServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F411F4A7DF100C1DDC3 /* GCDServer.swift */; };
+		69E40F451F4A7FA700C1DDC3 /* GCDHTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F441F4A7FA700C1DDC3 /* GCDHTTPConnection.swift */; };
+		69E40F461F4A7FA700C1DDC3 /* GCDHTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F441F4A7FA700C1DDC3 /* GCDHTTPConnection.swift */; };
 		69E470AF1E67AADE00AE11FB /* SocksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E470AE1E67AADE00AE11FB /* SocksTest.swift */; };
 		69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; };
 		69E55AF71E8BACDB0006F02E /* Socks5Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */; };
@@ -424,7 +429,6 @@
 				692806291EFA7C26007FCF6A /* SwiftyJSON.framework in Embed Frameworks */,
 				694719A31EE529540059BEF8 /* AxLogger.framework in Embed Frameworks */,
 				692806211EFA7BC6007FCF6A /* GRDB.framework in Embed Frameworks */,
-				693539991F0B780F00F57B49 /* kcp.framework in Embed Frameworks */,
 				6947199F1EE529500059BEF8 /* CommonCrypto.framework in Embed Frameworks */,
 				694719961EE5292E0059BEF8 /* kcp.framework in Embed Frameworks */,
 			);
@@ -627,6 +631,9 @@
 		69CC44781EB199A8002C10DC /* BinaryConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryConvertible.swift; sourceTree = "<group>"; };
 		69D5B3291E8E23EC00D0E0A6 /* SFModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFModel.swift; sourceTree = "<group>"; };
 		69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFVPNStatistics.swift; sourceTree = "<group>"; };
+		69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVLTree.swift; sourceTree = "<group>"; };
+		69E40F411F4A7DF100C1DDC3 /* GCDServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GCDServer.swift; path = HTTPProxyServer/GCDServer.swift; sourceTree = "<group>"; };
+		69E40F441F4A7FA700C1DDC3 /* GCDHTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GCDHTTPConnection.swift; path = HTTPProxyServer/GCDHTTPConnection.swift; sourceTree = "<group>"; };
 		69E470AE1E67AADE00AE11FB /* SocksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocksTest.swift; sourceTree = "<group>"; };
 		69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDZSwiftCommonCrypto.framework; path = Carthage/Build/iOS/IDZSwiftCommonCrypto.framework; sourceTree = "<group>"; };
 		69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Socks5Adapter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -1053,6 +1060,8 @@
 		69C298901DD593FF00E4C3BD /* SFSocket */ = {
 			isa = PBXGroup;
 			children = (
+				69E40F401F4A7DB600C1DDC3 /* GCDServer */,
+				69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */,
 				695F6E311E900E1A00C72E5E /* TCPStack */,
 				69F2D8651E8BF8D400BBDB9D /* kcptun */,
 				697CEDC01E8B8EA5002D1ECD /* session */,
@@ -1120,6 +1129,15 @@
 				69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */,
 			);
 			path = state;
+			sourceTree = "<group>";
+		};
+		69E40F401F4A7DB600C1DDC3 /* GCDServer */ = {
+			isa = PBXGroup;
+			children = (
+				69E40F411F4A7DF100C1DDC3 /* GCDServer.swift */,
+				69E40F441F4A7FA700C1DDC3 /* GCDHTTPConnection.swift */,
+			);
+			name = GCDServer;
 			sourceTree = "<group>";
 		};
 		69F2D8651E8BF8D400BBDB9D /* kcptun */ = {
@@ -1444,6 +1462,7 @@
 				69B954FB1DDF81E0006AF669 /* SFData.swift in Sources */,
 				69B954FA1DDF81DC006AF669 /* SFVPNStatistics.swift in Sources */,
 				69C8D9FA1E7A792A00A65301 /* TCPSS3Connector.swift in Sources */,
+				69E40F431F4A7DF100C1DDC3 /* GCDServer.swift in Sources */,
 				695F6E701E900E1A00C72E5E /* SFRuler.swift in Sources */,
 				69B955031DDF8201006AF669 /* IPPacket.swift in Sources */,
 				69BF6C421DE57DF5000ABF09 /* Observer.swift in Sources */,
@@ -1466,6 +1485,7 @@
 				69BF6C571DE57E74000ABF09 /* Atomic.swift in Sources */,
 				69B955141DDF823A006AF669 /* NWTCPSocket.swift in Sources */,
 				69BF6C271DE57BFA000ABF09 /* GCDHTTPProxyServer.swift in Sources */,
+				69E40F461F4A7FA700C1DDC3 /* GCDHTTPConnection.swift in Sources */,
 				69BF6C451DE57E07000ABF09 /* TunnelEvent.swift in Sources */,
 				695F6E761E900E1A00C72E5E /* SFTunConst.swift in Sources */,
 				69BF6C691DE57FDB000ABF09 /* Utils.swift in Sources */,
@@ -1490,6 +1510,7 @@
 				69B955011DDF81FB006AF669 /* Checksum.swift in Sources */,
 				69639C121EE1B19F00893D18 /* Mux.swift in Sources */,
 				69BF6C5A1DE57E82000ABF09 /* ProxyServerEvent.swift in Sources */,
+				69E40F3D1F4A7D5F00C1DDC3 /* AVLTree.swift in Sources */,
 				69639C111EE1B0F100893D18 /* RAWUDPSocket.swift in Sources */,
 				69B9550C1DDF8221006AF669 /* SFProxy.swift in Sources */,
 				695F6E621E900E1A00C72E5E /* SFDNSForwarder.swift in Sources */,
@@ -1559,6 +1580,7 @@
 				695F6E611E900E1A00C72E5E /* SFDNSForwarder.swift in Sources */,
 				69FAE4C81E82478400FE91CD /* Smux.swift in Sources */,
 				69BF6C4D1DE57E3A000ABF09 /* EventType.swift in Sources */,
+				69E40F3C1F4A7D5F00C1DDC3 /* AVLTree.swift in Sources */,
 				692DD5AE1DD5CE490079493D /* IPStackProtocol.swift in Sources */,
 				698A08221DD5C6D4009BFFC9 /* SFEncrypt.swift in Sources */,
 				69C8D9F91E7A792A00A65301 /* TCPSS3Connector.swift in Sources */,
@@ -1570,6 +1592,7 @@
 				695F6E6D1E900E1A00C72E5E /* SFRule.swift in Sources */,
 				692DD5801DD5CAB50079493D /* SwiftExtension.swift in Sources */,
 				695F6E651E900E1A00C72E5E /* SFEnv.swift in Sources */,
+				69E40F451F4A7FA700C1DDC3 /* GCDHTTPConnection.swift in Sources */,
 				697CEDC21E8B8EC9002D1ECD /* SFTCPSession.swift in Sources */,
 				695F6E4F1E900E1A00C72E5E /* DNSCache.swift in Sources */,
 				698A081F1DD5C664009BFFC9 /* ProxyConnector.swift in Sources */,
@@ -1623,6 +1646,7 @@
 				69263EF51EE50788005F0C76 /* SnappyHelper.swift in Sources */,
 				695F6E771E900E1A00C72E5E /* SFTuneExtension.swift in Sources */,
 				698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */,
+				69E40F421F4A7DF100C1DDC3 /* GCDServer.swift in Sources */,
 				695F6E531E900E1A00C72E5E /* DNSQueue.swift in Sources */,
 				692DD57E1DD5CA630079493D /* SFHTTPHeader.swift in Sources */,
 				695F6E871E900E1A00C72E5E /* UDPPacket.swift in Sources */,
@@ -1789,7 +1813,7 @@
 				INFOPLIST_FILE = SFSocketOSX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.SFSocket;
 				PRODUCT_NAME = SFSocket;
 				SDKROOT = macosx;
@@ -1820,7 +1844,7 @@
 				INFOPLIST_FILE = SFSocketOSX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.SFSocket;
 				PRODUCT_NAME = SFSocket;
 				SDKROOT = macosx;
