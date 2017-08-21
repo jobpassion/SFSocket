@@ -340,6 +340,8 @@
 		69E40F431F4A7DF100C1DDC3 /* GCDServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F411F4A7DF100C1DDC3 /* GCDServer.swift */; };
 		69E40F451F4A7FA700C1DDC3 /* GCDHTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F441F4A7FA700C1DDC3 /* GCDHTTPConnection.swift */; };
 		69E40F461F4A7FA700C1DDC3 /* GCDHTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F441F4A7FA700C1DDC3 /* GCDHTTPConnection.swift */; };
+		69E40F481F4A8F0500C1DDC3 /* GCDTunnelConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F471F4A8F0500C1DDC3 /* GCDTunnelConnection.swift */; };
+		69E40F491F4A8F0500C1DDC3 /* GCDTunnelConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F471F4A8F0500C1DDC3 /* GCDTunnelConnection.swift */; };
 		69E470AF1E67AADE00AE11FB /* SocksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E470AE1E67AADE00AE11FB /* SocksTest.swift */; };
 		69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; };
 		69E55AF71E8BACDB0006F02E /* Socks5Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */; };
@@ -634,6 +636,7 @@
 		69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVLTree.swift; sourceTree = "<group>"; };
 		69E40F411F4A7DF100C1DDC3 /* GCDServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GCDServer.swift; path = HTTPProxyServer/GCDServer.swift; sourceTree = "<group>"; };
 		69E40F441F4A7FA700C1DDC3 /* GCDHTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GCDHTTPConnection.swift; path = HTTPProxyServer/GCDHTTPConnection.swift; sourceTree = "<group>"; };
+		69E40F471F4A8F0500C1DDC3 /* GCDTunnelConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDTunnelConnection.swift; sourceTree = "<group>"; };
 		69E470AE1E67AADE00AE11FB /* SocksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocksTest.swift; sourceTree = "<group>"; };
 		69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDZSwiftCommonCrypto.framework; path = Carthage/Build/iOS/IDZSwiftCommonCrypto.framework; sourceTree = "<group>"; };
 		69E55AF61E8BACDB0006F02E /* Socks5Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Socks5Adapter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -1136,6 +1139,7 @@
 			children = (
 				69E40F411F4A7DF100C1DDC3 /* GCDServer.swift */,
 				69E40F441F4A7FA700C1DDC3 /* GCDHTTPConnection.swift */,
+				69E40F471F4A8F0500C1DDC3 /* GCDTunnelConnection.swift */,
 			);
 			name = GCDServer;
 			sourceTree = "<group>";
@@ -1521,6 +1525,7 @@
 				69639C0E1EE1B07E00893D18 /* Adapter.swift in Sources */,
 				695F6E521E900E1A00C72E5E /* DNSPacket.swift in Sources */,
 				69263EF61EE50788005F0C76 /* SnappyHelper.swift in Sources */,
+				69E40F491F4A8F0500C1DDC3 /* GCDTunnelConnection.swift in Sources */,
 				69B955091DDF8216006AF669 /* UDPDirectStack.swift in Sources */,
 				69116B361E968646007C2FBA /* SFConfig.swift in Sources */,
 				69116B251E9681BB007C2FBA /* SFHTTPConnection.swift in Sources */,
@@ -1657,6 +1662,7 @@
 				69C298A51DD5959000E4C3BD /* GCDTCPSocket.swift in Sources */,
 				69116B171E968157007C2FBA /* SFOpt.swift in Sources */,
 				69A0D2761DD5971A00227353 /* StreamScanner.swift in Sources */,
+				69E40F481F4A8F0500C1DDC3 /* GCDTunnelConnection.swift in Sources */,
 				692DD5AC1DD5CE310079493D /* UDPDirectStack.swift in Sources */,
 				697CEDB81E8B752C002D1ECD /* RawSocketProtocol.swift in Sources */,
 				6938BFBA1E88B09800332D82 /* SSAdapter.swift in Sources */,

@@ -63,7 +63,7 @@ public class TCPSession: RawSocketDelegate {
     var frameSize:Int = 4096 //65535
     var frameZeroTag:Int = 0
     var frameNegoTag:Int = -200
-    var sessionID:UInt32 = 0
+    var sessionID:UInt = 0
     var queue:DispatchQueue?
     var readingTag:Int = 0
     var reading:Bool = false
@@ -77,7 +77,7 @@ public class TCPSession: RawSocketDelegate {
     var desc:String {
         return "TCP Session :\(sessionID)"
     }
-    init(s:UInt32) {
+    init(s:UInt) {
         
         sessionID = s
         SKit.log("Income session:\(sessionID)", level: .Info)
@@ -242,7 +242,7 @@ public class TCPSession: RawSocketDelegate {
     //proxy chain suport flag
    
     //var proxyChain:Bool = false
-    static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:UInt32,delegate:TCPSessionDelegate,queue:DispatchQueue) ->TCPSession? {
+    static public func socketFromProxy(_ p: SFProxy?,policy:SFPolicy,targetHost:String,Port:UInt16,sID:UInt,delegate:TCPSessionDelegate,queue:DispatchQueue) ->TCPSession? {
         let streamID = sID + 3
         let s = TCPSession.init(s: streamID)
         s.delegate = delegate
@@ -341,7 +341,7 @@ public class TCPSession: RawSocketDelegate {
                     s.queue = queue
                     s.socket = Smux.sharedTunnel
                     Smux.sharedTunnel.updateProxy(p,queue: queue)
-                    Smux.sharedTunnel.incomingStream(streamID, session: s)
+                    Smux.sharedTunnel.incomingStream(UInt32(streamID), session: s)
                     
                      //.create(policy, targetHostname: targetHost, targetPort: Port, p: p, sessionID: Int(sID))
                     
@@ -383,7 +383,7 @@ public class TCPSession: RawSocketDelegate {
 //                    }
                     
                     
-                   let frames = split(newData, cmd: cmdPSH, sid: sessionID)
+                   let frames = split(newData, cmd: cmdPSH, sid: UInt32(sessionID))
                     for f in frames {
                         databuffer.append(f.frameData())
                         
@@ -427,7 +427,7 @@ public class TCPSession: RawSocketDelegate {
                     
                     var databuffer:Data = Data()
                     if tag == frameZeroTag {
-                        let frame = Frame(cmdSYN,sid:sessionID)
+                        let frame = Frame(cmdSYN,sid:UInt32(sessionID))
                         let fdata = frame.frameData()
                         databuffer.append(fdata)
                         
@@ -436,7 +436,7 @@ public class TCPSession: RawSocketDelegate {
                     let  newData = adapter.send(data)
 
                     SKit.log(desc + " sendraw new:\(newData as NSData) \(tag)", level: .Debug)
-                    let frames = split(newData, cmd: cmdPSH, sid: sessionID)
+                    let frames = split(newData, cmd: cmdPSH, sid: UInt32(sessionID))
                     for f in frames {
                         databuffer.append(f.frameData())
                         
@@ -510,7 +510,7 @@ public class TCPSession: RawSocketDelegate {
     }
     public  func forceDisconnect(){
         if let t = socket{
-            t.forceDisconnect(sessionID)
+            t.forceDisconnect(UInt32(sessionID))
         }
     }
     

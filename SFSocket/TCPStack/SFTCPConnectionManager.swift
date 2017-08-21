@@ -736,5 +736,8 @@ extension SFTCPConnectionManager:ClientDelegate {
             server.start(10081, queue: DispatchQueue.main)
         }
     }
+    func saveTunnelConnectionInfo(_ c:GCDTunnelConnection){
+        
+    }
     
 }

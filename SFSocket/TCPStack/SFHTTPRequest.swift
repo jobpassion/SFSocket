@@ -14,7 +14,7 @@ class SFHTTPRequest: SFConnection{
     
     var headerData:Data = Data()
     
-    //var lwipRow:NSMutableData = NSMutableData()
+
     
     var httpStat:HTTPConnectionState = .httpDefault
     

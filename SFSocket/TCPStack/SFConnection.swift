@@ -32,7 +32,7 @@ import DarwinCore
 //#define ERR_ARG        -14   /* Illegal argument.        */
 //
 //#define ERR_IF         -15   /* Low-level netif error    */
-var SFConnectionID:UInt32 = 0
+var SFConnectionID:UInt = 0
 enum ERR_KEY:Int8{
     case ok = 0
     case mem = -1
@@ -42,7 +42,7 @@ enum ERR_KEY:Int8{
 let LWIP_ASYNC_TCP_OUT = false
 let LWIP_ASYNC_TCP_Recved = false
 
-class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
+class SFConnection: TUNConnection ,TCPCientDelegate{
     /**
      The socket did disconnect.
      
@@ -50,7 +50,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
      
      - parameter socket: The socket which did disconnect.
      */
-    func didDisconnect(_ socket: TCPSession, error: Error?) {
+    override func didDisconnect(_ socket: TCPSession, error: Error?) {
         
     }
 
@@ -64,22 +64,11 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     typealias  SFPcb =   UnsafeMutablePointer<tcp_pcb>
     var pcb:UnsafeMutablePointer<tcp_pcb> // SFPcb
     
-    var reqInfo:SFRequestInfo
+    
     let critLock = NSLock()
     weak var manager:SFTCPConnectionManager?
-    var connector:TCPSession?
-    var bufArray:[Data] = []
-    var bufArrayInfo:[Int64:Int] = [:]
-    var socks_recv_bufArray:Data = Data()
-    var socks_sendout_length:Int = 0
-    var connectorReading:Bool = false
-    var pendingConnection:Bool = true
     
-    var tag:Int64 = 0
     
-    var buf_used:Int = 0
-    var rTag:Int = 1 //recv tag?
-                     //0 use for handshake and kcp tun use 
     var cIDString:String {
         get {
             #if DEBUG
@@ -91,9 +80,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         }
     }
     
-    var sendingTag:Int64 = -1
     
-    var forceClose:Bool = false
    
     //var ipaddr
     func sendBufferSize() -> Int {
@@ -128,9 +115,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
     internal init(tcp:SFPcb, host:UInt32,port:UInt16, m:SFTCPConnectionManager){
         pcb = tcp
         
-        reqInfo = SFRequestInfo.init(rID: SFConnectionID)
         
-        SFConnectionID += 1
         //src == final dest
         var  srcip:UInt32 = pcb.pointee.local_ip.ip4.addr
         var  dstip:UInt32 = pcb.pointee.remote_ip.ip4.addr
@@ -378,7 +363,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         }
         
     }
-    func memoryWarning(_ level:DispatchSource.MemoryPressureEvent) {
+    override func memoryWarning(_ level:DispatchSource.MemoryPressureEvent) {
         if reqInfo.waitingRule {
             if reqInfo.ruleTiming > 1 {
                 SKit.log("\(reqInfo.host) memoryWarning Wait Rule \(reqInfo.ruleTiming)",level: .Warning)
@@ -1274,7 +1259,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
             client_socks_handler(.event_ERROR_CLOSED)
         }
     }
-    func didReadData(_ data: Data, withTag: Int, from: TCPSession){
+    override func didReadData(_ data: Data, withTag: Int, from: TCPSession){
         SKit.log("\(cIDString) socket didReadData", level: .Debug)
         if socks_recv_bufArray.count != 0{
             fatalError()
@@ -1283,7 +1268,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
         client_socks_recv_handler_done(data.count)
 
     }
-    func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
+    override func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
         SKit.log("\(cIDString) socket didWriteData \(tag)", level: .Debug)
         if self.tag == tag {
             //let d = bufArray.removeFirst()
@@ -1295,7 +1280,7 @@ class SFConnection: TUNConnection ,TCPSessionDelegate,TCPCientDelegate{
             SKit.log("\(cIDString) currrent tag: \(tag) != \(self.tag)",level: .Debug)
         }
     }
-    func didConnect(_ socket: TCPSession){
+    override func didConnect(_ socket: TCPSession){
         SKit.log("\(cIDString) Connect OK with Socket", level: .Info)
         //SKit.log("\(cIDString)  host:\(connector.targetHost) port:\(connector.targetPort) ESTABLISHED",level: .Verbose)
         

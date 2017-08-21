@@ -1,66 +1,47 @@
 //
-//  SFHTTPConnection.swift
-//  Surf
+//  File.swift
+//  SFSocket
 //
-//  Created by yarshure on 15/12/25.
-//  Copyright © 2015年 yarshure. All rights reserved.
+//  Created by yarshure on 2017/8/21.
+//  Copyright © 2017年 Kong XiangBo. All rights reserved.
 //
-// https handshake
-// client hello->
-// ->server hello
-// ->Certificate(s)
-// -Server hello
-// Certificate(s)
-// client Key exchange->
-// change cipher spec
-// encrypted handshake message(c)->
-// client key exchange ->
-// change cipher spec(c)->
-// encrypted handshake messa(c) ->
-// ->change cipher spec, hello request ,hello request (s)
-// application data(c)->
-// ->application data(s)
-// http pipeline support is 非常复杂,surge 都不支持啊
-// HTTP 1.1 default keep-alive
-import Foundation
-import lwip
-import AxLogger
 
-class SFHTTPConnection: SFHTTPRequest {
-    var requestIndex:UInt = 0 //为什么从0 开始 为了分析header 和body用
-    //var respsonseIndex:Int = 0//
+import Foundation
+import Darwin
+class GCDTunnelConnection: TUNConnection {
+    var socketfd:Int32 = 0
+    var headerData:Data = Data()
+    var httpStat:HTTPConnectionState = .httpDefault
+    var requestIndex:UInt = 0
     var reqHeaderQueue:[SFHTTPRequestHeader] = []
-    //var requests:[SFRequestInfo] = []
-    var recvHeaderData:Data = Data()
+     weak var manager:SFTCPConnectionManager?
     
-    //var currentID:Int = 0 //用来界定那个第几个完成
+    var recvHeaderData:Data = Data()
     
     var currentBodyLength:UInt = 0
     var totalRecvLength:UInt = 0
     var currentBobyReadLength:UInt = 0
-    deinit{
-        //        reqHeader = nil
-        //        respHeader = nil
-        
-        
-        // reqInfo.eTime = Date()
-        //SKit.log("\(cIDString) deinit at \(reqInfo.eTime) \(reqInfo.status.description) runing:\(reqInfo.runing)",level: .Debug )
-        
-        //reqInfo.status = .Complete
-    }
     
-    var statusString:String {
+    init(sfd:Int32,rip:String,rport:UInt16,dip:String,dport:UInt16) {
+        //this info is for mac iden process info
+        let remote_addr  = IPAddr(i: inet_addr(rip),p: rport)
+        let local_addr  = IPAddr(i: inet_addr(dip), p: dport)
+        let info:SFIPConnectionInfo = SFIPConnectionInfo.init(t: local_addr , r:remote_addr )
+        //manager = m
+        self.socketfd = sfd
+        
+        super.init(i:info)
+        self.reqInfo.mode  = .HTTP
+    }
+    var cIDString:String {
         get {
-            return "reqIndex:\(requestIndex) "
+            #if DEBUG
+                return "[GCDTunnelConnection-\(reqInfo.reqID)-\(info.tun.port)" + "]" //self.classSFName()
+            #else
+                //-\(info.tun.port)-\(pcb)
+                return  "[" + objectClassString(self) + "-\(reqInfo.reqID)" + "]" //self.classSFName()
+            #endif
         }
-    }
-    
-    override func configLwip() {
-        //incomingData(NSData,len: 0) //init status
-        httpStat = .httpReqHeader
-        config_tcppcb(pcb, self)
-        
-        
     }
     func updateReq(_ req:SFRequestInfo){
         if req == reqInfo {
@@ -194,7 +175,7 @@ class SFHTTPConnection: SFHTTPRequest {
             if let resp = reqInfo.respHeader {
                 if resp.finished {
                     reqInfo.status = .Complete
-                    manager!.saveConnectionInfo(self) //write db
+                    manager!.saveTunnelConnectionInfo(self) //write db
                     SKit.log("\(cIDString) pipeline create SFRequestInfo",level: .Debug)
                     let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                     let header = reqHeaderQueue.remove(at: 0)
@@ -221,7 +202,7 @@ class SFHTTPConnection: SFHTTPRequest {
             if let _ = reqInfo.respHeader {
                 if reqInfo.respReadFinish  {
                     reqInfo.status = .Complete
-                    manager!.saveConnectionInfo(self) //write db
+                    manager!.saveTunnelConnectionInfo(self) //write db
                     SKit.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
                     let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                     if recvHeaderData.count != 0 {
@@ -233,7 +214,7 @@ class SFHTTPConnection: SFHTTPRequest {
                 }else {
                     SKit.log("\(cIDString) \(reqInfo.url) read finishd? ",level: .Info)
                     reqInfo.status = .Complete
-                    manager!.saveConnectionInfo(self) //write db
+                    manager!.saveTunnelConnectionInfo(self) //write db
                     SKit.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
                     let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                     if recvHeaderData.count != 0 {
@@ -265,8 +246,14 @@ class SFHTTPConnection: SFHTTPRequest {
         
     }
     
-    override func incomingData(_ d:Data,len:Int){
-        
+    var statusString:String {
+        get {
+            return "reqIndex:\(requestIndex) "
+        }
+    }
+    
+    
+    func incommingData(_ d:Data ,len:Int){
         //NSLog("http recv %@", d)
         
         //SKit.log("\(cIDString) incoming data len \(d as NSData) \(len)",level: .Debug) // \(d)
@@ -369,11 +356,6 @@ class SFHTTPConnection: SFHTTPRequest {
         processData("incoming data")
         
     }
-    
-    
-    
-    
-    
     func scanBuffer() ->Range<Data.Index>? {
         //check HTTP/ver
         //check \r\n\r\n
@@ -381,7 +363,7 @@ class SFHTTPConnection: SFHTTPRequest {
         if let r1 = checkBufferHaveData(recvHeaderData, data: http) {
             if let r2 = checkBufferHaveData(recvHeaderData, data: hData){
                 SKit.log("\(cIDString) find HTTP and hData length: \(r2.lowerBound)",level: .Debug)
-               
+                
                 //let left = recvHeaderData.length - len
                 return Range( r1.lowerBound ..< r2.lowerBound)
             }else {
@@ -394,7 +376,7 @@ class SFHTTPConnection: SFHTTPRequest {
         
         return nil
     }
-    
+
     func reqsonseBodyLeft(_ req:SFRequestInfo) -> Int {
         guard let header = req.respHeader else {return -1}
         return header.bodyLeftLength
@@ -561,7 +543,7 @@ class SFHTTPConnection: SFHTTPRequest {
         
     }
     
-    override func processData(_ reason:String) {
+    func processData(_ reason:String) {
         SKit.log("\(cIDString) stat:\(httpStat.description) mode:\(reqInfo.mode) prcessData reason \(reason)",level: .Debug)
         //NSLog("\(cIDString) processData \(reqInfo.url) \(httpStat.description)")
         
@@ -584,15 +566,17 @@ class SFHTTPConnection: SFHTTPRequest {
         
     }
     
-    override func client_send_to_socks(){
+     func client_send_to_socks(){
         let st = (reqInfo.status == .Established) || (reqInfo.status == .Transferring)
         if st  {
             if bufArray.count > 0{
                 SKit.log("\(cIDString) now sending data buffer count:\(bufArray.count)",level: .Debug)
-                super.client_send_to_socks()
+                fatalError()
+                client_send_to_socks()
+                
             }else {
                 //if rTag == 0  {
-                    client_socks_recv_initiate()
+                client_socks_recv_initiate()
                 //}
                 
             }
@@ -603,7 +587,7 @@ class SFHTTPConnection: SFHTTPRequest {
     }
     
     
-    override func client_socks_handler(_ event:SocketEvent){
+    func client_socks_handler(_ event:SocketEvent){
         switch event {
             
         case .event_ERROR:
@@ -621,7 +605,7 @@ class SFHTTPConnection: SFHTTPRequest {
             //            if !reqInfo.client_closed {
             //                configClient_sent_func(pcb)
             //            }
-            configClient_sent_func(pcb)
+            
             reqInfo.socks_up = true
             //SKit.log("\(cIDString) ESTABLISHED \(reqInfo.connectionTiming)",level: .Debug)
             if let header = reqInfo.reqHeader {
@@ -710,11 +694,11 @@ class SFHTTPConnection: SFHTTPRequest {
                 
             }
         }
-//        if socks_recv_bufArray.count == 0 {
-//            socks_recv_bufArray  = data
-//        }else {
-//            socks_recv_bufArray.append(data)
-//        }
+        //        if socks_recv_bufArray.count == 0 {
+        //            socks_recv_bufArray  = data
+        //        }else {
+        //            socks_recv_bufArray.append(data)
+        //        }
         data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
             socks_recv_bufArray.append(ptr)
         }
@@ -730,7 +714,7 @@ class SFHTTPConnection: SFHTTPRequest {
         
         //write record
         if let m = manager {
-            m.saveConnectionInfo(self)
+            m.saveTunnelConnectionInfo(self)
             
         }
         //create new header data
@@ -824,11 +808,11 @@ class SFHTTPConnection: SFHTTPRequest {
                     req.status = .Established
                 }
                 
-                recvHeaderData = Data() //reset 
+                recvHeaderData = Data() //reset
                 req.reqHeader = request
                 req.respHeader = nil
                 self.reqInfo = req
-
+                
             }else {
                 SKit.log("\(cIDString)  302 Location have no use info ", level: .Debug)
             }
@@ -862,59 +846,16 @@ class SFHTTPConnection: SFHTTPRequest {
             SKit.log("\(cIDString) not find send packet", level: .Debug)
         }
         
-        
-        //SKit.log("\(cIDString) tag:\(tag) time:\(reqInfo.transferTiming) packet sended and delete flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx)",level: .Debug)
-        // 这个地方有问题 https over http ,how to send this?
-        
-        
-        
+       
         
         tag += 1
-        //        if reqInfo.reqHeader?.Method != .CONNECT {
-        //            httpStat =  .HttpReqSended
-        //        }
+        
         
         processData("didWriteData")
     }
-    //    override func connectorDidDisconnect(connector:Connector ,withError:NSError){
-    //        debugLog("connectorDidDisconnect \(self.reqInfo.url)" + withError.description)
-    //        if let head = reqInfo.respHeader  {
-    //           //SKit.log("\(cIDString) \(reqInfo.traffice.tx):\(reqInfo.traffice.rx) \(withError)",level: .Warning)
-    //            if head.mode == .ContentLength {
-    //                if requests.count == 0{
-    //                    //let total = head.contentLength + UInt(head.length)
-    //                    if reqInfo.respReadFinish {
-    //                       //SKit.log("\(cIDString) HTTP body read Finish",level: .Debug)
-    //                    }else {
-    //
-    //                       //SKit.log("\(cIDString) HTTP body read not Finish send:\(reqInfo.traffice.tx) \(head.contentLength)==\(reqInfo.traffice.rx) \(withError)",level: .Debug)
-    //                        //fatalError()
-    //                    }
-    //
-    //                }else {
-    //                    var index = 0
-    //                    for req in requests {
-    //                        if let resp = req!.respHeader {
-    //                           //SKit.log("\(cIDString) send:\(req!.traffice.tx) \(resp.contentLength)==\(reqInfo.traffice.rx) \(withError)",level: .Debug)
-    //                        }else {
-    //                           //SKit.log("\(cIDString) \(req!.url) Request No Response Header",level: .Error)
-    //                            //fatalError()
-    //                        }
-    //                    }
-    //                    index += 1
-    //                }
-    //
-    //            }else {
-    //               //SKit.log("\(cIDString) \(reqInfo.traffice.tx):\(reqInfo.traffice.rx) \(withError)",level: .Debug)
-    //            }
-    //
-    //        }
-    //
-    //        client_socks_handler(.EVENT_ERROR_CLOSED)
-    //
-    //    }
     
-    override func client_socks_recv_initiate(){
+    
+    func client_socks_recv_initiate(){
         
         assert(!reqInfo.client_closed)
         assert(!reqInfo.socks_closed)
@@ -941,7 +882,7 @@ class SFHTTPConnection: SFHTTPRequest {
                 SKit.log("\(cIDString) buffer have data need write to lwip,recv waiting",level: .Debug)
                 //client_tcp_output()
                 //NSLog("%@ client_socks_recv_send_out", cIDString)
-                _ = client_socks_recv_send_out()
+                 client_socks_recv_send_out()
             }else {
                 if reqInfo.status !=  .RecvWaiting {
                     
@@ -957,7 +898,7 @@ class SFHTTPConnection: SFHTTPRequest {
                         if let resp = reqInfo.respHeader, resp.shouldColse2(hostname: header.Host) == true {
                             if reqInfo.respReadFinish {
                                 SKit.log("\(cIDString)  HTTP STATUS:302 close now respReadFinish",level:.Notify)
-
+                                
                             }else {
                                 SKit.log("\(cIDString)  HTTP STATUS:302 close now not respReadFinish",level:.Notify)
                             }
@@ -997,7 +938,7 @@ class SFHTTPConnection: SFHTTPRequest {
         }
         
     }
-    override func checkStatus() {
+    func checkStatus() {
         //
         if socks_recv_bufArray.count > 1024*50{
             SKit.log("\(cIDString) recv queue too long \(socks_recv_bufArray.length)  ",level: .Warning)
@@ -1062,9 +1003,9 @@ class SFHTTPConnection: SFHTTPRequest {
                             client_free_socks()
                             
                         }else {
-                           
                             
- 
+                            
+                            
                         }
                     }
                     
@@ -1075,9 +1016,9 @@ class SFHTTPConnection: SFHTTPRequest {
                             //bug here
                             client_socks_recv_handler_done(socks_recv_bufArray.count)
                         } else {
-                             client_free_socks()
+                            client_free_socks()
                         }
-                       
+                        
                         
                     }
                 }
@@ -1107,5 +1048,29 @@ class SFHTTPConnection: SFHTTPRequest {
             client_free_socks()
         }
         
+    }
+
+
+    func configConnector(){
+        
+    }
+    func client_free_socks(){
+        
+    }
+    func client_socks_recv_handler_done(_ len:Int){
+        
+    }
+    func client_socks_send_handler_done(_ len:Int){
+        
+    }
+    func sendFakeCONNECTResponse(){
+        
+    }
+    func client_socks_recv_send_out(){
+        
+    }
+    func checkBufferHaveData(_ buffer:Data,data:Data) -> Range<Data.Index>? {
+        let r = buffer.range(of: data , options: Data.SearchOptions.init(rawValue: 0), in: Range(0 ..< buffer.count))
+        return r
     }
 }
