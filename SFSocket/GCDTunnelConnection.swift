@@ -1376,28 +1376,28 @@ class GCDTunnelConnection: TUNConnection {
         connector = c
     }
     func byebyeRequest(){
-        
+        print("byebyeRequest")
     }
     func client_free_socks(){
-        
+        print("client_free_socks")
     }
     func client_socks_recv_handler_done(_ len:Int){
-        
+        print("client_socks_recv_handler_done")
     }
     func client_socks_send_handler_done(_ len:Int){
-        
+        print("client_socks_send_handler_done")
     }
     func sendFakeCONNECTResponse(){
-        
+        print("sendFakeCONNECTResponse")
     }
     func client_socks_recv_send_out(){
-        
+        print("client_socks_recv_send_out")
     }
     func checkBufferHaveData(_ buffer:Data,data:Data) -> Range<Data.Index>? {
         let r = buffer.range(of: data , options: Data.SearchOptions.init(rawValue: 0), in: Range(0 ..< buffer.count))
         return r
     }
     func forceCloseRemote(){
-        
+        print("forceCloseRemote")
     }
 }

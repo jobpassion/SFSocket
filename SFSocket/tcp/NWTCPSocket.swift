@@ -55,16 +55,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
     private var scanner: StreamScanner!
     private var scannerTag: Int!
     private var readDataPrefix: Data?
-    var limit:Bool{
-        get{
-            let ver = ProcessInfo.processInfo.operatingSystemVersion.majorVersion
-            if ver < 10 {
-                return true
-            }else {
-                return false
-            }
-        }
-    }
+    
     public var tcp: Bool{
         get {
             return true
@@ -90,12 +81,7 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
         
     }
     public var  readBufferSize:Int{
-        if limit {
-            return   Opt.MAXNWTCPSocketReadDataSize9
-        }else {
-            return   Opt.MAXNWTCPSocketReadDataSize
-        }
-        
+        return   Opt.MAXNWTCPSocketReadDataSize
     }
     var cID:Int = 0
     var cIDString:String {

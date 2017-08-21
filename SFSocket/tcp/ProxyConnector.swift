@@ -94,13 +94,22 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
             }
             let v = SSLProtocol.tlsProtocol12
             tlsParameters.minimumSSLProtocolVersion = Int(v.rawValue)
-            guard let c = RawSocketFactory.TunnelProvider?.createTCPConnection(to: endpoint, enableTLS: enableTLS, tlsParameters: tlsParameters, delegate: nil) else {
-                // This should only happen when the extension is already stoped and `RawSocketFactory.TunnelProvider` is set to `nil`.
-                return
+            
+            let socket = RawSocketFactory.getRawSocket()
+            do {
+                try socket.connectTo(host, port: port, enableTLS: false, tlsSettings: [:])
+                
+            }catch let e {
+                throw e
             }
             
-            connection = c
-            connection!.addObserver(self, forKeyPath: "state", options: [.initial, .new], context: nil)
+//            guard let c = RawSocketFactory.TunnelProvider?.createTCPConnection(to: endpoint, enableTLS: enableTLS, tlsParameters: tlsParameters, delegate: nil) else {
+//                // This should only happen when the extension is already stoped and `RawSocketFactory.TunnelProvider` is set to `nil`.
+//                return
+//            }
+//            
+//            connection = c
+            //socket.addObserver(self, forKeyPath: "state", options: [.initial, .new], context: nil)
         }else {
             do {
                 try super.connectTo(host, port: port, enableTLS: false, tlsSettings: tlsSettings)
