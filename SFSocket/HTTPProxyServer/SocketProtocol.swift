@@ -110,8 +110,8 @@ public protocol SocketDelegate : class {
 
      - parameter socket: The connected socket.
      */
-    //fixme
-    //func didConnect(_ adapterSocket: AdapterSocket, withResponse: ConnectResponse)
+    
+    func didConnect(_ adapterSocket: ProxyConnector)
 
     /**
      The socket did disconnect.
@@ -153,12 +153,12 @@ public protocol SocketDelegate : class {
      - parameter request: The received `ConnectRequest`.
      - parameter from:    The socket where the `ConnectRequest` is received.
      */
-    //func didReceiveRequest(_ request: ConnectRequest, from: ProxySocket)
+    func didReceiveRequest(_ request: String,port:UInt16, from:ProxyConnector )
 
     /**
      The socket decided to use a new `AdapterSocket` to connect to remote.
 
      - parameter newAdapter: The new `AdapterSocket` to replace the old one.
      */
-    //func updateAdapter(_ newAdapter: AdapterSocket)
+    func updateAdapter(_ newAdapter: ProxyConnector)
 }
