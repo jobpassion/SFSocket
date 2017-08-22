@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RowTCPSocket: NSObject,SocketProtocol,RawSocketDelegate {
+class RawTCPSocket: NSObject,SocketProtocol,RawSocketDelegate {
     
 
     

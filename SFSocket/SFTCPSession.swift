@@ -51,19 +51,7 @@ public protocol TCPSessionDelegate: class {
     func didConnect(_ socket: TCPSession)
 }
 public class TCPSession: RawSocketDelegate {
-     /**
-     Disconnect the socket immediately.
-     */
-    public func forceDisconnect(becauseOf error: Error?) {
-        
-    }
-
-     /**
-     Disconnect the socket elegantly.
-     */
-    public func disconnect(becauseOf error: Error?) {
-        
-    }
+    
 
     // TCP 1:1
     // UDP N:1 , shoud add key for close 
@@ -527,6 +515,18 @@ public class TCPSession: RawSocketDelegate {
             t.forceDisconnect(UInt32(sessionID))
         }
     }
+    /**
+     Disconnect the socket immediately.
+     */
+    public func forceDisconnect(becauseOf error: Error?) {
+        
+    }
     
+    /**
+     Disconnect the socket elegantly.
+     */
+    public func disconnect(becauseOf error: Error?) {
+        
+    }
     
 }
