@@ -45,6 +45,25 @@ extension NWUDPSessionState: CustomStringConvertible {
 }
 open class RAWUDPSocket :NSObject,RawSocketProtocol{
      /**
+     Disconnect the socket.
+     
+     The socket should disconnect elegantly after any queued writing data are successfully sent.
+     
+     - note: Usually, any concrete implemention should wait until any pending writing data are finished then call `forceDisconnect()`.
+     */
+    public func disconnect(becauseOf error: Error?) {
+        
+    }
+
+    /**
+     Disconnect the socket immediately.
+     
+     - note: The socket should disconnect as soon as possible.
+     */
+    public func forceDisconnect(becauseOf error: Error?){
+        
+    }
+     /**
      Connect to remote host.
      
      - parameter host:        Remote host.

@@ -1,6 +1,25 @@
 import Foundation
 
 open class AdapterSocket: NSObject, SocketProtocol, RawSocketDelegate {
+     /**
+     Disconnect the socket elegantly.
+     */
+    public func disconnect(becauseOf error: Error?) {
+        
+    }
+    /**
+     Disconnect the socket immediately.
+     
+     - note: The socket should disconnect as soon as possible.
+     */
+    public func forceDisconnect(becauseOf error: Error?){
+        
+    }
+
+
+    public /// The current connection status of the socket.
+    var status: SocketStatus = .invalid
+
     public /**
      The socket did disconnect.
      
@@ -102,7 +121,7 @@ open class AdapterSocket: NSObject, SocketProtocol, RawSocketDelegate {
     open func disconnect() {
         state = .disconnecting
         observer?.signal(.disconnectCalled(self))
-        socket?.disconnect()
+        socket?.disconnect(becauseOf: nil)
     }
 
     /**
@@ -111,7 +130,7 @@ open class AdapterSocket: NSObject, SocketProtocol, RawSocketDelegate {
     open func forceDisconnect() {
         state = .disconnecting
         observer?.signal(.forceDisconnectCalled(self))
-        socket?.forceDisconnect()
+        socket?.forceDisconnect(becauseOf: nil)
     }
 
     // MARK: RawTCPSocketDelegate Protocol Implemention

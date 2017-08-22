@@ -44,6 +44,17 @@ public protocol RawSocketDelegate: class {
      - parameter socket: The connected socket.
      */
     func didConnect(_ socket: RawSocketProtocol)
+    
+    /**
+     Disconnect the socket elegantly.
+     */
+    func disconnect(becauseOf error: Error?)
+    
+    /**
+     Disconnect the socket immediately.
+     */
+    func forceDisconnect(becauseOf error: Error?)
+    
 }
 public protocol RawSocketProtocol {
     weak var delegate: RawSocketDelegate? { get set }
@@ -92,14 +103,14 @@ public protocol RawSocketProtocol {
      
      - note: Usually, any concrete implemention should wait until any pending writing data are finished then call `forceDisconnect()`.
      */
-    func disconnect()
+    func disconnect(becauseOf error: Error? )
     
     /**
      Disconnect the socket immediately.
      
      - note: The socket should disconnect as soon as possible.
      */
-    func forceDisconnect()
+    func forceDisconnect(becauseOf error: Error?)
     
     /**
      Send data to remote.

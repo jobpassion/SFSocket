@@ -23,6 +23,26 @@ extension NWTCPConnectionState: CustomStringConvertible {
 }
 
 public class NWTCPSocket: NSObject, RawSocketProtocol {
+    /**
+     Disconnect the socket immediately.
+     
+     - note: The socket should disconnect as soon as possible.
+     */
+    public func forceDisconnect(becauseOf error: Error?) {
+        
+    }
+
+     /**
+     Disconnect the socket.
+     
+     The socket should disconnect elegantly after any queued writing data are successfully sent.
+     
+     - note: Usually, any concrete implemention should wait until any pending writing data are finished then call `forceDisconnect()`.
+     */
+    public func disconnect(becauseOf error: Error?) {
+        
+    }
+
     public /**
      Connect to remote host.
      
@@ -36,21 +56,36 @@ public class NWTCPSocket: NSObject, RawSocketProtocol {
      
      - throws: The error occured when connecting to host.
      */
-    static func connectTo(_ host: String, port: Int, proxy: SFProxy, delegate: RawSocketDelegate, queue: DispatchQueue, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws -> RawSocketProtocol {
-        fatalError()
+    func connectTo(_ host: String, port: Int, delegate: RawSocketDelegate, queue: DispatchQueue, enableTLS: Bool, tlsSettings: [NSObject : AnyObject]?) throws  {
+        let endpoint = NWHostEndpoint(hostname: host, port: "\(port)")
+        let tlsParameters = NWTLSParameters()
+        if let tlsSettings = tlsSettings as? [String: AnyObject] {
+            tlsParameters.setValuesForKeys(tlsSettings)
+        }
+        
+        guard let connection = RawSocketFactory.TunnelProvider?.createTCPConnection(to: endpoint, enableTLS: enableTLS, tlsParameters: tlsParameters, delegate: nil) else {
+            // This should only happen when the extension is already stopped and `RawSocketFactory.TunnelProvider` is set to `nil`.
+            return
+        }
+        
+        self.connection = connection
+        connection.addObserver(self, forKeyPath: "state", options: [.initial, .new], context: nil)
     }
 
+    public  var connection: NWTCPConnection?
+    public var writePending = false
+    public var readPending = false
+    private var closeAfterWriting = false
     
     public func forceDisconnect(_ sessionID: UInt32) {
         self.forceDisconnect()
     }
 
     static let ScannerReadTag = 10000
-    public  var connection: NWTCPConnection?
+    
 
-    public var writePending = false
-    public var readPending = false
-    private var closeAfterWriting = false
+   
+    
 
     private var scanner: StreamScanner!
     private var scannerTag: Int!

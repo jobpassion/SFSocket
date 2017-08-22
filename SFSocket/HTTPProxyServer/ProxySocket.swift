@@ -2,6 +2,23 @@ import Foundation
 
 /// The socket which encapsulates the logic to handle connection to proxies.
 open class ProxySocket: NSObject, SocketProtocol, RawSocketDelegate {
+     /**
+     Disconnect the socket immediately.
+     */
+    public func forceDisconnect(becauseOf error: Error?) {
+        
+    }
+
+     /**
+     Disconnect the socket elegantly.
+     */
+    public func disconnect(becauseOf error: Error?) {
+        
+    }
+
+    public /// The current connection status of the socket.
+    var status: SocketStatus = .invalid
+
     public /**
      The socket did disconnect.
      
@@ -98,7 +115,7 @@ open class ProxySocket: NSObject, SocketProtocol, RawSocketDelegate {
      */
     open func disconnect() {
         state = .disconnecting
-        socket.disconnect()
+        socket.disconnect(becauseOf: nil)
         observer?.signal(.disconnectCalled(self))
     }
 
@@ -107,7 +124,7 @@ open class ProxySocket: NSObject, SocketProtocol, RawSocketDelegate {
      */
     open func forceDisconnect() {
         state = .disconnecting
-        socket.forceDisconnect()
+        socket.forceDisconnect(becauseOf: nil)
         observer?.signal(.forceDisconnectCalled(self))
     }
 

@@ -38,17 +38,18 @@ public protocol SocketProtocol: class {
     /// The delegate instance.
     var delegate: SocketDelegate? { get set }
 
+    
     /// Every delegate method should be called on this dispatch queue. And every method call and variable access will be called on this queue.
     var queue: DispatchQueue! { get set }
 
     /// The current connection status of the socket.
-    var state: SocketStatus { get set }
+    var status: SocketStatus { get set }
 
     /// If the socket is disconnected.
     var isDisconnected: Bool { get }
 
     /// The type of the socket.
-    var type: String { get }
+    var typeName: String { get }
 
     /**
      Read data from the socket.
@@ -68,14 +69,38 @@ public protocol SocketProtocol: class {
     func writeData(_ data: Data, withTag tag: Int)
 
     /**
-     Disconnect the socket elegantly.
+     Disconnect the socket.
+     
+     The socket should disconnect elegantly after any queued writing data are successfully sent.
+     
+     - note: Usually, any concrete implemention should wait until any pending writing data are finished then call `forceDisconnect()`.
      */
-    func disconnect()
-
+    func disconnect(becauseOf error: Error? )
+    
     /**
      Disconnect the socket immediately.
+     
+     - note: The socket should disconnect as soon as possible.
      */
-    func forceDisconnect()
+    func forceDisconnect(becauseOf error: Error?)
+}
+extension SocketProtocol {
+    /// If the socket is disconnected.
+    public var isDisconnected: Bool {
+        return status == .closed || status == .invalid
+    }
+    
+    public var typeName: String {
+        return String(describing: type(of: self))
+    }
+    
+    public var readStatusDescription: String {
+        return "\(status)"
+    }
+    
+    public var writeStatusDescription: String {
+        return "\(status)"
+    }
 }
 
 /// The delegate protocol to handle the events from a socket.

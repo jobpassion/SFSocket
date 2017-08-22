@@ -5,6 +5,26 @@ import CocoaAsyncSocket
 ///
 /// - warning: This class is not thread-safe, it is expected that the instance is accessed on the `queue` only.
 open class GCDTCPSocket: NSObject, GCDAsyncSocketDelegate, RawSocketProtocol {
+     /**
+     Disconnect the socket immediately.
+     
+     - note: The socket should disconnect as soon as possible.
+     */
+    public func forceDisconnect(becauseOf error: Error?) {
+        
+    }
+
+     /**
+     Disconnect the socket.
+     
+     The socket should disconnect elegantly after any queued writing data are successfully sent.
+     
+     - note: Usually, any concrete implemention should wait until any pending writing data are finished then call `forceDisconnect()`.
+     */
+    public func disconnect(becauseOf error: Error?) {
+        
+    }
+
     public /**
      Connect to remote host.
      
