@@ -272,6 +272,7 @@
 		69B955121DDF8235006AF669 /* RawSocketFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0D2791DD5979C00227353 /* RawSocketFactory.swift */; };
 		69B955131DDF8238006AF669 /* GCDTCPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C298A41DD5959000E4C3BD /* GCDTCPSocket.swift */; };
 		69B955141DDF823A006AF669 /* NWTCPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C298A21DD5958900E4C3BD /* NWTCPSocket.swift */; };
+		69BCD1F21F56A81700D05C62 /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BCD1F11F56A81700D05C62 /* TestVC.swift */; };
 		69BF6C321DE57D5A000ABF09 /* SocketProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C311DE57D5A000ABF09 /* SocketProtocol.swift */; };
 		69BF6C561DE57E74000ABF09 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C551DE57E74000ABF09 /* Atomic.swift */; };
 		69BF6C571DE57E74000ABF09 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C551DE57E74000ABF09 /* Atomic.swift */; };
@@ -307,8 +308,6 @@
 		69F2D8691E8BF96100BBDB9D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D8681E8BF96100BBDB9D /* Config.swift */; };
 		69F2D86B1E8BFFD400BBDB9D /* BlockCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */; };
 		69F2D86D1E8C08E700BBDB9D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86C1E8C08E700BBDB9D /* Channel.swift */; };
-		69F7456E1F4BE34900A39C30 /* RowTCPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7456D1F4BE34900A39C30 /* RowTCPSocket.swift */; };
-		69F7456F1F4BE34900A39C30 /* RowTCPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7456D1F4BE34900A39C30 /* RowTCPSocket.swift */; };
 		69F745721F4BFFFD00A39C30 /* Socks5Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F745711F4BFFFD00A39C30 /* Socks5Adapter.swift */; };
 		69F745761F4C002400A39C30 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F745751F4C002400A39C30 /* Adapter.swift */; };
 		69F745771F4C003500A39C30 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F745751F4C002400A39C30 /* Adapter.swift */; };
@@ -567,6 +566,7 @@
 		69B954F21DDF81CF006AF669 /* SFSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SFSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B954F41DDF81CF006AF669 /* SFSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSocket.h; sourceTree = "<group>"; };
 		69B954F51DDF81CF006AF669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69BCD1F11F56A81700D05C62 /* TestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
 		69BF6C311DE57D5A000ABF09 /* SocketProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketProtocol.swift; sourceTree = "<group>"; };
 		69BF6C551DE57E74000ABF09 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		69BF6C611DE57F7B000ABF09 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
@@ -592,7 +592,6 @@
 		69F2D8681E8BF96100BBDB9D /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockCrypt.swift; sourceTree = "<group>"; };
 		69F2D86C1E8C08E700BBDB9D /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Channel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		69F7456D1F4BE34900A39C30 /* RowTCPSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowTCPSocket.swift; sourceTree = "<group>"; };
 		69F745711F4BFFFD00A39C30 /* Socks5Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Socks5Adapter.swift; sourceTree = "<group>"; };
 		69F745751F4C002400A39C30 /* Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Adapter.swift; path = tcp/Adapter.swift; sourceTree = "<group>"; };
 		69FAE4C71E82478400FE91CD /* Smux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = Smux.swift; path = udp/Smux.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -730,6 +729,7 @@
 			children = (
 				694719871EE528F60059BEF8 /* AppDelegate.swift */,
 				694719891EE528F60059BEF8 /* ViewController.swift */,
+				69BCD1F11F56A81700D05C62 /* TestVC.swift */,
 				6947198B1EE528F60059BEF8 /* Assets.xcassets */,
 				6947198D1EE528F60059BEF8 /* Main.storyboard */,
 				694719901EE528F60059BEF8 /* Info.plist */,
@@ -1119,7 +1119,6 @@
 		69F7456C1F4BDF2600A39C30 /* socket */ = {
 			isa = PBXGroup;
 			children = (
-				69F7456D1F4BE34900A39C30 /* RowTCPSocket.swift */,
 			);
 			name = socket;
 			sourceTree = "<group>";
@@ -1373,6 +1372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6947198A1EE528F60059BEF8 /* ViewController.swift in Sources */,
+				69BCD1F21F56A81700D05C62 /* TestVC.swift in Sources */,
 				694719881EE528F60059BEF8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1452,7 +1452,6 @@
 				69B955111DDF8232006AF669 /* TCPSSConnector.swift in Sources */,
 				69B955021DDF81FE006AF669 /* IPAddress.swift in Sources */,
 				69116B391E968749007C2FBA /* SKit.swift in Sources */,
-				69F7456F1F4BE34900A39C30 /* RowTCPSocket.swift in Sources */,
 				695F6E521E900E1A00C72E5E /* DNSPacket.swift in Sources */,
 				69F745781F4C004700A39C30 /* Socks5Adapter.swift in Sources */,
 				69263EF61EE50788005F0C76 /* SnappyHelper.swift in Sources */,
@@ -1567,7 +1566,6 @@
 				698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */,
 				69E40F421F4A7DF100C1DDC3 /* GCDServer.swift in Sources */,
 				695F6E531E900E1A00C72E5E /* DNSQueue.swift in Sources */,
-				69F7456E1F4BE34900A39C30 /* RowTCPSocket.swift in Sources */,
 				69F745721F4BFFFD00A39C30 /* Socks5Adapter.swift in Sources */,
 				692DD57E1DD5CA630079493D /* SFHTTPHeader.swift in Sources */,
 				695F6E871E900E1A00C72E5E /* UDPPacket.swift in Sources */,

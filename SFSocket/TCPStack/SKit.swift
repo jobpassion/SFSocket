@@ -441,5 +441,20 @@ public class SKit {
             //}
         #endif
     }
+    static public  func prepare(){
+        SKit.loadConfig()
+        let  pp = ProxyGroupSettings.share
+        print(pp.proxys.count)
+        
+        if let  rule = SFSettingModule.setting.rule {
+            print("rule inited")
+        }
+        
+
+    }
+    static public func startGCDProxy(){
+        SFTCPConnectionManager.manager.startGCDServer()
+    }
+    
    
 }
