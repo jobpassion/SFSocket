@@ -708,6 +708,7 @@ extension SFTCPConnectionManager:ClientDelegate {
     }
     
     public func startGCDServer(){
+        /*
         if let server = GCDSocketServer.shared(){
             server.accept = { fd,addr,port in
                 let c = GCDTunnelConnection.init(sfd: fd, rip: addr!, rport: UInt16(port), dip: "127.0.0.1", dport: 10081)
@@ -735,6 +736,7 @@ extension SFTCPConnectionManager:ClientDelegate {
             //let q = DispatchQueue.init(label: "dispatch queue")
             server.start(10081, queue: DispatchQueue.main)
         }
+        */
     }
     func saveTunnelConnectionInfo(_ c:GCDTunnelConnection){
         

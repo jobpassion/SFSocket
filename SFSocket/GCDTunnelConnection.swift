@@ -40,8 +40,9 @@ class GCDTunnelConnection: TUNConnection {
                 return "[GCDTunnelConnection-\(reqInfo.reqID)-\(info.tun.port)" + "]" //self.classSFName()
             #else
                 //-\(info.tun.port)-\(pcb)
-                return  "[" + objectClassString(self) + "-\(reqInfo.reqID)" + "]" //self.classSFName()
+                //return  "[" + objectClassString(self) + "-\(reqInfo.reqID)" + "]" //self.classSFName()
             #endif
+            return ""
         }
     }
     func updateReq(_ req:SFRequestInfo){

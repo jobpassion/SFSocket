@@ -96,7 +96,7 @@ public class Receipt:CommonModel {
 }
 public class ProxyGroupSettings:CommonModel {
     public static let share:ProxyGroupSettings = {
-        let url = groupContainerURL().appendingPathComponent(kProxyGroupFile)
+        let url = groupContainerURL().appendingPathComponent(SKit.kProxyGroupFile)
         var content:String = "{}"
         do {
             content = try String.init(contentsOf: url, encoding: .utf8)
@@ -302,7 +302,7 @@ public class ProxyGroupSettings:CommonModel {
     public func save() throws {//save to group dir
         
         if let js = self.toJSONString() {
-            let url = groupContainerURL().appendingPathComponent(kProxyGroupFile)
+            let url = groupContainerURL().appendingPathComponent(SKit.kProxyGroupFile)
             print("save to \(url)")
             try js.write(to: url, atomically: true, encoding: .utf8)
         }
@@ -311,7 +311,7 @@ public class ProxyGroupSettings:CommonModel {
     
     public func loadProxyFromFile() {
         //MARK: fixme
-        let url = groupContainerURL().appendingPathComponent(kProxyGroupFile)
+        let url = groupContainerURL().appendingPathComponent(SKit.kProxyGroupFile)
         var content:Data
         
         do {

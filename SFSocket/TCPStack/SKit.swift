@@ -20,12 +20,12 @@ func  groupContainerURL() ->URL{
 }
 import AxLogger
 import NetworkExtension
-let iOSAppIden = "com.yarshure.Surf"
-let iOSTodayIden = "com.yarshure.Surf.SurfToday"
-let MacAppIden = "com.yarshure.Surf.mac"
-let MacTunnelIden = "com.yarshure.Surf.mac.extension"
-let iOSTunnelIden =  "com.yarshure.Surf.PacketTunnel"
-let configMacFn = "abigt.conf"
+//let iOSAppIden = "com.yarshure.Surf"
+//let iOSTodayIden = "com.yarshure.Surf.SurfToday"
+//let MacAppIden = "com.yarshure.Surf.mac"
+//let MacTunnelIden = "com.yarshure.Surf.mac.extension"
+//let iOSTunnelIden =  "com.yarshure.Surf.PacketTunnel"
+//let configMacFn = "abigt.conf"
 func ipString(_ ip:UInt32) ->String{
     let a = (ip & 0xFF)
     let b = (ip >> 8 & 0xFF)
@@ -78,7 +78,7 @@ func query(_ domain:String) ->[String] {
     }
     return results
 }
-var kProxyGroupFile = ".ProxyGroup"
+//var kProxyGroupFile = ".ProxyGroup"
 
 public class SKit {
     static var env = SKit()
@@ -90,48 +90,48 @@ public class SKit {
     
     
     #if os(iOS)
-    static var groupIdentifier = "group.com.yarshure.Surf"
+    public static var groupIdentifier = "group.com.yarshure.Surf"
     #else
-    static var groupIdentifier = "745WQDK4L7.com.yarshure.Surf"
+    public static var groupIdentifier = "745WQDK4L7.com.yarshure.Surf"
     #endif
     static var alert:Bool = false
     static var configExt = ".conf"
-    static var packetconfig = "group.com.yarshure.config"
-    static var flagconfig = "group.com.yarshure.flag"
-    static var onDemandKey = "com.yarshure.onDemandKey"
-    static var errDomain = "com.abigt.socket"
+    public static var packetconfig = "group.com.yarshure.config"
+    public static var flagconfig = "group.com.yarshure.flag"
+    public static var onDemandKey = "com.yarshure.onDemandKey"
+    public static var errDomain = "com.abigt.socket"
     
     
     //#if os(iOS)
-    static var  proxyIpAddr:String = "240.7.1.10"
-    static let loopbackAddr:String = "127.0.0.1"
-    static var dnsAddr:String = "218.75.4.130"
-    static var proxyHTTPSIpAddr:String = "240.7.1.11"
-    static var xxIpAddr:String = "240.7.1.12"
-    static var tunIP:String = "240.7.1.9"
+    public static var  proxyIpAddr:String = "240.7.1.10"
+    public static let loopbackAddr:String = "127.0.0.1"
+    public static var dnsAddr:String = "218.75.4.130"
+    public static var proxyHTTPSIpAddr:String = "240.7.1.11"
+    public static var xxIpAddr:String = "240.7.1.12"
+    public static var tunIP:String = "240.7.1.9"
     //    #else
     //let proxyIpAddr:String = "240.0.0.3"
     //let dnsAddr:String = "218.75.4.130"
     //let proxyHTTPSIpAddr:String = "240.7.1.11"
     //let tunIP:String = "240.200.200.200"
     //    #endif
-    static var vpnServer:String = "240.89.6.4"
+    public static var vpnServer:String = "240.89.6.4"
     
-    static var httpProxyPort = 10080
-    static var httpsocketProxyPort = 10080
-    static var HttpsProxyPort = 10081
+    public static var httpProxyPort = 10080
+    public static var httpsocketProxyPort = 10080
+    public static var HttpsProxyPort = 10081
     
     static var agentsFile = "useragents.plist"
     static var kProxyGroup = "ProxyGroup"
-    static var kProxyGroupFile = ".ProxyGroup"
+    public static var kProxyGroupFile = ".ProxyGroup"
     static var groupContainerURLVPN:String = ""
     
-    static var iOSAppIden = "com.yarshure.Surf"
-    static var iOSTodayIden = "com.yarshure.Surf.SurfToday"
-    static var MacAppIden = "com.yarshure.Surf.mac"
-    static var MacTunnelIden = "com.yarshure.Surf.mac.extension"
-    static var iOSTunnelIden =  "com.yarshure.Surf.PacketTunnel"
-    static var configMacFn = "abigt.conf"
+    public static var iOSAppIden = "com.yarshure.Surf"
+    public static var iOSTodayIden = "com.yarshure.Surf.SurfToday"
+    public static var MacAppIden = "com.yarshure.Surf.mac"
+    public static var MacTunnelIden = "com.yarshure.Surf.mac.extension"
+    public static var iOSTunnelIden =  "com.yarshure.Surf.PacketTunnel"
+    public static var configMacFn = "abigt.conf"
     
     
     static let socketReadTimeout = 15.0
