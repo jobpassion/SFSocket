@@ -70,8 +70,9 @@ class Socks5Adapter: Adapter {
                 }
                 
             }else {
-                throw SFAdapterError.invalidSocksResp
                 SKit.log("socks5 client don't recv  respon ver error ver:\(version.pointee)",level: .Debug)
+                throw SFAdapterError.invalidSocksResp
+                
             }
             
         }else if stage == .AuthSend {

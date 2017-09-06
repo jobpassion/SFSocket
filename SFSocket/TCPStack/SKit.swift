@@ -441,13 +441,17 @@ public class SKit {
             //}
         #endif
     }
-    static public  func prepare(){
+    static public  func prepare() ->Bool{
         SKit.loadConfig()
         let  pp = ProxyGroupSettings.share
         print(pp.proxys.count)
         
         if let  rule = SFSettingModule.setting.rule {
-            print("rule inited")
+            print("rule inited \(rule.cnIPCount)")
+            return true
+        }else {
+            print("rule not init")
+            return false
         }
         
 

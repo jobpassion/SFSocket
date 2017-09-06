@@ -47,33 +47,6 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
          start()
     }
     func config() -> Bool{
-        
-        //        decrypt_ctx = enc_ctx_create()
-        //        encrypt_ctx = enc_ctx_create()
-        if let p = ProxyGroupSettings.share.findProxy("Proxy") {
-            if p.type == .SS && p.udpRelay {
-                proxy = p
-                let m = 0// settingSS(proxy!.password,method: proxy!.method)
-                if m == -1 {
-                    return false
-                }
-//                enc_ctx_init(m, encrypt_ctx, 1);
-//                enc_ctx_init(m, decrypt_ctx, 0);
-//                
-//                balloc(sbuf,Int(TCP_CLIENT_SOCKS_RECV_BUF_SIZE_UInt))
-//                balloc(rbuf,Int(TCP_CLIENT_SOCKS_RECV_BUF_SIZE_UInt))
-                
-                return true
-
-            }
-            
-
-        }
-        
-        //        if targetHost.characters.count > 0 {
-        //            buildHead()
-        //        }
-        
         return false
     }
 

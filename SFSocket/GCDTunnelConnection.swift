@@ -573,7 +573,7 @@ class GCDTunnelConnection: TUNConnection {
         if st  {
             if bufArray.count > 0{
                 SKit.log("\(cIDString) now sending data buffer count:\(bufArray.count)",level: .Debug)
-                fatalError()
+                
                 client_send_to_socks()
                 
             }else {

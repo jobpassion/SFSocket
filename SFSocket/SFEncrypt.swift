@@ -632,7 +632,7 @@ public class SSEncrypt {
             
         }
         if recv_ctx == nil && encrypt_bytes.count < send_ctx.m.iv_size {
-            self.genData(encrypt_bytes:encrypt_bytes)
+            _ = self.genData(encrypt_bytes:encrypt_bytes)
             SKit.log("socket read less iv_len",level: .Error)
         }
         //leaks

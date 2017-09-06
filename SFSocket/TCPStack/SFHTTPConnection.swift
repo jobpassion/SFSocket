@@ -1001,7 +1001,7 @@ class SFHTTPConnection: SFHTTPRequest {
         //
         if socks_recv_bufArray.count > 1024*50{
             SKit.log("\(cIDString) recv queue too long \(socks_recv_bufArray.length)  ",level: .Warning)
-            client_socks_recv_send_out()
+            _ = client_socks_recv_send_out()
             return
         }
         if let h = reqInfo.respHeader {
