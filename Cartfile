@@ -9,7 +9,7 @@ github "yarshure/Crypto"  "v0.5.2"
 github "iosdevzone/IDZSwiftCommonCrypto"
 github "Hearst-DD/ObjectMapper" "0c116f44b5d052892146bcb94ad6c690b3dec40d"
 github "networkextension/liblwip" "0.2.5"
-github "networkextension/DarwinCore" "23d7263e71c4400884eaf6df2945d8c9145ef1f4"
+github "networkextension/DarwinCore" "9dab612f6d896a4969ffebbdda83313089711e62"
 github "yarshure/MMDB-Swift.git" "a357488a685efcc0d19f1c476e70fb20abc4fee5"
 github "networkextension/SystemKit" "56d5ff28f862f39f6e0a8aefe3964b75ade0dd31"
 github "groue/GRDB.swift" "6cede4975c50d1edbc2393e8e935558236e98f2c" #Swift3.1beta
