@@ -244,15 +244,7 @@ open  class SFSettingModule {
             return randomProxy()
         }
         return nil
-//        if proxy.keys.contains(up) {
-//            return proxy[up]
-//        }else {
-//            if let p = proxy.first {
-//                return p.1
-//            }else {
-//                return nil
-//            }
-//        }
+
       
     }
     func randomProxy() ->SFProxy?{

@@ -714,7 +714,7 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
                        SKit.log("\(cIDString) tcp_write ERR_MEM",level:.Error)
                        return  -1
                     }
-                   //SKit.log("\(cIDString) tcp_write error \(err)",level: .Error)
+                   SKit.log("\(cIDString) tcp_write error \(err)",level: .Error)
                     //send
                     if err < -9 {
                         SKit.log("\(cIDString) tcp_pcb error  ",level: .Error)

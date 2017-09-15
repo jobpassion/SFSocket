@@ -421,25 +421,19 @@ public class SKit {
         
     }
     static func logX(_ msg:String,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
-        #if Debug
+        
+        if level != AxLoggerLevel.Debug {
             AxLogger.log(msg,level:level)
-        #else
-            if level != AxLoggerLevel.Debug {
-                AxLogger.log(msg,level:level)
-            }
-        #endif
+        }
     }
     static func log(_ msg:String,items: Any...,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
        
-        #if Debug
-            
-            //AxLogger.log(msg,level:level)
-            print(msg)
-        #else
-            //if level != AxLoggerLevel.Debug {
-            //    AxLogger.log(msg,level:level)
-            //}
-        #endif
+        if level != AxLoggerLevel.Debug {
+            AxLogger.log(msg,level:level)
+        }
+        
+        
+       
     }
     static public  func prepare() ->Bool{
         SKit.loadConfig()
@@ -459,6 +453,13 @@ public class SKit {
     static public func startGCDProxy(){
         SFTCPConnectionManager.manager.startGCDServer()
     }
-    
-   
+    static public func stopGCDProxy(){
+        
+    }
+    static public func reloadRule(_ path:String){
+        SFSettingModule.setting.config(path)
+    }
+    static public func reloadProxy(){
+        ProxyGroupSettings.share.loadProxyFromFile()
+    }
 }

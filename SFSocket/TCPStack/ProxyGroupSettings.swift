@@ -320,13 +320,17 @@ public class ProxyGroupSettings:CommonModel {
             self.widgetProxyCount = json["widgetProxyCount"].intValue
             self.widgetFlow =  json["widgetFlow"].boolValue
             self.selectIndex = json["selectIndex"].intValue
+            
+            if let man = Mapper<Proxys>().map(JSONObject: json["proxyMan"]){
+                self.proxyMan = man
+                SKit.logX("loadProxyFromFile OK", level: .Info)
+            }
+            
         }catch let e {
-            print("\(e)")
+            
+            SKit.logX("loadProxyFromFile \(e.localizedDescription)", level: .Error)
         }
         //刷新配置选项
-      
-        
-        
 
     }
     public var chainProxys:[SFProxy]{
