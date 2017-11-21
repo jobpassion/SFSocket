@@ -415,7 +415,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
             for group in 0..<rangeCount {
                 let result = (string as NSString).substring(with: match.range(at: group))
                 print(result)
-                if result.characters.count != string.count && result.count >= 7 {
+                if result.count != string.count && result.count >= 7 {
                     groupMatches.append(result)
                 }
                 
@@ -433,7 +433,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
         if u.hasPrefix("http") {
             var index = 0
             var t = 0
-            for i in u.characters {
+            for i in u {
                 if i == "/"{
                     t += 1
                     if t == 3 {
@@ -444,7 +444,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
                 
             }
             let i = u.index(u.startIndex, offsetBy: index)
-            let x = u.substring(from: i)
+            let x = u.to(index: i)
             return x
         }else {
             return u
@@ -621,7 +621,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
             }
         }
         
-        if self.Url.characters.count == 0 {
+        if self.Url.count == 0 {
             //fatalError("HTTP Request \(row) not url  \(c) ")
             //这里有问题啊
             //

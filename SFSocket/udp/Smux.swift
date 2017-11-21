@@ -261,8 +261,8 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
             
             let delay = DispatchTime.now()
             
-            timer.scheduleRepeating(deadline: delay, interval: interval, leeway: .nanoseconds(0))
-            
+            //timer.schedule(deadline: delay, repeating: interval, leeway: .nanoseconds(0))
+            timer.schedule(deadline: delay, repeating: interval, leeway: .nanoseconds(0))
             timer.setEventHandler {[unowned self] in
                 
                 if Date().timeIntervalSince(self.lastActive) > Smux.SMuxTimeOut{

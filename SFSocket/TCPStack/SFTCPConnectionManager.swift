@@ -398,7 +398,7 @@ extension SFTCPConnectionManager{
         
         let delay = DispatchTime.now()
         
-        dispatch_timer.scheduleRepeating(deadline: delay, interval: interval, leeway: .nanoseconds(0))
+        dispatch_timer.schedule(deadline: delay, repeating: interval, leeway: .nanoseconds(0))
         
         dispatch_timer.setEventHandler { [unowned self] in
             if self.firsttime {

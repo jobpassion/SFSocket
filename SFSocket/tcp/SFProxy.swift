@@ -489,8 +489,8 @@ public class SFProxy:CommonModel {
                         
                         if let r = items[1].range(of: "@"){
                             let tempString = items[1]
-                            proxy.password = tempString.substring(to: r.lowerBound)
-                            proxy.serverAddress = tempString.substring(from: r.upperBound)
+                            proxy.password = tempString.to(index:r.lowerBound)
+                            proxy.serverAddress = tempString.from(index: r.upperBound)
                             return (proxy,"OK")
                         } else {
                             return (nil,"\(resultString) Invilad")

@@ -465,7 +465,7 @@ public class SSEncrypt {
     func dataWithHexString(hex: String) -> Data {
         var hex = hex
         let  data = SFData()
-        while(hex.characters.count > 0) {
+        while(hex.count > 0) {
             let c: String = hex.to(index: 2)
             hex = hex.to(index: 2)
             var ch: UInt32 = 0
@@ -487,7 +487,7 @@ public class SSEncrypt {
 
         }else {
             
-            if m.iv_size == ivsys.characters.count {
+            if m.iv_size == ivsys.count {
                 
                 send_ctx = enc_ctx.init(key: ramdonKey!, iv: ivsys.data(using: .utf8)!, encrypt: true,method:m )
             }else {

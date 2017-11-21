@@ -394,7 +394,7 @@ public class SFConfig {
             return true
         }
         
-        if r.proxyName.characters.count > 0  {
+        if r.proxyName.count > 0  {
             var found = false
             for p in proxys {
                 if p.proxyName == r.proxyName {

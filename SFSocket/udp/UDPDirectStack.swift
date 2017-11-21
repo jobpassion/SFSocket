@@ -29,7 +29,7 @@ open class UDPDirectStack: IPStackProtocol, NWUDPSocketDelegate {
     
     public init() {
         cleanUpTimer = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags(rawValue: 0), queue: queue)
-        cleanUpTimer.scheduleRepeating(deadline: DispatchTime.distantFuture, interval: DispatchTimeInterval.seconds(Opt.UDPSocketActiveCheckInterval), leeway: DispatchTimeInterval.seconds(Opt.UDPSocketActiveCheckInterval))
+        cleanUpTimer.schedule(deadline: DispatchTime.distantFuture, repeating: DispatchTimeInterval.seconds(Opt.UDPSocketActiveCheckInterval), leeway: DispatchTimeInterval.seconds(Opt.UDPSocketActiveCheckInterval))
         cleanUpTimer.setEventHandler {
             [weak self] in
             self?.cleanUpTimeoutSocket()

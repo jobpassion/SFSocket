@@ -354,7 +354,7 @@ class DNSPacket: NSObject {
         respData.append(z.bigEndian)
         let xx = domain.components(separatedBy: ".")
         for p in xx {
-            let len:UInt8 = UInt8(p.characters.count)
+            let len:UInt8 = UInt8(p.count)
             respData.append(len)
             respData.append(p)
         }

@@ -86,7 +86,7 @@ open  class SFSettingModule {
         
         for r in dnsCache {
             if r.domain == d {
-                r
+                return r.ips
             }
         }
         return []

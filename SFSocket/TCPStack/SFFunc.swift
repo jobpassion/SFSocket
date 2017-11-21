@@ -88,7 +88,7 @@ func debugLog(_ message:String){
 
 public func mylog<T>(_ object: T, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     //let fn = file.split { $0 == "/" }.last
-    let fn = file.characters.split { $0 == "/" }.map(String.init).last
+    let fn = file.split { $0 == "/" }.map(String.init).last
     if let f = fn {
         let info = "\(f) \(function)[\(line)]:\(object)"
         NSLog(info)
@@ -255,7 +255,7 @@ let  applicationDocumentsDirectory: URL = {
 //    return data as Data?
 //}
  func very(ip:String) ->Bool{
-    if ip.characters.count > 15 {
+    if ip.count > 15 {
         return false
     }
     let x = ip.components(separatedBy: ".")

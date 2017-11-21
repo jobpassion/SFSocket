@@ -12,7 +12,7 @@ extension String{
     func delLastN(_ n:Int) ->String{
         
         let i = self.index(self.endIndex, offsetBy: 0 - n)
-        let d = self.substring(to: i)
+        let d = self.to(index: i)
         return d
         
     }
