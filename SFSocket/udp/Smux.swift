@@ -97,7 +97,7 @@ class Smux: RAWUDPSocket ,SFKcpTunDelegate{
         }
         let h = readBuffer.subdata(in: 0 ..< headerSize) as rawHeader
         
-        if h.Version() != version {
+        if h.Version() != kcp.version {
             return (nil , SmuxError.VerError)
         }
         

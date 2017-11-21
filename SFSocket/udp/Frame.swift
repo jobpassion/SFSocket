@@ -8,7 +8,10 @@
 
 import Foundation
 
-let version:UInt8 = 1
+struct kcp {
+    static let version:UInt8 = 1
+}
+
 
 let cmdSYN:UInt8 = 0 // stream open
 let cmdFIN:UInt8 = 1          // stream close, a.k.a EOF mark
@@ -23,7 +26,7 @@ let headerSize   = sizeOfVer + sizeOfCmd + sizeOfSid + sizeOfLength
 public typealias rawHeader = Data
 // Frame defines a packet from or to be multiplexed into a single connection
 public struct Frame {
-    var ver:UInt8 = version
+    var ver:UInt8 = kcp.version
     var cmd:UInt8 = 0
     var sid:UInt32 = 0
     var data:Data?
@@ -40,7 +43,7 @@ public struct Frame {
     }
     func frameData() ->Data{
         let f:SFData = SFData()
-        f.append(version)
+        f.append(kcp.version)
         f.append(cmd)
         if let d = data {
             f.append(UInt16(d.count))

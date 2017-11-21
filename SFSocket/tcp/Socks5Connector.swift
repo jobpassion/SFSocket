@@ -72,10 +72,10 @@ public class Socks5Connector:ProxyConnector{
         //buffer.write(SOCKS_VERSION)
         let auth:UInt8 = 0x01
         buffer.append(auth) //auth version
-        var len:UInt8 = UInt8(proxy.method.characters.count)
+        var len:UInt8 = UInt8(proxy.method.count)
         buffer.append(len)
         buffer.append(proxy.method.data(using: .utf8)!)
-        len = UInt8(proxy.password.characters.count)
+        len = UInt8(proxy.password.count)
         buffer.append(len)
         buffer.append(proxy.password.data(using: .utf8)!)
         SKit.log("\(cIDString) send  .Auth req \(buffer as NSData)",level:.Debug)
@@ -103,7 +103,7 @@ public class Socks5Connector:ProxyConnector{
             //domain name
             
             buffer.append(SOCKS_DOMAIN)
-            let name_len = targetHost.characters.count
+            let name_len = targetHost.count
             buffer.append(UInt8(name_len))
             buffer.append(targetHost.data(using: .utf8)!)
             buffer.append(targetPort.byteSwapped)

@@ -84,7 +84,7 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
        
         
         if enableTLS {
-             let endpoint = NWHostEndpoint(hostname: host, port: "\(port)")
+            _ = NWHostEndpoint(hostname: host, port: "\(port)")
             let tlsParameters = NWTLSParameters()
             if let tlsSettings = tlsSettings as? [String: AnyObject] {
                 tlsParameters.setValuesForKeys(tlsSettings)

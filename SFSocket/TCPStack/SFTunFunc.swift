@@ -44,7 +44,7 @@ public struct NetInfo {
     
     public func binaryRepresentation(_ s: String) -> [String] {
         var result: [String] = []
-        for numbers in (s.characters.split {$0 == "."}) {
+        for numbers in (s.split {$0 == "."}) {
             if let intNumber = Int(String(numbers)) {
                 if let binary = Int(String(intNumber, radix: 2)) {
                     result.append(NSString(format: "%08d", binary) as String)
@@ -80,9 +80,9 @@ public struct NetInfo {
     }
     
     public func toInts(_ networkString: String) -> [UInt8] {
-        let x = networkString.characters.split(separator: ".", maxSplits: 0, omittingEmptySubsequences: false)
+        let x = networkString.split(separator: ".", maxSplits: 0, omittingEmptySubsequences: false)
         if x.count == 4 {
-            return (networkString.characters.split {$0 == "."}).map{UInt8(String($0))!}
+            return (networkString.split {$0 == "."}).map{UInt8(String($0))!}
         }else {
             //IPV6
             //return (networkString.characters.split {$0 == ":"}).map{UInt8(String($0))!}
@@ -93,12 +93,12 @@ public struct NetInfo {
             
             var result:[UInt8] = []
             for item in xx {
-                let count = item.characters.count
+                let count = item.count
                 let bits = 4 - count
                 let string = String.init(repeating: "0", count: bits)
                 //print(String(format: "%04s",item))
                 let dest = string + String(item)
-                for yy in dest.characters{
+                for yy in dest{
                     let value = UInt8(strtoul(String(yy), nil, 16))
                     result.append(value)
                 }

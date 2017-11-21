@@ -138,7 +138,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         
         
         //DispatchWorkItem(flags: .assignCurrentContext)
-        networkingScheduledTask = DispatchWorkItem.init(block: { [unowned self] (Void) ->(Void) in
+        networkingScheduledTask = DispatchWorkItem.init(block: { [unowned self] () ->(Void) in
             //print("************** \(NSDate()) ***********")
             //networkingScheduledTask()
             //

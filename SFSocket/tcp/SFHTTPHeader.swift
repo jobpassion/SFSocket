@@ -92,7 +92,7 @@ open class  SFHTTPHeader {
     }
     open func parserData(_ lines:[String]){
         for line in lines {
-            let header = line.characters.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true)
+            let header = line.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true)
             guard header.count == 2 else {
                 continue
             }
@@ -169,7 +169,7 @@ open  class  SFHTTPResponseHeader :SFHTTPHeader{
         guard let row = String.init(data: data , encoding: .utf8) else {
             return nil
         }
-        if row.characters.count == 0 {
+        if row.count == 0 {
             return nil
         }
         //length = data.length
@@ -405,7 +405,7 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
     static func listGroups(string : String) -> [String] {
         //523 byte one time , too many memory
         let regex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-        let range = NSMakeRange(0, string.characters.count)
+        let range = NSMakeRange(0, string.count)
         let matches = regex.matches(in: string, options: [], range: range)
         
         var groupMatches = [String]()
@@ -413,9 +413,9 @@ open class  SFHTTPRequestHeader :SFHTTPHeader{
             let rangeCount = match.numberOfRanges
             //print(match)
             for group in 0..<rangeCount {
-                let result = (string as NSString).substring(with: match.rangeAt(group))
+                let result = (string as NSString).substring(with: match.range(at: group))
                 print(result)
-                if result.characters.count != string.characters.count && result.characters.count >= 7 {
+                if result.characters.count != string.count && result.count >= 7 {
                     groupMatches.append(result)
                 }
                 

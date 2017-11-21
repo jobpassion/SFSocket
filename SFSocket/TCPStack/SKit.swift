@@ -172,7 +172,7 @@ public class SKit {
         let setting = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "240.89.6.4")
         let ipv4 = NEIPv4Settings(addresses: [tunIP], subnetMasks: ["255.255.255.0"])// iPhone @2007 MacWorld
         self.provier = provier
-        setting.iPv4Settings = ipv4
+        setting.ipv4Settings = ipv4
         var includedRoutes = [NEIPv4Route]()
         //includedRoutes.append(NEIPv4Route(destinationAddress: "0.0.0.0", subnetMask: "0.0.0.0"))
         
@@ -200,7 +200,7 @@ public class SKit {
         //        route = NEIPv4Route(destinationAddress: "0.0.0.0", subnetMask: "0.0.0.0")
         //        route.gatewayAddress = tunIP
         //        includedRoutes.append(route)
-        setting.iPv4Settings?.includedRoutes = includedRoutes
+        setting.ipv4Settings?.includedRoutes = includedRoutes
         
         
         var excludedRoutes = [NEIPv4Route]()
@@ -275,7 +275,7 @@ public class SKit {
             excludedRoutes.append(route)
         }
         
-        setting.iPv4Settings?.excludedRoutes = excludedRoutes
+        setting.ipv4Settings?.excludedRoutes = excludedRoutes
         
         let dnsservers =  SFDNSManager.manager.updateSetting()
         if let path = provier.defaultPath {
@@ -301,7 +301,7 @@ public class SKit {
         setting.proxySettings = NEProxySettings()
         
         
-        setting.iPv4Settings?.excludedRoutes = excludedRoutes
+        setting.ipv4Settings?.excludedRoutes = excludedRoutes
         //SKit.log("http \(server) port:\(port)")
         let proxySettings = NEProxySettings()
         

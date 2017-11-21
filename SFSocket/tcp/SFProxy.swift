@@ -474,7 +474,7 @@ public class SFProxy:CommonModel {
                 }
             }
             var paddedLength = 0
-            let left = result.characters.count % 4
+            let left = result.count % 4
             if left != 0 {
                 paddedLength = 4 - left
             }

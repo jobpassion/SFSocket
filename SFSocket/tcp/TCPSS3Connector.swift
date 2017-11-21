@@ -53,7 +53,7 @@ public class  TCPSS3Connector:ProxyConnector{
            // atype = SOCKS_DOMAIN
             header.append(SOCKS_DOMAIN)
             addr_len += 1
-            let name_len = targetHost.characters.count
+            let name_len = targetHost.count
             header.append(UInt8(name_len))
             addr_len += 1
             header.append(targetHost.data(using: .utf8)!)

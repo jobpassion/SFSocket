@@ -114,7 +114,7 @@ public class AEAD {
     /// else return random byte use key_len
     static func crypto_parse_key(base64:String ,key:inout Data,key_len:Int) ->Int{
         var paddedLength = 0
-        let left = base64.characters.count % 4
+        let left = base64.count % 4
         if left != 0 {
             paddedLength = 4 - left
         }
@@ -320,7 +320,7 @@ public class AEADCrypto {
     func dataWithHexString(hex: String) -> Data {
         var hex = hex
         let  data = SFData()
-        while(hex.characters.count > 0) {
+        while(hex.count > 0) {
             let c: String = hex.to(index: 2)
             hex = hex.to(index: 2)
             var ch: UInt32 = 0
