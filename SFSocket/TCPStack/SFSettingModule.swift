@@ -22,7 +22,7 @@ open  class SFSettingModule {
 //        print("config url:\(urlContain.path!)")
 //        return SFSettingModule(path: urlContain.path!)
 //    }()
-    let httpProxyModeSocket = false
+    let httpProxyModeSocket = true
     var httpProxyEnable = true
     var httpsProxyEnable = true
     var socksProxyEnable = false

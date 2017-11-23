@@ -112,7 +112,9 @@ public class ProxyConnector: NWTCPSocket,NWTCPConnectionAuthenticationDelegate {
             //socket.addObserver(self, forKeyPath: "state", options: [.initial, .new], context: nil)
         }else {
             do {
-                try super.connectTo(host, port: port, enableTLS: false, tlsSettings: tlsSettings)
+                var socket = RawSocketFactory.getRawSocket()
+                socket.delegate = self as? RawSocketDelegate
+                try socket.connectTo(host, port: port, enableTLS: false, tlsSettings: tlsSettings)
             }catch let e as NSError{
                 throw e
             }

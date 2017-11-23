@@ -730,6 +730,7 @@ extension SFTCPConnectionManager:ClientDelegate {
                 
                 if let c = self.clientTree.search(input: fd){
                     c.incommingData(data!,len:data!.count)
+                    c.manager = SFTCPConnectionManager.shared()
                 }
                 //server.server_write_request(fd, buffer: "wello come\n", total: 11);
             }
