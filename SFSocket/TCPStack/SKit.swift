@@ -157,6 +157,8 @@ public class SKit {
     static let LimitTCPConnectionCount:Int = 10
     static let LimitTCPConnectionCount_DROP:Int = 15
     static let TCP_DELAY_START = 0.5
+    public static var lastWakeupTime:Date = Date()
+    public static var lastSleepTime:Date = Date()
     static let LimitMemoryUsed:UInt = 13000000//15*1024*1024 //15MB
     static let LimitStartDelay:Int = 10 //10 second
     //let BUF_SIZE:size_t = 2048
@@ -306,22 +308,21 @@ public class SKit {
         let proxySettings = NEProxySettings()
         
         //SKit.log("http \(server) port:\(port)")
-        if SFSettingModule.setting.httpProxyModeSocket  {
+        if SFSettingModule.setting.mode == .socket  {
             proxySettings.httpServer = NEProxyServer(address: loopbackAddr, port: httpsocketProxyPort)
             proxySettings.httpEnabled = true
             
             proxySettings.httpsServer = NEProxyServer(address: loopbackAddr, port: httpsocketProxyPort)
             proxySettings.httpsEnabled = true
         }else {
-            if SFSettingModule.setting.httpProxyEnable {
+            if SFSettingModule.setting.mode == .tunnel {
                 
                 proxySettings.httpServer = NEProxyServer(address: proxyIpAddr, port: httpProxyPort)
                 proxySettings.httpEnabled = true
-            }
-            if SFSettingModule.setting.httpsProxyEnable {
                 proxySettings.httpsServer = NEProxyServer(address: proxyIpAddr, port: HttpsProxyPort)
                 proxySettings.httpsEnabled = true
             }
+            
             if let g =  SFSettingModule.setting.rule!.general{
                 if !g.skipproxy.isEmpty {
                     proxySettings.exceptionList  = g.skipproxy
@@ -391,6 +392,15 @@ public class SKit {
         }
         SKit.log(message,level:.Info)
     }
+    public static func wake(){
+        SKit.lastWakeupTime = Date()
+        AxLogger.log("Device wake!!!",level: .Notify)
+    }
+    public static func sleep(completionHandler: @escaping () -> Void){
+        SKit.lastSleepTime = Date()
+        AxLogger.log("Device sleep!!!",level: .Notify)
+        completionHandler()
+    }
     static public func loadConfig(){
         
         
@@ -428,10 +438,10 @@ public class SKit {
     }
     static func log(_ msg:String,items: Any...,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
        
-//        if level != AxLoggerLevel.Debug {
-//            AxLogger.log(msg,level:level)
-//        }
-        print(msg)
+        if level != AxLoggerLevel.Debug {
+            AxLogger.log(msg,level:level)
+        }
+       // print(msg)
         
        
     }

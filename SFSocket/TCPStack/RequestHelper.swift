@@ -58,7 +58,7 @@ public class RequestHelper{
             do {
                 try db.inDatabase { db in
                     try db.execute(
-                        "CREATE TABLE \"requests\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"reqID\" INTEGER NOT NULL,\"subID\" INTEGER NOT NULL , \"mode\" TEXT NOT NULL, \"url\" TEXT NOT NULL, \"app\" TEXT NOT NULL, \"start\" REAL NOT NULL, \"status\" TEXT NOT NULL, \"closereason\" INTEGER NOT NULL, \"reqHeader\" TEXT NOT NULL, \"respHeader\" TEXT NOT NULL, \"proxyName\" TEXT NOT NULL, \"name\" TEXT NOT NULL, \"type\" INTEGER NOT NULL, \"ruleTime\" REAL NOT NULL, \"Est\" REAL NOT NULL, \"transferTiming\" REAL NOT NULL, \"tx\" INTEGER NOT NULL, \"rx\" INTEGER NOT NULL, \"end\" REAL NOT NULL, \"interface\" INTEGER NOT NULL, \"localIP\" TEXT NOT NULL, \"remoteIP\" TEXT NOT NULL);")
+                        "CREATE TABLE \"requests\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"reqID\" INTEGER NOT NULL,\"subID\" INTEGER NOT NULL , \"mode\" TEXT NOT NULL, \"url\" TEXT NOT NULL, \"app\" TEXT NOT NULL, \"start\" REAL NOT NULL, \"status\" TEXT NOT NULL, \"closereason\" INTEGER NOT NULL, \"reqHeader\" TEXT NOT NULL, \"respHeader\" TEXT NOT NULL, \"proxyName\" TEXT NOT NULL, \"name\" TEXT NOT NULL, \"type\" INTEGER NOT NULL, \"ruleTime\" REAL NOT NULL, \"Est\" REAL NOT NULL, \"transferTiming\" REAL NOT NULL, \"tx\" INTEGER NOT NULL, \"rx\" INTEGER NOT NULL, \"end\" REAL NOT NULL, \"interface\" INTEGER NOT NULL, \"localIP\" TEXT NOT NULL, \"remoteIP\" TEXT NOT NULL, \"wakeup\" REAL NOT NULL, \"sleep\" REAL NOT NULL);")
 //                    try db.create(table:"requests") { t in
 //                        
 //                        t.column("id", .Integer).primaryKey()
@@ -140,7 +140,7 @@ public class RequestHelper{
                      //reqID,subID,?,?,info.reqID,info.subID
                     try db.execute(
                        //有bug
-                        "INSERT INTO requests (reqID,subID,mode, url, app,start,status,closereason,reqHeader,respHeader,proxyName,name,type,ruleTime,Est,transferTiming, tx,rx,end,interface,localIP,remoteIP) VALUES (?,?,?, ?, ?,?,?, ?, ?,?,?, ?, ?,?,?, ?, ?,?,?,?,?,?) ",arguments: [Int64(info.reqID),Int64(info.subID), info.mode.description, info.url,info.app,info.sTime.timeIntervalSince1970,info.status.description,info.closereason.rawValue,req,resp,info.rule.proxyName,info.rule.name,Int64(info.rule.type.rawValue),info.rule.timming,info.connectionTiming,info.transferTiming,Int64(info.traffice.tx),Int64(info.traffice.rx),info.eTime.timeIntervalSince1970,info.interfaceCell,info.localIPaddress,info.remoteIPaddress])
+                        "INSERT INTO requests (reqID,subID,mode, url, app,start,status,closereason,reqHeader,respHeader,proxyName,name,type,ruleTime,Est,transferTiming, tx,rx,end,interface,localIP,remoteIP,wakeup,sleep) VALUES (?,?,?, ?, ?,?,?, ?, ?,?,?, ?, ?,?,?, ?, ?,?,?,?,?,?,?,?) ",arguments: [Int64(info.reqID),Int64(info.subID), info.mode.description, info.url,info.app,info.sTime.timeIntervalSince1970,info.status.description,info.closereason.rawValue,req,resp,info.rule.proxyName,info.rule.name,Int64(info.rule.type.rawValue),info.rule.timming,info.connectionTiming,info.transferTiming,Int64(info.traffice.tx),Int64(info.traffice.rx),info.eTime.timeIntervalSince1970,info.interfaceCell,info.localIPaddress,info.remoteIPaddress,SKit.lastSleepTime.timeIntervalSince1970,SKit.lastSleepTime.timeIntervalSince1970])
 
                     
                     }
@@ -190,16 +190,16 @@ public class RequestHelper{
 //                    req.subID =  UInt32(row.value(named: "subID"))
                     //print(row[url])
                     //print(row[url])
-                    req.mode =  SFConnectionMode(rawValue:row.value(named:"mode"))!
-                    req.url = row.value(named:"url")
-                    req.app = row.value(named:"app")
-                    req.sTime = Date.init(timeIntervalSince1970: row.value(named:"start"))
+                    req.mode =  SFConnectionMode(rawValue:row["mode"])!
+                    req.url = row["url"]
+                    req.app = row["app"]
+                    req.sTime = Date.init(timeIntervalSince1970: row["start"])
                     result.append(req)
-                    req.status = SFConnectionStatus(rawValue:row.value(named:"status"))!
-                    req.closereason = SFConnectionCompleteReason(rawValue:row.value(named:"closereason"))!
+                    req.status = SFConnectionStatus(rawValue:row["status"])!
+                    req.closereason = SFConnectionCompleteReason(rawValue:row["closereason"])!
                     
                     if req.mode != .TCP {
-                        var head:String = row.value(named:"respheader")
+                        var head:String = row["respheader"]
                         if let d = head.data(using: .utf8) {
                             if d.count > 0 {
                                 req.respHeader = SFHTTPResponseHeader.init(data: d)
@@ -207,7 +207,7 @@ public class RequestHelper{
                             
                             
                         }
-                        head = row.value(named:"reqheader")
+                        head = row["reqheader"]
                         if let d = head.data(using: .utf8) {
                             if d.count > 0 {
                                 req.reqHeader =  SFHTTPRequestHeader.init(data: d)
@@ -216,23 +216,23 @@ public class RequestHelper{
                         }
                         
                     }
-                    req.rule.timming = row.value(named:"ruleTime")
-                    req.rule.proxyName = row.value(named:"proxyName")
-                    req.rule.name = row.value(named:"name")
-                    req.rule.type = SFRulerType(rawValue: row.value(named:"type"))!
-                    req.connectionTiming = row.value(named:"Est")
-                    req.transferTiming = row.value(named:"transferTiming")
-                    let rx:Int = row.value(named:"rx")
-                    let tx:Int = row.value(named:"tx")
+                    req.rule.timming = row["ruleTime"]
+                    req.rule.proxyName = row["proxyName"]
+                    req.rule.name = row["name"]
+                    req.rule.type = SFRulerType(rawValue: row["type"])!
+                    req.connectionTiming = row["Est"]
+                    req.transferTiming = row["transferTiming"]
+                    let rx:Int = row["rx"]
+                    let tx:Int = row["tx"]
                     
                     req.traffice.rx = UInt(rx)
                     req.traffice.tx = UInt(tx)
 
                     
-                    req.eTime = Date.init(timeIntervalSince1970: row.value(named:"end"))
-                    req.interfaceCell = row.value(named:"interface")
-                    req.localIPaddress = row.value(named:"localIP")
-                    req.remoteIPaddress = row.value(named:"remoteIP")
+                    req.eTime = Date.init(timeIntervalSince1970: row["end"])
+                    req.interfaceCell = row["interface"]
+                    req.localIPaddress = row["localIP"]
+                    req.remoteIPaddress = row["remoteIP"]
                     
                     
 

@@ -11,6 +11,7 @@ import Foundation
 import SwiftyJSON
 import AxLogger
 
+
 open  class SFSettingModule {
     //static let setting = SFSettingModule()
     public static var config:String = ""
@@ -22,9 +23,12 @@ open  class SFSettingModule {
 //        print("config url:\(urlContain.path!)")
 //        return SFSettingModule(path: urlContain.path!)
 //    }()
-    let httpProxyModeSocket = true
-    var httpProxyEnable = true
-    var httpsProxyEnable = true
+    enum  HTTPProxyMode{
+        case socket
+        case tunnel
+    }
+   
+    var mode:HTTPProxyMode = .tunnel
     var socksProxyEnable = false
     public var udprelayer = true
     //var hosts:[DNSRecord] = []//
