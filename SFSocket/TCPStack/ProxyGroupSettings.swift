@@ -130,7 +130,7 @@ public class ProxyGroupSettings:CommonModel {
     public var showCountry:Bool = true
     public var widgetProxyCount:Int = 3
     public var selectIndex:Int = 0
-    public var config:String = "surf.conf"
+    public var config:String = "Default.conf"
     public var saveDBIng:Bool = false
     public var widgetFlow:Bool = false
     public var lastupData:Date = Date()

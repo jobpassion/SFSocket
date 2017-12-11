@@ -405,23 +405,23 @@ public class SKit {
         
         
         
-        var   fn = ProxyGroupSettings.share.config
-        //Mac 用单一文件
-        if fn.isEmpty {
-            fn  = "abigt.conf"
-        }else {
-            #if os(macOS)
-                fn = "abigt.conf"
-            #endif
-        }
+        let    fn = ProxyGroupSettings.share.config
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         formatter.timeZone = NSTimeZone.system
         SKit.log("Config FileModificationDate \(formatter.string(from: SFSettingModule.setting.configFileData as Date))",level:.Info)
-        let  path = groupContainerURL().appendingPathComponent(fn).path
-        SFSettingModule.setting.config(path)
+        var path:String!
+        if fn == "Default.conf" {
+            let bundle = Bundle.init(for: SKit.self)
+            
+            path = bundle.bundleURL.appendingPathComponent(fn).path
+        }else {
+            path = groupContainerURL().appendingPathComponent(fn).path
+            
+        }
         
+        SFSettingModule.setting.config(path)
         
         
         

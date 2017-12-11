@@ -114,6 +114,8 @@
 		6938BFC41E88B6C900332D82 /* CHTTPProxConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6938BFC31E88B6C900332D82 /* CHTTPProxConnector.swift */; };
 		694144A01FDE1D4400F73C5A /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6941449F1FDE1D4400F73C5A /* extension.swift */; };
 		694144A11FDE1D4400F73C5A /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6941449F1FDE1D4400F73C5A /* extension.swift */; };
+		694144B91FDE3E1100F73C5A /* Default.conf in Resources */ = {isa = PBXBuildFile; fileRef = 694144B81FDE3E1000F73C5A /* Default.conf */; };
+		694144BA1FDE3E1100F73C5A /* Default.conf in Resources */ = {isa = PBXBuildFile; fileRef = 694144B81FDE3E1000F73C5A /* Default.conf */; };
 		694719881EE528F60059BEF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694719871EE528F60059BEF8 /* AppDelegate.swift */; };
 		6947198A1EE528F60059BEF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694719891EE528F60059BEF8 /* ViewController.swift */; };
 		6947198C1EE528F60059BEF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6947198B1EE528F60059BEF8 /* Assets.xcassets */; };
@@ -483,6 +485,7 @@
 		6938BFC11E88B63000332D82 /* HTTPAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = HTTPAdapter.swift; path = tcp/HTTPAdapter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6938BFC31E88B6C900332D82 /* CHTTPProxConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = CHTTPProxConnector.swift; path = tcp/CHTTPProxConnector.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6941449F1FDE1D4400F73C5A /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		694144B81FDE3E1000F73C5A /* Default.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Default.conf; sourceTree = "<group>"; };
 		694719851EE528F60059BEF8 /* OSXTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OSXTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		694719871EE528F60059BEF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		694719891EE528F60059BEF8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -967,6 +970,7 @@
 		69C298901DD593FF00E4C3BD /* SFSocket */ = {
 			isa = PBXGroup;
 			children = (
+				694144B81FDE3E1000F73C5A /* Default.conf */,
 				69F7456C1F4BDF2600A39C30 /* socket */,
 				69E40F401F4A7DB600C1DDC3 /* GCDServer */,
 				69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */,
@@ -1312,6 +1316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				694144BA1FDE3E1100F73C5A /* Default.conf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1319,6 +1324,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				694144B91FDE3E1100F73C5A /* Default.conf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
