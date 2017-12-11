@@ -1,6 +1,6 @@
 github "Hearst-DD/ObjectMapper" "0c116f44b5d052892146bcb94ad6c690b3dec40d"
 github "ashleymills/Reachability.swift" "v3.0"
-github "groue/GRDB.swift" "578b9a527547c7c5a4ae98ef2f70c6c1da8362cf"
+github "groue/GRDB.swift" "v2.4.0"
 github "iosdevzone/IDZSwiftCommonCrypto" "0.10.0"
 github "networkextension/AxLogger" "af51fad13e249d9dd38b2f15e807e2f4dd0e480d"
 github "networkextension/DarwinCore" "9dab612f6d896a4969ffebbdda83313089711e62"
