@@ -8,7 +8,8 @@
 
 import Foundation
 import lwip
-
+import Xcon
+import XRuler
 import AxLogger
 import DarwinCore
 //#define ERR_OK          0    /* No error, everything OK. */
@@ -43,16 +44,7 @@ let LWIP_ASYNC_TCP_OUT = false
 let LWIP_ASYNC_TCP_Recved = false
 
 class SFConnection: TUNConnection ,TCPCientDelegate{
-    /**
-     The socket did disconnect.
-     
-     This should only be called once in the entire lifetime of a socket. After this is called, the delegate will not receive any other events from that socket and the socket should be released.
-     
-     - parameter socket: The socket which did disconnect.
-     */
-    override func didDisconnect(_ socket: TCPSession, error: Error?) {
-        
-    }
+    
 
 
     
@@ -160,9 +152,10 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
         return (manager?.dispatchQueue)!
     }
     func setUpConnector(_ host:String,port:UInt16){
-        guard let c = TCPSession.socketFromProxy(reqInfo.proxy, policy: reqInfo.rule.policy, targetHost: host, Port: port, sID: reqInfo.reqID, delegate: self, queue: self.delegateQueue()) else {
+        guard let c = Xcon.socketFromProxy(reqInfo.proxy, targetHost: host, Port: port, sID: reqInfo.reqID, delegate: self, queue: self.delegateQueue()) else {
             fatalError("")
         }
+        
         connector = c
     }
     func genPolicy(_ dest:String,useragent:String) ->Bool{
@@ -372,7 +365,7 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
             if reqInfo.socks_up {
                 SKit.log("close: \(self.reqInfo.url)",level: .Notify)
                 //let e = NSError.init(domain: errDomain, code: -1, userInfo: ["reason":"client_murder"])
-                connector?.forceDisconnect()
+                connector?.forceDisconnect(0)
             }
             
         }
@@ -848,7 +841,7 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
                         if reqInfo.socks_up{
                             SKit.log("\(cIDString) foreceClose \(self.reqInfo.url)",level: .Debug)
                             //c.disconnectWithError(NSError.init(domain: errDomain, code: 0, userInfo: ["reason":"forceClose"]))
-                            c.forceDisconnect()
+                            c.forceDisconnect(0)
                         }
                         
                     }
@@ -980,7 +973,7 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
                     SKit.log("\(e.localizedDescription) \(self.reqInfo.url)",level: .Verbose)
                     //reqInfo.status = .Complete
                     //self.connector!.disconnectWithError(e)
-                    self.connector!.forceDisconnect()
+                    self.connector!.forceDisconnect(0)
                 }
                 
                 
@@ -1071,8 +1064,8 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
             bufArray.removeAll()
             bufArrayInfo[tag] = sendData.count
             sendingTag = tag
-            connector.sendData(sendData, withTag: Int(tag))
             
+            connector.writeData(sendData, withTag: Int(tag))
             
         }
     }
@@ -1220,7 +1213,7 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
                     SKit.log("murder \(self.reqInfo.url)",level: .Notify)
                     //c.disconnectWithError(NSError.init(domain: errDomain, code: -1, userInfo: ["reason":"client_murder"]))
                     c.delegate = nil
-                    c.forceDisconnect()
+                    c.forceDisconnect(0)
                     //c.disconnect()
                 }
                 
@@ -1233,42 +1226,52 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
     }
     
     //delegate func
-    func didDisconnect(_ socket: TCPSession){
-        SKit.log("\(cIDString) socket didDisconnect", level: .Debug)
-        
-        
-        if reqInfo.status == .Complete {
-            if let m = manager{
-                
-                m.removeConnectionRef(self)
-            }
-        }else {
+
+//    func connectorDidSetupFailed(_ connector:TCPSession, withError:NSError){
+//
+//        SKit.log("\(cIDString)socket DidDisconnect:\((withError))",level: .Error)
+//
+//
+//        client_socks_handler(.event_ERROR)
+//    }
+    
+   override func didDisconnect(_ socket: Xcon, error: Error?) {
+    SKit.log("\(cIDString) socket didDisconnect", level: .Debug)
+    
+    
+    if reqInfo.status == .Complete {
+        if let m = manager{
             
-            let code = 4
-            if let x = SFConnectionCompleteReason(rawValue:code){
-                reqInfo.closereason = x
-            }else {
-                reqInfo.closereason = .otherError
-            }
-            
-            
-            connector!.delegate = nil
-            
-            //reqInfo.socks_up = false
-            //reqInfo.status = .Complete
-            client_socks_handler(.event_ERROR_CLOSED)
+            m.removeConnectionRef(self)
         }
+    }else {
+        
+        let code = 4
+        if let x = SFConnectionCompleteReason(rawValue:code){
+            reqInfo.closereason = x
+        }else {
+            reqInfo.closereason = .otherError
+        }
+        
+        
+        connector!.delegate = nil
+        
+        //reqInfo.socks_up = false
+        //reqInfo.status = .Complete
+        client_socks_handler(.event_ERROR_CLOSED)
     }
-    override func didReadData(_ data: Data, withTag: Int, from: TCPSession){
+    }
+    
+    override func didReadData(_ data: Data, withTag: Int, from: Xcon) {
         SKit.log("\(cIDString) socket didReadData", level: .Debug)
         if socks_recv_bufArray.count != 0{
             fatalError()
         }
         socks_recv_bufArray.append(data)
         client_socks_recv_handler_done(data.count)
-
     }
-    override func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
+    
+    override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
         SKit.log("\(cIDString) socket didWriteData \(tag)", level: .Debug)
         if self.tag == tag {
             //let d = bufArray.removeFirst()
@@ -1280,24 +1283,17 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
             SKit.log("\(cIDString) currrent tag: \(tag) != \(self.tag)",level: .Debug)
         }
     }
-    override func didConnect(_ socket: TCPSession){
+    
+    override func didConnect(_ socket: Xcon) {
         SKit.log("\(cIDString) Connect OK with Socket", level: .Info)
         //SKit.log("\(cIDString)  host:\(connector.targetHost) port:\(connector.targetPort) ESTABLISHED",level: .Verbose)
         
         
         reqInfo.interfaceCell  = socket.useCell ? 1: 0
         //MARK: fixme
-        reqInfo.localIPaddress = socket.sourceIPAddress!
-        reqInfo.remoteIPaddress = socket.destinationIPAddress!
+       // reqInfo.localIPaddress = socket.sourceIPAddress!
+       // reqInfo.remoteIPaddress = socket.destinationIPAddress!
         SKit.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
         client_socks_handler(.event_UP)
     }
-    func connectorDidSetupFailed(_ connector:TCPSession, withError:NSError){
-        
-        SKit.log("\(cIDString)socket DidDisconnect:\((withError))",level: .Error)
-        
-        
-        client_socks_handler(.event_ERROR)
-    }
-    
 }

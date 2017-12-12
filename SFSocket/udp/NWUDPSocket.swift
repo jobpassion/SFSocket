@@ -1,6 +1,7 @@
 import Foundation
 import NetworkExtension
 import AxLogger
+import XSocket
 /// The delegate protocol of `NWUDPSocket`.
 public protocol NWUDPSocketDelegate: class {
     /**

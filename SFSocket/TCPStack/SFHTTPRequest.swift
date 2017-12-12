@@ -8,7 +8,8 @@
 
 import Foundation
 import AxLogger
-
+import Xcon
+import XRuler
 class SFHTTPRequest: SFConnection{
     
     
@@ -157,7 +158,7 @@ class SFHTTPRequest: SFConnection{
         //twitter 10 内加载不成功
         connection(10)
     }
-    override func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
+    override func didWriteData(_ data: Data?, withTag: Int, from: Xcon){
        //SKit.log("\(cIDString) didWriteDataWithTag \(_tag) \(tag)",level: .Debug)
         //NSLog("currrent tag: \(tag) == \(_tag)")
         reqInfo.status = .Transferring

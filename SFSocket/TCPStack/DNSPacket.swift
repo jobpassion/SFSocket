@@ -9,7 +9,7 @@
 import Foundation
 import Darwin
 import AxLogger
-
+import XRuler
 public enum QTYPE:UInt16,CustomStringConvertible{
     case a = 0x0001
     case ns = 0x0002
@@ -302,7 +302,8 @@ class DNSPacket: NSObject {
                 SKit.log("DNS Response:",items: ipString,level: .Debug)
                 if    !self.ipString.isEmpty {
                     let r = DNSCache.init(d: d, i: ipString)
-                    SFSettingModule.setting.addDNSCacheRecord(r)
+                    //MARK --fixme
+                    //SFSettingModule.setting.addDNSCacheRecord(r)
                     
                 }else {
                      SKit.log("DNS  IN not found record",items: d, level: .Error)

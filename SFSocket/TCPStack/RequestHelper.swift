@@ -219,7 +219,8 @@ public class RequestHelper{
                     req.rule.timming = row["ruleTime"]
                     req.rule.proxyName = row["proxyName"]
                     req.rule.name = row["name"]
-                    req.rule.type = SFRulerType(rawValue: row["type"])!
+                    //MARK --fixme
+                    //req.rule.type = SFRulerType(rawValue: row["type"])!
                     req.connectionTiming = row["Est"]
                     req.transferTiming = row["transferTiming"]
                     let rx:Int = row["rx"]

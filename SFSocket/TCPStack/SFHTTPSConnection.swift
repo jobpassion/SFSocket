@@ -9,7 +9,7 @@
 import Foundation
 import lwip
 import AxLogger
-
+import Xcon
 class SFHTTPSConnection: SFHTTPRequest {
     override func configLwip() {
         //reqInfo.mode = .HTTPS
@@ -274,7 +274,7 @@ class SFHTTPSConnection: SFHTTPRequest {
 //        debugLog("connectorDidDisconnect \(self.reqInfo.url)" + withError.description)
 //        client_socks_handler(.EVENT_ERROR_CLOSED)
 //    }
-    override func didReadData(_ data: Data, withTag: Int, from: TCPSession) {
+    override func didReadData(_ data: Data, withTag: Int, from: Xcon) {
         
       
         //reqInfo.status = .Transferring

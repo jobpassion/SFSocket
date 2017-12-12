@@ -20,7 +20,7 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
     //var targetPort:UInt16 = 0
     
     
-    var rule:SFRuler?
+    //var rule:SFRuler?
     
     override init(sip:Data, dip:Data,packet:UDPPacket) {
         super.init(sip: sip , dip: dip , packet: packet)

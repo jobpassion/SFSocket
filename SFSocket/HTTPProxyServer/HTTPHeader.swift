@@ -168,7 +168,7 @@ open class HTTPHeader {
         static let relativePathRegex = try! NSRegularExpression(pattern: "http.?:\\/\\/.*?(\\/.*)", options: NSRegularExpression.Options.caseInsensitive)
 
         static func matchRelativePath(_ url: String) -> String? {
-            if let result = relativePathRegex.firstMatch(in: url, options: NSRegularExpression.MatchingOptions(), range: NSRange(location: 0, length: url.characters.count)) {
+            if let result = relativePathRegex.firstMatch(in: url, options: NSRegularExpression.MatchingOptions(), range: NSRange(location: 0, length: url.count)) {
 
                 return (url as NSString).substring(with: result.range(at: 1))
             } else {

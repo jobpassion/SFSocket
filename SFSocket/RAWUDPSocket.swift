@@ -43,7 +43,19 @@ extension NWUDPSessionState: CustomStringConvertible {
         }
     }
 }
+import XSocket
+//var SFUDPSocketID = 0
 open class RAWUDPSocket :NSObject,RawSocketProtocol{
+    public var sourceIPAddress: IPv4Address?
+    
+    public var sourcePort: Port?
+    
+    public var destinationIPAddress: IPv4Address?
+    
+    public var destinationPort: Port?
+    
+   
+    
      /**
      Disconnect the socket.
      
@@ -122,8 +134,8 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
     }
     override init() {
         
-        cID = SFTCPSocketID
-        SFTCPSocketID += 1
+        cID = SFUDPSocketID
+        SFUDPSocketID += 1
         super.init()
         
     }
@@ -192,16 +204,16 @@ open class RAWUDPSocket :NSObject,RawSocketProtocol{
     public var writePending:Bool  = false
     public var readPending:Bool  = false
     /// The source address.
-    public var sourceIPAddress: IPv4Address?
-    
-    /// The source port.
-    public var sourcePort: Port?
-    
-    /// The destination address.
-    public var destinationIPAddress: IPv4Address?
-    
-    /// The destination port.
-    public var destinationPort: Port?
+//    public var sourceIPAddress: IPv4Address?
+//    
+//    /// The source port.
+//    public var sourcePort: Port?
+//    
+//    /// The destination address.
+//    public var destinationIPAddress: IPv4Address?
+//    
+//    /// The destination port.
+//    public var destinationPort: Port?
     
     /// cell or wifi
     public var useCell:Bool{

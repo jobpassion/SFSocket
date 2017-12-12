@@ -10,6 +10,7 @@
 //https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
 import Foundation
 import AxLogger
+import Xcon
 public enum HTTPmethod: String {
     case DELETE = "DELETE"
     case GET = "GET"

@@ -30,18 +30,7 @@ public enum SFPolicy :String{
 //let SOCKS_DOMAIN :UInt8 = 0x03
 //let SOCKS_IPV6:UInt8 = 0x04
 //let SOCKS_CMD_NOT_SUPPORTED :UInt8 = 0x07
-public enum SOCKS5HostType:UInt8,CustomStringConvertible{
-    case IPV4 = 0x01
-    case DOMAIN = 0x03
-    case IPV6 = 0x04
-    public var description: String {
-        switch self {
-        case .IPV4 :return "SFSocks5HostTypeIPV4"
-        case .DOMAIN: return "SFSocks5HostTypeDOMAIN"
-        case .IPV6: return "SFSocks5HostTypeIPV6"
-        }
-    }
-}
+
 
 public extension String {
     public func to(index:Int) ->String{
@@ -61,22 +50,22 @@ public extension String {
         
     }
 
-    public func validateIpAddr() ->SOCKS5HostType{
-        var sin = sockaddr_in()
-        var sin6 = sockaddr_in6()
-        
-        if self.withCString({ cstring in inet_pton(AF_INET6, cstring, &sin6.sin6_addr) }) == 1 {
-            // IPv6 peer.
-            return .IPV6
-        }
-        else if self.withCString({ cstring in inet_pton(AF_INET, cstring, &sin.sin_addr) }) == 1 {
-            // IPv4 peer.
-            return .IPV4
-        }
-        
-        return .DOMAIN
-        
-    }
+//    public func validateIpAddr() ->SOCKS5HostType{
+//        var sin = sockaddr_in()
+//        var sin6 = sockaddr_in6()
+//        
+//        if self.withCString({ cstring in inet_pton(AF_INET6, cstring, &sin6.sin6_addr) }) == 1 {
+//            // IPv6 peer.
+//            return .IPV6
+//        }
+//        else if self.withCString({ cstring in inet_pton(AF_INET, cstring, &sin.sin_addr) }) == 1 {
+//            // IPv4 peer.
+//            return .IPV4
+//        }
+//        
+//        return .DOMAIN
+//        
+//    }
 }
 
 public func toIPv6Addr(ipString:String) -> Data?  {

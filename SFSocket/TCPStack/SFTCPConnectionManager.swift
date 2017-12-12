@@ -12,6 +12,7 @@ import DarwinCore
 import SwiftyJSON
 import lwip
 import AxLogger
+import XRuler
 class LWIPTraffic {
     var sport:UInt16 = 0
     var lwipInputSpeed:UInt = 0
@@ -64,7 +65,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     open func lwipInitFinish() {
         lwip_init_finished = true
     }
-    var clientTree:AVLTree = AVLTree<Int32,GCDTunnelConnection>()
+    
     public static let manager:SFTCPConnectionManager = SFTCPConnectionManager()
     
     internal static func shared() -> SFTCPConnectionManager{
@@ -370,7 +371,7 @@ extension SFTCPConnectionManager{
         //self.cancel()
         dispatchQueue.async { [unowned self] in
             self.closeAllConnection()
-            Smux.sharedTunnel.shutdown()
+            
             self.ruleTestResult.removeAll()
             self.lwipInputSpeed.removeAll()
             SKit.log("[SFTCPConnectionManager] Connection clean Done!",level: .Notify)
@@ -690,7 +691,7 @@ extension SFTCPConnectionManager {
         
     }
 }
-extension SFTCPConnectionManager:ClientDelegate {
+extension SFTCPConnectionManager {
     func startProxyServer(){
         #if os(iOS)
 //            let dispatchQueue = DispatchQueue(label:"com.yarshure.httpproxy");
@@ -699,48 +700,13 @@ extension SFTCPConnectionManager:ClientDelegate {
 //            }
         #endif
     }
-    
-    func clientDead(c:GCDHTTPConnection){
-        let fd = c.fd
-        close(fd)
-        
-        
-    }
+ 
     
     public func startGCDServer(){
         
-        if let server = GCDSocketServer.shared(){
-            server.accept = { fd,addr,port in
-                let c = GCDTunnelConnection.init(sfd: fd, rip: addr!, rport: UInt16(port), dip: "127.0.0.1", dport: 10081)
-                
-                self.clientTree.insert(key: fd, payload: c)
-                //c.connect()
-                print("\(fd) \(String(describing: addr)) \(port)")
-            }
-            server.colse = { fd in
-                print("\(fd) close")
-                //self.clientTree.delete(key: fd)
-                if let c = self.clientTree.search(input: fd){
-                    c.forceCloseRemote()
-                    self.clientTree.delete(key: fd)
-                }
-            }
-            server.incoming  = { fd ,data in
-                print("\(fd) \(String(describing: data))")
-                
-                if let c = self.clientTree.search(input: fd){
-                    c.incommingData(data!,len:data!.count)
-                    c.manager = SFTCPConnectionManager.shared()
-                }
-                //server.server_write_request(fd, buffer: "wello come\n", total: 11);
-            }
-            //let q = DispatchQueue.init(label: "dispatch queue")
-            server.start(10081, queue: DispatchQueue.main)
-        }
+        
  
     }
-    func saveTunnelConnectionInfo(_ c:GCDTunnelConnection){
-        
-    }
+  
     
 }

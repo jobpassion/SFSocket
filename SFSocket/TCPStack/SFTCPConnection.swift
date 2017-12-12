@@ -9,7 +9,8 @@
 import Foundation
 import lwip
 import AxLogger
-
+import Xcon
+import XRuler
 class SFTCPConnection: SFConnection {
 //    override internal init(tcp:SFPcb, host:UInt32,port:UInt16, m:SFTCPConnectionManager){
 //        pcb = tcp
@@ -173,7 +174,7 @@ class SFTCPConnection: SFConnection {
             }
         }
     }
-    override func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
+    override func didWriteData(_ data: Data?, withTag: Int, from: Xcon){
        SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
         
         reqInfo.status = .Transferring
@@ -202,7 +203,7 @@ class SFTCPConnection: SFConnection {
         processData("didWriteData")
     }
 
-    override func  didReadData(_ data: Data, withTag: Int, from: TCPSession){
+    override func  didReadData(_ data: Data, withTag: Int, from: Xcon) {
         
         reqInfo.status = .Transferring
         SKit.log("\(cIDString) didReadData \(reqInfo.url):\(data.length)",level:  .Debug)

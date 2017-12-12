@@ -10,6 +10,8 @@ import Foundation
 import ObjectMapper
 import SwiftyJSON
 import AxLogger
+import Xcon
+import XRuler
 extension SFRequestInfo {
     func findProxy(_ r:SFRuleResult,cache:Bool) {
         
@@ -164,29 +166,7 @@ extension SFProxy{
 extension SFHTTPRequestHeader {
     func checkRewrite() ->Bool{
         //rewrite
-        if  let r =  SFSettingModule.setting.rule{
-            if let ruler = r.rewriteRule(self.Url){
-                if ruler.type == .header {
-                    if let r = self.Url.range(of: ruler.name){
-                        self.Url.replaceSubrange(r, with: ruler.proxyName)
-                        let dest = ruler.proxyName
-                        let dlist = dest.components(separatedBy: "/")
-                        for dd in dlist {
-                            if !dd.isEmpty && !dd.hasPrefix("http"){
-                                self.params["Host"] = dd
-                                return true
-                            }
-                            
-                        }
-                        
-                        
-                        
-                    }
-                }
-                
-                
-            }
-        }
+        
         return false
     }
 }

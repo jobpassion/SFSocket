@@ -1,16 +1,8 @@
-github "robbiehanson/CocoaAsyncSocket" "7.5.1"
-github "networkextension/AxLogger" "af51fad13e249d9dd38b2f15e807e2f4dd0e480d"
-github "networkextension/libkcp" "c0cfb12e3d576788ecae2c2be14e2517169e5628"
 github "networkextension/snappy-ios" "72c2b14842943a1f21eb2a76c06d76689fd7aa57"
-github "zhuhaow/Sodium-framework" "v1.0.10.1"
-github "networkextension/SwiftyJSON" "3.1.4"
-github "soffes/CommonCrypto" "v1.1.0"
-github "soffes/Crypto" "19697812f32d57dc6293b880690ce7fb4cfd7c10"
-github "iosdevzone/IDZSwiftCommonCrypto"
 github "Hearst-DD/ObjectMapper" "0c116f44b5d052892146bcb94ad6c690b3dec40d"
 github "networkextension/liblwip" "0.2.5"
-github "networkextension/DarwinCore" "9dab612f6d896a4969ffebbdda83313089711e62"
-github "yarshure/MMDB-Swift.git" "a357488a685efcc0d19f1c476e70fb20abc4fee5"
 github "networkextension/SystemKit" "56d5ff28f862f39f6e0a8aefe3964b75ade0dd31"
 github "groue/GRDB.swift" "v2.4.0" #Swift3.1beta
 github "ashleymills/Reachability.swift" ~> 3.0
+
+git "git@bitbucket.org:yarshure/XProxy" "a66a7ee48b1d2dc133c5a83cc0e2ef9f6801dc81"

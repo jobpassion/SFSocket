@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import XProxy
+import XRuler
 let  fm = FileManager.default
 var groupContainerURLVPN:String = ""
 func  groupContainerURL() ->URL{
@@ -261,7 +263,7 @@ public class SKit {
         }
         if  ProxyGroupSettings.share.proxyChain {
             SKit.log("Proxy Chain Enable",level:.Info)
-            ProxyChain.shared.proxy = ProxyGroupSettings.share.chainProxy
+            //ProxyChain.shared.proxy = ProxyGroupSettings.share.chainProxy
         }
         let ips = query("dns.weixin.qq.com")
         if  !ips.isEmpty {
@@ -413,7 +415,7 @@ public class SKit {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         formatter.timeZone = NSTimeZone.system
-        SKit.log("Config FileModificationDate \(formatter.string(from: SFSettingModule.setting.configFileData as Date))",level:.Info)
+        
         var path:String!
         if fn == "Default.conf" {
             let bundle = Bundle.init(for: SKit.self)
@@ -451,18 +453,20 @@ public class SKit {
     static public  func prepare() ->Bool{
         SKit.loadConfig()
         let  pp = ProxyGroupSettings.share
-        print(pp.proxys.count)
-        
-        if let  rule = SFSettingModule.setting.rule {
-            print("rule inited \(rule.cnIPCount)")
-            return true
-        }else {
-            print("rule not init")
-            return false
-        }
+        //MARK: --fixme
+//        print(pp.proxys.count)
+//
+//        if let  rule = SFSettingModule.setting.rule {
+//            print("rule inited \(rule.cnIPCount)")
+//            return true
+//        }else {
+//            print("rule not init")
+//            return false
+//        }
         
 
     }
+    //为了给VPN提供接口？？
     static public func startGCDProxy(){
         SFTCPConnectionManager.manager.startGCDServer()
     }
@@ -473,6 +477,6 @@ public class SKit {
         SFSettingModule.setting.config(path)
     }
     static public func reloadProxy(){
-        ProxyGroupSettings.share.loadProxyFromFile()
+        //ProxyGroupSettings.share.loadProxyFromFile()
     }
 }

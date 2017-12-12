@@ -9,6 +9,7 @@
 import Foundation
 import AxLogger
 import DarwinCore
+import XRuler
 open class SFDNSManager {
     static let manager = SFDNSManager()
     var settings:[DNSServer] = []
@@ -109,12 +110,13 @@ open class SFDNSManager {
     }
     func updateSetting() ->[DNSServer]{
         
-        var result:[DNSServer]
-        if let r = SFSettingModule.setting.rule, let g = r.general{
-             result  = setUpConfig(g.dnsserver)
-        }else {
-            result = setUpConfig(nil)
-        }
+        var result:[DNSServer] = setUpConfig(nil)
+        //MARK --fixme
+//        if let r = SFSettingModule.setting.rule, let g = r.general{
+//             result  = setUpConfig(g.dnsserver)
+//        }else {
+//           
+//        }
         settings = result
         
         //SFNetworkInterfaceManager.instances.updateIPAddress()

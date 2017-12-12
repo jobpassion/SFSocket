@@ -25,7 +25,7 @@
 import Foundation
 import lwip
 import AxLogger
-
+import Xcon
 class SFHTTPConnection: SFHTTPRequest {
     var requestIndex:UInt = 0 //为什么从0 开始 为了分析header 和body用
     //var respsonseIndex:Int = 0//
@@ -653,7 +653,7 @@ class SFHTTPConnection: SFHTTPRequest {
             
         }
     }
-    override func  didReadData(_ data: Data, withTag: Int, from: TCPSession) {
+    override func  didReadData(_ data: Data, withTag: Int, from: Xcon) {
         
         
         //reqInfo.status = .Transferring
@@ -767,7 +767,7 @@ class SFHTTPConnection: SFHTTPRequest {
                     SKit.log("\(cIDString) hostChanged, disconnect socket", level: .Debug)
                     if connector != nil  {
                         connector?.delegate = nil
-                        connector?.forceDisconnect()
+                        connector?.forceDisconnect(0)
                         connector = nil
                     }
                 }else {
@@ -842,7 +842,7 @@ class SFHTTPConnection: SFHTTPRequest {
         
         
     }
-    override func didWriteData(_ data: Data?, withTag: Int, from: TCPSession){
+    override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
         SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
         //NSLog("currrent tag: \(tag) == \(_tag)")
         guard let _ = reqInfo.reqHeader else {return}
@@ -968,7 +968,7 @@ class SFHTTPConnection: SFHTTPRequest {
                             SKit.log("\(e.localizedDescription) \(self.reqInfo.url)",level: .Verbose)
                             //reqInfo.status = .Complete
                             if let connector = connector{
-                                connector.forceDisconnect()
+                                connector.forceDisconnect(0)
                             }
                             
                         }else {
