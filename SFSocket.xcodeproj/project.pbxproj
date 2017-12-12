@@ -1052,6 +1052,7 @@
 					694719841EE528F60059BEF8 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 745WQDK4L7;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					69B954F11DDF81CF006AF669 = {
@@ -1382,7 +1383,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.Surf.OSXTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1405,7 +1407,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.Surf.OSXTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
