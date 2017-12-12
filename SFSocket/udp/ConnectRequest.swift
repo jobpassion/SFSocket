@@ -1,5 +1,5 @@
 import Foundation
-
+import XSocket
 /// The request containing information to connect to remote.
 public final class ConnectRequest {
     /// The requested host.
@@ -82,7 +82,7 @@ public final class ConnectRequest {
          */
     }
     
-    public convenience init?(ipAddress: IPv4Address, port: Port, fakeIPEnabled: Bool = true) {
+    public convenience init?(ipAddress: IPv4Address, port: XPort, fakeIPEnabled: Bool = true) {
         self.init(host: ipAddress.presentation, port: Int(port.value), fakeIPEnabled: fakeIPEnabled)
     }
     /*

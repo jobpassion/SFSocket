@@ -10,7 +10,7 @@ import Foundation
 import Foundation
 import NetworkExtension
 import AxLogger
-
+import XSocket
 /// The wrapper for NWUDPSession.
 ///
 /// - note: This class is thread-safe.
@@ -46,13 +46,29 @@ extension NWUDPSessionState: CustomStringConvertible {
 import XSocket
 //var SFUDPSocketID = 0
 open class RAWUDPSocket :NSObject,RawSocketProtocol{
-    public var sourceIPAddress: IPv4Address?
+    public var sourceIPAddress: IPv4Address?{
+        get {
+            return nil
+        }
+    }
     
-    public var sourcePort: Port?
+    public var sourcePort: XPort? {
+        get {
+            return nil
+        }
+    }
     
-    public var destinationIPAddress: IPv4Address?
+    public var destinationIPAddress: IPv4Address?{
+        get {
+            return nil
+        }
+    }
     
-    public var destinationPort: Port?
+    public var destinationPort: XPort? {
+        get {
+            return nil
+        }
+    }
     
    
     

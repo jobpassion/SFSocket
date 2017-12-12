@@ -10,6 +10,8 @@ import Cocoa
 import SFSocket
 import snappy
 import ObjectMapper
+import Xcon
+import XRuler
 class ViewController: NSViewController {
 
     override func viewDidLoad() {

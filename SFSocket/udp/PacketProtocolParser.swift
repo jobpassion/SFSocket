@@ -1,5 +1,5 @@
 import Foundation
-
+import XSocket
 protocol TransportProtocolParserProtocol {
     var packetData: Data! { get set }
     
@@ -15,10 +15,10 @@ protocol TransportProtocolParserProtocol {
 /// Parser to process UDP packet and build packet.
 class UDPProtocolParser: TransportProtocolParserProtocol {
     /// The source port.
-    var sourcePort: Port!
+    var sourcePort: XPort!
     
     /// The destination port.
-    var destinationPort: Port!
+    var destinationPort: XPort!
     
     /// The data containing the UDP segment.
     var packetData: Data!
@@ -44,8 +44,8 @@ class UDPProtocolParser: TransportProtocolParserProtocol {
         self.packetData = packetData
         self.offset = offset
         
-        sourcePort = Port(bytesInNetworkOrder: (packetData as NSData).bytes.advanced(by: offset))
-        destinationPort = Port(bytesInNetworkOrder: (packetData as NSData).bytes.advanced(by: offset + 2))
+        sourcePort = XPort(bytesInNetworkOrder: (packetData as NSData).bytes.advanced(by: offset))
+        destinationPort = XPort(bytesInNetworkOrder: (packetData as NSData).bytes.advanced(by: offset + 2))
         
         payload = packetData.subdata(in: offset+8..<packetData.count)
     }

@@ -5,4 +5,4 @@ github "networkextension/SystemKit" "56d5ff28f862f39f6e0a8aefe3964b75ade0dd31"
 github "groue/GRDB.swift" "v2.4.0" #Swift3.1beta
 github "ashleymills/Reachability.swift" ~> 3.0
 
-git "git@bitbucket.org:yarshure/XProxy" "a66a7ee48b1d2dc133c5a83cc0e2ef9f6801dc81"
+git "git@bitbucket.org:yarshure/XProxy" "a146215471c1f2482e35b1d6dda5e1727ad30a43"

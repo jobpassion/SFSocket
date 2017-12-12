@@ -1,10 +1,11 @@
 import Foundation
 import AxLogger
+import XSocket
 struct ConnectInfo: Hashable {
     let sourceAddress: IPv4Address
-    let sourcePort: Port
+    let sourcePort: XPort
     let destinationAddress: IPv4Address
-    let destinationPort: Port
+    let destinationPort: XPort
     
     var hashValue: Int {
         return sourceAddress.hashValue &+ sourcePort.hashValue &+ destinationAddress.hashValue &+ destinationPort.hashValue

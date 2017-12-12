@@ -28,7 +28,7 @@ import NetworkExtension
 //let MacTunnelIden = "com.yarshure.Surf.mac.extension"
 //let iOSTunnelIden =  "com.yarshure.Surf.PacketTunnel"
 //let configMacFn = "abigt.conf"
-func ipString(_ ip:UInt32) ->String{
+func ipStringV4(_ ip:UInt32) ->String{
     let a = (ip & 0xFF)
     let b = (ip >> 8 & 0xFF)
     let c = (ip >> 16 & 0xFF)
@@ -210,34 +210,11 @@ public class SKit {
         
         var excludedRoutes = [NEIPv4Route]()
         
-        guard let rule = SFSettingModule.setting.rule else  {
-            let reason = NEProviderStopReason.providerFailed
-            #if os(iOS)
-            provier.alert(message: "Don't Find Conf File,Please Use Main Application Dial VPN",reason:reason)
-                #endif
-            SKit.log("Don't find conf file",level: .Error)
-            return
-        }
-        if let general =  rule.general  {
-            SKit.log("Bypass-tun count \(general.bypasstun.count) ",level: .Info)
-            for item in general.bypasstun {
-                let x = item.components(separatedBy: "/")
-                if x.count == 2{
-                    if let net = x.first, let mask = x.last {
-                        //2,3,4
-                        let netmask :UInt32 = 0xffffffff << (32 - UInt32( mask)!)
-                        
-                        route = NEIPv4Route(destinationAddress: net, subnetMask: ipString(netmask.byteSwapped))
-                        route.gatewayAddress = NEIPv4Route.default().gatewayAddress
-                        excludedRoutes.append(route)
-                    }
-                }
-            }
-        }
         
         
         
-        
+        //todo
+       // SFSettingModule.setting.
         
         
         
@@ -269,7 +246,7 @@ public class SKit {
         if  !ips.isEmpty {
             let r = DNSCache.init(d: "dns.weixin.qq.com.", i: ips)
             SFSettingModule.setting.addDNSCacheRecord(r)
-            SKit.log("DNS \(ips) IN A \(ipString)", level: .Trace)
+            SKit.log("DNS \(ips) IN A \(ips)", level: .Trace)
         }else {
             SKit.log("DNS \(ips) IN not found record", level: .Trace)
         }
@@ -326,14 +303,7 @@ public class SKit {
                 proxySettings.httpsEnabled = true
             }
             
-            if let g =  SFSettingModule.setting.rule!.general{
-                if !g.skipproxy.isEmpty {
-                    proxySettings.exceptionList  = g.skipproxy
-                }
-                
-                proxySettings.excludeSimpleHostnames = true
-                
-            }
+            SFSettingModule.setting.updateProxySetting(setting: proxySettings)
             
         }
         
@@ -463,7 +433,7 @@ public class SKit {
 //            print("rule not init")
 //            return false
 //        }
-        
+        return false
 
     }
     //为了给VPN提供接口？？

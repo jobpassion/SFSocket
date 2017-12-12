@@ -1,5 +1,5 @@
 import Foundation
-
+import XSocket
 import AxLogger
 public enum IPVersion: UInt8 {
     case iPv4 = 4, iPv6 = 6
@@ -83,7 +83,7 @@ open class IPPacket {
      
      - note: Only TCP and UDP packet has port field.
      */
-    open static func peekSourcePort(_ data: Data) -> Port? {
+    open static func peekSourcePort(_ data: Data) -> XPort? {
         guard let proto = peekProtocol(data) else {
             return nil
         }
@@ -99,7 +99,7 @@ open class IPPacket {
             return nil
         }
         
-        return Port(bytesInNetworkOrder: (data as NSData).bytes.advanced(by: headerLength))
+        return XPort(bytesInNetworkOrder: (data as NSData).bytes.advanced(by: headerLength))
     }
     
     /**
@@ -111,7 +111,7 @@ open class IPPacket {
      
      - note: Only TCP and UDP packet has port field.
      */
-    open static func peekDestinationPort(_ data: Data) -> Port? {
+    open static func peekDestinationPort(_ data: Data) -> XPort? {
         guard let proto = peekProtocol(data) else {
             return nil
         }
@@ -127,7 +127,7 @@ open class IPPacket {
             return nil
         }
         
-        return Port(bytesInNetworkOrder: (data as NSData).bytes.advanced(by: headerLength + 2))
+        return XPort(bytesInNetworkOrder: (data as NSData).bytes.advanced(by: headerLength + 2))
     }
     
     
