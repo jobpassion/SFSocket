@@ -67,6 +67,15 @@
 		6913C3B01FDFB7F0006483C1 /* XRuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AC1FDFB7EF006483C1 /* XRuler.framework */; };
 		6913C3B11FDFB7F0006483C1 /* XSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AD1FDFB7EF006483C1 /* XSocket.framework */; };
 		6913C3B21FDFB7F0006483C1 /* XProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AE1FDFB7F0006483C1 /* XProxy.framework */; };
+		6913C3B91FDFDC32006483C1 /* XRuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AC1FDFB7EF006483C1 /* XRuler.framework */; };
+		6913C3BA1FDFDC32006483C1 /* XRuler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AC1FDFB7EF006483C1 /* XRuler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6913C3BB1FDFDC41006483C1 /* Xcon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AB1FDFB7EF006483C1 /* Xcon.framework */; };
+		6913C3BC1FDFDC41006483C1 /* Xcon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AB1FDFB7EF006483C1 /* Xcon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6913C3BE1FDFDC79006483C1 /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */; };
+		6913C3BF1FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */; };
+		6913C3C01FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6913C3C11FDFDCAF006483C1 /* XSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AD1FDFB7EF006483C1 /* XSocket.framework */; };
+		6913C3C21FDFDCAF006483C1 /* XSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AD1FDFB7EF006483C1 /* XSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6914F2101E8A4F600033A46D /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F20F1E8A4F600033A46D /* Frame.swift */; };
 		6914F2121E8A5BE60033A46D /* Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2111E8A5BE60033A46D /* Mux.swift */; };
 		6914F2141E8A5BFD0033A46D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2131E8A5BFD0033A46D /* Session.swift */; };
@@ -282,6 +291,8 @@
 			files = (
 				6928061B1EFA7B79007FCF6A /* SFSocket.framework in Embed Frameworks */,
 				6928062C1EFA7C40007FCF6A /* Sodium.framework in Embed Frameworks */,
+				6913C3C21FDFDCAF006483C1 /* XSocket.framework in Embed Frameworks */,
+				6913C3BC1FDFDC41006483C1 /* Xcon.framework in Embed Frameworks */,
 				692806251EFA7C0C007FCF6A /* Crypto.framework in Embed Frameworks */,
 				694719A11EE529520059BEF8 /* CocoaAsyncSocket.framework in Embed Frameworks */,
 				692806301EFA7C5A007FCF6A /* MMDB.framework in Embed Frameworks */,
@@ -292,6 +303,8 @@
 				692806291EFA7C26007FCF6A /* SwiftyJSON.framework in Embed Frameworks */,
 				694719A31EE529540059BEF8 /* AxLogger.framework in Embed Frameworks */,
 				692806211EFA7BC6007FCF6A /* GRDB.framework in Embed Frameworks */,
+				6913C3C01FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Embed Frameworks */,
+				6913C3BA1FDFDC32006483C1 /* XRuler.framework in Embed Frameworks */,
 				6947199F1EE529500059BEF8 /* CommonCrypto.framework in Embed Frameworks */,
 				694719961EE5292E0059BEF8 /* kcp.framework in Embed Frameworks */,
 			);
@@ -352,6 +365,7 @@
 		6913C3AC1FDFB7EF006483C1 /* XRuler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XRuler.framework; path = Carthage/Build/Mac/XRuler.framework; sourceTree = "<group>"; };
 		6913C3AD1FDFB7EF006483C1 /* XSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XSocket.framework; path = Carthage/Build/Mac/XSocket.framework; sourceTree = "<group>"; };
 		6913C3AE1FDFB7F0006483C1 /* XProxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XProxy.framework; path = Carthage/Build/Mac/XProxy.framework; sourceTree = "<group>"; };
+		6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDZSwiftCommonCrypto.framework; path = Carthage/Build/Mac/IDZSwiftCommonCrypto.framework; sourceTree = "<group>"; };
 		6914F20F1E8A4F600033A46D /* Frame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 		6914F2111E8A5BE60033A46D /* Mux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mux.swift; sourceTree = "<group>"; };
 		6914F2131E8A5BFD0033A46D /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -477,16 +491,21 @@
 			files = (
 				692806331EFA7D42007FCF6A /* ObjectMapper.framework in Frameworks */,
 				692806281EFA7C26007FCF6A /* SwiftyJSON.framework in Frameworks */,
+				6913C3BB1FDFDC41006483C1 /* Xcon.framework in Frameworks */,
+				6913C3C11FDFDCAF006483C1 /* XSocket.framework in Frameworks */,
 				6928061A1EFA7B79007FCF6A /* SFSocket.framework in Frameworks */,
+				6913C3BF1FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Frameworks */,
 				692806231EFA7BFA007FCF6A /* Crypto.framework in Frameworks */,
 				6928062B1EFA7C40007FCF6A /* Sodium.framework in Frameworks */,
 				694719A01EE529520059BEF8 /* CocoaAsyncSocket.framework in Frameworks */,
+				6913C3BE1FDFDC79006483C1 /* IDZSwiftCommonCrypto.framework in Frameworks */,
 				694719981EE529310059BEF8 /* lwip.framework in Frameworks */,
 				6947199A1EE529330059BEF8 /* snappy.framework in Frameworks */,
 				6947199C1EE529360059BEF8 /* DarwinCore.framework in Frameworks */,
 				694719A21EE529540059BEF8 /* AxLogger.framework in Frameworks */,
 				6928062F1EFA7C5A007FCF6A /* MMDB.framework in Frameworks */,
 				692806201EFA7BC6007FCF6A /* GRDB.framework in Frameworks */,
+				6913C3B91FDFDC32006483C1 /* XRuler.framework in Frameworks */,
 				6947199E1EE529500059BEF8 /* CommonCrypto.framework in Frameworks */,
 				694719951EE5292E0059BEF8 /* kcp.framework in Frameworks */,
 			);
@@ -649,6 +668,7 @@
 		69639BFC1EE1ADF300893D18 /* osx */ = {
 			isa = PBXGroup;
 			children = (
+				6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */,
 				6913C3AB1FDFB7EF006483C1 /* Xcon.framework */,
 				6913C3AE1FDFB7F0006483C1 /* XProxy.framework */,
 				6913C3AC1FDFB7EF006483C1 /* XRuler.framework */,
