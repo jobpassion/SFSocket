@@ -157,6 +157,7 @@ public class SKit {
     static let LimitTCPConnectionCount:Int = 10
     static let LimitTCPConnectionCount_DROP:Int = 15
     static let TCP_DELAY_START = 0.5
+    static var isActive:Bool = false
     public static var lastWakeupTime:Date = Date()
     public static var lastSleepTime:Date = Date()
     static let LimitMemoryUsed:UInt = 13000000//15*1024*1024 //15MB
@@ -394,10 +395,12 @@ public class SKit {
     }
     public static func wake(){
         SKit.lastWakeupTime = Date()
+        isActive = true
         AxLogger.log("Device wake!!!",level: .Notify)
     }
     public static func sleep(completionHandler: @escaping () -> Void){
         SKit.lastSleepTime = Date()
+        isActive = false
         AxLogger.log("Device sleep!!!",level: .Notify)
         completionHandler()
     }
