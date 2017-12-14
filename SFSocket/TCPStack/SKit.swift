@@ -12,7 +12,7 @@ import XRuler
 let  fm = FileManager.default
 var groupContainerURLVPN:String = ""
 func  groupContainerURL() ->URL{
-   
+        assert(SKit.groupIdentifier.count != 0)
         return fm.containerURL(forSecurityApplicationGroupIdentifier: SKit.groupIdentifier)!
   
         
@@ -91,11 +91,9 @@ public class SKit {
     //var groupIdentifier = ""
     
     
-    #if os(iOS)
-    public static var groupIdentifier = "group.com.yarshure.Surf"
-    #else
-    public static var groupIdentifier = "745WQDK4L7.com.yarshure.Surf"
-    #endif
+    
+    public static var groupIdentifier = ""
+   
     static var alert:Bool = false
     static var configExt = ".conf"
     public static var packetconfig = "group.com.yarshure.config"
@@ -103,21 +101,16 @@ public class SKit {
     public static var onDemandKey = "com.yarshure.onDemandKey"
     public static var errDomain = "com.abigt.socket"
     
+
     
-    //#if os(iOS)
-    public static var  proxyIpAddr:String = "240.7.1.10"
+    public static var  proxyIpAddr:String = ""
     public static let loopbackAddr:String = "127.0.0.1"
-    public static var dnsAddr:String = "218.75.4.130"
-    public static var proxyHTTPSIpAddr:String = "240.7.1.11"
-    public static var xxIpAddr:String = "240.7.1.12"
-    public static var tunIP:String = "240.7.1.9"
-    //    #else
-    //let proxyIpAddr:String = "240.0.0.3"
-    //let dnsAddr:String = "218.75.4.130"
-    //let proxyHTTPSIpAddr:String = "240.7.1.11"
-    //let tunIP:String = "240.200.200.200"
-    //    #endif
-    public static var vpnServer:String = "240.89.6.4"
+    public static var dnsAddr:String = ""
+    public static var proxyHTTPSIpAddr:String = ""
+    public static var xxIpAddr:String = ""
+    public static var tunIP:String = ""
+    
+    public static var vpnServer:String = ""
     
     public static var httpProxyPort = 10080
     public static var httpsocketProxyPort = 10080
@@ -420,11 +413,15 @@ public class SKit {
         
        
     }
-    static public  func prepare() ->Bool{
-        SKit.loadConfig()
+    static public  func prepare(_ bundle:String) ->Bool{
+        SKit.groupIdentifier = bundle
+        XRuler.groupIdentifier =  SKit.groupIdentifier
+        
+        
         let  pp = ProxyGroupSettings.share
         //MARK: --fixme
-//        print(pp.proxys.count)
+        print(pp.proxys.count)
+        loadConfig()
 //
 //        if let  rule = SFSettingModule.setting.rule {
 //            print("rule inited \(rule.cnIPCount)")
@@ -433,20 +430,21 @@ public class SKit {
 //            print("rule not init")
 //            return false
 //        }
-        return false
+        return true
 
     }
     //为了给VPN提供接口？？
     static public func startGCDProxy(){
-        SFTCPConnectionManager.manager.startGCDServer()
+       XProxy.startGCDProxy(port: 10081)
     }
     static public func stopGCDProxy(){
         
     }
+    
     static public func reloadRule(_ path:String){
         SFSettingModule.setting.config(path)
     }
     static public func reloadProxy(){
-        //ProxyGroupSettings.share.loadProxyFromFile()
+        ProxyGroupSettings.share.loadProxyFromFile()
     }
 }

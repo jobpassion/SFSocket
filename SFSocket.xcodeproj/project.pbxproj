@@ -76,6 +76,8 @@
 		6913C3C01FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6913C3C11FDFDCAF006483C1 /* XSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AD1FDFB7EF006483C1 /* XSocket.framework */; };
 		6913C3C21FDFDCAF006483C1 /* XSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AD1FDFB7EF006483C1 /* XSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6913C40C1FE0DD94006483C1 /* XProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AE1FDFB7F0006483C1 /* XProxy.framework */; };
+		6913C40D1FE0DD94006483C1 /* XProxy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AE1FDFB7F0006483C1 /* XProxy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6914F2101E8A4F600033A46D /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F20F1E8A4F600033A46D /* Frame.swift */; };
 		6914F2121E8A5BE60033A46D /* Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2111E8A5BE60033A46D /* Mux.swift */; };
 		6914F2141E8A5BFD0033A46D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2131E8A5BFD0033A46D /* Session.swift */; };
@@ -185,7 +187,6 @@
 		69639C0A1EE1B04700893D18 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C091EE1B04700893D18 /* GRDB.framework */; };
 		69639C0C1EE1B04F00893D18 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C0B1EE1B04F00893D18 /* kcp.framework */; };
 		69639C0F1EE1B08800893D18 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F20F1E8A4F600033A46D /* Frame.swift */; };
-		69639C111EE1B0F100893D18 /* RAWUDPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CEDBA1E8B8052002D1ECD /* RAWUDPSocket.swift */; };
 		69639C121EE1B19F00893D18 /* Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2111E8A5BE60033A46D /* Mux.swift */; };
 		69639C1A1EE1B28600893D18 /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C191EE1B28600893D18 /* DarwinCore.framework */; };
 		697B7C451DE067CC00584179 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C441DE067CC00584179 /* CocoaAsyncSocket.framework */; };
@@ -193,14 +194,12 @@
 		697B7C491DE067D800584179 /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C481DE067D800584179 /* Crypto.framework */; };
 		697B7C4B1DE067DD00584179 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C4A1DE067DD00584179 /* Sodium.framework */; };
 		697B7C4D1DE067E300584179 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C4C1DE067E300584179 /* SwiftyJSON.framework */; };
-		697CEDBB1E8B8052002D1ECD /* RAWUDPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CEDBA1E8B8052002D1ECD /* RAWUDPSocket.swift */; };
 		697CEDC21E8B8EC9002D1ECD /* SFTCPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CEDC11E8B8EC9002D1ECD /* SFTCPSession.swift */; };
 		69803E0C1DD95DB30047112C /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0B1DD95DB30047112C /* AxLogger.framework */; };
 		69803E0E1DD95DBA0047112C /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0D1DD95DBA0047112C /* CocoaAsyncSocket.framework */; };
 		69803E101DD95DC20047112C /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; };
 		69803E141DD95DD30047112C /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E131DD95DD30047112C /* Sodium.framework */; };
 		69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; };
-		698A081B1DD5C603009BFFC9 /* NWUDPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A081A1DD5C603009BFFC9 /* NWUDPSocket.swift */; };
 		698A08221DD5C6D4009BFFC9 /* SFEncrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A08211DD5C6D4009BFFC9 /* SFEncrypt.swift */; };
 		698A08241DD5C6DD009BFFC9 /* EncryptExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A08231DD5C6DD009BFFC9 /* EncryptExtension.swift */; };
 		698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */; };
@@ -227,7 +226,6 @@
 		69B955071DDF820F006AF669 /* PacketProtocolParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5B11DD5CE920079493D /* PacketProtocolParser.swift */; };
 		69B955081DDF8212006AF669 /* IPStackProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5AD1DD5CE490079493D /* IPStackProtocol.swift */; };
 		69B955091DDF8216006AF669 /* UDPDirectStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5AB1DD5CE310079493D /* UDPDirectStack.swift */; };
-		69B9550A1DDF8219006AF669 /* NWUDPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A081A1DD5C603009BFFC9 /* NWUDPSocket.swift */; };
 		69B9550B1DDF821F006AF669 /* SFHTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD57D1DD5CA630079493D /* SFHTTPHeader.swift */; };
 		69BCD1F21F56A81700D05C62 /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BCD1F11F56A81700D05C62 /* TestVC.swift */; };
 		69BF6C561DE57E74000ABF09 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C551DE57E74000ABF09 /* Atomic.swift */; };
@@ -305,6 +303,7 @@
 				692806211EFA7BC6007FCF6A /* GRDB.framework in Embed Frameworks */,
 				6913C3C01FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Embed Frameworks */,
 				6913C3BA1FDFDC32006483C1 /* XRuler.framework in Embed Frameworks */,
+				6913C40D1FE0DD94006483C1 /* XProxy.framework in Embed Frameworks */,
 				6947199F1EE529500059BEF8 /* CommonCrypto.framework in Embed Frameworks */,
 				694719961EE5292E0059BEF8 /* kcp.framework in Embed Frameworks */,
 			);
@@ -366,6 +365,7 @@
 		6913C3AD1FDFB7EF006483C1 /* XSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XSocket.framework; path = Carthage/Build/Mac/XSocket.framework; sourceTree = "<group>"; };
 		6913C3AE1FDFB7F0006483C1 /* XProxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XProxy.framework; path = Carthage/Build/Mac/XProxy.framework; sourceTree = "<group>"; };
 		6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDZSwiftCommonCrypto.framework; path = Carthage/Build/Mac/IDZSwiftCommonCrypto.framework; sourceTree = "<group>"; };
+		6913C3C31FE0BC05006483C1 /* OSXTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OSXTest.entitlements; sourceTree = "<group>"; };
 		6914F20F1E8A4F600033A46D /* Frame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 		6914F2111E8A5BE60033A46D /* Mux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mux.swift; sourceTree = "<group>"; };
 		6914F2131E8A5BFD0033A46D /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -434,7 +434,6 @@
 		697B7C481DE067D800584179 /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/Mac/Crypto.framework; sourceTree = SOURCE_ROOT; };
 		697B7C4A1DE067DD00584179 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/Mac/Sodium.framework; sourceTree = SOURCE_ROOT; };
 		697B7C4C1DE067E300584179 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = SOURCE_ROOT; };
-		697CEDBA1E8B8052002D1ECD /* RAWUDPSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAWUDPSocket.swift; sourceTree = "<group>"; };
 		697CEDC11E8B8EC9002D1ECD /* SFTCPSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFTCPSession.swift; sourceTree = "<group>"; };
 		69803E091DD95D8C0047112C /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		69803E0A1DD95D920047112C /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
@@ -444,7 +443,6 @@
 		69803E111DD95DC70047112C /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/iOS/Crypto.framework; sourceTree = "<group>"; };
 		69803E131DD95DD30047112C /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/iOS/Sodium.framework; sourceTree = "<group>"; };
 		69803E151DD95DD80047112C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
-		698A081A1DD5C603009BFFC9 /* NWUDPSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NWUDPSocket.swift; path = udp/NWUDPSocket.swift; sourceTree = "<group>"; };
 		698A08211DD5C6D4009BFFC9 /* SFEncrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFEncrypt.swift; sourceTree = "<group>"; };
 		698A08231DD5C6DD009BFFC9 /* EncryptExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptExtension.swift; sourceTree = "<group>"; };
 		698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NEPacketTunnelProvider+Extension.swift"; sourceTree = "<group>"; };
@@ -499,6 +497,7 @@
 				6928062B1EFA7C40007FCF6A /* Sodium.framework in Frameworks */,
 				694719A01EE529520059BEF8 /* CocoaAsyncSocket.framework in Frameworks */,
 				6913C3BE1FDFDC79006483C1 /* IDZSwiftCommonCrypto.framework in Frameworks */,
+				6913C40C1FE0DD94006483C1 /* XProxy.framework in Frameworks */,
 				694719981EE529310059BEF8 /* lwip.framework in Frameworks */,
 				6947199A1EE529330059BEF8 /* snappy.framework in Frameworks */,
 				6947199C1EE529360059BEF8 /* DarwinCore.framework in Frameworks */,
@@ -610,6 +609,7 @@
 		694719861EE528F60059BEF8 /* OSXTest */ = {
 			isa = PBXGroup;
 			children = (
+				6913C3C31FE0BC05006483C1 /* OSXTest.entitlements */,
 				694719871EE528F60059BEF8 /* AppDelegate.swift */,
 				694719891EE528F60059BEF8 /* ViewController.swift */,
 				69BCD1F11F56A81700D05C62 /* TestVC.swift */,
@@ -717,8 +717,6 @@
 		697CEDBC1E8B8C97002D1ECD /* raw */ = {
 			isa = PBXGroup;
 			children = (
-				698A081A1DD5C603009BFFC9 /* NWUDPSocket.swift */,
-				697CEDBA1E8B8052002D1ECD /* RAWUDPSocket.swift */,
 			);
 			name = raw;
 			sourceTree = "<group>";
@@ -1074,6 +1072,14 @@
 						DevelopmentTeam = 745WQDK4L7;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.Mac = {
+								enabled = 1;
+							};
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 					69B954F11DDF81CF006AF669 = {
 						CreatedOnToolsVersion = 8.2;
@@ -1180,7 +1186,6 @@
 				69116B2D1E9681BB007C2FBA /* SFTCPConnectionManager.swift in Sources */,
 				69116B301E96823E007C2FBA /* TCPManagerProtocol.swift in Sources */,
 				695F6E501E900E1A00C72E5E /* DNSCache.swift in Sources */,
-				69B9550A1DDF8219006AF669 /* NWUDPSocket.swift in Sources */,
 				695F6E5A1E900E1A00C72E5E /* IPv4Packet.swift in Sources */,
 				695F6E561E900E1A00C72E5E /* DNSServer.swift in Sources */,
 				695F6E821E900E1A00C72E5E /* SFUitl.swift in Sources */,
@@ -1217,7 +1222,6 @@
 				69B955011DDF81FB006AF669 /* Checksum.swift in Sources */,
 				69639C121EE1B19F00893D18 /* Mux.swift in Sources */,
 				69E40F3D1F4A7D5F00C1DDC3 /* AVLTree.swift in Sources */,
-				69639C111EE1B0F100893D18 /* RAWUDPSocket.swift in Sources */,
 				695F6E621E900E1A00C72E5E /* SFDNSForwarder.swift in Sources */,
 				69116B391E968749007C2FBA /* SKit.swift in Sources */,
 				695F6E521E900E1A00C72E5E /* DNSPacket.swift in Sources */,
@@ -1297,8 +1301,6 @@
 				69BF6C621DE57F7B000ABF09 /* HTTPHeader.swift in Sources */,
 				69116B321E968370007C2FBA /* SFVPNSession.swift in Sources */,
 				6994E01A1DEFBEB6009394F9 /* DNSSessionMatchType.swift in Sources */,
-				698A081B1DD5C603009BFFC9 /* NWUDPSocket.swift in Sources */,
-				697CEDBB1E8B8052002D1ECD /* RAWUDPSocket.swift in Sources */,
 				695F6E571E900E1A00C72E5E /* General.swift in Sources */,
 				695F6E7D1E900E1A00C72E5E /* SFUDPConnector.swift in Sources */,
 				69263EF51EE50788005F0C76 /* SnappyHelper.swift in Sources */,
@@ -1390,9 +1392,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = OSXTest/OSXTest.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 745WQDK4L7;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -1402,8 +1406,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.Surf.OSXTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -1414,9 +1419,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = OSXTest/OSXTest.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 745WQDK4L7;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -1426,8 +1433,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.Surf.OSXTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

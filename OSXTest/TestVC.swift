@@ -15,9 +15,7 @@ class TestVC: NSViewController {
         // Do view setup here.
         
         
-        if  SKit.prepare(){
-            SKit.startGCDProxy()
-        }
+        SKit.startGCDProxy()
         
     }
     
