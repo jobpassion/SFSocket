@@ -7,36 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6907CA881EB9DCDE003F7554 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA871EB9DCDE003F7554 /* kcp.framework */; };
-		6907CA8A1EB9DCEB003F7554 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA891EB9DCEB003F7554 /* snappy.framework */; };
-		6907CA8D1EB9DD41003F7554 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6907CA891EB9DCEB003F7554 /* snappy.framework */; };
-		6907CA8E1EB9DD41003F7554 /* snappy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6907CA891EB9DCEB003F7554 /* snappy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8401E9762D1001A6C3A /* MMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83F1E9762D1001A6C3A /* MMDB.framework */; };
-		690AB8421E9762D7001A6C3A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; };
-		690AB8441E9762DD001A6C3A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8431E9762DD001A6C3A /* Reachability.framework */; };
-		690AB8471E9762FD001A6C3A /* SystemKitiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8451E9762E8001A6C3A /* SystemKitiOS.framework */; };
-		690AB8481E9762FE001A6C3A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8431E9762DD001A6C3A /* Reachability.framework */; };
-		690AB84A1E9763C0001A6C3A /* MMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB83F1E9762D1001A6C3A /* MMDB.framework */; };
-		690AB84C1E9763CF001A6C3A /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
-		690AB8501E9763F4001A6C3A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E131DD95DD30047112C /* Sodium.framework */; };
-		690AB8551E97645C001A6C3A /* SystemKitiOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB8451E9762E8001A6C3A /* SystemKitiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8571E97645F001A6C3A /* Reachability.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB8431E9762DD001A6C3A /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8581E976461001A6C3A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; };
-		690AB8591E976461001A6C3A /* ObjectMapper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB8411E9762D7001A6C3A /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB85B1E976464001A6C3A /* MMDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 690AB83F1E9762D1001A6C3A /* MMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB85E1E976469001A6C3A /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
-		690AB85F1E976469001A6C3A /* DarwinCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8611E97646D001A6C3A /* GRDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8641E976475001A6C3A /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
-		690AB8651E976475001A6C3A /* lwip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB86C1E97647E001A6C3A /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; };
-		690AB86D1E97647E001A6C3A /* CommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		690AB8711E976483001A6C3A /* AxLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0B1DD95DB30047112C /* AxLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		69116B051E967AD7007C2FBA /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
-		69116B061E967AD7007C2FBA /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B041E967AD7007C2FBA /* lwip.framework */; };
-		69116B091E967B3B007C2FBA /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B071E967B3B007C2FBA /* Crypto.framework */; };
-		69116B0B1E967B52007C2FBA /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0A1E967B52007C2FBA /* GRDB.framework */; };
-		69116B0E1E967B63007C2FBA /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69116B0D1E967B63007C2FBA /* DarwinCore.framework */; };
 		69116B141E9680CB007C2FBA /* SFRequestInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B131E9680CB007C2FBA /* SFRequestInfo.swift */; };
 		69116B151E9680CB007C2FBA /* SFRequestInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B131E9680CB007C2FBA /* SFRequestInfo.swift */; };
 		69116B171E968157007C2FBA /* SFOpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B161E968157007C2FBA /* SFOpt.swift */; };
@@ -63,21 +33,6 @@
 		69116B391E968749007C2FBA /* SKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B371E968749007C2FBA /* SKit.swift */; };
 		69116B3B1E9695F4007C2FBA /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B3A1E9695F4007C2FBA /* RequestHelper.swift */; };
 		69116B3C1E9695F4007C2FBA /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B3A1E9695F4007C2FBA /* RequestHelper.swift */; };
-		6913C3AF1FDFB7F0006483C1 /* Xcon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AB1FDFB7EF006483C1 /* Xcon.framework */; };
-		6913C3B01FDFB7F0006483C1 /* XRuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AC1FDFB7EF006483C1 /* XRuler.framework */; };
-		6913C3B11FDFB7F0006483C1 /* XSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AD1FDFB7EF006483C1 /* XSocket.framework */; };
-		6913C3B21FDFB7F0006483C1 /* XProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AE1FDFB7F0006483C1 /* XProxy.framework */; };
-		6913C3B91FDFDC32006483C1 /* XRuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AC1FDFB7EF006483C1 /* XRuler.framework */; };
-		6913C3BA1FDFDC32006483C1 /* XRuler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AC1FDFB7EF006483C1 /* XRuler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6913C3BB1FDFDC41006483C1 /* Xcon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AB1FDFB7EF006483C1 /* Xcon.framework */; };
-		6913C3BC1FDFDC41006483C1 /* Xcon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AB1FDFB7EF006483C1 /* Xcon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6913C3BE1FDFDC79006483C1 /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */; };
-		6913C3BF1FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */; };
-		6913C3C01FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6913C3C11FDFDCAF006483C1 /* XSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AD1FDFB7EF006483C1 /* XSocket.framework */; };
-		6913C3C21FDFDCAF006483C1 /* XSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AD1FDFB7EF006483C1 /* XSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6913C40C1FE0DD94006483C1 /* XProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AE1FDFB7F0006483C1 /* XProxy.framework */; };
-		6913C40D1FE0DD94006483C1 /* XProxy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6913C3AE1FDFB7F0006483C1 /* XProxy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6914F2101E8A4F600033A46D /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F20F1E8A4F600033A46D /* Frame.swift */; };
 		6914F2121E8A5BE60033A46D /* Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2111E8A5BE60033A46D /* Mux.swift */; };
 		6914F2141E8A5BFD0033A46D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2131E8A5BFD0033A46D /* Session.swift */; };
@@ -85,22 +40,8 @@
 		692128561E9CBA6C00560DEC /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692128551E9CBA6C00560DEC /* NetworkExtension.framework */; };
 		69263EF51EE50788005F0C76 /* SnappyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69263EF41EE50788005F0C76 /* SnappyHelper.swift */; };
 		69263EF61EE50788005F0C76 /* SnappyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69263EF41EE50788005F0C76 /* SnappyHelper.swift */; };
-		69263EFE1EE50F74005F0C76 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69263EFD1EE50F74005F0C76 /* snappy.framework */; };
-		69263F011EE50FC7005F0C76 /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69263F001EE50FC7005F0C76 /* lwip.framework */; };
 		6928061A1EFA7B79007FCF6A /* SFSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B954F21DDF81CF006AF669 /* SFSocket.framework */; };
 		6928061B1EFA7B79007FCF6A /* SFSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69B954F21DDF81CF006AF669 /* SFSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		692806201EFA7BC6007FCF6A /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C091EE1B04700893D18 /* GRDB.framework */; };
-		692806211EFA7BC6007FCF6A /* GRDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C091EE1B04700893D18 /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		692806231EFA7BFA007FCF6A /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692806221EFA7BFA007FCF6A /* Crypto.framework */; };
-		692806251EFA7C0C007FCF6A /* Crypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 692806221EFA7BFA007FCF6A /* Crypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		692806281EFA7C26007FCF6A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692806261EFA7C22007FCF6A /* SwiftyJSON.framework */; };
-		692806291EFA7C26007FCF6A /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 692806261EFA7C22007FCF6A /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6928062B1EFA7C40007FCF6A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6928062A1EFA7C40007FCF6A /* Sodium.framework */; };
-		6928062C1EFA7C40007FCF6A /* Sodium.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6928062A1EFA7C40007FCF6A /* Sodium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6928062F1EFA7C5A007FCF6A /* MMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6928062D1EFA7C57007FCF6A /* MMDB.framework */; };
-		692806301EFA7C5A007FCF6A /* MMDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6928062D1EFA7C57007FCF6A /* MMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		692806331EFA7D42007FCF6A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692806311EFA7D3F007FCF6A /* ObjectMapper.framework */; };
-		692806341EFA7D42007FCF6A /* ObjectMapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 692806311EFA7D3F007FCF6A /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		692DD57E1DD5CA630079493D /* SFHTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD57D1DD5CA630079493D /* SFHTTPHeader.swift */; };
 		692DD5801DD5CAB50079493D /* SwiftExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD57F1DD5CAB50079493D /* SwiftExtension.swift */; };
 		692DD5821DD5CB250079493D /* SFData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5811DD5CB250079493D /* SFData.swift */; };
@@ -119,22 +60,6 @@
 		6947198A1EE528F60059BEF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694719891EE528F60059BEF8 /* ViewController.swift */; };
 		6947198C1EE528F60059BEF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6947198B1EE528F60059BEF8 /* Assets.xcassets */; };
 		6947198F1EE528F60059BEF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6947198D1EE528F60059BEF8 /* Main.storyboard */; };
-		694719951EE5292E0059BEF8 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C0B1EE1B04F00893D18 /* kcp.framework */; };
-		694719961EE5292E0059BEF8 /* kcp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C0B1EE1B04F00893D18 /* kcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		694719981EE529310059BEF8 /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69263F001EE50FC7005F0C76 /* lwip.framework */; };
-		694719991EE529310059BEF8 /* lwip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69263F001EE50FC7005F0C76 /* lwip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6947199A1EE529330059BEF8 /* snappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69263EFD1EE50F74005F0C76 /* snappy.framework */; };
-		6947199B1EE529330059BEF8 /* snappy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69263EFD1EE50F74005F0C76 /* snappy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6947199C1EE529360059BEF8 /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C191EE1B28600893D18 /* DarwinCore.framework */; };
-		6947199D1EE529360059BEF8 /* DarwinCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C191EE1B28600893D18 /* DarwinCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6947199E1EE529500059BEF8 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C051EE1B03800893D18 /* CommonCrypto.framework */; };
-		6947199F1EE529500059BEF8 /* CommonCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C051EE1B03800893D18 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		694719A01EE529520059BEF8 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */; };
-		694719A11EE529520059BEF8 /* CocoaAsyncSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		694719A21EE529540059BEF8 /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C011EE1B02800893D18 /* AxLogger.framework */; };
-		694719A31EE529540059BEF8 /* AxLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C011EE1B02800893D18 /* AxLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6952F8711E97E06D003EB1CB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; };
-		6952F8721E97E06D003EB1CB /* SwiftyJSON.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		695F6E4F1E900E1A00C72E5E /* DNSCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E321E900E1A00C72E5E /* DNSCache.swift */; };
 		695F6E501E900E1A00C72E5E /* DNSCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E321E900E1A00C72E5E /* DNSCache.swift */; };
 		695F6E511E900E1A00C72E5E /* DNSPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E331E900E1A00C72E5E /* DNSPacket.swift */; };
@@ -183,23 +108,8 @@
 		695F6E861E900E1A00C72E5E /* TCPPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E4D1E900E1A00C72E5E /* TCPPacket.swift */; };
 		695F6E871E900E1A00C72E5E /* UDPPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E4E1E900E1A00C72E5E /* UDPPacket.swift */; };
 		695F6E881E900E1A00C72E5E /* UDPPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E4E1E900E1A00C72E5E /* UDPPacket.swift */; };
-		69639C021EE1B02800893D18 /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C011EE1B02800893D18 /* AxLogger.framework */; };
-		69639C0A1EE1B04700893D18 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C091EE1B04700893D18 /* GRDB.framework */; };
-		69639C0C1EE1B04F00893D18 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C0B1EE1B04F00893D18 /* kcp.framework */; };
 		69639C0F1EE1B08800893D18 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F20F1E8A4F600033A46D /* Frame.swift */; };
 		69639C121EE1B19F00893D18 /* Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6914F2111E8A5BE60033A46D /* Mux.swift */; };
-		69639C1A1EE1B28600893D18 /* DarwinCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639C191EE1B28600893D18 /* DarwinCore.framework */; };
-		697B7C451DE067CC00584179 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C441DE067CC00584179 /* CocoaAsyncSocket.framework */; };
-		697B7C471DE067D300584179 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C461DE067D300584179 /* CommonCrypto.framework */; };
-		697B7C491DE067D800584179 /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C481DE067D800584179 /* Crypto.framework */; };
-		697B7C4B1DE067DD00584179 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C4A1DE067DD00584179 /* Sodium.framework */; };
-		697B7C4D1DE067E300584179 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B7C4C1DE067E300584179 /* SwiftyJSON.framework */; };
-		697CEDC21E8B8EC9002D1ECD /* SFTCPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CEDC11E8B8EC9002D1ECD /* SFTCPSession.swift */; };
-		69803E0C1DD95DB30047112C /* AxLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0B1DD95DB30047112C /* AxLogger.framework */; };
-		69803E0E1DD95DBA0047112C /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0D1DD95DBA0047112C /* CocoaAsyncSocket.framework */; };
-		69803E101DD95DC20047112C /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E0F1DD95DC20047112C /* CommonCrypto.framework */; };
-		69803E141DD95DD30047112C /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E131DD95DD30047112C /* Sodium.framework */; };
-		69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69803E151DD95DD80047112C /* SwiftyJSON.framework */; };
 		698A08221DD5C6D4009BFFC9 /* SFEncrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A08211DD5C6D4009BFFC9 /* SFEncrypt.swift */; };
 		698A08241DD5C6DD009BFFC9 /* EncryptExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698A08231DD5C6DD009BFFC9 /* EncryptExtension.swift */; };
 		698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */; };
@@ -241,12 +151,10 @@
 		69C8D9FF1E7AA5A700A65301 /* AEADCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C8D9FE1E7AA5A700A65301 /* AEADCrypto.swift */; };
 		69C8DA001E7AA5A700A65301 /* AEADCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C8D9FE1E7AA5A700A65301 /* AEADCrypto.swift */; };
 		69CC44791EB199A8002C10DC /* BinaryConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC44781EB199A8002C10DC /* BinaryConvertible.swift */; };
-		69D5B32D1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69DD43591DDC4FBA00080CF1 /* SFVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */; };
 		69E40F3C1F4A7D5F00C1DDC3 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */; };
 		69E40F3D1F4A7D5F00C1DDC3 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */; };
 		69E470AF1E67AADE00AE11FB /* SocksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E470AE1E67AADE00AE11FB /* SocksTest.swift */; };
-		69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */; };
 		69F2D8691E8BF96100BBDB9D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D8681E8BF96100BBDB9D /* Config.swift */; };
 		69F2D86B1E8BFFD400BBDB9D /* BlockCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */; };
 		69F2D86D1E8C08E700BBDB9D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2D86C1E8C08E700BBDB9D /* Channel.swift */; };
@@ -258,9 +166,7 @@
 		69FC1B071DDBFAB000EF8AAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69FC1B061DDBFAB000EF8AAC /* Assets.xcassets */; };
 		69FC1B0A1DDBFAB000EF8AAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69FC1B081DDBFAB000EF8AAC /* LaunchScreen.storyboard */; };
 		69FC1B111DDBFADE00EF8AAC /* SFSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C2988E1DD593FF00E4C3BD /* SFSocket.framework */; };
-		69FC1B141DDBFC7200EF8AAC /* CocoaAsyncSocket.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E0D1DD95DBA0047112C /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69FC1B161DDBFCF400EF8AAC /* SFSocket.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69C2988E1DD593FF00E4C3BD /* SFSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		69FC1B191DDBFD4500EF8AAC /* Sodium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69803E131DD95DD30047112C /* Sodium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -288,24 +194,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				6928061B1EFA7B79007FCF6A /* SFSocket.framework in Embed Frameworks */,
-				6928062C1EFA7C40007FCF6A /* Sodium.framework in Embed Frameworks */,
-				6913C3C21FDFDCAF006483C1 /* XSocket.framework in Embed Frameworks */,
-				6913C3BC1FDFDC41006483C1 /* Xcon.framework in Embed Frameworks */,
-				692806251EFA7C0C007FCF6A /* Crypto.framework in Embed Frameworks */,
-				694719A11EE529520059BEF8 /* CocoaAsyncSocket.framework in Embed Frameworks */,
-				692806301EFA7C5A007FCF6A /* MMDB.framework in Embed Frameworks */,
-				694719991EE529310059BEF8 /* lwip.framework in Embed Frameworks */,
-				692806341EFA7D42007FCF6A /* ObjectMapper.framework in Embed Frameworks */,
-				6947199B1EE529330059BEF8 /* snappy.framework in Embed Frameworks */,
-				6947199D1EE529360059BEF8 /* DarwinCore.framework in Embed Frameworks */,
-				692806291EFA7C26007FCF6A /* SwiftyJSON.framework in Embed Frameworks */,
-				694719A31EE529540059BEF8 /* AxLogger.framework in Embed Frameworks */,
-				692806211EFA7BC6007FCF6A /* GRDB.framework in Embed Frameworks */,
-				6913C3C01FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Embed Frameworks */,
-				6913C3BA1FDFDC32006483C1 /* XRuler.framework in Embed Frameworks */,
-				6913C40D1FE0DD94006483C1 /* XProxy.framework in Embed Frameworks */,
-				6947199F1EE529500059BEF8 /* CommonCrypto.framework in Embed Frameworks */,
-				694719961EE5292E0059BEF8 /* kcp.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,37 +204,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6952F8721E97E06D003EB1CB /* SwiftyJSON.framework in CopyFiles */,
-				690AB8611E97646D001A6C3A /* GRDB.framework in CopyFiles */,
-				69D5B32D1E8E2F0800D0E0A6 /* IDZSwiftCommonCrypto.framework in CopyFiles */,
-				690AB86D1E97647E001A6C3A /* CommonCrypto.framework in CopyFiles */,
-				690AB8591E976461001A6C3A /* ObjectMapper.framework in CopyFiles */,
-				690AB85F1E976469001A6C3A /* DarwinCore.framework in CopyFiles */,
-				690AB8651E976475001A6C3A /* lwip.framework in CopyFiles */,
-				6907CA8E1EB9DD41003F7554 /* snappy.framework in CopyFiles */,
-				690AB8551E97645C001A6C3A /* SystemKitiOS.framework in CopyFiles */,
-				69FC1B191DDBFD4500EF8AAC /* Sodium.framework in CopyFiles */,
-				69FC1B141DDBFC7200EF8AAC /* CocoaAsyncSocket.framework in CopyFiles */,
-				690AB8571E97645F001A6C3A /* Reachability.framework in CopyFiles */,
 				69FC1B161DDBFCF400EF8AAC /* SFSocket.framework in CopyFiles */,
-				690AB8711E976483001A6C3A /* AxLogger.framework in CopyFiles */,
-				690AB85B1E976464001A6C3A /* MMDB.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6907CA871EB9DCDE003F7554 /* kcp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = kcp.framework; path = Carthage/Build/iOS/kcp.framework; sourceTree = "<group>"; };
-		6907CA891EB9DCEB003F7554 /* snappy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = snappy.framework; path = Carthage/Build/iOS/snappy.framework; sourceTree = "<group>"; };
-		690AB83F1E9762D1001A6C3A /* MMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MMDB.framework; path = Carthage/Build/iOS/MMDB.framework; sourceTree = "<group>"; };
-		690AB8411E9762D7001A6C3A /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
-		690AB8431E9762DD001A6C3A /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = Carthage/Build/iOS/Reachability.framework; sourceTree = "<group>"; };
-		690AB8451E9762E8001A6C3A /* SystemKitiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemKitiOS.framework; path = Carthage/Build/iOS/SystemKitiOS.framework; sourceTree = "<group>"; };
-		69116B041E967AD7007C2FBA /* lwip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = lwip.framework; path = Carthage/Build/iOS/lwip.framework; sourceTree = "<group>"; };
-		69116B071E967B3B007C2FBA /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/iOS/Crypto.framework; sourceTree = "<group>"; };
-		69116B0A1E967B52007C2FBA /* GRDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRDB.framework; path = Carthage/Build/iOS/GRDB.framework; sourceTree = "<group>"; };
-		69116B0D1E967B63007C2FBA /* DarwinCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DarwinCore.framework; path = Carthage/Build/iOS/DarwinCore.framework; sourceTree = "<group>"; };
 		69116B131E9680CB007C2FBA /* SFRequestInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFRequestInfo.swift; sourceTree = "<group>"; };
 		69116B161E968157007C2FBA /* SFOpt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFOpt.swift; sourceTree = "<group>"; };
 		69116B191E968187007C2FBA /* TUNConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TUNConnection.swift; sourceTree = "<group>"; };
@@ -360,11 +224,6 @@
 		69116B311E968370007C2FBA /* SFVPNSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFVPNSession.swift; sourceTree = "<group>"; };
 		69116B371E968749007C2FBA /* SKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SKit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		69116B3A1E9695F4007C2FBA /* RequestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
-		6913C3AB1FDFB7EF006483C1 /* Xcon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Xcon.framework; path = Carthage/Build/Mac/Xcon.framework; sourceTree = "<group>"; };
-		6913C3AC1FDFB7EF006483C1 /* XRuler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XRuler.framework; path = Carthage/Build/Mac/XRuler.framework; sourceTree = "<group>"; };
-		6913C3AD1FDFB7EF006483C1 /* XSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XSocket.framework; path = Carthage/Build/Mac/XSocket.framework; sourceTree = "<group>"; };
-		6913C3AE1FDFB7F0006483C1 /* XProxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XProxy.framework; path = Carthage/Build/Mac/XProxy.framework; sourceTree = "<group>"; };
-		6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDZSwiftCommonCrypto.framework; path = Carthage/Build/Mac/IDZSwiftCommonCrypto.framework; sourceTree = "<group>"; };
 		6913C3C31FE0BC05006483C1 /* OSXTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OSXTest.entitlements; sourceTree = "<group>"; };
 		6914F20F1E8A4F600033A46D /* Frame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 		6914F2111E8A5BE60033A46D /* Mux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mux.swift; sourceTree = "<group>"; };
@@ -372,13 +231,6 @@
 		6914F2151E8A5C0D0033A46D /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		692128551E9CBA6C00560DEC /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		69263EF41EE50788005F0C76 /* SnappyHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnappyHelper.swift; sourceTree = "<group>"; };
-		69263EFD1EE50F74005F0C76 /* snappy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = snappy.framework; path = Carthage/Build/Mac/snappy.framework; sourceTree = "<group>"; };
-		69263F001EE50FC7005F0C76 /* lwip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = lwip.framework; path = Carthage/Build/Mac/lwip.framework; sourceTree = "<group>"; };
-		692806221EFA7BFA007FCF6A /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/Mac/Crypto.framework; sourceTree = "<group>"; };
-		692806261EFA7C22007FCF6A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = "<group>"; };
-		6928062A1EFA7C40007FCF6A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/Mac/Sodium.framework; sourceTree = "<group>"; };
-		6928062D1EFA7C57007FCF6A /* MMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MMDB.framework; path = Carthage/Build/Mac/MMDB.framework; sourceTree = "<group>"; };
-		692806311EFA7D3F007FCF6A /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/Mac/ObjectMapper.framework; sourceTree = "<group>"; };
 		692DD57D1DD5CA630079493D /* SFHTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFHTTPHeader.swift; sourceTree = "<group>"; };
 		692DD57F1DD5CAB50079493D /* SwiftExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftExtension.swift; sourceTree = "<group>"; };
 		692DD5811DD5CB250079493D /* SFData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFData.swift; sourceTree = "<group>"; };
@@ -422,27 +274,8 @@
 		695F6E4C1E900E1A00C72E5E /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		695F6E4D1E900E1A00C72E5E /* TCPPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCPPacket.swift; sourceTree = "<group>"; };
 		695F6E4E1E900E1A00C72E5E /* UDPPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPPacket.swift; sourceTree = "<group>"; };
-		69639C011EE1B02800893D18 /* AxLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AxLogger.framework; path = Carthage/Build/Mac/AxLogger.framework; sourceTree = "<group>"; };
-		69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
-		69639C051EE1B03800893D18 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/Mac/CommonCrypto.framework; sourceTree = "<group>"; };
-		69639C091EE1B04700893D18 /* GRDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRDB.framework; path = Carthage/Build/Mac/GRDB.framework; sourceTree = "<group>"; };
-		69639C0B1EE1B04F00893D18 /* kcp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = kcp.framework; path = Carthage/Build/Mac/kcp.framework; sourceTree = "<group>"; };
-		69639C191EE1B28600893D18 /* DarwinCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DarwinCore.framework; path = Carthage/Build/Mac/DarwinCore.framework; sourceTree = "<group>"; };
-		697B7C421DE067C500584179 /* AxLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AxLogger.framework; path = Carthage/Build/Mac/AxLogger.framework; sourceTree = SOURCE_ROOT; };
-		697B7C441DE067CC00584179 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = SOURCE_ROOT; };
-		697B7C461DE067D300584179 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/Mac/CommonCrypto.framework; sourceTree = SOURCE_ROOT; };
-		697B7C481DE067D800584179 /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/Mac/Crypto.framework; sourceTree = SOURCE_ROOT; };
-		697B7C4A1DE067DD00584179 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/Mac/Sodium.framework; sourceTree = SOURCE_ROOT; };
-		697B7C4C1DE067E300584179 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = SOURCE_ROOT; };
-		697CEDC11E8B8EC9002D1ECD /* SFTCPSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFTCPSession.swift; sourceTree = "<group>"; };
 		69803E091DD95D8C0047112C /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		69803E0A1DD95D920047112C /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
-		69803E0B1DD95DB30047112C /* AxLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AxLogger.framework; path = Carthage/Build/iOS/AxLogger.framework; sourceTree = "<group>"; };
-		69803E0D1DD95DBA0047112C /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/iOS/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
-		69803E0F1DD95DC20047112C /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/iOS/CommonCrypto.framework; sourceTree = "<group>"; };
-		69803E111DD95DC70047112C /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/iOS/Crypto.framework; sourceTree = "<group>"; };
-		69803E131DD95DD30047112C /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/iOS/Sodium.framework; sourceTree = "<group>"; };
-		69803E151DD95DD80047112C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		698A08211DD5C6D4009BFFC9 /* SFEncrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFEncrypt.swift; sourceTree = "<group>"; };
 		698A08231DD5C6DD009BFFC9 /* EncryptExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptExtension.swift; sourceTree = "<group>"; };
 		698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NEPacketTunnelProvider+Extension.swift"; sourceTree = "<group>"; };
@@ -464,12 +297,13 @@
 		69C2988E1DD593FF00E4C3BD /* SFSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SFSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69C298911DD593FF00E4C3BD /* SFSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSocket.h; sourceTree = "<group>"; };
 		69C298921DD593FF00E4C3BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69C7DC5F1FE364ED00FB7FA2 /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		69C7DC601FE364FF00FB7FA2 /* mac.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = mac.xcconfig; sourceTree = "<group>"; };
 		69C8D9FE1E7AA5A700A65301 /* AEADCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AEADCrypto.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		69CC44781EB199A8002C10DC /* BinaryConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryConvertible.swift; sourceTree = "<group>"; };
 		69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFVPNStatistics.swift; sourceTree = "<group>"; };
 		69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVLTree.swift; sourceTree = "<group>"; };
 		69E470AE1E67AADE00AE11FB /* SocksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocksTest.swift; sourceTree = "<group>"; };
-		69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDZSwiftCommonCrypto.framework; path = Carthage/Build/iOS/IDZSwiftCommonCrypto.framework; sourceTree = "<group>"; };
 		69F2D8681E8BF96100BBDB9D /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		69F2D86A1E8BFFD400BBDB9D /* BlockCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockCrypt.swift; sourceTree = "<group>"; };
 		69F2D86C1E8C08E700BBDB9D /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Channel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -487,26 +321,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				692806331EFA7D42007FCF6A /* ObjectMapper.framework in Frameworks */,
-				692806281EFA7C26007FCF6A /* SwiftyJSON.framework in Frameworks */,
-				6913C3BB1FDFDC41006483C1 /* Xcon.framework in Frameworks */,
-				6913C3C11FDFDCAF006483C1 /* XSocket.framework in Frameworks */,
 				6928061A1EFA7B79007FCF6A /* SFSocket.framework in Frameworks */,
-				6913C3BF1FDFDC9F006483C1 /* IDZSwiftCommonCrypto.framework in Frameworks */,
-				692806231EFA7BFA007FCF6A /* Crypto.framework in Frameworks */,
-				6928062B1EFA7C40007FCF6A /* Sodium.framework in Frameworks */,
-				694719A01EE529520059BEF8 /* CocoaAsyncSocket.framework in Frameworks */,
-				6913C3BE1FDFDC79006483C1 /* IDZSwiftCommonCrypto.framework in Frameworks */,
-				6913C40C1FE0DD94006483C1 /* XProxy.framework in Frameworks */,
-				694719981EE529310059BEF8 /* lwip.framework in Frameworks */,
-				6947199A1EE529330059BEF8 /* snappy.framework in Frameworks */,
-				6947199C1EE529360059BEF8 /* DarwinCore.framework in Frameworks */,
-				694719A21EE529540059BEF8 /* AxLogger.framework in Frameworks */,
-				6928062F1EFA7C5A007FCF6A /* MMDB.framework in Frameworks */,
-				692806201EFA7BC6007FCF6A /* GRDB.framework in Frameworks */,
-				6913C3B91FDFDC32006483C1 /* XRuler.framework in Frameworks */,
-				6947199E1EE529500059BEF8 /* CommonCrypto.framework in Frameworks */,
-				694719951EE5292E0059BEF8 /* kcp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,19 +329,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69263F011EE50FC7005F0C76 /* lwip.framework in Frameworks */,
-				69639C0A1EE1B04700893D18 /* GRDB.framework in Frameworks */,
-				69116B061E967AD7007C2FBA /* lwip.framework in Frameworks */,
-				69116B091E967B3B007C2FBA /* Crypto.framework in Frameworks */,
-				697B7C451DE067CC00584179 /* CocoaAsyncSocket.framework in Frameworks */,
-				69639C021EE1B02800893D18 /* AxLogger.framework in Frameworks */,
-				697B7C491DE067D800584179 /* Crypto.framework in Frameworks */,
-				69639C0C1EE1B04F00893D18 /* kcp.framework in Frameworks */,
-				697B7C4D1DE067E300584179 /* SwiftyJSON.framework in Frameworks */,
-				697B7C471DE067D300584179 /* CommonCrypto.framework in Frameworks */,
-				69263EFE1EE50F74005F0C76 /* snappy.framework in Frameworks */,
-				697B7C4B1DE067DD00584179 /* Sodium.framework in Frameworks */,
-				69639C1A1EE1B28600893D18 /* DarwinCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -534,24 +336,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69803E0E1DD95DBA0047112C /* CocoaAsyncSocket.framework in Frameworks */,
-				6907CA8A1EB9DCEB003F7554 /* snappy.framework in Frameworks */,
-				6907CA881EB9DCDE003F7554 /* kcp.framework in Frameworks */,
-				69E55AF51E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework in Frameworks */,
-				6913C3B21FDFB7F0006483C1 /* XProxy.framework in Frameworks */,
-				690AB8441E9762DD001A6C3A /* Reachability.framework in Frameworks */,
-				69803E161DD95DD80047112C /* SwiftyJSON.framework in Frameworks */,
-				690AB8401E9762D1001A6C3A /* MMDB.framework in Frameworks */,
-				69116B0E1E967B63007C2FBA /* DarwinCore.framework in Frameworks */,
-				69803E101DD95DC20047112C /* CommonCrypto.framework in Frameworks */,
-				69803E0C1DD95DB30047112C /* AxLogger.framework in Frameworks */,
-				69116B0B1E967B52007C2FBA /* GRDB.framework in Frameworks */,
-				6913C3AF1FDFB7F0006483C1 /* Xcon.framework in Frameworks */,
-				690AB8421E9762D7001A6C3A /* ObjectMapper.framework in Frameworks */,
-				69116B051E967AD7007C2FBA /* lwip.framework in Frameworks */,
-				6913C3B01FDFB7F0006483C1 /* XRuler.framework in Frameworks */,
-				69803E141DD95DD30047112C /* Sodium.framework in Frameworks */,
-				6913C3B11FDFB7F0006483C1 /* XSocket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,18 +343,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6952F8711E97E06D003EB1CB /* SwiftyJSON.framework in Frameworks */,
-				690AB8581E976461001A6C3A /* ObjectMapper.framework in Frameworks */,
 				692128561E9CBA6C00560DEC /* NetworkExtension.framework in Frameworks */,
-				690AB8481E9762FE001A6C3A /* Reachability.framework in Frameworks */,
-				690AB86C1E97647E001A6C3A /* CommonCrypto.framework in Frameworks */,
-				690AB8471E9762FD001A6C3A /* SystemKitiOS.framework in Frameworks */,
-				690AB85E1E976469001A6C3A /* DarwinCore.framework in Frameworks */,
-				690AB84A1E9763C0001A6C3A /* MMDB.framework in Frameworks */,
-				690AB8641E976475001A6C3A /* lwip.framework in Frameworks */,
-				6907CA8D1EB9DD41003F7554 /* snappy.framework in Frameworks */,
-				690AB84C1E9763CF001A6C3A /* GRDB.framework in Frameworks */,
-				690AB8501E9763F4001A6C3A /* Sodium.framework in Frameworks */,
 				69FC1B111DDBFADE00EF8AAC /* SFSocket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -600,7 +373,6 @@
 		692128541E9CBA6C00560DEC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				69639BFC1EE1ADF300893D18 /* osx */,
 				692128551E9CBA6C00560DEC /* NetworkExtension.framework */,
 			);
 			name = Frameworks;
@@ -665,44 +437,6 @@
 			path = TCPStack;
 			sourceTree = "<group>";
 		};
-		69639BFC1EE1ADF300893D18 /* osx */ = {
-			isa = PBXGroup;
-			children = (
-				6913C3BD1FDFDC77006483C1 /* IDZSwiftCommonCrypto.framework */,
-				6913C3AB1FDFB7EF006483C1 /* Xcon.framework */,
-				6913C3AE1FDFB7F0006483C1 /* XProxy.framework */,
-				6913C3AC1FDFB7EF006483C1 /* XRuler.framework */,
-				6913C3AD1FDFB7EF006483C1 /* XSocket.framework */,
-				692806311EFA7D3F007FCF6A /* ObjectMapper.framework */,
-				6928062D1EFA7C57007FCF6A /* MMDB.framework */,
-				6928062A1EFA7C40007FCF6A /* Sodium.framework */,
-				692806261EFA7C22007FCF6A /* SwiftyJSON.framework */,
-				69263F001EE50FC7005F0C76 /* lwip.framework */,
-				692806221EFA7BFA007FCF6A /* Crypto.framework */,
-				69263EFD1EE50F74005F0C76 /* snappy.framework */,
-				69639C191EE1B28600893D18 /* DarwinCore.framework */,
-				69639C0B1EE1B04F00893D18 /* kcp.framework */,
-				69639C091EE1B04700893D18 /* GRDB.framework */,
-				69639C051EE1B03800893D18 /* CommonCrypto.framework */,
-				69639C031EE1B02E00893D18 /* CocoaAsyncSocket.framework */,
-				69639C011EE1B02800893D18 /* AxLogger.framework */,
-			);
-			name = osx;
-			sourceTree = "<group>";
-		};
-		697B7C411DE067A200584179 /* Framework */ = {
-			isa = PBXGroup;
-			children = (
-				697B7C4C1DE067E300584179 /* SwiftyJSON.framework */,
-				697B7C4A1DE067DD00584179 /* Sodium.framework */,
-				697B7C481DE067D800584179 /* Crypto.framework */,
-				697B7C461DE067D300584179 /* CommonCrypto.framework */,
-				697B7C441DE067CC00584179 /* CocoaAsyncSocket.framework */,
-				697B7C421DE067C500584179 /* AxLogger.framework */,
-			);
-			name = Framework;
-			sourceTree = "<group>";
-		};
 		697CEDB91E8B7E00002D1ECD /* proxy */ = {
 			isa = PBXGroup;
 			children = (
@@ -745,7 +479,6 @@
 		697CEDC01E8B8EA5002D1ECD /* session */ = {
 			isa = PBXGroup;
 			children = (
-				697CEDC11E8B8EC9002D1ECD /* SFTCPSession.swift */,
 				69263EF41EE50788005F0C76 /* SnappyHelper.swift */,
 			);
 			name = session;
@@ -754,23 +487,6 @@
 		69803E081DD95D4F0047112C /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				6907CA891EB9DCEB003F7554 /* snappy.framework */,
-				6907CA871EB9DCDE003F7554 /* kcp.framework */,
-				690AB8451E9762E8001A6C3A /* SystemKitiOS.framework */,
-				690AB8431E9762DD001A6C3A /* Reachability.framework */,
-				690AB8411E9762D7001A6C3A /* ObjectMapper.framework */,
-				690AB83F1E9762D1001A6C3A /* MMDB.framework */,
-				69116B0D1E967B63007C2FBA /* DarwinCore.framework */,
-				69116B0A1E967B52007C2FBA /* GRDB.framework */,
-				69116B071E967B3B007C2FBA /* Crypto.framework */,
-				69116B041E967AD7007C2FBA /* lwip.framework */,
-				69E55AF41E8BAC8F0006F02E /* IDZSwiftCommonCrypto.framework */,
-				69803E151DD95DD80047112C /* SwiftyJSON.framework */,
-				69803E131DD95DD30047112C /* Sodium.framework */,
-				69803E111DD95DC70047112C /* Crypto.framework */,
-				69803E0F1DD95DC20047112C /* CommonCrypto.framework */,
-				69803E0D1DD95DBA0047112C /* CocoaAsyncSocket.framework */,
-				69803E0B1DD95DB30047112C /* AxLogger.framework */,
 			);
 			name = Framework;
 			sourceTree = "<group>";
@@ -787,9 +503,9 @@
 		69B954F31DDF81CF006AF669 /* SFSocketOSX */ = {
 			isa = PBXGroup;
 			children = (
-				697B7C411DE067A200584179 /* Framework */,
 				69B954F41DDF81CF006AF669 /* SFSocket.h */,
 				69B954F51DDF81CF006AF669 /* Info.plist */,
+				69C7DC601FE364FF00FB7FA2 /* mac.xcconfig */,
 			);
 			path = SFSocketOSX;
 			sourceTree = "<group>";
@@ -855,6 +571,7 @@
 				69C298911DD593FF00E4C3BD /* SFSocket.h */,
 				69C298921DD593FF00E4C3BD /* Info.plist */,
 				69CC44781EB199A8002C10DC /* BinaryConvertible.swift */,
+				69C7DC5F1FE364ED00FB7FA2 /* iOS.xcconfig */,
 			);
 			path = SFSocket;
 			sourceTree = "<group>";
@@ -991,6 +708,7 @@
 				694719821EE528F60059BEF8 /* Frameworks */,
 				694719831EE528F60059BEF8 /* Resources */,
 				694719971EE5292E0059BEF8 /* Embed Frameworks */,
+				69C7DC591FE363F400FB7FA2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1064,7 +782,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Kong XiangBo";
 				TargetAttributes = {
 					694719841EE528F60059BEF8 = {
@@ -1166,6 +884,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		69C7DC591FE363F400FB7FA2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate\nfpath=\"${SRCROOT}/Carthage/Build/Mac\"\ncd \"$fpath\"\n\ntar -c *.framework |tar -xvC \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\nfind . -name '*.framework' -type d | while read -r FRAMEWORK\ndo\necho \"codesign $FRAMEWORK\"\n/usr/bin/codesign --sign  $EXPANDED_CODE_SIGN_IDENTITY --force --preserve-metadata=identifier,entitlements,flags --timestamp=none \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/$FRAMEWORK/Versions/A\"\ndone";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		694719811EE528F60059BEF8 /* Sources */ = {
@@ -1275,7 +1009,6 @@
 				695F6E631E900E1A00C72E5E /* SFDNSManager.swift in Sources */,
 				692DD5801DD5CAB50079493D /* SwiftExtension.swift in Sources */,
 				695F6E651E900E1A00C72E5E /* SFEnv.swift in Sources */,
-				697CEDC21E8B8EC9002D1ECD /* SFTCPSession.swift in Sources */,
 				695F6E4F1E900E1A00C72E5E /* DNSCache.swift in Sources */,
 				695F6E791E900E1A00C72E5E /* SFTunFunc.swift in Sources */,
 				692DD5B81DD5CF120079493D /* Checksum.swift in Sources */,
@@ -1442,6 +1175,7 @@
 		};
 		69B954F71DDF81CF006AF669 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69C7DC601FE364FF00FB7FA2 /* mac.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1474,6 +1208,7 @@
 		};
 		69B954F81DDF81CF006AF669 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69C7DC601FE364FF00FB7FA2 /* mac.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1614,6 +1349,7 @@
 		};
 		69C298971DD593FF00E4C3BD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69C7DC5F1FE364ED00FB7FA2 /* iOS.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1630,7 +1366,7 @@
 				);
 				INFOPLIST_FILE = SFSocket/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.ios.SFSocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1643,6 +1379,7 @@
 		};
 		69C298981DD593FF00E4C3BD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69C7DC5F1FE364ED00FB7FA2 /* iOS.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1659,7 +1396,7 @@
 				);
 				INFOPLIST_FILE = SFSocket/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.ios.SFSocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
