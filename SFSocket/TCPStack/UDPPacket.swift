@@ -9,7 +9,11 @@
 import Foundation
 import NetworkExtension
 
-
+extension Data {
+    public func to<T>(type: T.Type) -> T {
+        return self.withUnsafeBytes { $0.pointee }
+    }
+}
 public  class UDPPacket:NSObject{
     public var sourcePort:UInt16 = 0
     public var destinationPort:UInt16 = 0
