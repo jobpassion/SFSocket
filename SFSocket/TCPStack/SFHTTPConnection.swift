@@ -26,6 +26,7 @@ import Foundation
 import lwip
 import AxLogger
 import Xcon
+import XProxy
 class SFHTTPConnection: SFHTTPRequest {
     var requestIndex:UInt = 0 //为什么从0 开始 为了分析header 和body用
     //var respsonseIndex:Int = 0//

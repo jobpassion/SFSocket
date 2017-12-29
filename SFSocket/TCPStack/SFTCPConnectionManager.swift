@@ -13,6 +13,7 @@ import SwiftyJSON
 import lwip
 import AxLogger
 import XRuler
+import XProxy
 class LWIPTraffic {
     var sport:UInt16 = 0
     var lwipInputSpeed:UInt = 0

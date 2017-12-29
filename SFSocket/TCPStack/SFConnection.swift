@@ -11,6 +11,7 @@ import lwip
 import Xcon
 import XRuler
 import AxLogger
+import XProxy
 import DarwinCore
 //#define ERR_OK          0    /* No error, everything OK. */
 //#define ERR_MEM        -1    /* Out of memory error.     */
@@ -455,7 +456,7 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
 //       //SKit.log("\(cIDString) Reject , now close",level: .Info)
 //        client_handle_freed_client()
 //    }
-    internal func client_socks_handler(_ event:SocketEvent){
+    internal override func client_socks_handler(_ event:SocketEvent){
         //assert(!reqInfo.socks_closed)
         switch event {
             
@@ -1045,7 +1046,7 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
         
     }
 
-    func client_send_to_socks(){
+    override func client_send_to_socks(){
         //debugLog("client_send_to_socks")
         assert(!reqInfo.socks_closed)
         assert(reqInfo.socks_up)

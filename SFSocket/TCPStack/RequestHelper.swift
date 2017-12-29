@@ -11,7 +11,7 @@ import Foundation
 import GRDB
 import AxLogger
 import Xcon
-
+import XProxy
 public class RequestHelper{
     static public let shared = RequestHelper()
     
@@ -190,13 +190,15 @@ public class RequestHelper{
 //                    req.subID =  UInt32(row.value(named: "subID"))
                     //print(row[url])
                     //print(row[url])
+                    //MARK: fixme
                     req.mode =  SFConnectionMode(rawValue:row["mode"])!
+                    req.status = SFConnectionStatus(rawValue:row["status"])!
+                    req.closereason = SFConnectionCompleteReason(rawValue:row["closereason"])!
                     req.url = row["url"]
                     req.app = row["app"]
                     req.sTime = Date.init(timeIntervalSince1970: row["start"])
                     result.append(req)
-                    req.status = SFConnectionStatus(rawValue:row["status"])!
-                    req.closereason = SFConnectionCompleteReason(rawValue:row["closereason"])!
+                    
                     
                     if req.mode != .TCP {
                         var head:String = row["respheader"]

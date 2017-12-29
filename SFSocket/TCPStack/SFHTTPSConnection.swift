@@ -10,6 +10,7 @@ import Foundation
 import lwip
 import AxLogger
 import Xcon
+import XProxy
 class SFHTTPSConnection: SFHTTPRequest {
     override func configLwip() {
         //reqInfo.mode = .HTTPS
