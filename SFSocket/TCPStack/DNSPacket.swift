@@ -20,11 +20,11 @@ public enum QTYPE:UInt16,CustomStringConvertible{
     case ptr = 0x000C
     case mx = 0x000F
     case srv = 0x0021
-
-    case a6 = 0x0026
+    
+    case a6 = 0x001C
     case any = 0x00FF
-
-
+    
+    
     public var description: String {
         switch self {
         case .a: return  "A"
@@ -37,7 +37,7 @@ public enum QTYPE:UInt16,CustomStringConvertible{
         case .mx : return "MX"
         case .srv : return "SRV"
             
-        case .a6 : return  "A6"
+        case .a6 : return  "AAAA"
         case .any : return "ANY"
         }
     }
@@ -57,11 +57,29 @@ class DNSPacket: NSObject {
     var answerCount:UInt16 = 0
     var ipString:[String] = []
     var finished:Bool = true
-//    override init() {
-//        
-//    }
-
-
+    //    override init() {
+    //
+    //    }
+    
+    
+    override var description: String{
+        get {
+            if ipString.count != 0 {
+                let  initialResult = ""
+                return ipString.reduce(initialResult) { (t,e )  in
+                    if t.count == 0 {
+                        return e
+                    }else {
+                        return t + "," + e
+                    }
+                    
+                }
+                
+            }else {
+                return queryDomains.first!
+            }
+        }
+    }
     var useCache:Bool{
         get {
             if qType == 0x1 {
@@ -104,9 +122,9 @@ class DNSPacket: NSObject {
     init(data:Data) {
         if data.count < 12 {
             
-            SKit.log("DNS data error data",level: .Error)
+            AxLogger.log("DNS data error data",level: .Error)
         }
-       
+        
         rawData = data
         super.init()
         let value = rawData.withUnsafeBytes { (ptr: UnsafePointer<UInt16>)  in
@@ -115,6 +133,14 @@ class DNSPacket: NSObject {
         
         let bytes:UnsafePointer<UInt16> =  UnsafePointer<UInt16>.init(value)
         var p:UnsafePointer<UInt16> = bytes
+        var ptr:UnsafePointer<UInt8>?
+        
+        p.withMemoryRebound(to: UInt8.self, capacity: 1){
+            ptr = $0
+            
+        }
+        let p0:UnsafePointer<UInt8> = ptr!
+        
         identifier = bytes.pointee
         p = bytes + 1
         let op = p.pointee.bigEndian
@@ -140,11 +166,7 @@ class DNSPacket: NSObject {
         p = p + 1
         
         p += 2
-        var ptr:UnsafePointer<UInt8>?
-        p.withMemoryRebound(to: UInt8.self, capacity: 1){
-           ptr = $0
-        }
-        
+        ptr = ptr?.advanced(by: 12)
         
         if qr == 0 {
             count = reqCount
@@ -160,7 +182,7 @@ class DNSPacket: NSObject {
                 ptr = ptr?.successor()
                 
                 if (ptr?.distance(to:endptr))! < len   {
-                    SKit.log("DNS error return ",level: .Debug)
+                    AxLogger.log("DNS error return ",level: .Debug)
                     
                 }else {
                     if let s = NSString(bytes: ptr!, length: len, encoding: String.Encoding.utf8.rawValue){
@@ -188,13 +210,15 @@ class DNSPacket: NSObject {
                 if (ptr?.distance(to: endptr))! <= 0{
                     return
                 }
-               
+                
             }
         }
         //NSLog("---- %@", data)
+        print("answerCount \(answerCount)")
         if qr == 1{
             for _ in 0..<answerCount {
                 if ((ptr?.distance(to: endptr))! <= 0 ) {
+                    print("error 0")
                     finished = false
                     return
                 }
@@ -217,7 +241,7 @@ class DNSPacket: NSObject {
                     
                     ptr0 =  ptr0?.advanced(by:Int(offset))
                     
-                    domain = DNSPacket.findLabel(ptr0!)
+                    domain = DNSPacket.findLabel(ptr0!, org: p0)
                 }else {
                     // packet 不全，导致后面无法解析
                     finished = false
@@ -230,6 +254,7 @@ class DNSPacket: NSObject {
                 memcpy(&t, ptr, 2)
                 t = t.bigEndian
                 guard let type :QTYPE = QTYPE(rawValue: t) else {
+                    print("error 1")
                     return
                 }
                 ptr = ptr?.advanced(by: 2)
@@ -243,7 +268,7 @@ class DNSPacket: NSObject {
                 ptr = ptr?.advanced(by: 4)
                 
                 var len:UInt16 = 0
-
+                
                 memcpy(&len, ptr, 2)
                 len = len.bigEndian
                 ptr = ptr?.advanced(by: 2)
@@ -262,32 +287,50 @@ class DNSPacket: NSObject {
                     let buffer = NSMutableData()
                     memcpy(buffer.mutableBytes, ptr, Int(len))
                     ptr = ptr?.advanced(by:  Int(len))
-                    SKit.log("IPv6 AAAA record found ",items: buffer,level: .Notify)
-                }else {
+                    AxLogger.log("IPv6 AAAA record found \(buffer) ",level: .Notify)
+                }else if type == .cname{
+                    print("found cname")
                     while (ptr?.pointee != 0x0) {
+                        //压缩算法
+                        if ptr?.pointee == 0xC0 {
+                            var c:UInt16 = 0
+                            memcpy(&c, ptr!, 2)
+                            c = c.byteSwapped
+                            c = c ^ 0xC000
+                            
+                            let p = p0.advanced(by: Int(c))
+                            let l = DNSPacket.findLabel(p, org: p0)
+                            domainString += l
+                            print("\(l) \(domainString)")
+                            ptr = ptr?.advanced(by: 2)
+                            break
+                        }
                         let len = Int((ptr?.pointee)!)
                         ptr = ptr?.successor()
                         
                         if (ptr?.distance(to:endptr))! < len   {
                             finished = false
+                            print("error")
                             return
-                            //NSLog("error return ")
+                            
                         }
                         
                         if let s = NSString.init(bytes: ptr!, length: len, encoding: String.Encoding.utf8.rawValue) {
-                           domainString = domainString + (s as String) + "."
+                            domainString = domainString + (s as String) + "."
                         }
                         
                         
                         ptr = ptr?.advanced(by:  Int(len))
-                        domainLength += len
-                        
-                        domainLength += 1
+                        domainLength += len + 1
+                        print("#" + domainString)
                     }
-                    ptr = ptr?.advanced(by: 1)
+                    if ptr?.pointee == 0x00 {
+                        ptr = ptr?.advanced(by: 1)
+                    }
+                    
                 }
-                
-                SKit.log("DNS",items:domain,domainString,level: .Debug)
+                answerDomains[domain] = domainString
+                AxLogger.log("DNS \(domain),\(domainString)",level: .Debug)
                 
             }
         }
@@ -295,18 +338,18 @@ class DNSPacket: NSObject {
         
         if let d = queryDomains.first {
             if qr == 0 {
-                SKit.log("DNS Request:",items: d,level: .Debug)
+                AxLogger.log("DNS Request: \(d)",level: .Debug)
                 
             }else {
                 //NSLog("DNS Response Packet %@", d)
-                SKit.log("DNS Response:",items: ipString,level: .Debug)
+                AxLogger.log("DNS Response:\(ipString)" ,level: .Debug)
                 if    !self.ipString.isEmpty {
                     let r = DNSCache.init(d: d, i: ipString)
                     //MARK --fixme
-                    //SFSettingModule.setting.addDNSCacheRecord(r)
+                    SFSettingModule.setting.addDNSCacheRecord(r)
                     
                 }else {
-                     SKit.log("DNS  IN not found record",items: d, level: .Error)
+                    AxLogger.log("DNS  IN not found record \(d)", level: .Error)
                 }
             }
             
@@ -315,17 +358,30 @@ class DNSPacket: NSObject {
         
         //super.init()
     }
-    static func findLabel(_ ptr0:UnsafePointer<UInt8>) ->String {
+    static func findLabel(_ ptr0:UnsafePointer<UInt8>,org:UnsafePointer<UInt8>) ->String {
         var ptr:UnsafePointer<UInt8> = ptr0
         var domainString:String = ""
         var  domainLength = 0
         while (ptr.pointee != 0x0) {
+            if ptr.pointee == 0xC0{
+                var c:UInt16 = 0
+                memcpy(&c, ptr, 2)
+                c = c.byteSwapped
+                c = c ^ 0xC000
+                
+                let p = org.advanced(by: Int(c))
+                let l = DNSPacket.findLabel(p,org: org)
+                domainString += l
+                print("recv \(l) \(domainString)")
+                ptr = ptr.advanced(by: 2)
+                break
+            }
             let len = Int(ptr.pointee)
             ptr = ptr.successor()
             
-     //       if ptr.distanceTo(endptr) < len   {
-//                NSLog("error return ")
-//            }
+            //       if ptr.distanceTo(endptr) < len   {
+            //                NSLog("error return ")
+            //            }
             if let s =  NSString.init(bytes: ptr, length: len, encoding: String.Encoding.utf8.rawValue)  {
                 
                 
@@ -333,15 +389,17 @@ class DNSPacket: NSObject {
             }
             
             ptr = ptr + Int(len)
+            
             domainLength += len
             
             domainLength += 1
+            
         }
-
+        
         return domainString
     }
     deinit{
-         SKit.log("DNSPacket deinit",level: .Debug)
+        AxLogger.log("DNSPacket deinit",level: .Debug)
     }
     static func genPacketData(_ ips:[String],domain:String,identifier:UInt16) ->Data {
         //IPv4
@@ -373,7 +431,8 @@ class DNSPacket: NSObject {
             let ipD:UInt32  = inet_addr(ip.cString(using: String.Encoding.utf8)!)
             respData.append(ipD)
         }
-
+        
         return respData.data
     }
 }
+

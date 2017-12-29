@@ -258,21 +258,24 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
         d.hostname = reqInfo.host
         d.querey(reqInfo.host) {[weak self] (record) in
             if let s  = self {
-                if record?.type != DNSServiceErrorType.init(0)  {//kDNSServiceErr_NoError
-                    SKit.log("DNS request error and send request again",items: record?.type.description,level:.Trace)
-                    s.findIPAddress2()
-                }else {
-                    //
-                    //findProxy 跨线程会crash
-                    //let q = SFTCPConnectionManager.shared().dispatchQueue
-                    let ip = record?.ipaddress
-                    //dispatch_async(q) {[weak self] in
-                    //    if let strong = self {
-                            s.findIPRule(ip!)
-                      //  }
+                if let r = record {
+                    if r.type != DNSServiceErrorType.init(0)  {//kDNSServiceErr_NoError
+                        SKit.log("DNS request error and send request again",items: r.type.description,level:.Trace)
+                        s.findIPAddress2()
+                    }else {
+                        //
+                        //findProxy 跨线程会crash
+                        //let q = SFTCPConnectionManager.shared().dispatchQueue
+                        let ip = r.ipaddress
+                        //dispatch_async(q) {[weak self] in
+                        //    if let strong = self {
+                        s.findIPRule(ip!)
+                        //  }
                         
-                    //}
+                        //}
+                    }
                 }
+                
             }else {
                 SKit.log("weak error",level: .Error)
             }

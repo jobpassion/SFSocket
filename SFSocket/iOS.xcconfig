@@ -5,6 +5,6 @@
 //  Created by yarshure on 2017/12/15.
 //  Copyright © 2017年 Kong XiangBo. All rights reserved.
 //
-OTHER_LDFLAGS = $(inherited)  -framework XProxy -framework snappy  -framework lwip -framework SystemKitiOS -framework Reachability
+OTHER_LDFLAGS = $(inherited)  -framework XProxy   -framework lwip -framework SystemKitiOS -framework Reachability
 FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PROJECT_DIR)/Carthage/Build/iOS/"
 LIBRARY_SEARCH_PATHS = $(inherited) "$(PROJECT_DIR)/Carthage/Build/iOS/"

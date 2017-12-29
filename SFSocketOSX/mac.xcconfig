@@ -5,7 +5,7 @@
 //  Created by yarshure on 2017/12/15.
 //  Copyright © 2017年 Kong XiangBo. All rights reserved.
 //
-OTHER_LDFLAGS = $(inherited)  -framework XProxy -framework snappy  -framework lwip -framework SystemKit -framework Reachability
+OTHER_LDFLAGS = $(inherited)  -framework XProxy   -framework lwip -framework SystemKit -framework Reachability
     //-framework ObjectMapper
     //OTHER_LDFLAGS = $(inherited)  -framework Crypto -framework Sodium -framework IDZSwiftCommonCrypto -framework CocoaAsyncSocket -framework SwiftyJSON -framework MMDB -weak_framework kcp -framework XSocket -framework ObjectMapper -framework Xcon -framework CommonCrypto -framework AxLogger
 FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PROJECT_DIR)/Carthage/Build/Mac/"
