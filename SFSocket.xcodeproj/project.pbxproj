@@ -116,6 +116,7 @@
 		69B955081DDF8212006AF669 /* IPStackProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5AD1DD5CE490079493D /* IPStackProtocol.swift */; };
 		69B955091DDF8216006AF669 /* UDPDirectStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5AB1DD5CE310079493D /* UDPDirectStack.swift */; };
 		69BCD1F21F56A81700D05C62 /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BCD1F11F56A81700D05C62 /* TestVC.swift */; };
+		69BE2E6C1FFC8CAA0078845A /* UDPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E6B1FFC8CAA0078845A /* UDPManager.swift */; };
 		69BF6C561DE57E74000ABF09 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C551DE57E74000ABF09 /* Atomic.swift */; };
 		69BF6C571DE57E74000ABF09 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C551DE57E74000ABF09 /* Atomic.swift */; };
 		69BF6C621DE57F7B000ABF09 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C611DE57F7B000ABF09 /* HTTPHeader.swift */; };
@@ -250,6 +251,7 @@
 		69B954F41DDF81CF006AF669 /* SFSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSocket.h; sourceTree = "<group>"; };
 		69B954F51DDF81CF006AF669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69BCD1F11F56A81700D05C62 /* TestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
+		69BE2E6B1FFC8CAA0078845A /* UDPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDPManager.swift; sourceTree = "<group>"; };
 		69BF6C551DE57E74000ABF09 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		69BF6C611DE57F7B000ABF09 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		69BF6C641DE57FCA000ABF09 /* HTTPStreamScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStreamScanner.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				69116B2E1E96823E007C2FBA /* TCPManagerProtocol.swift */,
 				69116B371E968749007C2FBA /* SKit.swift */,
 				698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */,
+				69BE2E6B1FFC8CAA0078845A /* UDPManager.swift */,
 			);
 			path = TCPStack;
 			sourceTree = "<group>";
@@ -865,6 +868,7 @@
 				69BF6C621DE57F7B000ABF09 /* HTTPHeader.swift in Sources */,
 				69116B321E968370007C2FBA /* SFVPNSession.swift in Sources */,
 				6994E01A1DEFBEB6009394F9 /* DNSSessionMatchType.swift in Sources */,
+				69BE2E6C1FFC8CAA0078845A /* UDPManager.swift in Sources */,
 				695F6E571E900E1A00C72E5E /* General.swift in Sources */,
 				695F6E7D1E900E1A00C72E5E /* SFUDPConnector.swift in Sources */,
 				694144A01FDE1D4400F73C5A /* extension.swift in Sources */,

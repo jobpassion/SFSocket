@@ -9,7 +9,7 @@
 import Foundation
 
 import SwiftyJSON
-
+import AxLogger
 public class SFTraffic {
     public var rx: UInt = 0
     public var tx: UInt = 0
@@ -235,7 +235,7 @@ open class SFVPNStatistics {
     }
     func resport() ->Data{
         reportTime = Date()
-        memoryUsed = 0//AxLogger.reportMemoryUsed()//reportCurrentMemory()
+        memoryUsed = reportMemoryUsed()
         
         var status:[String:AnyObject] = [:]
         status["start"] =  NSNumber.init(value: startDate.timeIntervalSince1970)
@@ -275,7 +275,7 @@ open class SFVPNStatistics {
     }
     func flowData() ->Data{
         reportTime = Date()
-        memoryUsed = 0//reportMemoryUsed()//reportCurrentMemory()
+        memoryUsed = reportMemoryUsed()//reportCurrentMemory()
         
         var status:[String:AnyObject] = [:]
         

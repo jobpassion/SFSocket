@@ -112,7 +112,7 @@ public class SKit {
     
     //var groupIdentifier = ""
     
-    
+    static let report:SFVPNStatistics = SFVPNStatistics.shared
     
     public static var groupIdentifier = ""
    
@@ -135,7 +135,7 @@ public class SKit {
     public static var vpnServer:String = ""
     
     public static var httpProxyPort = 10080
-    public static var httpsocketProxyPort = 10080
+    public static var httpsocketProxyPort = 10081
     public static var HttpsProxyPort = 10081
     
     static var agentsFile = "useragents.plist"
@@ -185,13 +185,13 @@ public class SKit {
     static var memoryLimitUesedSize:UInt = 1*1024*1024
     static let physicalMemorySize = physicalMemory()
     static let LimitSpeedTotal:UInt = 20*1024*1024//LimitSpeedSimgle //1MB/s
-    static var provier:NEPacketTunnelProvider?
+    static var packettunnelprovier:NEPacketTunnelProvider?
     static var confirmMessage:Set<String> = []
     public static func prepareTunnel(provier:NEPacketTunnelProvider,reset:Bool,pendingStartCompletion: (@escaping (Error?) ->Void)){
         SKit.log("SKit prepareTunnel",level: .Info)
         let setting = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "240.89.6.4")
         let ipv4 = NEIPv4Settings(addresses: [tunIP], subnetMasks: ["255.255.255.0"])// iPhone @2007 MacWorld
-        self.provier = provier
+        self.packettunnelprovier = provier
         setting.ipv4Settings = ipv4
         var includedRoutes = [NEIPv4Route]()
         //includedRoutes.append(NEIPv4Route(destinationAddress: "0.0.0.0", subnetMask: "0.0.0.0"))
@@ -309,6 +309,7 @@ public class SKit {
             
             proxySettings.httpsServer = NEProxyServer(address: loopbackAddr, port: httpsocketProxyPort)
             proxySettings.httpsEnabled = true
+            SKit.startGCDProxy(port: Int32(httpsocketProxyPort))
         }else {
             if SFSettingModule.setting.mode == .tunnel {
                 
@@ -369,7 +370,7 @@ public class SKit {
         if #available(iOSApplicationExtension 10.0, *) {
             //VPN can alert
             if #available(OSXApplicationExtension 10.12, *) {
-                self.provier!.displayMessage(message, completionHandler: { (fin) in
+                self.packettunnelprovier!.displayMessage(message, completionHandler: { (fin) in
                     SKit.log("clicked \(message)",level:.Info)
                     self.confirmMessage.update(with: message)
                 })
@@ -436,8 +437,8 @@ public class SKit {
 
     }
     //为了给VPN提供接口？？
-    static public func startGCDProxy(){
-       XProxy.startGCDProxy(port: 10081)
+    static public func startGCDProxy(port:Int32){
+       XProxy.startGCDProxy(port: port)
     }
     static public func stopGCDProxy(){
         
@@ -447,91 +448,96 @@ public class SKit {
         SFSettingModule.setting.config(path)
     }
     static public func reloadProxy(){
-        ProxyGroupSettings.share.loadProxyFromFile()
+        do {
+            try ProxyGroupSettings.share.loadProxyFromFile()
+        } catch let e {
+            SKit.logX("\(e.localizedDescription)", level: .Error)
+        }
+        
     }
-//    static  func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
-//        guard let messageString = String.init(data: messageData, encoding: .utf8) else {
-//            completionHandler?("no data from app".data(using: .utf8))
-//            return
-//        }
-//        //NSLog("33333")
-//        //NSLog("handleAppMessage " + (messageString as String))
-//        if SFTCPConnectionManager.manager.lwip_init_finished == false {
-//            NSLog("Warning lwip not ready")
-//        }
-//        //NSLog("#####Got a message from the app \(reportMemory())")
-//        let packet = messageString.components(separatedBy: "|")
-//        guard  let command = packet.first else {return }
-//        
-//        if let x = SFVPNXPSCommand(rawValue:command) {
-//            switch x {
-//            case .LOADRULE:
-//                
-//                if  packet.count >= 2 {
-//                    let rule = packet[1]
-//                    //SKit.reloadRule(rule)
-//                    let responseData = (rule + "Loaded") .data(using: String.Encoding.utf8)
-//                    completionHandler?(responseData)
-//                }
-//            case .HELLO:
-//                let mem = ""// String(reportMemoryUsed())
-//                let x = "hello app memory:" + mem  + " session:" + SFEnv.session.idenString()
-//                
-//                let responseData = x.data(using: String.Encoding.utf8)
-//                completionHandler?(responseData)
-//                
-//            case .RECNETREQ:
-//                //AxLogger.log("RECNETREQ RPC Request",level: .Debug)
-//                let responseData = SFTCPConnectionManager.manager.recentRequestData()
-//                
-//                completionHandler?(responseData)
-//            case .RULERESULT:
-//                let responseData = SFTCPConnectionManager.manager.ruleResultData()
-//                completionHandler?(responseData)
-//            case .STATUS:
-//                let responseData = report.resport()
-//                completionHandler?(responseData)
-//            case .CHANGEPROXY:
-//                guard  let selectIndex = packet.last else {return }
-//                var message = ""
-//                if let i = Int(selectIndex){
-//                    ProxyGroupSettings.share.selectIndex = i
-//                    ProxyGroupSettings.share.dynamicSelected = true
-//                    message = proxyChangedOK
-//                }else {
-//                    message = proxyChangedErr
-//                }
-//                
-//                //AxLogger.log(message,level: .Info)
-//                SFTCPConnectionManager.manager.clearRule()
-//                //AxLogger.log("Rule Test Results clean",level: .Info)
-//                completionHandler?(message.data(using: .utf8, allowLossyConversion: false))
-//            case .FLOWS:
-//                let data = SFVPNStatistics.shared.flowData()
-//                completionHandler?(data)
-//            case .UPDATERULE:
-//                //fixme
-//                //                guard  let message = packet.last else {return}
-//                //                if let data = message.data(using: String.Encoding.utf8, allowLossyConversion: false){
-//                //                    let json = JSON.init(data: data)
-//                //                    let request = json["request"].stringValue
-//                //                    let rulerj = json["ruler"]
-//                //                    let r = SFRuler()
-//                //                    r.mapObject(rulerj)
-//                //                    if !request.isEmpty{
-//                //                        let result = SFRuleResult.init(request: request, r: r)
-//                //                        SFTCPConnectionManager.shared().updateRuleResult(result)
-//                //                        let m = "UPDATERULE \(request) OK"
-//                //                        completionHandler?(m.data(using: .utf8, allowLossyConversion: false))
-//                //                        return
-//                //                    }
-//                
-//                //}
-//                completionHandler?("UPDATERULE failure".data(using: .utf8))
-//                break
-//            }
-//        }
-//    }
+    public static  func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
+        guard let messageString = String.init(data: messageData, encoding: .utf8) else {
+            completionHandler?("no data from app".data(using: .utf8))
+            return
+        }
+        //NSLog("33333")
+        //NSLog("handleAppMessage " + (messageString as String))
+        if SFTCPConnectionManager.manager.lwip_init_finished == false {
+            NSLog("Warning lwip not ready")
+        }
+        //NSLog("#####Got a message from the app \(reportMemory())")
+        let packet = messageString.components(separatedBy: "|")
+        guard  let command = packet.first else {return }
+        
+        if let x = SFVPNXPSCommand(rawValue:command) {
+            switch x {
+            case .LOADRULE:
+                
+                if  packet.count >= 2 {
+                    let rule = packet[1]
+                    //SKit.reloadRule(rule)
+                    let responseData = (rule + "Loaded") .data(using: String.Encoding.utf8)
+                    completionHandler?(responseData)
+                }
+            case .HELLO:
+                let mem = String(reportMemoryUsed())
+                let x = "hello app memory:" + mem  + " session:" + SFEnv.session.idenString()
+                
+                let responseData = x.data(using: String.Encoding.utf8)
+                completionHandler?(responseData)
+                
+            case .RECNETREQ:
+                //AxLogger.log("RECNETREQ RPC Request",level: .Debug)
+                let responseData = SFTCPConnectionManager.manager.recentRequestData()
+                
+                completionHandler?(responseData)
+            case .RULERESULT:
+                let responseData = SFTCPConnectionManager.manager.ruleResultData()
+                completionHandler?(responseData)
+            case .STATUS:
+                let responseData = report.resport()
+                completionHandler?(responseData)
+            case .CHANGEPROXY:
+                guard  let selectIndex = packet.last else {return }
+                var message = ""
+                if let i = Int(selectIndex){
+                    ProxyGroupSettings.share.selectIndex = i
+                    ProxyGroupSettings.share.dynamicSelected = true
+                    message = "select proxy changed"
+                }else {
+                    message = "select proxy error"
+                }
+                
+                //AxLogger.log(message,level: .Info)
+                SFTCPConnectionManager.manager.clearRule()
+                //AxLogger.log("Rule Test Results clean",level: .Info)
+                completionHandler?(message.data(using: .utf8, allowLossyConversion: false))
+            case .FLOWS:
+                let data = SFVPNStatistics.shared.flowData()
+                completionHandler?(data)
+            case .UPDATERULE:
+                //fixme
+                //                guard  let message = packet.last else {return}
+                //                if let data = message.data(using: String.Encoding.utf8, allowLossyConversion: false){
+                //                    let json = JSON.init(data: data)
+                //                    let request = json["request"].stringValue
+                //                    let rulerj = json["ruler"]
+                //                    let r = SFRuler()
+                //                    r.mapObject(rulerj)
+                //                    if !request.isEmpty{
+                //                        let result = SFRuleResult.init(request: request, r: r)
+                //                        SFTCPConnectionManager.shared().updateRuleResult(result)
+                //                        let m = "UPDATERULE \(request) OK"
+                //                        completionHandler?(m.data(using: .utf8, allowLossyConversion: false))
+                //                        return
+                //                    }
+                
+                //}
+                completionHandler?("UPDATERULE failure".data(using: .utf8))
+                break
+            }
+        }
+    }
 //    func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
 //
 //        //        DispatchQueue.main.async {

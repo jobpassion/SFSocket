@@ -773,6 +773,7 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
                     //bug
                     //EXC_BAD_ACCESS
                     //MARK: - todo fixme
+                    //queue = 'com.yarshure.dispatchqueue', stop reason = EXC_BAD_ACCESS (code=1, address=0x302e312f610001bb)
                     let err = tcp_output(pcb)
                     
                     if err != 0 {
@@ -800,7 +801,11 @@ class SFConnection: TUNConnection ,TCPCientDelegate{
         //let len = socks_recv_bufArray.length - socks_sendout_length
         let r = Range(0 ..< socks_sendout_length)
         //memory leak
-        socks_recv_bufArray.replaceSubrange(r, with: Data())
+        //MARK: fixme
+        if socks_recv_bufArray.count >= socks_sendout_length{
+            socks_recv_bufArray.replaceSubrange(r, with: Data())
+        }
+        
         
         //socks_recv_bufArray.replaceBytes(in: r, withBytes: nil, length: 0)
         socks_sendout_length = 0 
