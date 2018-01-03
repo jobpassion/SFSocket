@@ -419,9 +419,13 @@ class DNSPacket: NSObject {
         }
         respData.append(UInt8(0x00)) // .在那里
         
+        respData.append(UInt16(0x0001).bigEndian)
+        respData.append(UInt16(0x0001).bigEndian)
+        
         for ip in ips {
-            respData.append(UInt16(0x0001).bigEndian)
-            respData.append(UInt16(0x0001).bigEndian)
+            //bug here ,compress bug
+           
+            
             respData.append(UInt16(0xC00C).bigEndian)
             respData.append(UInt16(0x0001).bigEndian)
             respData.append(UInt16(0x0001).bigEndian)

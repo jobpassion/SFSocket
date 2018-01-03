@@ -5,7 +5,7 @@
 //  Created by 孔祥波 on 06/04/2017.
 //  Copyright © 2017 Kong XiangBo. All rights reserved.
 //
-
+import os.log
 import Foundation
 import XProxy
 import XRuler
@@ -424,6 +424,8 @@ public class SKit {
         if level != AxLoggerLevel.Debug {
             AxLogger.log(msg,level:level)
         }
+        
+        os_log("SKit: %@", log: .default, type: .debug, msg)
        // print(msg)
         
        

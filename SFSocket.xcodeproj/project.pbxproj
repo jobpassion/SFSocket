@@ -11,6 +11,9 @@
 		6904B0D91FFD2EF0000B64F3 /* Tunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E7A1FFD252C0078845A /* Tunnel.swift */; };
 		6904B0DA1FFD2F1D000B64F3 /* SFSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B954F21DDF81CF006AF669 /* SFSocket.framework */; };
 		6904B0DB1FFD2F1D000B64F3 /* SFSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69B954F21DDF81CF006AF669 /* SFSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6904B0DF1FFD3567000B64F3 /* VLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0DE1FFD3567000B64F3 /* VLog.swift */; };
+		6904B0E01FFD363C000B64F3 /* UDPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E6B1FFC8CAA0078845A /* UDPManager.swift */; };
+		6904B0E21FFD36B6000B64F3 /* NEPacketTunnelProvider+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */; };
 		69116B171E968157007C2FBA /* SFOpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B161E968157007C2FBA /* SFOpt.swift */; };
 		69116B181E968157007C2FBA /* SFOpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B161E968157007C2FBA /* SFOpt.swift */; };
 		69116B1A1E968187007C2FBA /* TUNConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B191E968187007C2FBA /* TUNConnection.swift */; };
@@ -211,6 +214,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6904B0DE1FFD3567000B64F3 /* VLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLog.swift; sourceTree = "<group>"; };
 		69116B161E968157007C2FBA /* SFOpt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFOpt.swift; sourceTree = "<group>"; };
 		69116B191E968187007C2FBA /* TUNConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TUNConnection.swift; sourceTree = "<group>"; };
 		69116B1F1E9681BB007C2FBA /* SFHTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFHTTPConnection.swift; sourceTree = "<group>"; };
@@ -456,6 +460,7 @@
 				69BE2E981FFD2D830078845A /* vpn.xcconfig */,
 				69BE2E701FFD20210078845A /* ServerTunnelConnection.swift */,
 				69BE2E7A1FFD252C0078845A /* Tunnel.swift */,
+				6904B0DE1FFD3567000B64F3 /* VLog.swift */,
 			);
 			path = tun;
 			sourceTree = "<group>";
@@ -920,6 +925,7 @@
 				6994E01B1DEFBEB6009394F9 /* DNSSessionMatchType.swift in Sources */,
 				695F6E7C1E900E1A00C72E5E /* SFTunUtility.swift in Sources */,
 				69F7457A1F4C07B800A39C30 /* Utils.swift in Sources */,
+				6904B0E21FFD36B6000B64F3 /* NEPacketTunnelProvider+Extension.swift in Sources */,
 				695F6E7A1E900E1A00C72E5E /* SFTunFunc.swift in Sources */,
 				69B955011DDF81FB006AF669 /* Checksum.swift in Sources */,
 				69E40F3D1F4A7D5F00C1DDC3 /* AVLTree.swift in Sources */,
@@ -937,6 +943,7 @@
 				69B954FF1DDF81F3006AF669 /* Opt.swift in Sources */,
 				695F6E541E900E1A00C72E5E /* DNSQueue.swift in Sources */,
 				69B955081DDF8212006AF669 /* IPStackProtocol.swift in Sources */,
+				6904B0E01FFD363C000B64F3 /* UDPManager.swift in Sources */,
 				695F6E801E900E1A00C72E5E /* SFUDPForwarder.swift in Sources */,
 				6994E0181DEFBE9E009394F9 /* Rule.swift in Sources */,
 				69116B291E9681BB007C2FBA /* SFHTTPSConnection.swift in Sources */,
@@ -952,6 +959,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6904B0DF1FFD3567000B64F3 /* VLog.swift in Sources */,
 				69BE2E851FFD28BA0078845A /* ViewController.swift in Sources */,
 				6904B0D91FFD2EF0000B64F3 /* Tunnel.swift in Sources */,
 				69BE2E831FFD28BA0078845A /* AppDelegate.swift in Sources */,
@@ -1158,7 +1166,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 745WQDK4L7;
@@ -1174,7 +1182,7 @@
 				INFOPLIST_FILE = SFSocketOSX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.SFSocket;
 				PRODUCT_NAME = SFSocket;
 				SDKROOT = macosx;
@@ -1191,7 +1199,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1207,7 +1215,7 @@
 				INFOPLIST_FILE = SFSocketOSX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.SFSocket;
 				PRODUCT_NAME = SFSocket;
 				SDKROOT = macosx;
@@ -1237,7 +1245,7 @@
 				);
 				INFOPLIST_FILE = VPNTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.VPNTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1262,7 +1270,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = VPNTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.VPNTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

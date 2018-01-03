@@ -250,7 +250,7 @@ extension NEPacketTunnelProvider:OutgoingConnectorDelegate {
             }else {
                 AxLogger.log("\(srcport) udp connect living", level: .Info)
             }
-            cleanUDPConnector(force: false)
+            UDPManager.shared.cleanUDPConnector(force: false)
             
             
             //NSLog("write udp packet %@ ", data)
@@ -279,36 +279,7 @@ extension NEPacketTunnelProvider:OutgoingConnectorDelegate {
         c.shutdownSocket()
         
     }
-    public func cleanUDPConnector(force:Bool){
-        if force {
-            for (_,c) in UDPManager.shared.udpClientIndex.enumerated() {
-                if let x = UDPManager.shared.clientTree.search(input: c) {
-                    x.shutdownSocket()
-                }
-                UDPManager.shared.clientTree.delete(key: c)
-            }
-            UDPManager.shared.udpClientIndex.removeAll()
-        }else {
-            var tomove:[Int] = []
-            for (n,c) in UDPManager.shared.udpClientIndex.enumerated() {
-                if  let cc = UDPManager.shared.clientTree.search(input: c) {
-                    if Date().timeIntervalSince(cc.activeTime) > 5.0 {
-                        if let x = UDPManager.shared.clientTree.search(input: c) {
-                            x.shutdownSocket()
-                        }
-                        UDPManager.shared.clientTree.delete(key: c)
-                        tomove.append(n)
-                        
-                    }
-                    
-                }
-                
-            }
-            for i in tomove.reversed() {
-                UDPManager.shared.udpClientIndex.remove(at: i)
-            }
-        }
-    }
+ 
 }
 extension NEPacketTunnelProvider{
     public func reportTask() {

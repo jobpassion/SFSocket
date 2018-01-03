@@ -17,6 +17,7 @@ public func simpleTunnelLog(_ message: String) {
 class ServerTunnelConnection {
     // MARK: Properties
     /// The tunnel that contains the connection.
+    static let shared = ServerTunnelConnection()
     open var tunnel: Tunnel?
 
     /// The virtual address of the tunnel.
@@ -165,7 +166,39 @@ class ServerTunnelConnection {
         
         // If there are unsent packets left over, send them now.
         if packets.count > 0 {
-            tunnel?.sendPackets(packets as [Data] as [Data], protocols: protocols, forConnection: 0)
+            tunnel?.sendPackets(packets as [Data] , protocols: protocols, forConnection: 0)
+        }
+    }
+    /// Write packets and associated protocols to the UTUN interface.
+    func sendPackets(_ packets: [Data], protocols: [NSNumber]) {
+        guard let source = utunSource else { return }
+        let utunSocket = Int32((source as DispatchSourceRead).handle)
+        
+        for (index, packet) in packets.enumerated() {
+            guard index < protocols.count else { break }
+            VLog.log("\(packet as NSData)", level: .Info)
+            var protocolNumber = protocols[index].uint32Value.bigEndian
+            
+            
+            var buffer:UnsafeMutableRawPointer?
+            
+            var ptr :UnsafePointer<Any>?
+            
+            packet.withUnsafeBytes({ (p:UnsafePointer) -> Void in
+                ptr = p
+            })
+            buffer = UnsafeMutableRawPointer.init(mutating: ptr)
+            var iovecList = [ iovec(iov_base: &protocolNumber, iov_len: MemoryLayout.size(ofValue: protocolNumber)), iovec(iov_base: buffer, iov_len: packet.count) ]
+            
+            let writeCount = writev(utunSocket, &iovecList, Int32(iovecList.count))
+            if writeCount < 0 {
+                let errorString = String.init(cString: strerror(errno))
+                simpleTunnelLog("Got an error while writing to utun: \(errorString)")
+                
+            }
+            else if writeCount < packet.count + MemoryLayout.size(ofValue: protocolNumber) {
+                simpleTunnelLog("Wrote \(writeCount) bytes of a \(packet.count) byte packet to utun")
+            }
         }
     }
 }

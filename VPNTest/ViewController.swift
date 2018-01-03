@@ -7,14 +7,30 @@
 //
 
 import Cocoa
+import SFSocket
+import XRuler
 
 class ViewController: NSViewController {
-    let server:ServerTunnelConnection = ServerTunnelConnection()
+    let server:ServerTunnelConnection = ServerTunnelConnection.shared
+    func prepare() {
+        //XRuler.groupIdentifier =
+        SKit.proxyIpAddr = "240.7.1.10"
+        
+        SKit.dnsAddr = "218.75.4.130"
+        SKit.proxyHTTPSIpAddr = "240.7.1.11"
+        SKit.xxIpAddr = "240.7.1.12"
+        SKit.tunIP = "240.7.1.10"
+        SFSettingModule.setting.mode = .socket
+        XRuler.kProxyGroupFile = ".ProxyGroup"
+        if !SKit.prepare("group.com.yarshure.Surf", configPath: "xxxx"){
+            fatalError("framework init error!")
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        prepare()
         server.tunnel = Tunnel()
-        server.open()
+        _ = server.open()
         // Do any additional setup after loading the view.
     }
 
