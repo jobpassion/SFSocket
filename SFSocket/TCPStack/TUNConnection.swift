@@ -10,28 +10,28 @@ import Foundation
 import Xcon
 import XProxy
 class TUNConnection: Connection{
-    override func didDisconnect(_ socket: Xcon, error: Error?) {
-        
-    }
-    
-    override func didReadData(_ data: Data, withTag: Int, from: Xcon) {
-        
-    }
-    
-    override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
-        
-    }
-    
-    override func didConnect(_ socket: Xcon) {
-        
-    }
-    
-   
-
-    
- 
-    
-    override func memoryWarning(_ level:DispatchSource.MemoryPressureEvent){
-        
-    }
+//    override func didDisconnect(_ socket: Xcon, error: Error?) {
+//        
+//    }
+//    
+//    override func didReadData(_ data: Data, withTag: Int, from: Xcon) {
+//        
+//    }
+//    
+//    override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
+//        
+//    }
+//    
+//    override func didConnect(_ socket: Xcon) {
+//        
+//    }
+//    
+//   
+//
+//    
+// 
+//    
+//    override func memoryWarning(_ level:DispatchSource.MemoryPressureEvent){
+//        
+//    }
 }

@@ -8,10 +8,27 @@
 
 import UIKit
 import SFSocket
-class HTTPTester: NSObject,TCPSessionDelegate {
+import Xcon
+class HTTPTester: NSObject,XconDelegate {
+    func didDisconnect(_ socket: Xcon, error: Error?) {
+        
+    }
+    
+    func didReadData(_ data: Data, withTag: Int, from: Xcon) {
+        
+    }
+    
+    func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
+        
+    }
+    
+    func didConnect(_ socket: Xcon) {
+        
+    }
+    
 
     var proxy:SFProxy
-    var session:TCPSession?
+    var session:Xcon?
     var queue =  DispatchQueue(label: "com.yarshure.dispatchqueue")
     init(p:SFProxy) {
         self.proxy = p
@@ -23,32 +40,13 @@ class HTTPTester: NSObject,TCPSessionDelegate {
 //    //s.writeFrame(newFrame(cmdNOP, 0))
 //    }
     func start(){
-        if let s  =  TCPSession.socketFromProxy(proxy, policy: .Proxy, targetHost: "baidu.com", Port: 80, sID: 3, delegate: self, queue: queue){
-            self.session = s
-        }
-        
+//        let data = "HEAD http://baidu.com/ HTTP/1.1\r\nHost: baidu.com\r\nUSER-AGENT: kcptun\r\nAccept: */*\r\nProxy-Connection: Keep-Alive\r\n\r\n".data(using: .utf8)!
+//        if let s = session {
+//            s.sendData(data, withTag: 0)
+//        }
+//        print("connected ok")
+//
     }
     
-    func didDisconnect(_ socket: TCPSession,  error:Error?){
-        
-    }
-    
-    
-    func didReadData(_ data: Data, withTag: Int, from: TCPSession)
-    {
-     
-        print("didReadData recv :\(3) \(data as NSData)")
-    }
-    func didWriteData(_ data: Data?, withTag: Int, from: TCPSession)
-    
-    {
-        
-    }
-    func didConnect(_ socket: TCPSession){
-        let data = "HEAD http://baidu.com/ HTTP/1.1\r\nHost: baidu.com\r\nUSER-AGENT: kcptun\r\nAccept: */*\r\nProxy-Connection: Keep-Alive\r\n\r\n".data(using: .utf8)!
-        if let s = session {
-            s.sendData(data, withTag: 0)
-        }
-        print("connected ok")
-    }
+ 
 }

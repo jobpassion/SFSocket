@@ -11,6 +11,8 @@ import SFSocket
 import ObjectMapper
 import snappy
 import CommonCrypto
+import Xcon
+import  XRuler
 extension String{
     //: ### Base64 encoding a string
     func base64Encoded() -> String? {
@@ -205,7 +207,16 @@ class ViewController: UIViewController {
         guard let p = Mapper<SFProxy>().map(JSONString: "{\"type\":0}") else {
             return
         }
-        _ = ProxyGroupSettings.share.addProxy(p)
+        SKit.proxyIpAddr = "240.7.1.10"
+        
+        SKit.dnsAddr = "218.75.4.130"
+        SKit.proxyHTTPSIpAddr = "240.7.1.11"
+        SKit.xxIpAddr = "240.7.1.12"
+        SKit.tunIP = "240.7.1.9"
+        Xcon.debugEnable = true
+        XRuler.groupIdentifier = "745WQDK4L7.com.yarshure.Surf"
+        
+        
         //let line = " https,office.hshh.org,51001,vpn_yarshure,kong3191"
         let kcptun = "http,192.168.11.8,6000,,"
         if let p = SFProxy.createProxyWithLine(line: kcptun, pname: "CN2"){
@@ -218,6 +229,7 @@ class ViewController: UIViewController {
             self.http?.start()
             
         }
+        _ = ProxyGroupSettings.share.addProxy(p)
         //var config = KCPTunConfig()
         //let pass = config.pkbdf2Key(pass: p.key, salt: "kcp-go".data(using: .utf8)!)
         //print("\(pass as! NSData)")

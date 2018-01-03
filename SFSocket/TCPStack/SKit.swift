@@ -20,6 +20,28 @@ func  groupContainerURL() ->URL{
     //return URL.init(fileURLWithPath: "")
     
 }
+enum SFVPNXPSCommand:String{
+    case HELLO = "HELLO"
+    case RECNETREQ = "RECNETREQ"
+    case RULERESULT = "RULERESULT"
+    case STATUS = "STATUS"
+    case FLOWS = "FLOWS"
+    case LOADRULE = "LOADRULE"
+    case CHANGEPROXY = "CHANGEPROXY"
+    case UPDATERULE = "UPDATERULE"
+    var description: String {
+        switch self {
+        case .LOADRULE: return  "LOADRULE"
+        case .HELLO: return "HELLO"
+        case .RECNETREQ : return "RECNETREQ"
+        case .RULERESULT: return "RULERESULT"
+        case .STATUS : return "STATUS"
+        case .FLOWS : return "FLOWS"
+        case .CHANGEPROXY : return "CHANGEPROXY"
+        case .UPDATERULE: return "UPDATERULE"
+        }
+    }
+}
 import AxLogger
 import NetworkExtension
 //let iOSAppIden = "com.yarshure.Surf"
@@ -369,33 +391,25 @@ public class SKit {
         AxLogger.log("Device sleep!!!",level: .Notify)
         completionHandler()
     }
-    static public func loadConfig(){
+    static public func loadConfig(configPath:String){
         
-        
-        
-        let    fn = ProxyGroupSettings.share.config
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-        formatter.timeZone = NSTimeZone.system
-        
-        var path:String!
-        if fn == "Default.conf" {
-            let bundle = Bundle.init(for: SKit.self)
-            
-            path = bundle.bundleURL.appendingPathComponent(fn).path
+        var path:String
+        if fm.fileExists(atPath: configPath) {
+            path = configPath
         }else {
-            path = groupContainerURL().appendingPathComponent(fn).path
-            
+            let    fn = ProxyGroupSettings.share.config
+           
+            if fn == "Default.conf" {
+                let bundle = Bundle.init(for: SKit.self)
+                
+                path = bundle.bundleURL.appendingPathComponent(fn).path
+            }else {
+                path = groupContainerURL().appendingPathComponent(fn).path
+                
+            }
         }
-        
+         
         SFSettingModule.setting.config(path)
-        
-        
-        
-        
-        
-        //SKit.log("",level: .Debug)
         
     }
     static func logX(_ msg:String,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
@@ -413,23 +427,11 @@ public class SKit {
         
        
     }
-    static public  func prepare(_ bundle:String) ->Bool{
+    static public  func prepare(_ bundle:String,configPath:String) ->Bool{
         SKit.groupIdentifier = bundle
         XRuler.groupIdentifier =  SKit.groupIdentifier
-        
-        
-        let  pp = ProxyGroupSettings.share
-        //MARK: --fixme
-        print(pp.proxys.count)
-        loadConfig()
-//
-//        if let  rule = SFSettingModule.setting.rule {
-//            print("rule inited \(rule.cnIPCount)")
-//            return true
-//        }else {
-//            print("rule not init")
-//            return false
-//        }
+        loadConfig(configPath: configPath)
+
         return true
 
     }
@@ -447,4 +449,126 @@ public class SKit {
     static public func reloadProxy(){
         ProxyGroupSettings.share.loadProxyFromFile()
     }
+//    static  func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
+//        guard let messageString = String.init(data: messageData, encoding: .utf8) else {
+//            completionHandler?("no data from app".data(using: .utf8))
+//            return
+//        }
+//        //NSLog("33333")
+//        //NSLog("handleAppMessage " + (messageString as String))
+//        if SFTCPConnectionManager.manager.lwip_init_finished == false {
+//            NSLog("Warning lwip not ready")
+//        }
+//        //NSLog("#####Got a message from the app \(reportMemory())")
+//        let packet = messageString.components(separatedBy: "|")
+//        guard  let command = packet.first else {return }
+//        
+//        if let x = SFVPNXPSCommand(rawValue:command) {
+//            switch x {
+//            case .LOADRULE:
+//                
+//                if  packet.count >= 2 {
+//                    let rule = packet[1]
+//                    //SKit.reloadRule(rule)
+//                    let responseData = (rule + "Loaded") .data(using: String.Encoding.utf8)
+//                    completionHandler?(responseData)
+//                }
+//            case .HELLO:
+//                let mem = ""// String(reportMemoryUsed())
+//                let x = "hello app memory:" + mem  + " session:" + SFEnv.session.idenString()
+//                
+//                let responseData = x.data(using: String.Encoding.utf8)
+//                completionHandler?(responseData)
+//                
+//            case .RECNETREQ:
+//                //AxLogger.log("RECNETREQ RPC Request",level: .Debug)
+//                let responseData = SFTCPConnectionManager.manager.recentRequestData()
+//                
+//                completionHandler?(responseData)
+//            case .RULERESULT:
+//                let responseData = SFTCPConnectionManager.manager.ruleResultData()
+//                completionHandler?(responseData)
+//            case .STATUS:
+//                let responseData = report.resport()
+//                completionHandler?(responseData)
+//            case .CHANGEPROXY:
+//                guard  let selectIndex = packet.last else {return }
+//                var message = ""
+//                if let i = Int(selectIndex){
+//                    ProxyGroupSettings.share.selectIndex = i
+//                    ProxyGroupSettings.share.dynamicSelected = true
+//                    message = proxyChangedOK
+//                }else {
+//                    message = proxyChangedErr
+//                }
+//                
+//                //AxLogger.log(message,level: .Info)
+//                SFTCPConnectionManager.manager.clearRule()
+//                //AxLogger.log("Rule Test Results clean",level: .Info)
+//                completionHandler?(message.data(using: .utf8, allowLossyConversion: false))
+//            case .FLOWS:
+//                let data = SFVPNStatistics.shared.flowData()
+//                completionHandler?(data)
+//            case .UPDATERULE:
+//                //fixme
+//                //                guard  let message = packet.last else {return}
+//                //                if let data = message.data(using: String.Encoding.utf8, allowLossyConversion: false){
+//                //                    let json = JSON.init(data: data)
+//                //                    let request = json["request"].stringValue
+//                //                    let rulerj = json["ruler"]
+//                //                    let r = SFRuler()
+//                //                    r.mapObject(rulerj)
+//                //                    if !request.isEmpty{
+//                //                        let result = SFRuleResult.init(request: request, r: r)
+//                //                        SFTCPConnectionManager.shared().updateRuleResult(result)
+//                //                        let m = "UPDATERULE \(request) OK"
+//                //                        completionHandler?(m.data(using: .utf8, allowLossyConversion: false))
+//                //                        return
+//                //                    }
+//                
+//                //}
+//                completionHandler?("UPDATERULE failure".data(using: .utf8))
+//                break
+//            }
+//        }
+//    }
+//    func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+//
+//        //        DispatchQueue.main.async {
+//        //
+//        //
+//        //
+//        //        }
+//        Answers.logCustomEvent(withName: "VPN",
+//                               customAttributes: [
+//                                "Stop": "OK",
+//
+//                                ])
+//        self.pendingStopCompletion = completionHandler
+//        //        setTunnelNetworkSettings(nil) { [unowned self ] error in
+//        //
+//        //        }
+//        AxLogger.log("stoping",level: .Info)
+//
+//        //let manager = SFTCPConnectionManager.manager
+//        //manager.stop()
+//
+//        self.logStopReason(reason: reason)
+//
+//        self.udpStack.stop()
+//
+//        self.pendingStopCompletion!()
+//        self.pendingStopCompletion = nil
+//        self.stopABigT()
+//        //        let end = NSDate().timeIntervalSince(SFVPNStatistics.shared.sessionStartTime)
+//        //
+//        //        let sec = String(format: "%.0f",end)
+//        AxLogger.log("A.BIG.T running \(sec) second", level: .Info)
+//        AxLogger.log("A.BIG.T Stopped", level: .Info)
+//
+//        _exit(0)
+//
+//
+//    }
+    
 }

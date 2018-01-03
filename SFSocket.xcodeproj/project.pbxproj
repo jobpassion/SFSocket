@@ -446,7 +446,6 @@
 			isa = PBXGroup;
 			children = (
 				694144B81FDE3E1000F73C5A /* Default.conf */,
-				69F7456C1F4BDF2600A39C30 /* socket */,
 				69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */,
 				695F6E311E900E1A00C72E5E /* TCPStack */,
 				69BF6C241DE57AC4000ABF09 /* HTTPProxyServer */,
@@ -457,20 +456,12 @@
 				69A0D2741DD5970D00227353 /* scaner */,
 				69C298A11DD594FF00E4C3BD /* stack */,
 				69C2989A1DD5946E00E4C3BD /* udp */,
-				69C298991DD5946200E4C3BD /* tcp */,
 				69C298911DD593FF00E4C3BD /* SFSocket.h */,
 				69C298921DD593FF00E4C3BD /* Info.plist */,
 				69CC44781EB199A8002C10DC /* BinaryConvertible.swift */,
 				69C7DC5F1FE364ED00FB7FA2 /* iOS.xcconfig */,
 			);
 			path = SFSocket;
-			sourceTree = "<group>";
-		};
-		69C298991DD5946200E4C3BD /* tcp */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = tcp;
 			sourceTree = "<group>";
 		};
 		69C2989A1DD5946E00E4C3BD /* udp */ = {
@@ -505,13 +496,6 @@
 				69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */,
 			);
 			path = state;
-			sourceTree = "<group>";
-		};
-		69F7456C1F4BDF2600A39C30 /* socket */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = socket;
 			sourceTree = "<group>";
 		};
 		69FC1AFE1DDBFAB000EF8AAC /* SFSocketTest */ = {
@@ -616,6 +600,7 @@
 				69FC1AFA1DDBFAB000EF8AAC /* Frameworks */,
 				69FC1AFB1DDBFAB000EF8AAC /* Resources */,
 				69FC1B121DDBFAE400EF8AAC /* CopyFiles */,
+				69593FD21FFB9D4500CB8ADF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -738,6 +723,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		69593FD21FFB9D4500CB8ADF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate\nfpath=\"${SRCROOT}/Carthage/Build/iOS\"\ncd \"$fpath\"\n\ntar -c *.framework |tar -xvC \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\nfind . -name '*.framework' -type d | while read -r FRAMEWORK\ndo\necho \"codesign $FRAMEWORK\"\n/usr/bin/codesign --sign  $EXPANDED_CODE_SIGN_IDENTITY --force --preserve-metadata=identifier,entitlements,flags --timestamp=none \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/$FRAMEWORK\"\ndone";
+		};
 		69C7DC591FE363F400FB7FA2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1241,6 +1239,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = SFSocketTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.SFSocketTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1259,6 +1258,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = SFSocketTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.SFSocketTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
