@@ -9,6 +9,8 @@
 import Foundation
 import os.log
 import AxLogger
+//bug app->kernle->tun--|
+//-----------|--socket<--|
 class VLog {
     static func log(_ msg:String,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
         
