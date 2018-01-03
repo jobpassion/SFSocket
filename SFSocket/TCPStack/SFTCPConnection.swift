@@ -143,10 +143,13 @@ class SFTCPConnection: SFConnection {
     }
     override func client_socks_recv_initiate(){
         
-        assert(!reqInfo.client_closed)
-        assert(!reqInfo.socks_closed)
-        assert(reqInfo.socks_up)
-        guard let c = connector else {return}
+//        assert(!reqInfo.client_closed)
+//        assert(!reqInfo.socks_closed)
+//        assert(reqInfo.socks_up)
+        guard let c = connector else {
+            AxLogger.log("connector disconnected client_socks_recv_initiate", level: .Trace)
+            return
+        }
         
         
         if reqInfo.status !=  .RecvWaiting {

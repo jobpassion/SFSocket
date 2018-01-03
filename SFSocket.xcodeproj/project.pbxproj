@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6904B0D81FFD2EED000B64F3 /* ServerTunnelConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E701FFD20210078845A /* ServerTunnelConnection.swift */; };
+		6904B0D91FFD2EF0000B64F3 /* Tunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E7A1FFD252C0078845A /* Tunnel.swift */; };
+		6904B0DA1FFD2F1D000B64F3 /* SFSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B954F21DDF81CF006AF669 /* SFSocket.framework */; };
+		6904B0DB1FFD2F1D000B64F3 /* SFSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69B954F21DDF81CF006AF669 /* SFSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		69116B171E968157007C2FBA /* SFOpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B161E968157007C2FBA /* SFOpt.swift */; };
 		69116B181E968157007C2FBA /* SFOpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B161E968157007C2FBA /* SFOpt.swift */; };
 		69116B1A1E968187007C2FBA /* TUNConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B191E968187007C2FBA /* TUNConnection.swift */; };
@@ -117,6 +121,10 @@
 		69B955091DDF8216006AF669 /* UDPDirectStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5AB1DD5CE310079493D /* UDPDirectStack.swift */; };
 		69BCD1F21F56A81700D05C62 /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BCD1F11F56A81700D05C62 /* TestVC.swift */; };
 		69BE2E6C1FFC8CAA0078845A /* UDPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E6B1FFC8CAA0078845A /* UDPManager.swift */; };
+		69BE2E831FFD28BA0078845A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E821FFD28BA0078845A /* AppDelegate.swift */; };
+		69BE2E851FFD28BA0078845A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E841FFD28BA0078845A /* ViewController.swift */; };
+		69BE2E871FFD28BA0078845A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69BE2E861FFD28BA0078845A /* Assets.xcassets */; };
+		69BE2E8A1FFD28BA0078845A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69BE2E881FFD28BA0078845A /* Main.storyboard */; };
 		69BF6C561DE57E74000ABF09 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C551DE57E74000ABF09 /* Atomic.swift */; };
 		69BF6C571DE57E74000ABF09 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C551DE57E74000ABF09 /* Atomic.swift */; };
 		69BF6C621DE57F7B000ABF09 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF6C611DE57F7B000ABF09 /* HTTPHeader.swift */; };
@@ -144,6 +152,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6904B0DC1FFD2F1D000B64F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 69C298851DD593FF00E4C3BD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 69B954F11DDF81CF006AF669;
+			remoteInfo = SFSocketOSX;
+		};
 		6928061C1EFA7B79007FCF6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 69C298851DD593FF00E4C3BD /* Project object */;
@@ -168,6 +183,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				6928061B1EFA7B79007FCF6A /* SFSocket.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69BE2E971FFD292A0078845A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6904B0DB1FFD2F1D000B64F3 /* SFSocket.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,6 +278,15 @@
 		69B954F51DDF81CF006AF669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69BCD1F11F56A81700D05C62 /* TestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
 		69BE2E6B1FFC8CAA0078845A /* UDPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDPManager.swift; sourceTree = "<group>"; };
+		69BE2E701FFD20210078845A /* ServerTunnelConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTunnelConnection.swift; sourceTree = "<group>"; };
+		69BE2E7A1FFD252C0078845A /* Tunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tunnel.swift; sourceTree = "<group>"; };
+		69BE2E801FFD28BA0078845A /* VPNTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VPNTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		69BE2E821FFD28BA0078845A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		69BE2E841FFD28BA0078845A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		69BE2E861FFD28BA0078845A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		69BE2E891FFD28BA0078845A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		69BE2E8B1FFD28BA0078845A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69BE2E981FFD2D830078845A /* vpn.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = vpn.xcconfig; path = VPNTest/tun/vpn.xcconfig; sourceTree = SOURCE_ROOT; };
 		69BF6C551DE57E74000ABF09 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		69BF6C611DE57F7B000ABF09 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		69BF6C641DE57FCA000ABF09 /* HTTPStreamScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStreamScanner.swift; sourceTree = "<group>"; };
@@ -288,6 +323,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69BE2E7D1FFD28BA0078845A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6904B0DA1FFD2F1D000B64F3 /* SFSocket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +450,29 @@
 			path = SFSocketOSX;
 			sourceTree = "<group>";
 		};
+		69BE2E6F1FFD1FC40078845A /* tun */ = {
+			isa = PBXGroup;
+			children = (
+				69BE2E981FFD2D830078845A /* vpn.xcconfig */,
+				69BE2E701FFD20210078845A /* ServerTunnelConnection.swift */,
+				69BE2E7A1FFD252C0078845A /* Tunnel.swift */,
+			);
+			path = tun;
+			sourceTree = "<group>";
+		};
+		69BE2E811FFD28BA0078845A /* VPNTest */ = {
+			isa = PBXGroup;
+			children = (
+				69BE2E6F1FFD1FC40078845A /* tun */,
+				69BE2E821FFD28BA0078845A /* AppDelegate.swift */,
+				69BE2E841FFD28BA0078845A /* ViewController.swift */,
+				69BE2E861FFD28BA0078845A /* Assets.xcassets */,
+				69BE2E881FFD28BA0078845A /* Main.storyboard */,
+				69BE2E8B1FFD28BA0078845A /* Info.plist */,
+			);
+			path = VPNTest;
+			sourceTree = "<group>";
+		};
 		69BF6C241DE57AC4000ABF09 /* HTTPProxyServer */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,6 +494,7 @@
 				69FC1AFE1DDBFAB000EF8AAC /* SFSocketTest */,
 				69B954F31DDF81CF006AF669 /* SFSocketOSX */,
 				694719861EE528F60059BEF8 /* OSXTest */,
+				69BE2E811FFD28BA0078845A /* VPNTest */,
 				69C2988F1DD593FF00E4C3BD /* Products */,
 				692128541E9CBA6C00560DEC /* Frameworks */,
 				6913C3A91FDFB326006483C1 /* Recovered References */,
@@ -441,6 +508,7 @@
 				69FC1AFD1DDBFAB000EF8AAC /* SFSocketTest.app */,
 				69B954F21DDF81CF006AF669 /* SFSocket.framework */,
 				694719851EE528F60059BEF8 /* OSXTest.app */,
+				69BE2E801FFD28BA0078845A /* VPNTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -577,6 +645,26 @@
 			productReference = 69B954F21DDF81CF006AF669 /* SFSocket.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		69BE2E7F1FFD28BA0078845A /* VPNTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 69BE2E8D1FFD28BA0078845A /* Build configuration list for PBXNativeTarget "VPNTest" */;
+			buildPhases = (
+				69BE2E7C1FFD28BA0078845A /* Sources */,
+				69BE2E7D1FFD28BA0078845A /* Frameworks */,
+				69BE2E7E1FFD28BA0078845A /* Resources */,
+				69BE2E921FFD291B0078845A /* ShellScript */,
+				69BE2E971FFD292A0078845A /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6904B0DD1FFD2F1D000B64F3 /* PBXTargetDependency */,
+			);
+			name = VPNTest;
+			productName = VPNTest;
+			productReference = 69BE2E801FFD28BA0078845A /* VPNTest.app */;
+			productType = "com.apple.product-type.application";
+		};
 		69C2988D1DD593FF00E4C3BD /* SFSocket */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 69C298961DD593FF00E4C3BD /* Build configuration list for PBXNativeTarget "SFSocket" */;
@@ -621,7 +709,7 @@
 		69C298851DD593FF00E4C3BD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Kong XiangBo";
 				TargetAttributes = {
@@ -644,6 +732,16 @@
 						DevelopmentTeam = 745WQDK4L7;
 						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
+					};
+					69BE2E7F1FFD28BA0078845A = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = 745WQDK4L7;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
 					};
 					69C2988D1DD593FF00E4C3BD = {
 						CreatedOnToolsVersion = 8.2;
@@ -683,6 +781,7 @@
 				69FC1AFC1DDBFAB000EF8AAC /* SFSocketTest */,
 				69B954F11DDF81CF006AF669 /* SFSocketOSX */,
 				694719841EE528F60059BEF8 /* OSXTest */,
+				69BE2E7F1FFD28BA0078845A /* VPNTest */,
 			);
 		};
 /* End PBXProject section */
@@ -702,6 +801,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				694144BA1FDE3E1100F73C5A /* Default.conf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69BE2E7E1FFD28BA0078845A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69BE2E871FFD28BA0078845A /* Assets.xcassets in Resources */,
+				69BE2E8A1FFD28BA0078845A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,6 +846,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate\nfpath=\"${SRCROOT}/Carthage/Build/iOS\"\ncd \"$fpath\"\n\ntar -c *.framework |tar -xvC \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\nfind . -name '*.framework' -type d | while read -r FRAMEWORK\ndo\necho \"codesign $FRAMEWORK\"\n/usr/bin/codesign --sign  $EXPANDED_CODE_SIGN_IDENTITY --force --preserve-metadata=identifier,entitlements,flags --timestamp=none \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/$FRAMEWORK\"\ndone";
+		};
+		69BE2E921FFD291B0078845A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate\nfpath=\"${SRCROOT}/Carthage/Build/Mac\"\ncd \"$fpath\"\n\ntar -c *.framework |tar -xvC \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\nfind . -name '*.framework' -type d | while read -r FRAMEWORK\ndo\necho \"codesign $FRAMEWORK\"\n/usr/bin/codesign --sign  $EXPANDED_CODE_SIGN_IDENTITY --force --preserve-metadata=identifier,entitlements,flags --timestamp=none \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/$FRAMEWORK/Versions/A\"\ndone\n";
 		};
 		69C7DC591FE363F400FB7FA2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -827,6 +948,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		69BE2E7C1FFD28BA0078845A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69BE2E851FFD28BA0078845A /* ViewController.swift in Sources */,
+				6904B0D91FFD2EF0000B64F3 /* Tunnel.swift in Sources */,
+				69BE2E831FFD28BA0078845A /* AppDelegate.swift in Sources */,
+				6904B0D81FFD2EED000B64F3 /* ServerTunnelConnection.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69C298891DD593FF00E4C3BD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -906,6 +1038,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6904B0DD1FFD2F1D000B64F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 69B954F11DDF81CF006AF669 /* SFSocketOSX */;
+			targetProxy = 6904B0DC1FFD2F1D000B64F3 /* PBXContainerItemProxy */;
+		};
 		6928061D1EFA7B79007FCF6A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 69B954F11DDF81CF006AF669 /* SFSocketOSX */;
@@ -923,6 +1060,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				6947198E1EE528F60059BEF8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		69BE2E881FFD28BA0078845A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				69BE2E891FFD28BA0078845A /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -952,6 +1097,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = OSXTest/OSXTest.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -968,6 +1114,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -979,6 +1128,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = OSXTest/OSXTest.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -995,6 +1145,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -1006,7 +1158,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 745WQDK4L7;
@@ -1039,10 +1191,10 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 745WQDK4L7;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1061,6 +1213,60 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		69BE2E8E1FFD28BA0078845A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69BE2E981FFD2D830078845A /* vpn.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 745WQDK4L7;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = VPNTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.VPNTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		69BE2E8F1FFD28BA0078845A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = VPNTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.VPNTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -1287,6 +1493,15 @@
 			buildConfigurations = (
 				69B954F71DDF81CF006AF669 /* Debug */,
 				69B954F81DDF81CF006AF669 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		69BE2E8D1FFD28BA0078845A /* Build configuration list for PBXNativeTarget "VPNTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				69BE2E8E1FFD28BA0078845A /* Debug */,
+				69BE2E8F1FFD28BA0078845A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

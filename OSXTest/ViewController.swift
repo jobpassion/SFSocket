@@ -15,6 +15,7 @@ import XRuler
 class ViewController: NSViewController {
 
     
+    
     func testHTTP(){
         let x = "http,192.168.11.131,8000,,"
         if let p = SFProxy.createProxyWithLine(line: x, pname: "CN2"){
@@ -44,7 +45,8 @@ class ViewController: NSViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepare()
+        
+//        prepare()
 //        testaead()
 //        testsnappy()
         
