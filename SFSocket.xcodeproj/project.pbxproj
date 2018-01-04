@@ -24,6 +24,18 @@
 		6904B0F41FFDBE00000B64F3 /* ServerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0F31FFDBE00000B64F3 /* ServerConnection.swift */; };
 		6904B0F61FFDBE0B000B64F3 /* UDPServerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0F51FFDBE0B000B64F3 /* UDPServerConnection.swift */; };
 		6904B0F81FFDC184000B64F3 /* VPNServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0F71FFDC184000B64F3 /* VPNServer.swift */; };
+		6904B1051FFDCE83000B64F3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B1041FFDCE83000B64F3 /* main.swift */; };
+		6904B10A1FFDCEA6000B64F3 /* VLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0DE1FFD3567000B64F3 /* VLog.swift */; };
+		6904B10B1FFDCEA8000B64F3 /* UDPServerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0F51FFDBE0B000B64F3 /* UDPServerConnection.swift */; };
+		6904B10C1FFDCEAD000B64F3 /* AddressPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0EF1FFDBD6D000B64F3 /* AddressPool.swift */; };
+		6904B10D1FFDCEB0000B64F3 /* ServerTunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0EB1FFDBD2E000B64F3 /* ServerTunnel.swift */; };
+		6904B10E1FFDCEB3000B64F3 /* ServerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0ED1FFDBD58000B64F3 /* ServerConfiguration.swift */; };
+		6904B10F1FFDCEB7000B64F3 /* ServerTunnelConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E701FFD20210078845A /* ServerTunnelConnection.swift */; };
+		6904B1101FFDCEBA000B64F3 /* ServerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0F31FFDBE00000B64F3 /* ServerConnection.swift */; };
+		6904B1111FFDCEBD000B64F3 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0E71FFDBCAD000B64F3 /* util.swift */; };
+		6904B1121FFDCEC1000B64F3 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0E31FFDBC22000B64F3 /* Connection.swift */; };
+		6904B1131FFDCEC3000B64F3 /* Tunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BE2E7A1FFD252C0078845A /* Tunnel.swift */; };
+		6904B1141FFDCEC7000B64F3 /* ClientTunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0E91FFDBCCE000B64F3 /* ClientTunnel.swift */; };
 		69116B171E968157007C2FBA /* SFOpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B161E968157007C2FBA /* SFOpt.swift */; };
 		69116B181E968157007C2FBA /* SFOpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B161E968157007C2FBA /* SFOpt.swift */; };
 		69116B1A1E968187007C2FBA /* TUNConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B191E968187007C2FBA /* TUNConnection.swift */; };
@@ -189,6 +201,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		6904B1001FFDCE83000B64F3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		694719971EE5292E0059BEF8 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -235,6 +256,8 @@
 		6904B0F31FFDBE00000B64F3 /* ServerConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerConnection.swift; sourceTree = "<group>"; };
 		6904B0F51FFDBE0B000B64F3 /* UDPServerConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPServerConnection.swift; sourceTree = "<group>"; };
 		6904B0F71FFDC184000B64F3 /* VPNServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNServer.swift; sourceTree = "<group>"; };
+		6904B1021FFDCE83000B64F3 /* tunnelserver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tunnelserver; sourceTree = BUILT_PRODUCTS_DIR; };
+		6904B1041FFDCE83000B64F3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		69116B161E968157007C2FBA /* SFOpt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFOpt.swift; sourceTree = "<group>"; };
 		69116B191E968187007C2FBA /* TUNConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TUNConnection.swift; sourceTree = "<group>"; };
 		69116B1F1E9681BB007C2FBA /* SFHTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFHTTPConnection.swift; sourceTree = "<group>"; };
@@ -335,6 +358,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6904B0FF1FFDCE83000B64F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		694719821EE528F60059BEF8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -377,6 +407,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6904B0FD1FFDCACF000B64F3 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				6904B0E91FFDBCCE000B64F3 /* ClientTunnel.swift */,
+				69BE2E7A1FFD252C0078845A /* Tunnel.swift */,
+				6904B0E31FFDBC22000B64F3 /* Connection.swift */,
+				6904B0E71FFDBCAD000B64F3 /* util.swift */,
+			);
+			path = service;
+			sourceTree = "<group>";
+		};
+		6904B1031FFDCE83000B64F3 /* tunnelserver */ = {
+			isa = PBXGroup;
+			children = (
+				6904B1041FFDCE83000B64F3 /* main.swift */,
+			);
+			path = tunnelserver;
+			sourceTree = "<group>";
+		};
 		6913C3A91FDFB326006483C1 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,15 +526,12 @@
 		69BE2E6F1FFD1FC40078845A /* tun */ = {
 			isa = PBXGroup;
 			children = (
+				6904B0FD1FFDCACF000B64F3 /* service */,
 				6904B0F11FFDBDA5000B64F3 /* config.plist */,
-				6904B0E91FFDBCCE000B64F3 /* ClientTunnel.swift */,
 				6904B0F31FFDBE00000B64F3 /* ServerConnection.swift */,
 				69BE2E981FFD2D830078845A /* vpn.xcconfig */,
 				69BE2E701FFD20210078845A /* ServerTunnelConnection.swift */,
 				6904B0ED1FFDBD58000B64F3 /* ServerConfiguration.swift */,
-				6904B0E71FFDBCAD000B64F3 /* util.swift */,
-				6904B0E31FFDBC22000B64F3 /* Connection.swift */,
-				69BE2E7A1FFD252C0078845A /* Tunnel.swift */,
 				6904B0EB1FFDBD2E000B64F3 /* ServerTunnel.swift */,
 				6904B0EF1FFDBD6D000B64F3 /* AddressPool.swift */,
 				6904B0F51FFDBE0B000B64F3 /* UDPServerConnection.swift */,
@@ -530,6 +576,7 @@
 				69B954F31DDF81CF006AF669 /* SFSocketOSX */,
 				694719861EE528F60059BEF8 /* OSXTest */,
 				69BE2E811FFD28BA0078845A /* VPNTest */,
+				6904B1031FFDCE83000B64F3 /* tunnelserver */,
 				69C2988F1DD593FF00E4C3BD /* Products */,
 				692128541E9CBA6C00560DEC /* Frameworks */,
 				6913C3A91FDFB326006483C1 /* Recovered References */,
@@ -544,6 +591,7 @@
 				69B954F21DDF81CF006AF669 /* SFSocket.framework */,
 				694719851EE528F60059BEF8 /* OSXTest.app */,
 				69BE2E801FFD28BA0078845A /* VPNTest.app */,
+				6904B1021FFDCE83000B64F3 /* tunnelserver */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -642,6 +690,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		6904B1011FFDCE83000B64F3 /* tunnelserver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6904B1061FFDCE83000B64F3 /* Build configuration list for PBXNativeTarget "tunnelserver" */;
+			buildPhases = (
+				6904B0FE1FFDCE83000B64F3 /* Sources */,
+				6904B0FF1FFDCE83000B64F3 /* Frameworks */,
+				6904B1001FFDCE83000B64F3 /* CopyFiles */,
+				6904B1151FFDCF61000B64F3 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tunnelserver;
+			productName = tunnelserver;
+			productReference = 6904B1021FFDCE83000B64F3 /* tunnelserver */;
+			productType = "com.apple.product-type.tool";
+		};
 		694719841EE528F60059BEF8 /* OSXTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 694719941EE528F60059BEF8 /* Build configuration list for PBXNativeTarget "OSXTest" */;
@@ -748,6 +814,11 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Kong XiangBo";
 				TargetAttributes = {
+					6904B1011FFDCE83000B64F3 = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = 745WQDK4L7;
+						ProvisioningStyle = Automatic;
+					};
 					694719841EE528F60059BEF8 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 745WQDK4L7;
@@ -771,7 +842,7 @@
 					69BE2E7F1FFD28BA0078845A = {
 						CreatedOnToolsVersion = 9.2;
 						DevelopmentTeam = 745WQDK4L7;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -817,6 +888,7 @@
 				69B954F11DDF81CF006AF669 /* SFSocketOSX */,
 				694719841EE528F60059BEF8 /* OSXTest */,
 				69BE2E7F1FFD28BA0078845A /* VPNTest */,
+				6904B1011FFDCE83000B64F3 /* tunnelserver */,
 			);
 		};
 /* End PBXProject section */
@@ -870,6 +942,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6904B1151FFDCF61000B64F3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate\nfpath=\"${SRCROOT}/Carthage/Build/Mac\"\ncd \"$fpath\"\n\ntar -c *.framework |tar -xvC \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\nfind . -name '*.framework' -type d | while read -r FRAMEWORK\ndo\necho \"codesign $FRAMEWORK\"\n/usr/bin/codesign --sign  $EXPANDED_CODE_SIGN_IDENTITY --force --preserve-metadata=identifier,entitlements,flags --timestamp=none \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/$FRAMEWORK/Versions/A\"\ndone\n";
+		};
 		69593FD21FFB9D4500CB8ADF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -894,7 +979,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate\nfpath=\"${SRCROOT}/Carthage/Build/Mac\"\ncd \"$fpath\"\n\ntar -c *.framework |tar -xvC \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\nfind . -name '*.framework' -type d | while read -r FRAMEWORK\ndo\necho \"codesign $FRAMEWORK\"\n/usr/bin/codesign --sign  $EXPANDED_CODE_SIGN_IDENTITY --force --preserve-metadata=identifier,entitlements,flags --timestamp=none \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/$FRAMEWORK/Versions/A\"\ndone\n";
+			shellScript = "\nexport CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate\nfpath=\"${SRCROOT}/Carthage/Build/Mac\"\ncd \"$fpath\"\n\ntar -c *.framework |tar -xvC \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n\nfind . -name '*.framework' -type d | while read -r FRAMEWORK\ndo\necho \"codesign $FRAMEWORK\"\n/usr/bin/codesign --sign  $EXPANDED_CODE_SIGN_IDENTITY --force --preserve-metadata=identifier,entitlements,flags --timestamp=none \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/$FRAMEWORK/Versions/A\"\ndone";
 		};
 		69C7DC591FE363F400FB7FA2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -912,6 +997,25 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6904B0FE1FFDCE83000B64F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6904B10D1FFDCEB0000B64F3 /* ServerTunnel.swift in Sources */,
+				6904B1131FFDCEC3000B64F3 /* Tunnel.swift in Sources */,
+				6904B1121FFDCEC1000B64F3 /* Connection.swift in Sources */,
+				6904B10B1FFDCEA8000B64F3 /* UDPServerConnection.swift in Sources */,
+				6904B1051FFDCE83000B64F3 /* main.swift in Sources */,
+				6904B1111FFDCEBD000B64F3 /* util.swift in Sources */,
+				6904B10A1FFDCEA6000B64F3 /* VLog.swift in Sources */,
+				6904B10F1FFDCEB7000B64F3 /* ServerTunnelConnection.swift in Sources */,
+				6904B10C1FFDCEAD000B64F3 /* AddressPool.swift in Sources */,
+				6904B1101FFDCEBA000B64F3 /* ServerConnection.swift in Sources */,
+				6904B10E1FFDCEB3000B64F3 /* ServerConfiguration.swift in Sources */,
+				6904B1141FFDCEC7000B64F3 /* ClientTunnel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		694719811EE528F60059BEF8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1139,6 +1243,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6904B1071FFDCE83000B64F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69BE2E981FFD2D830078845A /* vpn.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 745WQDK4L7;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		6904B1081FFDCE83000B64F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 745WQDK4L7;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 		694719911EE528F60059BEF8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1275,9 +1419,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 745WQDK4L7;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1304,7 +1448,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1527,6 +1671,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6904B1061FFDCE83000B64F3 /* Build configuration list for PBXNativeTarget "tunnelserver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6904B1071FFDCE83000B64F3 /* Debug */,
+				6904B1081FFDCE83000B64F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		694719941EE528F60059BEF8 /* Build configuration list for PBXNativeTarget "OSXTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

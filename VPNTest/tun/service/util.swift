@@ -240,6 +240,4 @@ func rangeByMovingStartOfRange(_ range: Range<Int>, byCount: Int) -> CountableRa
 	return (range.lowerBound + byCount)..<range.upperBound
 }
 
-public func simpleTunnelLog(_ message: String) {
-	NSLog(message)
-}
+

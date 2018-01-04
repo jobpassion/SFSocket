@@ -37,12 +37,14 @@ class ServerTunnel: Tunnel, TunnelDelegate, StreamDelegate {
 	init(newReadStream: InputStream, newWriteStream: OutputStream) {
 		super.init()
 		delegate = self
-
+        
 		for stream in [newReadStream, newWriteStream] {
 			stream.delegate = self
 			stream.open()
-            stream.schedule(in: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
+            stream.schedule(in: RunLoop.current, forMode: RunLoopMode.commonModes)
+            
 		}
+        simpleTunnelLog("new connection comming \(newReadStream) \(newWriteStream)")
 		readStream = newReadStream
 		writeStream = newWriteStream
 	}
@@ -178,7 +180,10 @@ class ServerTunnel: Tunnel, TunnelDelegate, StreamDelegate {
 	// MARK: NSStreamDelegate
 
 	/// Handle a stream event.
-    func stream(aStream: Stream, handleEvent eventCode: Stream.Event) {
+    //坑死人
+    func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
+    
+        
 		switch aStream {
 
 			case writeStream!:

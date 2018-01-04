@@ -51,5 +51,6 @@ class VPNServer {
             return
         }
         termSignalSource.resume()
+        RunLoop.main.run()
     }
 }

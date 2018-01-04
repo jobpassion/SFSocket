@@ -21,7 +21,7 @@ class ServerTunnelConnection: Connection {
     var utunName: String?
     
     /// A dispatch source for the UTUN interface socket.
-    var utunSource: DispatchSource?
+    var utunSource: DispatchSourceRead?
     
     /// A flag indicating if reads from the UTUN interface are suspended.
     var isSuspended = false
@@ -213,7 +213,7 @@ class ServerTunnelConnection: Connection {
         
         newSource.resume()
         
-        utunSource = newSource as! DispatchSource
+        utunSource = newSource 
     }
     
     // MARK: Connection
