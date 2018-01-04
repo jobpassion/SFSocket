@@ -21,3 +21,8 @@ class VLog {
         
     }
 }
+//public func simpleTunnelLog(_ message: String) {
+//    
+//    os_log("XProxy: %@", log: .default, type: .debug, message)
+//}
+

@@ -1,25 +1,19 @@
-//
-//  ServerTunnelConnection.swift
-//  OSXTest
-//
-//  Created by yarshure on 2018/1/3.
-//  Copyright © 2018年 Kong XiangBo. All rights reserved.
-//
+/*
+ Copyright (C) 2016 Apple Inc. All Rights Reserved.
+ See LICENSE.txt for this sample’s licensing information
+ 
+ Abstract:
+ This file contains the ServerTunnelConnection class. The ServerTunnelConnection class handles the encapsulation and decapsulation of IP packets in the server side of the SimpleTunnel tunneling protocol.
+ */
 
 import Foundation
+import Darwin
 import DarwinCore
-import os.log
-public func simpleTunnelLog(_ message: String) {
+/// An object that provides a bridge between a logical flow of packets in the SimpleTunnel protocol and a UTUN interface.
+class ServerTunnelConnection: Connection {
     
-    os_log("XProxy: %@", log: .default, type: .debug, message)
-}
-
-class ServerTunnelConnection {
     // MARK: Properties
-    /// The tunnel that contains the connection.
-    static let shared = ServerTunnelConnection()
-    open var tunnel: Tunnel?
-
+    
     /// The virtual address of the tunnel.
     var tunnelAddress: String?
     
@@ -27,11 +21,67 @@ class ServerTunnelConnection {
     var utunName: String?
     
     /// A dispatch source for the UTUN interface socket.
-    var utunSource: DispatchSourceRead?
-
+    var utunSource: DispatchSource?
+    
     /// A flag indicating if reads from the UTUN interface are suspended.
     var isSuspended = false
     
+    // MARK: Interface
+    
+    /// Send an "open result" message with optionally the tunnel settings.
+    func sendOpenResult(result: TunnelConnectionOpenResult, extraProperties: [String: Any] = [:]) {
+        guard let serverTunnel = tunnel else { return }
+        
+        var resultProperties = extraProperties
+        resultProperties[TunnelMessageKey.ResultCode.rawValue] = result.rawValue
+        
+        let properties = createMessagePropertiesForConnection(identifier, commandType: .openResult, extraProperties: resultProperties)
+        
+        serverTunnel.sendMessage(properties)
+    }
+    
+    /// "Open" the connection by setting up the UTUN interface.
+    func open() -> Bool {
+        
+        // Allocate the tunnel virtual address.
+        guard let address = ServerTunnel.configuration.addressPool?.allocateAddress() else {
+            simpleTunnelLog("Failed to allocate a tunnel address")
+            sendOpenResult(result: .refused)
+            return false
+        }
+        
+        // Create the virtual interface and assign the address.
+        guard setupVirtualInterface(address: address) else {
+            simpleTunnelLog("Failed to set up the virtual interface")
+            ServerTunnel.configuration.addressPool?.deallocateAddress(addrString: address)
+            sendOpenResult(result: .internalError)
+            return false
+        }
+        
+        tunnelAddress = address
+        
+        var response = [String: AnyObject]()
+        
+        // Create a copy of the configuration, so that it can be personalized with the tunnel virtual interface.
+        var personalized = ServerTunnel.configuration.configuration
+        guard let IPv4Dictionary = personalized[SettingsKey.IPv4.rawValue] as? [String: Any] else {
+            simpleTunnelLog("No IPv4 Settings available")
+            sendOpenResult(result: .internalError)
+            return false
+        }
+        
+        // Set up the "IPv4" sub-dictionary to contain the tunne virtual address and network mask.
+        var newIPv4Dictionary = IPv4Dictionary
+        newIPv4Dictionary[SettingsKey.Address.rawValue] = tunnelAddress
+        newIPv4Dictionary[SettingsKey.Netmask.rawValue] = "255.255.255.255"
+        personalized[SettingsKey.IPv4.rawValue] = newIPv4Dictionary
+        response[TunnelMessageKey.Configuration.rawValue] = personalized as AnyObject
+        
+        // Send the personalized configuration along with the "open result" message.
+        sendOpenResult(result: .success, extraProperties: response)
+        
+        return true
+    }
     
     /// Create a UTUN interface.
     func createTUNInterface() -> Int32 {
@@ -71,6 +121,7 @@ class ServerTunnelConnection {
         
         return utunSocket
     }
+    
     /// Get the name of a UTUN interface the associated socket.
     func getTUNInterfaceName(utunSocket: Int32) -> String? {
         var buffer = [Int8](repeating: 0, count: Int(IFNAMSIZ))
@@ -84,20 +135,7 @@ class ServerTunnelConnection {
         
         return String.init(cString: buffer)
     }
-    /// Start reading packets from the UTUN interface.
-    func startTunnelSource(utunSocket: Int32) {
-        guard setSocketNonBlocking(utunSocket) else { return }
-        let newSource = DispatchSource.makeReadSource(fileDescriptor: utunSocket, queue: DispatchQueue.main)
-       
-        
-        newSource.setEventHandler {
-            self.readPackets()
-        }
-        
-        newSource.resume()
-        
-        utunSource = newSource 
-    }
+    
     /// Set up the UTUN interface, start reading packets.
     func setupVirtualInterface(address: String) -> Bool {
         let utunSocket = createTUNInterface()
@@ -110,17 +148,6 @@ class ServerTunnelConnection {
         return true
     }
     
-    func open() -> Bool {
-        let address = "240.7.1.10"
-        // Create the virtual interface and assign the address.
-        guard setupVirtualInterface(address: "240.7.1.10") else {
-            simpleTunnelLog("Failed to set up the virtual interface")
-            
-            return false
-        }
-        tunnelAddress = address
-        return true
-    }
     /// Read packets from the UTUN interface.
     func readPackets() {
         guard let source = utunSource else { return }
@@ -157,7 +184,7 @@ class ServerTunnelConnection {
             
             // Buffer up packets so that we can include multiple packets per message. Once we reach a per-message maximum send a "packets" message.
             if packets.count == Tunnel.maximumPacketsPerMessage {
-                tunnel?.sendPackets(packets as [Data], protocols: protocols, forConnection: 0)
+                tunnel?.sendPackets(packets as [Data], protocols: protocols, forConnection: identifier)
                 packets = [NSData]()
                 protocols = [NSNumber]()
                 if isSuspended { break } // If the entire message could not be sent and the connection is suspended, stop reading packets.
@@ -166,17 +193,78 @@ class ServerTunnelConnection {
         
         // If there are unsent packets left over, send them now.
         if packets.count > 0 {
-            tunnel?.sendPackets(packets as [Data] , protocols: protocols, forConnection: 0)
+            tunnel?.sendPackets(packets as [Data] as [Data], protocols: protocols, forConnection: identifier)
         }
     }
+    
+    /// Start reading packets from the UTUN interface.
+    func startTunnelSource(utunSocket: Int32) {
+        guard setSocketNonBlocking(utunSocket) else { return }
+        let newSource = DispatchSource.makeReadSource(fileDescriptor: utunSocket, queue: DispatchQueue.main)
+        //        guard let newSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, UInt(utunSocket), 0, dispatch_get_main_queue()) else { return }
+        //        dispatch_source_set_cancel_handler(newSource) {
+        //            close(utunSocket)
+        //            return
+        //        }
+        
+        newSource.setEventHandler {
+            self.readPackets()
+        }
+        
+        newSource.resume()
+        
+        utunSource = newSource as! DispatchSource
+    }
+    
+    // MARK: Connection
+    
+    /// Abort the connection.
+    override func abort(_ error: Int = 0) {
+        super.abort(error)
+        closeConnection(.all)
+    }
+    
+    /// Close the connection.
+    override func closeConnection(_ direction: TunnelConnectionCloseDirection) {
+        super.closeConnection(direction)
+        
+        if currentCloseDirection == .all {
+            if utunSource != nil {
+                utunSource!.cancel()
+            }
+            // De-allocate the address.
+            if tunnelAddress != nil {
+                ServerTunnel.configuration.addressPool?.deallocateAddress(addrString: tunnelAddress!)
+            }
+            utunName = nil
+        }
+    }
+    
+    /// Stop reading packets from the UTUN interface.
+    override func suspend() {
+        isSuspended = true
+        if let source = utunSource {
+            source.suspend()
+        }
+    }
+    
+    /// Resume reading packets from the UTUN interface.
+    override func resume() {
+        isSuspended = false
+        if let source = utunSource {
+            source.resume()
+            readPackets()
+        }
+    }
+    
     /// Write packets and associated protocols to the UTUN interface.
-    func sendPackets(_ packets: [Data], protocols: [NSNumber]) {
+    override func sendPackets(_ packets: [Data], protocols: [NSNumber]) {
         guard let source = utunSource else { return }
         let utunSocket = Int32((source as DispatchSourceRead).handle)
         
         for (index, packet) in packets.enumerated() {
             guard index < protocols.count else { break }
-            VLog.log("\(packet as NSData)", level: .Info)
+            
             var protocolNumber = protocols[index].uint32Value.bigEndian
             
             
@@ -202,3 +290,4 @@ class ServerTunnelConnection {
         }
     }
 }
+

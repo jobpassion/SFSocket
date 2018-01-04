@@ -11,7 +11,7 @@ import SFSocket
 import XRuler
 
 class ViewController: NSViewController {
-    let server:ServerTunnelConnection = ServerTunnelConnection.shared
+    let server = VPNServer()
     func prepare() {
         //XRuler.groupIdentifier =
         SKit.proxyIpAddr = "240.7.1.10"
@@ -28,9 +28,10 @@ class ViewController: NSViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepare()
-        server.tunnel = Tunnel()
-        _ = server.open()
+        server.start()
+//        prepare()
+//        server.tunnel = Tunnel()
+//        _ = server.open()
         // Do any additional setup after loading the view.
     }
 
