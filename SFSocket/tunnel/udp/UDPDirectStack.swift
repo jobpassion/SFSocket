@@ -79,7 +79,7 @@ open class UDPDirectStack: IPStackProtocol, NWUDPSocketDelegate {
         }
         
         guard let (_, socket) = findOrCreateSocketForPacket(packet) else {
-            SKit.log("udp socket  creat error", level: .Debug)
+            SKit.log("udp socket  creat error, no packettunnelprovider? or real error", level: .Debug)
             return
         }
         

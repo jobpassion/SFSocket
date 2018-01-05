@@ -59,4 +59,39 @@ public class UDPManager {
             }
         }
     }
+    public func serverDidClose(_ targetTunnel: SFUDPConnector){
+        
+        let c = targetTunnel as! SFDNSForwarder
+        let srcport = c.clientPort
+        clientTree.delete(key: srcport)
+        let index:Int = indexFor(port: srcport)
+        if index != -1 {
+            udpClientIndex.remove(at: index)
+        }
+        c.shutdownSocket()
+        
+    }
+    public func serverDidQuery(_ targetTunnel: SFUDPConnector, data : Data,close:Bool){
+        
+        
+        if data.count > 0 {
+            let c = targetTunnel as! SFDNSForwarder
+            let srcport = c.clientPort
+            if close {
+                c.shutdownSocket()
+                SKit.log("delete \(srcport) udp connect", level: .Info)
+                clientTree.delete(key: srcport)
+                let index:Int = indexFor(port: srcport)
+                if index != -1 {
+                    udpClientIndex.remove(at: index)
+                }
+                
+                
+            }else {
+                SKit.log("\(srcport) udp connect living", level: .Info)
+            }
+            cleanUDPConnector(force: false)
+            
+        }
+    }
 }

@@ -87,7 +87,7 @@ func query(_ domain:String) ->[String] {
             let value = p.withUnsafeBytes { (ptr: UnsafePointer<sockaddr>)  in
                 return ptr
             }
-            if getnameinfo(value, socklen_t(theAddress.length),
+            if getnameinfo(value, socklen_t(theAddress.count),
                            &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
                 let numAddress = String(cString:hostname)
                 
@@ -106,6 +106,7 @@ func query(_ domain:String) ->[String] {
 
 public class SKit {
     static var env = SKit()
+    static var app = ""
     static var sampleConfig = "surf.conf"
     static var DefaultConfig = "Default.conf"
     //let kSelect = "kSelectConf"
@@ -418,6 +419,7 @@ public class SKit {
         if level != AxLoggerLevel.Debug {
             AxLogger.log(msg,level:level)
         }
+        os_log("SKit: %@", log: .default, type: .debug, msg)
     }
     static func log(_ msg:String,items: Any...,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
        
@@ -430,10 +432,17 @@ public class SKit {
         
        
     }
-    static public  func prepare(_ bundle:String,configPath:String) ->Bool{
-        SKit.groupIdentifier = bundle
+    static public  func prepare(_ bundle:String,app:String, config:String) ->Bool{
+        XRuler.groupIdentifier = bundle
         XRuler.groupIdentifier =  SKit.groupIdentifier
-        loadConfig(configPath: configPath)
+        
+        
+        SKit.groupIdentifier = bundle
+        SKit.app = app
+        
+        
+        ProxyGroupSettings.share.config = config
+        loadConfig(configPath: config)
 
         return true
 

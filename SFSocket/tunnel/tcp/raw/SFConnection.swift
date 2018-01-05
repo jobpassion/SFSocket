@@ -44,7 +44,7 @@ enum ERR_KEY:Int8{
 let LWIP_ASYNC_TCP_OUT = false
 let LWIP_ASYNC_TCP_Recved = false
 
-class SFConnection: TUNConnection ,TCPCientDelegate{
+class SFConnection: Connection ,TCPCientDelegate{
     
 
 

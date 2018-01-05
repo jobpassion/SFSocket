@@ -1,6 +1,7 @@
 import Foundation
 import XSocket
 import AxLogger
+import XFoundation
 public enum IPVersion: UInt8 {
     case iPv4 = 4, iPv6 = 6
 }

@@ -7,9 +7,9 @@
 //
 
 import Foundation
-
+import AxLogger
 func memoryUsed() -> String {
-    let mem:UInt64 = 4*1024*1024// reportMemoryUsed()
+    let mem:UInt64 =  reportMemoryUsed()
     return memoryString(mem)
 }
 func memoryString(_ memoryUsed:UInt64) ->String {

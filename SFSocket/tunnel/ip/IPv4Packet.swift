@@ -9,7 +9,7 @@
 import Foundation
 import NetworkExtension
 
-
+import XFoundation
 public class IPv4Packet:NSObject{
     public var proto:UInt8 = 0
     public let srcIP:Data
@@ -33,7 +33,7 @@ public class IPv4Packet:NSObject{
         destinationIP = Data(_rawData.subdata(in: Range( 16 ..<  20)))
         
         p = Data(_rawData.subdata(in: Range( 0 ..< 1)))
-        let len = data2Int(p, len: 1) & 0x0F
+        let len = p.data2Int(len: 1) & 0x0F
         headerLength = len * 4
         
         super.init()

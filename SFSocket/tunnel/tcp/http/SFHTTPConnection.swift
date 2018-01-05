@@ -540,7 +540,7 @@ class SFHTTPConnection: SFHTTPRequest {
             if let respHeader = reqInfo.respHeader {
                 SKit.log("\(cIDString) recv buffer too bigger mode:\(respHeader.mode) \(recvHeaderData.count)",level: .Debug)
             }else {
-                SKit.log("\(cIDString) recv buffer too bigger length:\(recvHeaderData.length) will clear cache",level: .Error)
+                SKit.log("\(cIDString) recv buffer too bigger length:\(recvHeaderData.count) will clear cache",level: .Error)
             }
             
             recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
@@ -662,7 +662,7 @@ class SFHTTPConnection: SFHTTPRequest {
         let  currentReq:SFRequestInfo = reqInfo
         
         //SKit.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length:\(data):\(data.length) flow:\(currentReq.traffice.tx):\(currentReq.traffice.rx) ",level: .Debug)
-        SKit.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length:\(data.length):\(data.length) flow:\(currentReq.traffice.tx):\(currentReq.traffice.rx) ",level: .Debug)
+        SKit.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length:\(data.count):\(data.count) flow:\(currentReq.traffice.tx):\(currentReq.traffice.rx) ",level: .Debug)
         //critLock.lockBeforeDate( NSDate( timeIntervalSinceNow: 0.05))
         rTag += 1
         //NSLog("%@,%d didReadData", cIDString,tag)
@@ -1001,7 +1001,7 @@ class SFHTTPConnection: SFHTTPRequest {
     override func checkStatus() {
         //
         if socks_recv_bufArray.count > 1024*50{
-            SKit.log("\(cIDString) recv queue too long \(socks_recv_bufArray.length)  ",level: .Warning)
+            SKit.log("\(cIDString) recv queue too long \(socks_recv_bufArray.count)  ",level: .Warning)
             _ = client_socks_recv_send_out()
             return
         }
@@ -1071,7 +1071,7 @@ class SFHTTPConnection: SFHTTPRequest {
                     
                 } else {
                     if reqInfo.idleTimeing > SFOpt.HTTPVeryTimeout {
-                        SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count) 7",level: .Warning)
+                        SKit.log("\(cIDString) \(reqInfo.host)  timeout , will close recv:\(socks_recv_bufArray.count) send: \(bufArray.count) 7",level: .Warning)
                         if socks_recv_bufArray.count > 0 {
                             //bug here
                             client_socks_recv_handler_done(socks_recv_bufArray.count)
@@ -1103,8 +1103,8 @@ class SFHTTPConnection: SFHTTPRequest {
             }
         }else {
             
-            SKit.log("\(reqInfo.host) recv memoryWarning  header queue:\(reqHeaderQueue.count) index:\(requestIndex) http recv header buffer :\(recvHeaderData.length)",level: .Warning)
-            SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
+            SKit.log("\(reqInfo.host) recv memoryWarning  header queue:\(reqHeaderQueue.count) index:\(requestIndex) http recv header buffer :\(recvHeaderData.count)",level: .Warning)
+            SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.count) send: \(bufArray.count)",level: .Warning)
             client_free_socks()
         }
         

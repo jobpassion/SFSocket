@@ -156,7 +156,7 @@ class SFTCPConnection: SFConnection {
              SKit.log("\(cIDString) readData tag:\(rTag)",level: .Debug)
             c.readDataWithTag(rTag)
         }else {
-            SKit.log("\(cIDString)  recv waiting length:\(socks_recv_bufArray.length)",level:.Trace)
+            SKit.log("\(cIDString)  recv waiting length:\(socks_recv_bufArray.count)",level:.Trace)
             // debugLog("\(cIDString) recv waiting")
         }
         
@@ -209,7 +209,7 @@ class SFTCPConnection: SFConnection {
     override func  didReadData(_ data: Data, withTag: Int, from: Xcon) {
         
         reqInfo.status = .Transferring
-        SKit.log("\(cIDString) didReadData \(reqInfo.url):\(data.length)",level:  .Debug)
+        SKit.log("\(cIDString) didReadData \(reqInfo.url):\(data.count)",level:  .Debug)
         //reqInfo.updateSpeed(UInt(data.length),stat: true)
         reqInfo.updaterecvTraffic(data.count)
         
@@ -249,7 +249,7 @@ class SFTCPConnection: SFConnection {
             }
         }else {
             if reqInfo.idleTimeing > 60.0 * 5{
-                SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
+                SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.count) send: \(bufArray.count)",level: .Warning)
                 client_free_socks()
             }
             
@@ -274,7 +274,7 @@ class SFTCPConnection: SFConnection {
             }else {
                 SKit.log("\(reqInfo.host) memoryWarning  \(reqInfo.ruleTiming) :recv:\(socks_recv_bufArray) && send:\(bufArray.count)",level: .Warning)
                 //client_dealloc()
-                SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
+                SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.count) send: \(bufArray.count)",level: .Warning)
                 client_free_socks()
             }
         }

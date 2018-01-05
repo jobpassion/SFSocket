@@ -58,15 +58,10 @@ public class SFNetworkInterfaceManager: NSObject {
     }
  
      static public  func showRouter() {
-//                dispatch_async(dispatch_get_main_queue()){
-//                    let routers = currntRouter()
-//                    SKit.log("router IPV4 \(routers)")
-//                }
-//        
-//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-//                    let routers = currntRouter()
-//                    SKit.log("router IPV4 \(routers)",level: .Info)
-//                }
+        DispatchQueue.main.async {
+            //let routers =
+            //SKit.log("router IPV4 \(routers)")
+        }
     }
      static public  func interfaceMTUWithName(_ name:String) ->Int {
         return 1500

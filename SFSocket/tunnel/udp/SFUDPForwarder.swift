@@ -11,6 +11,7 @@ import Foundation
 import AxLogger
 import DarwinCore
 import CocoaAsyncSocket
+import XFoundation
 class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
     
  
@@ -24,15 +25,8 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
     
     override init(sip:Data, dip:Data,packet:UDPPacket) {
         super.init(sip: sip , dip: dip , packet: packet)
-        //targetHost =
-        //SKit.log("current only udp port 53 process, other port packet drop",level:.Warning)
         
-        
-        //socket = GCDAsyncUdpSocket.init(delegate: self, delegateQueue: dispatchQueue)
-        //let rec:GCDAsyncUdpSocketReceiveFilterBlock = (NSData!, NSData!, AutoreleasingUnsafeMutablePointer<AnyObject?>) {
-        
-        //}
-        targetHost = datatoIP(dip)
+        targetHost = dip.toIPString()
         start()
         
     }
@@ -50,8 +44,7 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
             try socket?.connect(toHost: targetHost, onPort: dstPort)
             
         } catch let e as NSError {
-            //SKit.log("can't connectToHost \(server)",level: .Erro)
-            //NSLog("DNS can't connectToHost \(server) \(port) error:\(e)")
+            
             SKit.log("DNS can't connectToHost \(e.description) ",level: .Error)
         }
     }
@@ -131,7 +124,7 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
     internal func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive tempdata: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
         //收到dns replay packet
         activeTime = Date() as Date
-        SKit.log("UDP-\(reqID) recv data len:\(tempdata.length)", level: .Trace)
+        SKit.log("UDP-\(reqID) recv data len:\(tempdata.count)", level: .Trace)
         var r:Range<Data.Index>
         if address.count == 4{
             r = Range(0 ..< 4)

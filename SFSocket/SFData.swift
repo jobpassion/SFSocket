@@ -16,14 +16,6 @@ public class SFData:CustomStringConvertible {
     public init() {
         
     }
-//    mutating func append(_ v:T) {
-//        var value = v
-//        let storage = withUnsafePointer(to: &value) {
-//            Data(bytes: UnsafePointer($0), count: MemoryLayout.size(ofValue: v))
-//        }
-//        data.append(storage)
-//    }
-    
     public func append(_ v:UInt8){
         data.append(v)
     }

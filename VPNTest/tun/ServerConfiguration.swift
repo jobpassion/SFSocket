@@ -71,6 +71,7 @@ class ServerConfiguration {
 			// The configuration does not specify any DNS configuration, so get the current system default resolver.
 			let (DNSServers, DNSSearchDomains) = ServerConfiguration.copyDNSConfigurationFromSystem()
 
+            //force set tun dns
 			newConfiguration[SettingsKey.DNS.rawValue] = [
 				SettingsKey.Servers.rawValue: DNSServers,
 				SettingsKey.SearchDomains.rawValue: DNSSearchDomains

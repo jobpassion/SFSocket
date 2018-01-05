@@ -12,12 +12,14 @@ import GRDB
 import AxLogger
 import Xcon
 import XProxy
+import XFoundation
 public class RequestHelper{
     static public let shared = RequestHelper()
     
     //var db:Connection?
     var requests:[SFRequestInfo] = []
     var dbQueue:DatabaseQueue?
+    let fileName = "db.zip"
     public func open(_ path:String,readonly:Bool,stamp:TimeInterval){
     //need memory 493kb
 //        if let d = db {
@@ -26,18 +28,19 @@ public class RequestHelper{
         
         var p:String
         if path.components(separatedBy: "/").count == 1 {
-             let url  = groupContainerURL().appendingPathComponent("Log/" + path + "/db.zip")
+             let url  = groupContainerURL().appendingPathComponent("Log/" + path )
             p = url.path
         }else {
-            p = path + "/db.zip"
+            p = path
         }
+        
         
         //let url = groupContainerURL().appendingPathComponent(fn)
         //let p = url.path
             do {
                 //db = try Connection(p,readonly: readonly)
-               
-                
+                _ = try FileManager.checkAndCreate(pathDir:p )
+                p += fileName
                 dbQueue = try DatabaseQueue(path: p)
                 if let db = dbQueue {
                     initGRDB(db)
@@ -51,51 +54,16 @@ public class RequestHelper{
         
     }
     func initGRDB(_ db:DatabaseQueue){
-        let bId = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
-        if bId == "com.yarshure.Surf" ||  bId == "com.yarshure.SurfToday"{
-            print("don't need init")
-        }else {
-            do {
-                try db.inDatabase { db in
-                    try db.execute(
-                        "CREATE TABLE \"requests\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"reqID\" INTEGER NOT NULL,\"subID\" INTEGER NOT NULL , \"mode\" TEXT NOT NULL, \"url\" TEXT NOT NULL, \"app\" TEXT NOT NULL, \"start\" REAL NOT NULL, \"status\" TEXT NOT NULL, \"closereason\" INTEGER NOT NULL, \"reqHeader\" TEXT NOT NULL, \"respHeader\" TEXT NOT NULL, \"proxyName\" TEXT NOT NULL, \"name\" TEXT NOT NULL, \"type\" INTEGER NOT NULL, \"ruleTime\" REAL NOT NULL, \"Est\" REAL NOT NULL, \"transferTiming\" REAL NOT NULL, \"tx\" INTEGER NOT NULL, \"rx\" INTEGER NOT NULL, \"end\" REAL NOT NULL, \"interface\" INTEGER NOT NULL, \"localIP\" TEXT NOT NULL, \"remoteIP\" TEXT NOT NULL, \"wakeup\" REAL NOT NULL, \"sleep\" REAL NOT NULL);")
-//                    try db.create(table:"requests") { t in
-//                        
-//                        t.column("id", .Integer).primaryKey()
-//                        t.column("reqID", .Integer)
-//                        t.column("subID", .Integer)
-//                        t.column("mode", .TEXT).notNull()
-//                        t.column("url", .TEXT).notNull()
-//                        t.column("app", .TEXT).notNull()
-//
-//
-//                        t.column("start", .Double).notNull()
-//                        t.column("status", .TEXT).notNull()
-//                        t.column("closereason", .Integer).notNull()
-//                        t.column("reqHeader", .TEXT).notNull()
-//                        t.column("respHeader", .TEXT).notNull()
-//                        t.column("proxyName", .TEXT).notNull()
-//                        t.column("name", .TEXT).notNull()
-//                        t.column("type", .Integer).notNull()
-//                        t.column("ruleTime", .Double).notNull()
-//                        t.column("Est", .Double).notNull()
-//                        t.column("transferTiming", .Double).notNull()
-//                        t.column("tx", .Integer).notNull()
-//                        t.column("rx", .Integer).notNull()
-//                        t.column("end", .Double).notNull()
-//                        t.column("interface", .Integer).notNull()
-//                        t.column("localIP", .TEXT).notNull()
-//                        t.column("remoteIP", .TEXT).notNull()
-//
-//                       
-//                    }
-                    
-                }
+        do {
+            try db.inDatabase { db in
+                try db.execute(
+                    "CREATE TABLE \"requests\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\"reqID\" INTEGER NOT NULL,\"subID\" INTEGER NOT NULL , \"mode\" TEXT NOT NULL, \"url\" TEXT NOT NULL, \"app\" TEXT NOT NULL, \"start\" REAL NOT NULL, \"status\" TEXT NOT NULL, \"closereason\" INTEGER NOT NULL, \"reqHeader\" TEXT NOT NULL, \"respHeader\" TEXT NOT NULL, \"proxyName\" TEXT NOT NULL, \"name\" TEXT NOT NULL, \"type\" INTEGER NOT NULL, \"ruleTime\" REAL NOT NULL, \"Est\" REAL NOT NULL, \"transferTiming\" REAL NOT NULL, \"tx\" INTEGER NOT NULL, \"rx\" INTEGER NOT NULL, \"end\" REAL NOT NULL, \"interface\" INTEGER NOT NULL, \"localIP\" TEXT NOT NULL, \"remoteIP\" TEXT NOT NULL, \"wakeup\" REAL NOT NULL, \"sleep\" REAL NOT NULL);")
                 
-                
-            }catch let e as NSError{
-                SKit.log("create table error:",items: e.localizedDescription,level: .Error)
             }
+            
+            
+        }catch let e as NSError{
+            SKit.log("create table error:",items: e.localizedDescription,level: .Error)
         }
         
        

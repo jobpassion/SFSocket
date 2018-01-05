@@ -350,7 +350,7 @@ class SFHTTPSConnection: SFHTTPRequest {
             }
         }else {
             SKit.log("\(reqInfo.host) recv memoryWarning buffer recv:\(socks_recv_bufArray) send:\(bufArray) ",level: .Warning)
-            SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.length) send: \(bufArray.count)",level: .Warning)
+            SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.count) send: \(bufArray.count)",level: .Warning)
             client_free_socks()
         }
         

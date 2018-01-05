@@ -9,11 +9,13 @@
 import Foundation
 import Darwin
 import DarwinCore
+import SFSocket
 /// An object that provides a bridge between a logical flow of packets in the SimpleTunnel protocol and a UTUN interface.
 class ServerTunnelConnection: Connection {
     
     // MARK: Properties
-    
+
+    var processor:PacketProcessor = PacketProcessor()
     /// The virtual address of the tunnel.
     var tunnelAddress: String?
     
@@ -27,7 +29,13 @@ class ServerTunnelConnection: Connection {
     var isSuspended = false
     
     // MARK: Interface
-    
+   
+    public override init(connectionIdentifier: Int, parentTunnel: Tunnel) {
+        
+        super.init(connectionIdentifier: connectionIdentifier, parentTunnel: parentTunnel)
+         self.processor.provider = self
+        //UDPManager.shared.udpStack.outputFunc = self.generateOutputBlock()
+    }
     /// Send an "open result" message with optionally the tunnel settings.
     func sendOpenResult(result: TunnelConnectionOpenResult, extraProperties: [String: Any] = [:]) {
         guard let serverTunnel = tunnel else { return }
@@ -37,7 +45,7 @@ class ServerTunnelConnection: Connection {
         
         let properties = createMessagePropertiesForConnection(identifier, commandType: .openResult, extraProperties: resultProperties)
         
-        serverTunnel.sendMessage(properties)
+        _ = serverTunnel.sendMessage(properties)
     }
     
     /// "Open" the connection by setting up the UTUN interface.
@@ -51,12 +59,13 @@ class ServerTunnelConnection: Connection {
         }
         
         // Create the virtual interface and assign the address.
-        guard setupVirtualInterface(address: address) else {
-            simpleTunnelLog("Failed to set up the virtual interface")
-            ServerTunnel.configuration.addressPool?.deallocateAddress(addrString: address)
-            sendOpenResult(result: .internalError)
-            return false
-        }
+        //MARK:disable create utun device ,don't run use root user
+//        guard setupVirtualInterface(address: address) else {
+//            simpleTunnelLog("Failed to set up the virtual interface")
+//            ServerTunnel.configuration.addressPool?.deallocateAddress(addrString: address)
+//            sendOpenResult(result: .internalError)
+//            return false
+//        }
         
         tunnelAddress = address
         
@@ -138,6 +147,7 @@ class ServerTunnelConnection: Connection {
     
     /// Set up the UTUN interface, start reading packets.
     func setupVirtualInterface(address: String) -> Bool {
+        
         let utunSocket = createTUNInterface()
         guard let interfaceName = getTUNInterfaceName(utunSocket: utunSocket), utunSocket >= 0 &&
             setUTUNAddress(interfaceName, address)
@@ -201,11 +211,7 @@ class ServerTunnelConnection: Connection {
     func startTunnelSource(utunSocket: Int32) {
         guard setSocketNonBlocking(utunSocket) else { return }
         let newSource = DispatchSource.makeReadSource(fileDescriptor: utunSocket, queue: DispatchQueue.main)
-        //        guard let newSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, UInt(utunSocket), 0, dispatch_get_main_queue()) else { return }
-        //        dispatch_source_set_cancel_handler(newSource) {
-        //            close(utunSocket)
-        //            return
-        //        }
+       
         
         newSource.setEventHandler {
             self.readPackets()
@@ -259,6 +265,14 @@ class ServerTunnelConnection: Connection {
     
     /// Write packets and associated protocols to the UTUN interface.
     override func sendPackets(_ packets: [Data], protocols: [NSNumber]) {
+        
+        
+        processor.sendPackets(packets, protocols: protocols)
+    }
+}
+extension ServerTunnelConnection {
+    /// Write packets and associated protocols to the UTUN interface.
+    func sendPacketsTun(_ packets: [Data], protocols: [NSNumber]) {
         guard let source = utunSource else { return }
         let utunSocket = Int32((source as DispatchSourceRead).handle)
         
@@ -290,4 +304,27 @@ class ServerTunnelConnection: Connection {
         }
     }
 }
+extension ServerTunnelConnection:PacketProcessorProtocol{
+    func didProcess() {
+        
+    }
 
+    func writeDatagrams(packet: Data, proto: Int32){
+        
+        tunnel?.sendPackets([packet] , protocols: [NSNumber(value:proto)], forConnection: identifier)
+        VLog.log("write $$$$$ \(packet as NSData)", level: .Info)
+    }
+  
+    
+    public func generateOutputBlock() -> ([Data], [NSNumber]) -> () {
+        return { [weak self] packets, versions in
+            if let strong = self {
+                if packets.count == Tunnel.maximumPacketsPerMessage {
+                    strong.tunnel?.sendPackets(packets , protocols: versions, forConnection: strong.identifier)
+                }
+                
+            }
+
+        }
+    }
+}
