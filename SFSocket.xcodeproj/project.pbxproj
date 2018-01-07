@@ -111,6 +111,7 @@
 		697DF07E1FFDF56100C6A64C /* PacketProcessorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DF07C1FFDF56100C6A64C /* PacketProcessorProtocol.swift */; };
 		697DF0A31FFF59D100C6A64C /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */; };
 		697DF0A41FFF59E900C6A64C /* Opt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0D2771DD5975800227353 /* Opt.swift */; };
+		697DF0C11FFFB91300C6A64C /* lwip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 697DF0BC1FFFB8A700C6A64C /* lwip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */; };
 		6994E0171DEFBE9E009394F9 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6994E0161DEFBE9E009394F9 /* Rule.swift */; };
 		6994E0181DEFBE9E009394F9 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6994E0161DEFBE9E009394F9 /* Rule.swift */; };
@@ -120,7 +121,6 @@
 		69A0D2781DD5975800227353 /* Opt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0D2771DD5975800227353 /* Opt.swift */; };
 		69B911621EB8C0200096DE58 /* HTTPTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B911611EB8C0200096DE58 /* HTTPTester.swift */; };
 		69B954F61DDF81CF006AF669 /* SFSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B954F41DDF81CF006AF669 /* SFSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69B954FA1DDF81DC006AF669 /* SFVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */; };
 		69B955011DDF81FB006AF669 /* Checksum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5B71DD5CF120079493D /* Checksum.swift */; };
 		69B955031DDF8201006AF669 /* IPPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5AF1DD5CE620079493D /* IPPacket.swift */; };
 		69B955071DDF820F006AF669 /* PacketProtocolParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5B11DD5CE920079493D /* PacketProtocolParser.swift */; };
@@ -143,7 +143,6 @@
 		69C1ED771DF5A4DD0019AFFC /* DNSSessionMatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1ED751DF5A4DD0019AFFC /* DNSSessionMatchResult.swift */; };
 		69C298931DD593FF00E4C3BD /* SFSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C298911DD593FF00E4C3BD /* SFSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69CC44791EB199A8002C10DC /* BinaryConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC44781EB199A8002C10DC /* BinaryConvertible.swift */; };
-		69DD43591DDC4FBA00080CF1 /* SFVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */; };
 		69E40F3C1F4A7D5F00C1DDC3 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */; };
 		69E470AF1E67AADE00AE11FB /* SocksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E470AE1E67AADE00AE11FB /* SocksTest.swift */; };
 		69F745791F4C07AD00A39C30 /* ConnectRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692DD5B31DD5CEA30079493D /* ConnectRequest.swift */; };
@@ -171,6 +170,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = 69B954F11DDF81CF006AF669;
 			remoteInfo = SFSocketOSX;
+		};
+		697DF0B91FFFB8A700C6A64C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 69091B9C1DD4BE910060CCB9;
+			remoteInfo = lwip;
+		};
+		697DF0BB1FFFB8A700C6A64C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 69B954951DDF74E0006AF669;
+			remoteInfo = lwipOSX;
+		};
+		697DF0BD1FFFB8A700C6A64C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6927ADCD1DE14C0F0027EF7A;
+			remoteInfo = macOSTest;
+		};
+		697DF0BF1FFFB8BE00C6A64C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 69B954941DDF74E0006AF669;
+			remoteInfo = lwipOSX;
 		};
 		69FC1B1B1DDC00A100EF8AAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -208,6 +235,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				697DF0C11FFFB91300C6A64C /* lwip.framework in Embed Frameworks */,
 				6904B0DB1FFD2F1D000B64F3 /* SFSocket.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -285,6 +313,7 @@
 		697DF0791FFDEF9600C6A64C /* PacketProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketProcessor.swift; sourceTree = "<group>"; };
 		697DF07C1FFDF56100C6A64C /* PacketProcessorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketProcessorProtocol.swift; sourceTree = "<group>"; };
 		697DF07F1FFE086500C6A64C /* VPNTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VPNTest.entitlements; sourceTree = "<group>"; };
+		697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = lwip.xcodeproj; path = ../../../liblwip/lwip.xcodeproj; sourceTree = "<group>"; };
 		69803E091DD95D8C0047112C /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		69803E0A1DD95D920047112C /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
 		698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NEPacketTunnelProvider+Extension.swift"; sourceTree = "<group>"; };
@@ -318,7 +347,6 @@
 		69C7DC5F1FE364ED00FB7FA2 /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		69C7DC601FE364FF00FB7FA2 /* mac.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = mac.xcconfig; sourceTree = "<group>"; };
 		69CC44781EB199A8002C10DC /* BinaryConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryConvertible.swift; sourceTree = "<group>"; };
-		69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFVPNStatistics.swift; sourceTree = "<group>"; };
 		69E40F3B1F4A7D5F00C1DDC3 /* AVLTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVLTree.swift; sourceTree = "<group>"; };
 		69E470AE1E67AADE00AE11FB /* SocksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocksTest.swift; sourceTree = "<group>"; };
 		69FC1AFD1DDBFAB000EF8AAC /* SFSocketTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFSocketTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -527,7 +555,6 @@
 			isa = PBXGroup;
 			children = (
 				69116B311E968370007C2FBA /* SFVPNSession.swift */,
-				69DD43581DDC4FBA00080CF1 /* SFVPNStatistics.swift */,
 				69116B3A1E9695F4007C2FBA /* RequestHelper.swift */,
 			);
 			path = db;
@@ -570,6 +597,16 @@
 				695F6E351E900E1A00C72E5E /* DNSServer.swift */,
 			);
 			path = dns;
+			sourceTree = "<group>";
+		};
+		697DF0B41FFFB8A700C6A64C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				697DF0BA1FFFB8A700C6A64C /* lwip.framework */,
+				697DF0BC1FFFB8A700C6A64C /* lwip.framework */,
+				697DF0BE1FFFB8A700C6A64C /* macOSTest.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		69803E081DD95D4F0047112C /* Framework */ = {
@@ -635,6 +672,7 @@
 		69C298841DD593FF00E4C3BD = {
 			isa = PBXGroup;
 			children = (
+				697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */,
 				69803E091DD95D8C0047112C /* Cartfile */,
 				69803E0A1DD95D920047112C /* Cartfile.resolved */,
 				69803E081DD95D4F0047112C /* Framework */,
@@ -768,6 +806,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				697DF0C01FFFB8BE00C6A64C /* PBXTargetDependency */,
 			);
 			name = SFSocketOSX;
 			productName = SFSocketOSX;
@@ -876,7 +915,7 @@
 								enabled = 1;
 							};
 							com.apple.Sandbox = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -912,6 +951,12 @@
 			mainGroup = 69C298841DD593FF00E4C3BD;
 			productRefGroup = 69C2988F1DD593FF00E4C3BD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 697DF0B41FFFB8A700C6A64C /* Products */;
+					ProjectRef = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				69C2988D1DD593FF00E4C3BD /* SFSocket */,
@@ -923,6 +968,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		697DF0BA1FFFB8A700C6A64C /* lwip.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = lwip.framework;
+			remoteRef = 697DF0B91FFFB8A700C6A64C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		697DF0BC1FFFB8A700C6A64C /* lwip.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = lwip.framework;
+			remoteRef = 697DF0BB1FFFB8A700C6A64C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		697DF0BE1FFFB8A700C6A64C /* macOSTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = macOSTest.app;
+			remoteRef = 697DF0BD1FFFB8A700C6A64C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		694719831EE528F60059BEF8 /* Resources */ = {
@@ -1073,7 +1142,6 @@
 				695F6E641E900E1A00C72E5E /* SFDNSManager.swift in Sources */,
 				69116B271E9681BB007C2FBA /* SFHTTPRequest.swift in Sources */,
 				69C1ED771DF5A4DD0019AFFC /* DNSSessionMatchResult.swift in Sources */,
-				69B954FA1DDF81DC006AF669 /* SFVPNStatistics.swift in Sources */,
 				69B955031DDF8201006AF669 /* IPPacket.swift in Sources */,
 				695F6E6C1E900E1A00C72E5E /* SFNetworkInterfaceManager.swift in Sources */,
 				69116B331E968370007C2FBA /* SFVPNSession.swift in Sources */,
@@ -1174,7 +1242,6 @@
 				695F6E871E900E1A00C72E5E /* UDPPacket.swift in Sources */,
 				695F6E591E900E1A00C72E5E /* IPv4Packet.swift in Sources */,
 				697DF07D1FFDF56100C6A64C /* PacketProcessorProtocol.swift in Sources */,
-				69DD43591DDC4FBA00080CF1 /* SFVPNStatistics.swift in Sources */,
 				69116B171E968157007C2FBA /* SFOpt.swift in Sources */,
 				69A0D2761DD5971A00227353 /* StreamScanner.swift in Sources */,
 				692DD5AC1DD5CE310079493D /* UDPDirectStack.swift in Sources */,
@@ -1211,6 +1278,11 @@
 			isa = PBXTargetDependency;
 			target = 69B954F11DDF81CF006AF669 /* SFSocketOSX */;
 			targetProxy = 6928061C1EFA7B79007FCF6A /* PBXContainerItemProxy */;
+		};
+		697DF0C01FFFB8BE00C6A64C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = lwipOSX;
+			targetProxy = 697DF0BF1FFFB8BE00C6A64C /* PBXContainerItemProxy */;
 		};
 		69FC1B1C1DDC00A100EF8AAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1434,7 +1506,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 745WQDK4L7;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1464,7 +1536,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 745WQDK4L7;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = VPNTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

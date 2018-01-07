@@ -153,6 +153,7 @@ class SFTCPConnection: SFConnection {
         
         
         if reqInfo.status !=  .RecvWaiting {
+            //多次读event 
              SKit.log("\(cIDString) readData tag:\(rTag)",level: .Debug)
             c.readDataWithTag(rTag)
         }else {
@@ -166,7 +167,7 @@ class SFTCPConnection: SFConnection {
         let st = (reqInfo.status == .Established) || (reqInfo.status == .Transferring)
         if st  {
             if bufArray.count > 0{
-                SKit.log("\(cIDString) now sending data buffer count:\(bufArray.count)",level: .Debug)
+                SKit.log("\(cIDString):\(reqInfo.url) now sending data buffer count:\(bufArray.count)",level: .Debug)
                 super.client_send_to_socks()
                 
             }else {
@@ -189,18 +190,7 @@ class SFTCPConnection: SFConnection {
             client_socks_send_handler_done(len)
         }
         
-        //reqInfo.activeTime = NSDate()
-        
-           // let d = bufArray.removeFirst()
-            
-            //let len = bufArrayInfo[tag]
-        
-        
-        
-           //SKit.log("\(cIDString) tag:\(tag) time:\(reqInfo.transferTiming) packet sended and delete flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx)",level: .Debug)
-            // 这个地方有问题 https over http ,how to send this?
-        
-        
+        reqInfo.activeTime = Date() 
         tag += 1
         
         processData("didWriteData")
@@ -213,22 +203,8 @@ class SFTCPConnection: SFConnection {
         //reqInfo.updateSpeed(UInt(data.length),stat: true)
         reqInfo.updaterecvTraffic(data.count)
         
-       //SKit.log("\(cIDString) time:\(reqInfo.transferTiming) tag:\(tag):\(rTag) receive Data length  \(data.length) flow:\(reqInfo.traffice.tx):\(reqInfo.traffice.rx) ",level: .Trace)
-//        critLock.lockBeforeDate( NSDate( timeIntervalSinceNow: 0.05))
         rTag += 1
-        //critLock.unlock()
-//        if reqInfo.rule.policy == .Direct {
-//           //SKit.log("\(cIDString) Direct don't need process recv data ",level: .Warning)
-//        }else {
-//            guard let proxy = reqInfo.proxy else {return}
-//
-//        }
-//        if socks_recv_bufArray.count == 0  {
-//            socks_recv_bufArray = data
-//        }else {
-//            //leaks
-//            socks_recv_bufArray.append(data)
-//        }
+
         data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
             socks_recv_bufArray.append(ptr)
         }

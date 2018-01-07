@@ -250,10 +250,10 @@ open class Tunnel: NSObject {
     /// Send a Close message on the tunnel connection.
     open func sendCloseType(_ type: TunnelConnectionCloseDirection, forConnection connectionIdentifier: Int) {
         let properties = createMessagePropertiesForConnection(connectionIdentifier, commandType: .close, extraProperties:[
-            TunnelMessageKey.CloseDirection.rawValue: type.rawValue as AnyObject
+            TunnelMessageKey.CloseDirection.rawValue: type.rawValue
             ])
         
-        if !sendMessage(properties as [String : AnyObject]) {
+        if !sendMessage(properties) {
             simpleTunnelLog("Failed to send a close message for connection \(connectionIdentifier)")
         }
     }
@@ -261,11 +261,11 @@ open class Tunnel: NSObject {
     /// Send a Packets message on the tunnel connection.
     func sendPackets(_ packets: [Data], protocols: [NSNumber], forConnection connectionIdentifier: Int) {
         let properties = createMessagePropertiesForConnection(connectionIdentifier, commandType: .packets, extraProperties:[
-            TunnelMessageKey.Packets.rawValue: packets as AnyObject,
-            TunnelMessageKey.Protocols.rawValue: protocols as AnyObject
+            TunnelMessageKey.Packets.rawValue: packets ,
+            TunnelMessageKey.Protocols.rawValue: protocols
             ])
         
-        if !sendMessage(properties as [String : AnyObject]) {
+        if !sendMessage(properties) {
             simpleTunnelLog("Failed to send a packet message")
         }
     }

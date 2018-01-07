@@ -182,19 +182,13 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     func setMTU(_ mtu:Int){
         
     }
-    func saveConnectionInfo(_ ref:SFConnection) {
+    func saveConnectionInfo(_ ref:Connection) {
         if ProxyGroupSettings.share.historyEnable {
-            //broken
+            
             let helper = RequestHelper.shared
             let info = ref.reqInfo
             helper.saveReqInfo(info)
-            // one connection only have a request info
-            // http keep-alive finish one will save one
-            //            if let s = ref as? SFHTTPConnection{
-            //                for req in s.requests{
-            //                    helper.saveReqInfo(req)
-            //                }
-            //            }
+            
         }
     }
     func removeConnectionRef(_ ref:SFConnection){
@@ -206,9 +200,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         saveConnectionInfo(ref)
         connections.removeValue(forKey: sport)
         lwipInputSpeed.removeValue(forKey: sport)
-        //connections.removeObjectForKey(ref.reqInfo.reqID)
-        //abort()
-        //test()
+        
     }
     
     public func writeDatagrams(_ data:Data){
@@ -382,9 +374,7 @@ extension SFTCPConnectionManager{
     }
     
     public func cancel() {
-        //        if self.dispatch_timer != nil {
-        //            dispatch_source_cancel(dispatch_timer)
-        //        }
+        
         SKit.log("should cancel timer", level: .Debug)
     }
     public func resume() {
@@ -439,12 +429,11 @@ extension SFTCPConnectionManager{
                 //
                 //                }
                 
-                
-                for (packet) in ps {
-                    //autoreleasepool {
-                    //have bug
-                        inputData(packet,packet.count)
-                    //}
+                //bug here,todo fix tcp_in.c Line 1076] tcp_receive: lwip assertion failure: tcp_receive: valid queue length
+                for packet in ps {
+                   
+                   inputData(packet,packet.count)
+                   
                 }
                 _ = strongSelf.networkingScheduledTask
                 
@@ -457,51 +446,13 @@ extension SFTCPConnectionManager{
                 SKit.log(m,level: .Warning)
             }
             
-            DispatchQueue.global().async {
+            DispatchQueue.main.async {
                 complete(nil)
             }
-            
+
         }
     }
-    
-    
-    func device_read_handler_sendPackets(_ unused:UnsafeRawPointer,packets:[Data]){
-        //网络切换的时候不会crash
-        //debugLog("device_read_handler_sendPackets")
-        if lwip_init_finished == false {
-            //init not finish ,input packet will
-            //drop the packet
-            //SKit.log("lwip init not finish drop packet \(data)",level: .Info)
-            SKit.log("lwip_init_finished false",level: .Error)
-            return
-        }
-        dispatchQueue.async { [weak self] () -> Void in
-            let d1 = Date()
-            let ps = packets
-            if let strongSelf = self {
-                for (_,c) in strongSelf.connections {
-                    if c.shouldRemovDeadClient() {
-                        strongSelf.removeConnectionRef(c)
-                    }
-                }
-                
-                
-                for (packet) in ps {
-                    
-                    inputData(packet as Data!,packet.count)
-                }
-                _ = strongSelf.networkingScheduledTask
-                
-            }
-            let _ = Date().timeIntervalSince(d1)
-            //debugLog("device_read_handler_sendPackets \(d2)")
-            
-            
-            
-        }
-        
-        
-    }
+
     public func clearRule() {
         dispatchQueue.async  { [unowned self] in
             self.ruleTestResult.removeAll()
@@ -530,24 +481,8 @@ extension SFTCPConnectionManager{
         }
         
     }
-    func device_read_handler_send(_ unused:UnsafeRawPointer,data:Data,len:Int,sport:UInt16){
-        //网络切换的时候不会crash
-        if lwip_init_finished == false {
-            //init not finish ,input packet will
-            //drop the packet
-            //SKit.log("lwip init not finish drop packet \(data)",level: .Info)
-            return
-        }
-        
-    }
-    
-    
-    
     
     public func recentRequestData() ->Data{
-        
-        //return NSData()
-        //memory issue
         
         var result:[String:AnyObject] = [:]
         let count:Int = connections.count
@@ -557,36 +492,23 @@ extension SFTCPConnectionManager{
             let o = value.reqInfo.respObj()
             //print(o)
             reqs.append(o as AnyObject)
-            //            if let s = value as? SFHTTPConnection{
-            //                count += s.requests.count
-            //                for req in s.requests{
-            //                    let o2 = req.respObj()
-            //                    reqs.append(o2)
-            //                }
-            //            }
+           
         }
         result["count"] = NSNumber.init(value: count)
         result["session"] = SFEnv.session.idenString() as AnyObject?
         result["data"] = reqs as AnyObject?
         let j = JSON(result)
-        
-        
-        debugLog("recentRequestData")
+    
         var data:Data
         do {
             try data = j.rawData()
         }catch let error  {
-            //SKit.log("ruleResultData error \(error.localizedDescription)")
-            //let x = error.localizedDescription
+            
             data = error.localizedDescription.data(using: .utf8)!// NSData()
         }
         return data
     }
     func findRuleResult(_ host:String) ->SFRuleResult?{
-        //key:value
-        //        #if DEBUG
-        //        return nil
-        //        #endif
         // 并行bug?
         for r in ruleResultDynamic {
             if r.req == host {
@@ -617,10 +539,7 @@ extension SFTCPConnectionManager{
         }
         
     }
-    //    func stat() -> NSData {
-    //        let data = NSData()
-    //        return data
-    //    }
+
     public  func ruleResultData() ->Data{
         
         
@@ -661,37 +580,6 @@ extension SFTCPConnectionManager{
     }
 }
 
-//udp protocol manage
-extension SFTCPConnectionManager {
-    func process_device_udp_packet (_ data:Data, data_len:Int,p:NSNumber,info:SFIPConnectionInfo){
-        if p.int32Value == AF_INET6 {
-            //SKit.log("[SFTCPConnectionManager] receive IPV6 udp packet",level:.Error)
-        }else if p.int32Value == AF_INET {
-            
-        }else {
-            //SKit.log("[SFTCPConnectionManager] receive \(p) udp packet",level:.Error)
-        }
-        //not dns packet
-    }
-    //    func findConnection(info:SFIPConnectionInfo) ->SFUDPConnection{
-    //        for c in udp_connections{
-    //            if c.info.equalInfo( info) {
-    //                return c
-    //            }
-    //        }
-    //        let pcb = udp_new()
-    //        let c = SFUDPConnection.init(p: pcb, host: info.remote.ip, port: info.remote.port)
-    //        return c
-    //    }
-    func configUDP() {
-        
-    }
-    
-    
-    func incomingUDP(_ udp:SFUPcb) {
-        
-    }
-}
 extension SFTCPConnectionManager {
     func startProxyServer(){
         #if os(iOS)
@@ -701,13 +589,5 @@ extension SFTCPConnectionManager {
 //            }
         #endif
     }
- 
-    
-    public func startGCDServer(){
-        
-        
- 
-    }
-  
-    
+
 }

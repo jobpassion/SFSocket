@@ -10,11 +10,12 @@ import Foundation
 import NetworkExtension
 
 import XFoundation
-public class IPv4Packet:NSObject{
+public class IPv4Packet:CustomStringConvertible{
     public var proto:UInt8 = 0
+    public var ihl:UInt8 = 0
     public let srcIP:Data
     public let _rawData:Data
-    public let destinationIP:Data
+    public let dstIP:Data
     public var headerLength:Int32 = 0
     public let payloadLength:Int32 = 0
     public init(PacketData:Data){
@@ -25,25 +26,56 @@ public class IPv4Packet:NSObject{
         }
         _rawData = PacketData;
         
-        
-        var p = Data(_rawData.subdata(in: Range( 9 ..< 10)))
+        var p = Data(_rawData.subdata(in: 0..<1))
+        ihl = UInt8(p.to(type: UInt8.self) ^ 0x40)
+        p = Data(_rawData.subdata(in: Range( 9 ..< 10)))
         proto = p.to(type: UInt8.self)
         srcIP = Data(_rawData.subdata(in: Range(12 ..< 16)))
         //leak
-        destinationIP = Data(_rawData.subdata(in: Range( 16 ..<  20)))
+        dstIP = Data(_rawData.subdata(in: Range( 16 ..<  20)))
         
         p = Data(_rawData.subdata(in: Range( 0 ..< 1)))
         let len = p.data2Int(len: 1) & 0x0F
         headerLength = len * 4
         
-        super.init()
+       
         
+    }
+    var srcaddr:String {
+        get {
+            return srcIP.toIPString()
+        }
+    }
+    var dstaddr:String {
+        get {
+            return dstIP.toIPString()
+        }
+    }
+    //port
+    var sp:UInt16 {
+        get {
+            if _rawData.count > 20 && ihl == 5{
+                return _rawData.dataToInt(s: 20, len: 2).bigEndian
+                
+            }
+            return 0
+        }
+    }
+    //port
+    var dp:UInt16 {
+        get {
+            if _rawData.count > 20 && ihl == 5{
+               return _rawData.dataToInt(s: 22, len: 2).bigEndian
+                
+            }
+            return 0
+        }
     }
     public func payloadData() ->Data{
         return Data(_rawData.subdata(in: Range(Int(headerLength) ..< _rawData.count)))
     }
-    override open var debugDescription: String {
-        return "\(srcIP) \(destinationIP)"
+    open var description: String {
+        return "src \(srcIP.toIPString()):\(sp) dst \(dstIP.toIPString()):\(dp))"
     }
     deinit{
         //debugLog("IPv4Packet deinit")

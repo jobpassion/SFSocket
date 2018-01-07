@@ -165,7 +165,7 @@ class SFConnection: Connection ,TCPCientDelegate{
         //http 需要做dns 解析
         //ip 呢？
         
-        reqInfo.ruleStartTime = Date() as Date
+        reqInfo.ruleStartTime = Date()
         var j:SFRuleResult
         SKit.log("\(cIDString) Find Rule For  DEST:   " ,items:  dest ,level:  .Debug)
         
@@ -663,57 +663,51 @@ class SFConnection: Connection ,TCPCientDelegate{
     }
     
     func client_socks_recv_send_out() ->Int{
-//        if socks_recv_bufArray.length > 0 && !reqInfo.remoteIPaddress.isEmpty{
-//            assert(!reqInfo.client_closed)
-//        }
-//        if socks_recv_bufArray.length > 0 && (!reqInfo.remoteIPaddress.isEmpty && reqInfo.status != .Complete){
-//            assert(!reqInfo.client_closed)
-//        }
-        
-        if reqInfo.rule.policy != .Reject && !reqInfo.remoteIPaddress.isEmpty{
-            //assert(reqInfo.socks_up)
-        }
-
-        
+        guard let manager  = manager  else {fatalError("no manager")}
         var result:Int = 0
         var noBufferAvaliable:Bool = false
         if socks_recv_bufArray.count > 0{
             repeat {
                 if socks_recv_bufArray.count == socks_sendout_length{
-                    SKit.log("\(cIDString) should tcp_output", level: .Debug)
+                    SKit.log("\(cIDString) all write todo outpu", level: .Debug)
                     break
                 }
+               
                 let sndbuf = snd_buf(pcb)
                 if sndbuf == 0 {
                     break
                 }
-                //SKit.log("\(cIDString) lwip check space, buffer:\(socks_recv_bufArray.length) sended:\(socks_sendout_length) sendbuf:\(sndbuf)",level: .Debug)
+               
                 let left = socks_recv_bufArray.count - socks_sendout_length
                 let to_write = min(left, Int(sndbuf))
                 if to_write == 0{
-                   
+                    SKit.log("\(cIDString) pcb nobuffer",level:.Error)
                     noBufferAvaliable = true
                     break
                 }
                 //will failure here todo fix it
                 if tcp_write_check(pcb) <  0  {
                    SKit.log("\(cIDString) lwip write check failure \(reqInfo.url)  will fix ",level: .Debug)
-                    //client_abort_client()
-                    //return -1
+                    fatalError("tcp_write_check failure")
                     break
                 }
                 //have bug here
                 let to = socks_recv_bufArray.subdata(in: Range(socks_sendout_length ..< socks_sendout_length + Int(to_write))) as NSData
+             
                 let err = tcp_write(pcb,to.bytes,UInt16(to_write), 0x01)
                 
                 if err != 0 {
                     if err == -1 {
+                        //大数据会进这里 shoud fix
+                        //MARK: https://www.xilinx.com/support/answers/61298.html
+                        //
                        SKit.log("\(cIDString) tcp_write ERR_MEM",level:.Error)
-                       return  -1
+                       break
                     }
                    SKit.log("\(cIDString) tcp_write error \(err)",level: .Error)
                     //send
                     if err < -9 {
+                        fatalError("pcb error")
                         SKit.log("\(cIDString) tcp_pcb error  ",level: .Error)
                         //tcp_recv(pcb,nil)
                         //bug??
@@ -726,116 +720,68 @@ class SFConnection: Connection ,TCPCientDelegate{
                     
                 }
                 socks_sendout_length += Int(to_write)
-                if socks_recv_bufArray.count == socks_sendout_length {
-                    break
-                }
-                //let total = socks_recv_bufArray
-                //todo turning performance
-               ////SKit.log("\(cIDString) lwip write: \(socks_sendout_length) = \(socks_recv_bufArray.length)",level: .Debug)
                 
-//                else{
-//                   let r = NSMakeRange(Int(to_write),total.length-Int(to_write))
-//                   let y = NSData(data: total.subdataWithRange(r))
-//                   socks_recv_bufArray.insert(y, atIndex: 0)
-//                }
-                //err = tcp_output(pcb)
-                //SKit.log("\(cIDString) buffer count:\(socks_recv_bufArray.length-socks_sendout_length)",level: .Debug)
-//                if err != 0 {
-//                   //SKit.log("\(cIDString) tcp_output error",level: .Debug)
-//                    client_abort_client()
-//                }
-                
+     
             }while(socks_recv_bufArray.count > socks_sendout_length)
         }
         //TCP_FASTOPEN
         //不稳定, 下载大文件的时候错误
         //重要raw TCP
 
-//        if let m = manager {
-//            dispatch_async(m.dispatchQueue) {  [weak self] () -> Void in
-//                if let StrongSelf = self {
-//                    let err = tcp_output(StrongSelf.pcb)
-//                    
-//                    if err != 0 {
-//                       //SKit.log("\(StrongSelf.cIDString) tcp_output error:\(err)")
-//                        StrongSelf.client_abort_client()
-//                        //return -1
-//                    }
-//                }
-//                
-//            }
-//        }
-        
-        if let m = manager {
-            if !m.tcpOperating {
-                m.tcpOperating = true
-                if noBufferAvaliable == false {
-                    //bug
-                    //EXC_BAD_ACCESS
-                    //MARK: - todo fixme
-                    //queue = 'com.yarshure.dispatchqueue', stop reason = EXC_BAD_ACCESS (code=1, address=0x302e312f610001bb)
-                    let err = tcp_output(pcb)
-                    
-                    if err != 0 {
-                        SKit.log("\(cIDString) tcp_output error",level:.Error)
-                        client_abort_client()
-                        return -1
-                    }
- 
-                }else {
-                    SKit.log("\(cIDString) no buffer,now  tcp_output ",level:.Debug)
-                    let err = tcp_output(pcb)
-                    result = Int(err)
+        if !manager.tcpOperating {
+            manager.tcpOperating = true
+            if noBufferAvaliable == false {
+                //bug
+                //EXC_BAD_ACCESS
+                //MARK: - todo fixme
+                //queue = 'com.yarshure.dispatchqueue', stop reason = EXC_BAD_ACCESS (code=1, address=0x302e312f610001bb)
+                
+                let err = tcp_output(pcb)
+                SKit.log("\(cIDString) tcp_output ... \(err):\(socks_sendout_length)",level:.Error)
+                if err != 0 {
+                    fatalError("tcp_output error")
+                    SKit.log("\(cIDString) tcp_output error",level:.Error)
+                    client_abort_client()
+                    return -1
                 }
                 
-                m.tcpOperating = false
-                
             }else {
-                 SKit.log("\(cIDString) tcpOperating  ",level:.Debug)
+                
+                let err = tcp_output(pcb)
+                SKit.log("\(cIDString) no buffer tcp_output ... \(err):\(socks_sendout_length)",level:.Error)
+                result = Int(err)
             }
-
+            
+            manager.tcpOperating = false
+            
         }else {
-             SKit.log("\(cIDString) manager nil  ",level:.Debug)
+            SKit.log("\(cIDString) tcpOperating  ",level:.Debug)
         }
         
-        //let len = socks_recv_bufArray.length - socks_sendout_length
-        let r = Range(0 ..< socks_sendout_length)
-        //memory leak
-        //MARK: fixme
-        if socks_recv_bufArray.count >= socks_sendout_length{
+        if socks_sendout_length > 0 {
+            //reset to size
+            let r = Range(0 ..< socks_sendout_length)
             socks_recv_bufArray.replaceSubrange(r, with: Data())
+            socks_sendout_length = 0
         }
-        
-        
-        //socks_recv_bufArray.replaceBytes(in: r, withBytes: nil, length: 0)
-        socks_sendout_length = 0 
-//        // more data to queue? todo
-//        if (client.socks_recv_buf_sent < client.socks_recv_buf_used) {
-//            if (client.socks_recv_tcp_pending == 0) {
-//                client_log(client, BLOG_ERROR, "can't queue data, but all data was confirmed !?!");
-//                
-//                [client client_abort_client];
-//                return -1;
-//            }
-//            
-//            client_log(client, BLOG_INFO,"set waiting, continue in client_sent_func");
-//            client.socks_recv_waiting = 1;
-//            return 0;
-//        }
-//        
-//        // everything was queued
-//        client.socks_recv_buf_used = -1;
+       
         return result
     }
     public func client_sent_func(){
 
-        //前 memory leaks
+      
         assert(!reqInfo.client_closed)
         assert(reqInfo.socks_up)
-        let len = socks_recv_bufArray.count - socks_sendout_length
-        SKit.log("\(cIDString)  client_sent_func \(len) ",level:  .Debug)
+        //left count
+        let left = socks_recv_bufArray.count
+        
+        
+        
+        //socks_recv_bufArray.replaceBytes(in: r, withBytes: nil, length: 0)
+        
 
-        if len == 0 {
+        if left == 0 {
+            SKit.log("\(cIDString)  client_sent_func all sent to lwip",level:  .Debug)
             //全copy
             //socks_sendout_length = 0
             //socks_recv_bufArray.length = 0
@@ -850,7 +796,7 @@ class SFConnection: Connection ,TCPCientDelegate{
                         if reqInfo.socks_up{
                             SKit.log("\(cIDString) foreceClose \(self.reqInfo.url)",level: .Debug)
                             //c.disconnectWithError(NSError.init(domain: errDomain, code: 0, userInfo: ["reason":"forceClose"]))
-                            c.forceDisconnect(0)
+                            c.forceDisconnect(UInt32(self.reqInfo.reqID))
                         }
                         
                     }
@@ -861,32 +807,21 @@ class SFConnection: Connection ,TCPCientDelegate{
                 
             }
         }else {
+            SKit.log("\(cIDString)  client_sent_func part sent to lwip \(socks_sendout_length) left:\(left)",level:  .Debug)
             if reqInfo.status != .Complete {
                 reqInfo.status =  .RecvWaiting
             }
             let error = client_socks_recv_send_out()
             if  error < -9 {
+                fatalError("send_out fail")
                 SKit.log("\(cIDString) client_socks_recv_send_out error:\(error)",level: .Error)
                 client_abort_client()
-                
-                //ERR_ABRT
-            }else {
-               SKit.log("\(cIDString) client_socks_recv_send_out success \(len) ",level: .Debug)
-//                if socks_recv_bufArray.length == 0  {
-//                    reqInfo.status = .Transferring
-//                    client_socks_recv_initiate()
-//                }
             }
         }
     }
     func client_socks_recv_handler_done(_ len:Int){
-    //    assert(!reqInfo.socks_closed)
-//        if reqInfo.rule.policy == .Reject || connector == nil{
-//            
-//        }
-        if connector != nil {
-            //assert(reqInfo.socks_up)
-        }
+
+       
         // if client was closed, stop receiving
         
         if len > 0 {
@@ -954,7 +889,7 @@ class SFConnection: Connection ,TCPCientDelegate{
     }
 
     func client_free_socks(){
-        SKit.log( "\(cIDString) \(reqInfo.url) + \(reqInfo.closereason.description)  client_free_socks maybe crash",level: .Verbose)
+        SKit.log( "\(cIDString) \(reqInfo.url) + \(reqInfo.closereason.description)  client_free_socks ",level: .Verbose)
         //assert(!reqInfo.socks_closed)
         //可能是网络错误或者结束，或者lwip 链接结束了
         //这里比较复杂，导致connection 不被释放
@@ -963,23 +898,17 @@ class SFConnection: Connection ,TCPCientDelegate{
        //SKit.log(msg,level: .Debug)
         
         //NSLog(msg)
-        if reqInfo.socks_up {
-            // stop receiving from client
-            if (!reqInfo.client_closed) {
-                tcp_recv(pcb, nil);
-            }
-            
-            
+        //close recv
+        if (!reqInfo.client_closed) {
+            tcp_recv(pcb, nil);
         }
-        if reqInfo.socks_closed {
-            tcp_recv(pcb, nil)
-        }
+        
         if let _ = connector {
             if  reqInfo.status != .Complete {
                 if reqInfo.socks_up && reqInfo.socks_closed == false {
                     let e = NSError.init(domain: "com.yarshure.surf", code: 0, userInfo: ["reason":"client_free_socks"])
                     self.connector!.delegate = nil
-                    SKit.log("\(e.localizedDescription) \(self.reqInfo.url)",level: .Verbose)
+                    SKit.log("\(self.reqInfo.url) \(e.localizedDescription) ",level: .Verbose)
                     //reqInfo.status = .Complete
                     //self.connector!.disconnectWithError(e)
                     self.connector!.forceDisconnect(0)
@@ -999,19 +928,6 @@ class SFConnection: Connection ,TCPCientDelegate{
             //let status =  TCPPcbWrap.pcbStatus(pcb)
             client_socks_recv_handler_done(socks_recv_bufArray.count)
             
-//            
-//            if status == tcp_state.init(rawValue: 4) {
-//                if client_socks_recv_send_out() < 0 {
-//                    socks_recv_bufArray.length == 0
-//                    client_abort_client()
-//                    
-//                }
-//
-//            }else {
-//                socks_recv_bufArray.length == 0
-//                client_abort_client()
-//            }
-//            
         }else {
             //            tcp_recv(pcb, nil);
             //reqInfo.socks_closed = true
@@ -1033,12 +949,7 @@ class SFConnection: Connection ,TCPCientDelegate{
         //assert(reqInfo.socks_closed)
     
         if connector != nil {
-//            if c.socks_reading {
-//                SKit.log("client_dealloc reading" + cIDString,level: .Warning)
-//            }
-//            if c.socks_writing {
-//                SKit.log("client_dealloc writing" + cIDString,level: .Warning)
-//            }
+
         }
         SKit.log("client_dealloc " + cIDString,level: .Verbose)
         reqInfo.eTime = Date()
@@ -1070,7 +981,10 @@ class SFConnection: Connection ,TCPCientDelegate{
             guard let connector = connector  else {return }
             //SKit.log("\(cIDString) writing to Host:\(h):\(p) tag:\(tag)   length \(d.length)",level: .Trace)
             //NSLog("%@ will send data tag:%d", reqInfo.url,tag)
-            bufArray.removeAll()
+            
+            if !bufArray.isEmpty{
+                bufArray.removeAll()
+            }
             bufArrayInfo[tag] = sendData.count
             sendingTag = tag
             
@@ -1295,12 +1209,10 @@ class SFConnection: Connection ,TCPCientDelegate{
     
     override func didConnect(_ socket: Xcon) {
         SKit.log("\(cIDString) Connect OK with Socket", level: .Info)
-        //SKit.log("\(cIDString)  host:\(connector.targetHost) port:\(connector.targetPort) ESTABLISHED",level: .Verbose)
-        
-        
+    
         reqInfo.interfaceCell  = socket.useCell ? 1: 0
-        //MARK: fixme
-       // reqInfo.localIPaddress = socket.sourceIPAddress!
+        //MARK: todo set ipaddr local/remote
+       //reqInfo.localIPaddress = socket.sourceIPAddress!
        // reqInfo.remoteIPaddress = socket.destinationIPAddress!
         SKit.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
         client_socks_handler(.event_UP)

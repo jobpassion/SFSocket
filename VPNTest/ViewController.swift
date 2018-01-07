@@ -32,15 +32,7 @@ class ViewController: NSViewController {
         if let x = SFSettingModule.setting.findRuleByString("www.google.com", useragent: ""){
             print(x)
         }
-        ProxyGroupSettings.share.historyEnable = true
-        if ProxyGroupSettings.share.historyEnable {
-            
-            let helper = RequestHelper.shared
-            let session = SFEnv.session.idenString()
-            let x = d.timeIntervalSince1970
-            
-            helper.open( session,readonly: false,stamp: x)
-        }
+        
         
        
        

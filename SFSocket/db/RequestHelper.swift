@@ -20,36 +20,30 @@ public class RequestHelper{
     var requests:[SFRequestInfo] = []
     var dbQueue:DatabaseQueue?
     let fileName = "db.zip"
-    public func open(_ path:String,readonly:Bool,stamp:TimeInterval){
-    //need memory 493kb
-//        if let d = db {
-//            //db.
-//        }
+    public func open(_ path:String,readonly:Bool,session:String){
+  
         
         var p:String
         if path.components(separatedBy: "/").count == 1 {
-             let url  = groupContainerURL().appendingPathComponent("Log/" + path )
+             let url  = groupContainerURL().appendingPathComponent("Log/" + session + "/"  )
             p = url.path
         }else {
             p = path
         }
-        
-        
-        //let url = groupContainerURL().appendingPathComponent(fn)
-        //let p = url.path
-            do {
-                //db = try Connection(p,readonly: readonly)
-                _ = try FileManager.checkAndCreate(pathDir:p )
-                p += fileName
-                dbQueue = try DatabaseQueue(path: p)
-                if let db = dbQueue {
-                    initGRDB(db)
-                }
-                
-                //initDatabase(db!)
-            }catch let e as NSError{
-                SKit.log("open log  db error \(p) \(e.description)",level: .Error)
+        do {
+            
+            _ = try FileManager.checkAndCreate(pathDir:p )
+            p += fileName
+            dbQueue = try DatabaseQueue(path: p)
+            if let db = dbQueue {
+                initGRDB(db)
             }
+            
+            //initDatabase(db!)
+        }catch let e as NSError{
+            SKit.log("open log  db error \(p) \(e.description)",level: .Error)
+        }
+        
         
         
     }
@@ -127,7 +121,7 @@ public class RequestHelper{
     public func openForApp(_ session:String) ->URL?{
         
         let p = groupContainerURL().appendingPathComponent("Log/" + session + "/")
-        open(p.path,readonly: true,stamp: 0)
+        open(p.path,readonly: true,session: "")
        
         return p
         
@@ -151,14 +145,10 @@ public class RequestHelper{
                 while let row = try rows.next() {
                     let req = SFRequestInfo.init(rID:0 , sID: 0)
                     //MARK: -fixme
-//                    req.dbID =  UInt32(row.value(named: "id"))
-//                    
-////                    req.dbID =  row.value(named: "id")
-//                    req.reqID = UInt32(row.value(named: "reqID"))
-//                    req.subID =  UInt32(row.value(named: "subID"))
-                    //print(row[url])
-                    //print(row[url])
-                    //MARK: fixme
+
+                    req.reqID = row["reqID"]
+                    req.subID = row["subID"]
+                    
                     req.mode =  SFConnectionMode(rawValue:row["mode"])!
                     req.status = SFConnectionStatus(rawValue:row["status"])!
                     req.closereason = SFConnectionCompleteReason(rawValue:row["closereason"])!

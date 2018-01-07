@@ -43,28 +43,28 @@ public class PacketProcessor {
                 //AxLogger.log("\(packet) is ipv6 packet, don't support",level: .Warning)
                 //let packet = packet as NSData
                 
-                let temp = packet.subdata(in: Range ( 4*2+1 ..< 4*2+2))
-                let proto = temp.dataToInt()
-                let dstData = packet.subdata(in: Range( 4*4 ..< 4*5))
-                let dst = dstData.toIPString()
                 
                 
-                switch proto {
+                
+                
+                let ipacket =  IPv4Packet(PacketData:packet)
+                SKit.logX("incoming: \(ipacket.description)", level: .Info)
+                switch Int32(ipacket.proto) {
                 case IPPROTO_UDP:
-                    //AxLogger.log("IPPROTO_UDP length:\(packet.length) src:\(src) dst: \(dst) sendPackets packet packet data \(packet)" + (desc as! String) as String)
-                    let ip =  IPv4Packet(PacketData:packet)
-                    let destIP = ip.destinationIP
+                    
+                   
                     
                     
-                    let udp = UDPPacket.init(PacketData: ip.payloadData())
+                    let udp = UDPPacket.init(PacketData: ipacket.payloadData())
                     let srcport = udp.sourcePort
                     let destport = udp.destinationPort
-                    if destport == 53 && dst == SKit.proxyIpAddr {
+                    //DNS process
+                    if destport == 53 && ipacket.dstaddr == SKit.proxyIpAddr {
                         
                         if let c =  UDPManager.shared.clientTree.search(input: srcport) {
                             c.addQuery(packet: udp)
                         }else {
-                            let dnsConnector = SFDNSForwarder.init(sip: ip.srcIP , dip: ip.destinationIP, packet: udp)
+                            let dnsConnector = SFDNSForwarder.init(sip: ipacket.srcIP , dip: ipacket.dstIP, packet: udp)
                             let c = dnsConnector as SFUDPConnector
                             
                             UDPManager.shared.clientTree.insert(key: srcport, payload: c)
@@ -84,7 +84,7 @@ public class PacketProcessor {
                             }
                             //drop
                         }else {
-                            SKit.log("UDP:\(destIP):\(destport) not support ,drop", level: .Trace)
+                            SKit.log("UDP:\(ipacket.description) not support ,drop", level: .Trace)
                         }
                         
                     }
@@ -94,7 +94,7 @@ public class PacketProcessor {
                     
                 case IPPROTO_TCP:
                     
-                    SKit.logX("\(packet as NSData) incoming \(proto)", level: .Trace)
+                    
                     //let sD = packet.subdata(in: Range(4*5 ..< 4*5 + 2))
                     //_  = UInt16(data2Int(sD, len: 2))
                     
@@ -107,10 +107,10 @@ public class PacketProcessor {
                     
                 //break
                 case IPPROTO_ICMP:
-                    SKit.log("IPPROTO_ICMP packet found drop \(packet)",level: .Warning)
+                    SKit.log("IPPROTO_ICMP packet found drop \(ipacket.description)",level: .Warning)
                     break
                 default:
-                    SKit.log("\(proto) packet found drop ",level: .Warning)
+                    SKit.log("\(ipacket.proto) packet found drop ",level: .Warning)
                     break
                 }
                 

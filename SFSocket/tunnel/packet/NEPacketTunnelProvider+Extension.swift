@@ -105,18 +105,7 @@ extension NEPacketTunnelProvider{
     }
  
 }
-//extension NEPacketTunnelProvider:TCPManagerProtocol {
-//    public func writeDatagrams(packets : Data,proto:Int32){
-//        //cpu very high when traffic very high
-//        // inqueue ?
-//
-//        let r = self.packetFlow.writePackets([packets], withProtocols: [NSNumber(value: proto)])
-//        if !r {
-//            AxLogger.log("writeDatagrams write tcp packet return false",level: .Error)
-//        }
-//
-//    }
-//}
+
 extension NEPacketTunnelProvider:PacketProcessorProtocol {
     
     public func writeDatagrams(packet: Data, proto: Int32){
@@ -136,18 +125,7 @@ extension NEPacketTunnelProvider:PacketProcessorProtocol {
     public func didProcess() {
         self.startHandlingPackets()
     }
-//    public func serverDidClose(_ targetTunnel: SFUDPConnector){
-//
-//        let c = targetTunnel as! SFDNSForwarder
-//        let srcport = c.clientPort
-//         UDPManager.shared.clientTree.delete(key: srcport)
-//        let index:Int = UDPManager.shared.indexFor(port: srcport)
-//        if index != -1 {
-//             UDPManager.shared.udpClientIndex.remove(at: index)
-//        }
-//        c.shutdownSocket()
-//
-//    }
+
  
 }
 extension NEPacketTunnelProvider{

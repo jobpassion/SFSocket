@@ -312,7 +312,7 @@ extension ServerTunnelConnection:PacketProcessorProtocol{
     func writeDatagrams(packet: Data, proto: Int32){
         
         tunnel?.sendPackets([packet] , protocols: [NSNumber(value:proto)], forConnection: identifier)
-        VLog.log("write $$$$$ \(packet as NSData)", level: .Info)
+        
     }
   
     

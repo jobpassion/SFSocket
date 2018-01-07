@@ -31,11 +31,9 @@ class ViewController: NSViewController {
         SKit.xxIpAddr = "240.7.1.12"
         SKit.tunIP = "240.7.1.9"
         Xcon.debugEnable = true
-        XRuler.groupIdentifier = "745WQDK4L7.com.yarshure.Surf"
-        var url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: XRuler.groupIdentifier)!
-        url.appendPathComponent("abigt.conf")
         
-        if  !SKit.prepare("745WQDK4L7.com.yarshure.Surf", configPath: url.path){
+       
+        if  !SKit.prepare("745WQDK4L7.com.yarshure.Surf", app: "VPNTest", config:"abigt.conf" ){
             fatalError()
         }
         if let x = SFSettingModule.setting.findRuleByString("www.google.com", useragent: ""){
@@ -46,7 +44,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        prepare()
+        prepare()
 //        testaead()
 //        testsnappy()
         

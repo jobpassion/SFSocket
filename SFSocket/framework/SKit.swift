@@ -9,6 +9,7 @@ import os.log
 import Foundation
 import XProxy
 import XRuler
+import SwiftyJSON
 let  fm = FileManager.default
 var groupContainerURLVPN:String = ""
 func  groupContainerURL() ->URL{
@@ -441,6 +442,18 @@ public class SKit {
         SKit.app = app
         
         
+        ProxyGroupSettings.share.historyEnable = true
+        if ProxyGroupSettings.share.historyEnable {
+            
+            let helper = RequestHelper.shared
+            let session = SFEnv.session.idenString()
+          
+            
+            helper.open( session,readonly: false,session: session)
+        }
+        
+        
+        
         ProxyGroupSettings.share.config = config
         loadConfig(configPath: config)
 
@@ -506,7 +519,7 @@ public class SKit {
                 let responseData = SFTCPConnectionManager.manager.ruleResultData()
                 completionHandler?(responseData)
             case .STATUS:
-                let responseData = report.resport()
+                let responseData = report.resport(memory: reportMemoryUsed(), count: SFTCPConnectionManager.manager.connections.count)
                 completionHandler?(responseData)
             case .CHANGEPROXY:
                 guard  let selectIndex = packet.last else {return }
@@ -524,7 +537,7 @@ public class SKit {
                 //AxLogger.log("Rule Test Results clean",level: .Info)
                 completionHandler?(message.data(using: .utf8, allowLossyConversion: false))
             case .FLOWS:
-                let data = SFVPNStatistics.shared.flowData()
+                let data = report.flowData(memory:reportMemoryUsed())
                 completionHandler?(data)
             case .UPDATERULE:
                 //fixme
@@ -589,3 +602,67 @@ public class SKit {
 //    }
     
 }
+//should delete
+extension SFVPNStatistics {
+    public func resport(memory:UInt64,count:Int) ->Data{
+        reportTime = Date()
+        memoryUsed = memory
+
+        var status:[String:AnyObject] = [:]
+        status["start"] =  NSNumber.init(value: startDate.timeIntervalSince1970)
+        status["sessionStartTime"] =  NSNumber.init(value: sessionStartTime.timeIntervalSince1970)
+        status["report_date"] =  NSNumber.init(value: reportTime.timeIntervalSince1970)
+        //status["runing"] = NSNumber.init(double:runing)
+        status["total"] = totalTraffice.resp() as AnyObject?
+        status["last"] = lastTraffice.resp() as AnyObject?
+        status["max"] = maxTraffice.resp() as AnyObject?
+        status["memory"] = NSNumber.init(value: memoryUsed) //memoryUsed)
+
+
+        status["finishedCount"] = NSNumber.init(value: finishedCount) //
+        status["workingCount"] = NSNumber.init(value: count) //
+
+        status["cell"] = cellTraffice.resp() as AnyObject?
+        status["wifi"] = wifiTraffice.resp() as AnyObject?
+        status["direct"] = directTraffice.resp() as AnyObject?
+        status["proxy"] = proxyTraffice.resp() as AnyObject?
+        status["netflow"] = netflow.resp() as AnyObject
+        let j = JSON(status)
+
+
+
+
+        //print("recentRequestData \(j)")
+        var data:Data
+        do {
+            try data = j.rawData()
+        }catch let error  {
+            //AxLogger.log("ruleResultData error \(error.localizedDescription)")
+            //let x = error.localizedDescription
+            //let err = "report error"
+            data =  error.localizedDescription.data(using: .utf8)!// NSData()
+        }
+        return data
+    }
+    public func flowData(memory:UInt64) ->Data{
+        reportTime = Date()
+        memoryUsed = memory
+
+        var status:[String:AnyObject] = [:]
+
+        status["netflow"] = netflow.resp() as AnyObject
+        let j = JSON(status)
+
+        var data:Data
+        do {
+            try data = j.rawData()
+        }catch let error  {
+            //AxLogger.log("ruleResultData error \(error.localizedDescription)")
+            //let x = error.localizedDescription
+            //let err = "report error"
+            data =  error.localizedDescription.data(using: .utf8)!// NSData()
+        }
+        return data
+    }
+}
+
