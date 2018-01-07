@@ -180,11 +180,11 @@ class SFTCPConnection: SFConnection {
     }
     override func didWriteData(_ data: Data?, withTag: Int, from: Xcon){
        SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
-        
+        //这里有个问题socket send len maybe not equal lwip read length
         reqInfo.status = .Transferring
         let x = Int64(withTag)
         if let len = bufArrayInfo[x] {
-           // tcp_recved(pcb, UInt16(len))
+            
             reqInfo.updateSendTraffic(len)
             bufArrayInfo.removeValue(forKey: x)
             client_socks_send_handler_done(len)

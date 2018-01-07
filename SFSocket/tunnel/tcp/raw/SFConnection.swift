@@ -844,24 +844,6 @@ class SFConnection: Connection ,TCPCientDelegate{
 //        }
     }
     func client_socks_send_handler_done(_ len:Int){
-//        Thread 5 Crashed:: Dispatch queue: com.yarshure.dispatch_queue
-//        0   com.yarshure.Surf.TunServerUI 	0x000000010e4d2f57 tcp_output + 103 (tcp_out.c:937)
-//        1   com.yarshure.Surf.TunServerUI 	0x000000010e5efab9 _TFC11TunServerUI12SFConnection30client_socks_send_handler_donefSiT_ + 953 (SFConnection.swift:610)
-//        2   com.yarshure.Surf.TunServerUI 	0x000000010e51e38f _TTSf4dg_n_n___TFC11TunServerUI13SFHTTPRequest9connectorfTCS_9Connector19didWriteDataWithTagVs5Int64_T_ + 3791 (SFHTTPRequest.swift:122)
-//        3   com.yarshure.Surf.TunServerUI 	0x000000010e51ce3e _TToFC11TunServerUI13SFHTTPRequest9connectorfTCS_9Connector19didWriteDataWithTagVs5Int64_T_ + 46
-//        4   com.yarshure.Surf.TunServerUI 	0x000000010e586262 _TTSf4dg_n_n___TFC11TunServerUI14TCPSSConnector6socketfTGSQCSo14GCDAsyncSocket_19didWriteDataWithTagSi_T_ + 1058 (TCPSSConnector.swift:222)
-//        5   com.yarshure.Surf.TunServerUI 	0x000000010e58393e _TToFC11TunServerUI14TCPSSConnector6socketfTGSQCSo14GCDAsyncSocket_19didWriteDataWithTagSi_T_ + 46
-//        6   com.yarshure.Surf.TunServerUI 	0x000000010e4b6fab __38-[GCDAsyncSocket completeCurrentWrite]_block_invoke + 43 (GCDAsyncSocket.m:6174)
-//        7   libdispatch.dylib             	0x00007fff908e0871 _dispatch_call_block_and_release + 12
-//        8   libdispatch.dylib             	0x00007fff908d533f _dispatch_client_callout + 8
-//        9   libdispatch.dylib             	0x00007fff908d9f6f _dispatch_queue_drain + 754
-//        10  libdispatch.dylib             	0x00007fff908e063b _dispatch_queue_invoke + 549
-//        11  libdispatch.dylib             	0x00007fff908d533f _dispatch_client_callout + 8
-//        12  libdispatch.dylib             	0x00007fff908d91cf _dispatch_root_queue_drain + 1890
-//        13  libdispatch.dylib             	0x00007fff908d8a34 _dispatch_worker_thread3 + 91
-//        14  libsystem_pthread.dylib       	0x00007fff8c9f668f _pthread_wqthread + 1129
-//        15  libsystem_pthread.dylib       	0x00007fff8c9f4365 start_wqthread + 13
-
         //which thread? not stable, maybe EXC_BAD_ACCESS
         assert(!reqInfo.socks_closed)
         assert(reqInfo.socks_up)
