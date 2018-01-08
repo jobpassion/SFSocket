@@ -52,12 +52,8 @@ class SFConnection: Connection ,TCPCientDelegate{
     public func didSendBufferLen(_ buf_used: Int) {
             SKit.log("didSendBufferLen error", level: .Info)
     }
-
-
     typealias  SFPcb =   UnsafeMutablePointer<tcp_pcb>
     var pcb:UnsafeMutablePointer<tcp_pcb> // SFPcb
-    
-    
     let critLock = NSLock()
     weak var manager:SFTCPConnectionManager?
     
@@ -146,11 +142,11 @@ class SFConnection: Connection ,TCPCientDelegate{
         
     }
     func socketQueue() ->DispatchQueue{
-        return (manager?.socketQueue)!
+        return (manager!.socketQueue)
     }
     
     func delegateQueue() ->DispatchQueue{
-        return (manager?.dispatchQueue)!
+        return (manager!.dispatchQueue)
     }
     func setUpConnector(_ host:String,port:UInt16){
         guard let c = Xcon.socketFromProxy(reqInfo.proxy, targetHost: host, Port: port, sID: reqInfo.reqID, delegate: self, queue: self.delegateQueue()) else {
@@ -335,7 +331,7 @@ class SFConnection: Connection ,TCPCientDelegate{
         SKit.log("async request dns back \(self.reqInfo.host)",items: ip,level:.Trace)
         let r  = SFSettingModule.setting.findIPRuler(ip)
         
-        let result:SFRuleResult = SFRuleResult.init(request:self.reqInfo.host ,r: r)
+        var result:SFRuleResult = SFRuleResult.init(request:self.reqInfo.host ,r: r)
         result.ipAddr = ip
         result.result.ipAddress = ip
         if reqInfo.remoteIPaddress != ip {
@@ -596,44 +592,16 @@ class SFConnection: Connection ,TCPCientDelegate{
         
     }
     func client_tcp_received(_ len:Int) {
+        tcp_recved(self.pcb, UInt16(len))
         guard let m = manager else {return}
-        if LWIP_ASYNC_TCP_Recved {
-            
-                m.dispatchQueue.async {  [unowned self]() -> Void in
-                    //if let StrongSelf = self {
-                        //let err = tcp_output(StrongSelf.pcb)
-                        tcp_recved(self.pcb, UInt16(len))
-//                        if err != 0 {
-//                           //SKit.log("\(StrongSelf.cIDString) tcp_output error:\(err)")
-//                            StrongSelf.client_abort_client()
-//                            //return -1
-//                        }
-
-                    //}
-                    
-                }
-                
-            
-        }else {
-            
-            
-            if !m.tcpOperating {
-                m.tcpOperating = true
-                let err = tcp_output(pcb)
-                
-                if err != 0 {
-                   //SKit.log("\(cIDString) tcp_output error",level: .Error)
-                    client_abort_client()
-                }
-                m.tcpOperating = false
-                
-            }else {
-                //SKit.log("\(cIDString) tcp_output error",level: .Error)
+        if !m.tcpOperating {
+            m.tcpOperating = true
+            let err = tcp_output(pcb)
+            if err != 0 {
+                client_abort_client()
             }
-
-            
+            m.tcpOperating = false
         }
-
     }
     func client_socks_recv_initiate(){
         if reqInfo.client_closed {
@@ -761,8 +729,13 @@ class SFConnection: Connection ,TCPCientDelegate{
         if socks_sendout_length > 0 {
             //reset to size
             let r = Range(0 ..< socks_sendout_length)
-            socks_recv_bufArray.replaceSubrange(r, with: Data())
-            socks_sendout_length = 0
+            if socks_sendout_length <= socks_recv_bufArray.count {
+                socks_recv_bufArray.replaceSubrange(r, with: Data())
+                socks_sendout_length = 0
+            }else {
+                fatalError("crashed!!!")
+            }
+            
         }
        
         return result
@@ -838,10 +811,7 @@ class SFConnection: Connection ,TCPCientDelegate{
                 SKit.log("\(cIDString) status:\(reqInfo.status) waitting",level: .Verbose)
             }
         }
-//        if (reqInfo.client_closed) {
-//            client_dealloc()
-//            return;
-//        }
+
     }
     func client_socks_send_handler_done(_ len:Int){
         //which thread? not stable, maybe EXC_BAD_ACCESS
@@ -963,8 +933,9 @@ class SFConnection: Connection ,TCPCientDelegate{
             guard let connector = connector  else {return }
             //SKit.log("\(cIDString) writing to Host:\(h):\(p) tag:\(tag)   length \(d.length)",level: .Trace)
             //NSLog("%@ will send data tag:%d", reqInfo.url,tag)
-            
+            //至少有1个？
             if !bufArray.isEmpty{
+               // fatalError("xxxx")
                 bufArray.removeAll()
             }
             bufArrayInfo[tag] = sendData.count

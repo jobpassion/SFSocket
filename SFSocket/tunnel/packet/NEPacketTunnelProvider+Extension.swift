@@ -133,7 +133,7 @@ extension NEPacketTunnelProvider{
         let report = SFVPNStatistics.shared
         report.lastTraffice.tx = report.currentTraffice.tx
         report.lastTraffice.rx = report.currentTraffice.rx
-        let snapShot = SFTraffic()
+        var snapShot = SFTraffic()
         snapShot.tx = report.currentTraffice.tx
         snapShot.rx = report.currentTraffice.rx
         report.netflow.update(snapShot, type: .total)

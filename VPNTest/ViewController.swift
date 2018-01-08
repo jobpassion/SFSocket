@@ -11,16 +11,19 @@ import SFSocket
 import XRuler
 import Xcon
 import AxLogger
+import XSocket
 class ViewController: NSViewController {
     let server = VPNServer()
     func prepare() {
-        let d = SFEnv.session.startTime
-       
+        
+        Xcon.debugEnable = true
+        //Xsocket.debugEnable = true
         SKit.proxyIpAddr = "240.7.1.9"
         SKit.dnsAddr = "218.75.4.130"
         SKit.proxyHTTPSIpAddr = "240.7.1.11"
         SKit.xxIpAddr = "240.7.1.12"
         SKit.tunIP = "240.7.1.9"
+        
         SFSettingModule.setting.mode = .socket
         XRuler.kProxyGroupFile = ".ProxyGroup"
 
@@ -29,16 +32,13 @@ class ViewController: NSViewController {
         if  !SKit.prepare("745WQDK4L7.com.yarshure.Surf", app: "VPNTest", config: "abigt.conf"){
             fatalError()
         }
+        testHTTP()
         if let x = SFSettingModule.setting.findRuleByString("www.google.com", useragent: ""){
             print(x)
         }
+        SKit.startGCDProxy(port: 10081, dispatchQueue: DispatchQueue.main, socketQueue: DispatchQueue.init(label: "com.yarshure.socket"))
+        print("runing ,..")
         
-        
-       
-       
-        
-        AxLogger.log("VPN SESSION starting",level: .Info)
-        testHTTP()
     }
     func testHTTP(){
         let x = "http,192.168.11.131,8000,,"

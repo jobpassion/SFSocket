@@ -13,6 +13,7 @@ import NetworkExtension
 import CocoaAsyncSocket
 import Xcon
 import AxLogger
+import XFoundation
 //
 //let dispatchQueue = dispatch_queue_create("DNSServer", nil);
 //let socketQueue = dispatch_queue_create("com.abigt.socket.dns", nil);

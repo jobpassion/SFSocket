@@ -108,6 +108,7 @@ func query(_ domain:String) ->[String] {
 public class SKit {
     static var env = SKit()
     static var app = ""
+    static var proxy:XProxy?
     static var sampleConfig = "surf.conf"
     static var DefaultConfig = "Default.conf"
     //let kSelect = "kSelectConf"
@@ -311,7 +312,7 @@ public class SKit {
             
             proxySettings.httpsServer = NEProxyServer(address: loopbackAddr, port: httpsocketProxyPort)
             proxySettings.httpsEnabled = true
-            SKit.startGCDProxy(port: Int32(httpsocketProxyPort))
+            SKit.startGCDProxy(port: Int32(httpsocketProxyPort), dispatchQueue: SFTCPConnectionManager.shared().dispatchQueue, socketQueue: SFTCPConnectionManager.shared().socketQueue)
         }else {
             if SFSettingModule.setting.mode == .tunnel {
                 
@@ -434,12 +435,10 @@ public class SKit {
        
     }
     static public  func prepare(_ bundle:String,app:String, config:String) ->Bool{
-        XRuler.groupIdentifier = bundle
-        XRuler.groupIdentifier =  SKit.groupIdentifier
-        
-        
         SKit.groupIdentifier = bundle
         SKit.app = app
+        XRuler.groupIdentifier =  bundle
+        
         
         
         ProxyGroupSettings.share.historyEnable = true
@@ -461,8 +460,13 @@ public class SKit {
 
     }
     //为了给VPN提供接口？？
-    static public func startGCDProxy(port:Int32){
-       XProxy.startGCDProxy(port: port)
+    static public func startGCDProxy(port:Int32,dispatchQueue:DispatchQueue,socketQueue:DispatchQueue){
+        if proxy == nil {
+            proxy = XProxy()
+        }
+        proxy?.startGCDProxy(port: port, dispatchQueue: dispatchQueue, socketQueue: socketQueue){ info in
+            RequestHelper.shared.saveReqInfo(info);
+        }
     }
     static public func stopGCDProxy(){
         
