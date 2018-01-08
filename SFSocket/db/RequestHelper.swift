@@ -33,7 +33,7 @@ public class RequestHelper{
         do {
             
             _ = try FileManager.checkAndCreate(pathDir:p )
-            p += fileName
+            p += "/" + fileName
             dbQueue = try DatabaseQueue(path: p)
             if let db = dbQueue {
                 initGRDB(db)

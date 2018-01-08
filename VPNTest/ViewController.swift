@@ -32,12 +32,13 @@ class ViewController: NSViewController {
         if  !SKit.prepare("745WQDK4L7.com.yarshure.Surf", app: "VPNTest", config: "abigt.conf"){
             fatalError()
         }
+        testHTTP()
         if let x = SFSettingModule.setting.findRuleByString("www.google.com", useragent: ""){
             print(x)
         }
+        SKit.startGCDProxy(port: 10081, dispatchQueue: DispatchQueue.main, socketQueue: DispatchQueue.init(label: "com.yarshure.socket"))
+        print("runing ,..")
         
-        AxLogger.log("VPN SESSION starting",level: .Info)
-        testHTTP()
     }
     func testHTTP(){
         let x = "http,192.168.11.131,8000,,"
