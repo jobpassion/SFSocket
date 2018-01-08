@@ -129,14 +129,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     //    }
     public func start(){
         
-        //init in other thread , lwip may not init finished
         
-        
-        
-        
-        //         dispatch_once(&token) {
-        //            init_lwip()
-        //        }
         
         
         //DispatchWorkItem(flags: .assignCurrentContext)
@@ -154,10 +147,8 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
             
         })
         
-        //#if TIMER
         self.startWithInterval(SKit.lwip_timer_second)
-        //#endif
-        //timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "tcp_timer_handler:", userInfo: nil, repeats: true)
+        
     }
     func checkConnectionStatus() {
     
