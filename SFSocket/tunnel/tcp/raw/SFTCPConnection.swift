@@ -205,10 +205,8 @@ class SFTCPConnection: SFConnection {
         
         rTag += 1
 
-        data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
-            socks_recv_bufArray.append(ptr)
-        }
         
+        socks_recv_bufArray.append(data)
         #if LOGGER
         reqInfo.recvData.appendData(data)
         #endif
