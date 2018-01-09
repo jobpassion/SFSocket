@@ -222,8 +222,10 @@ public class SKit {
         
        SKit.log("loading.. proxys", level: .Info)
         
-        
-        
+       SKit.log("loading" + ProxyGroupSettings.share.config,level:.Info)
+        if !ProxyGroupSettings.share.config.isEmpty {
+            loadConfig(configPath: ProxyGroupSettings.share.config)
+        }
         for proxy in ProxyGroupSettings.share.proxys {
             let type = proxy.serverAddress.validateIpAddr ()
             if !proxy.serverIP.isEmpty || type == .IPV4 {
