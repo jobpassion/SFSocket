@@ -272,9 +272,9 @@ open class Tunnel: NSObject {
     
     /// Process a message payload.
     func handlePacket(_ packetData: Data) -> Bool {
-        let properties: [String: AnyObject]
+        let properties: [String: Any]
         do {
-            properties = try PropertyListSerialization.propertyList(from: packetData, options: PropertyListSerialization.MutabilityOptions(), format: nil) as! [String: AnyObject]
+            properties = try PropertyListSerialization.propertyList(from: packetData, options: PropertyListSerialization.MutabilityOptions(), format: nil) as! [String: Any]
         }
         catch {
             simpleTunnelLog("Failed to create the message properties from the packet")
@@ -299,7 +299,7 @@ open class Tunnel: NSObject {
         
         
         guard let targetConnection = connection else {
-            return handleMessage(commandType, properties: properties, connection: connection)
+            return handleMessage(commandType, properties: properties as [String : Any], connection: connection)
         }
         
         switch commandType {
@@ -351,7 +351,7 @@ open class Tunnel: NSObject {
     }
     
     /// Handle a recieved message.
-    func handleMessage(_ command: TunnelCommand, properties: [String: AnyObject], connection: Connection?) -> Bool {
+    func handleMessage(_ command: TunnelCommand, properties: [String: Any], connection: Connection?) -> Bool {
         simpleTunnelLog("handleMessage called on abstract base class")
         return false
     }

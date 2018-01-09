@@ -305,13 +305,21 @@ extension ServerTunnelConnection {
     }
 }
 extension ServerTunnelConnection:PacketProcessorProtocol{
+    func writeDatagram(packet: Data, proto: Int32) {
+        tunnel?.sendPackets([packet] , protocols: [NSNumber(value:proto)], forConnection: identifier)
+    }
+    
+    func writeDatagrams(packet: [Data], proto: [NSNumber]) {
+        tunnel?.sendPackets(packet, protocols: proto, forConnection: identifier)
+    }
+    
     func didProcess() {
         
     }
 
     func writeDatagrams(packet: Data, proto: Int32){
         
-        tunnel?.sendPackets([packet] , protocols: [NSNumber(value:proto)], forConnection: identifier)
+        
         
     }
   

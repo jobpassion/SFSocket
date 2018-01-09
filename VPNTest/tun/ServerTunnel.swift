@@ -8,7 +8,7 @@
 
 import Foundation
 import SystemConfiguration
-
+import XFoundation
 /// The server-side implementation of the SimpleTunnel protocol.
 class ServerTunnel: Tunnel, TunnelDelegate, StreamDelegate {
 
@@ -21,7 +21,7 @@ class ServerTunnel: Tunnel, TunnelDelegate, StreamDelegate {
     var writeStream: OutputStream?
 
 	/// A buffer where the data for the current packet is accumulated.
-	let packetBuffer = NSMutableData()
+	var packetBuffer = Data()
 
 	/// The number of bytes remaining to be read for the current packet.
 	var packetBytesRemaining = 0
@@ -95,20 +95,20 @@ class ServerTunnel: Tunnel, TunnelDelegate, StreamDelegate {
 			guard bytesRead > 0 else {
 				return false
 			}
-
-            packetBuffer.append(readBuffer, length: bytesRead)
-
+            packetBuffer.append(readBuffer, count: bytesRead)
+            //packetBuffer.append(readBuffer, length: bytesRead)
+            //todo test memory,
 			if packetBytesRemaining == 0 {
 				// Reading the total length, see if the 4 length bytes have been received.
                 if packetBuffer.length == MemoryLayout<UInt32>.size {
-					var totalLength: UInt32 = 0
-                    packetBuffer.getBytes(&totalLength, length: MemoryLayout.size(ofValue: totalLength))
-
+					
+                    
+                    let totalLength:UInt32  = UInt32(packetBuffer.data2Int(len: 4))
 					guard totalLength <= UInt32(Tunnel.maximumMessageSize) else { return false }
 
 					// Compute the length of the payload.
                     packetBytesRemaining = Int(totalLength) - MemoryLayout.size(ofValue: totalLength)
-					packetBuffer.length = 0
+					packetBuffer.count = 0
 				}
 			}
 			else {
@@ -116,14 +116,15 @@ class ServerTunnel: Tunnel, TunnelDelegate, StreamDelegate {
 				packetBytesRemaining -= bytesRead
 				if packetBytesRemaining == 0 {
 					// The entire packet has been received, process it.
-                    if !handlePacket(packetBuffer as Data) {
+                    if !handlePacket(packetBuffer) {
 						return false
 					}
-					packetBuffer.length = 0
+					packetBuffer.count = 0
 				}
 			}
 		} while stream.hasBytesAvailable
 
+        
 		return true
 	}
 
@@ -277,7 +278,7 @@ class ServerTunnel: Tunnel, TunnelDelegate, StreamDelegate {
     }
 
 	/// Handle a message received from the client.
-    override func handleMessage(_ commandType: TunnelCommand, properties: [String: AnyObject], connection: Connection?) -> Bool {
+    override func handleMessage(_ commandType: TunnelCommand, properties: [String: Any], connection: Connection?) -> Bool {
 		switch commandType {
 			case .open:
                 handleConnectionOpen(properties: properties)

@@ -15,10 +15,6 @@ var groupContainerURLVPN:String = ""
 func  groupContainerURL() ->URL{
         assert(SKit.groupIdentifier.count != 0)
         return fm.containerURL(forSecurityApplicationGroupIdentifier: SKit.groupIdentifier)!
-  
-        
-    //#endif
-    //return URL.init(fileURLWithPath: "")
     
 }
 enum SFVPNXPSCommand:String{
@@ -74,8 +70,6 @@ func query(_ domain:String) ->[String] {
     var results:[String] = []
     
     let host = CFHostCreateWithName(nil,domain as CFString).takeRetainedValue()
-    
-    
     CFHostStartInfoResolution(host, .addresses, nil)
     var success: DarwinBoolean = false
     if let addresses = CFHostGetAddressing(host, &success)?.takeUnretainedValue() as NSArray? {
@@ -95,15 +89,11 @@ func query(_ domain:String) ->[String] {
                 results.append(numAddress)
                 
             }
-            
-            
         }
-        
-        
     }
     return results
 }
-//var kProxyGroupFile = ".ProxyGroup"
+
 
 public class SKit {
     static var env = SKit()
@@ -111,10 +101,7 @@ public class SKit {
     static var proxy:XProxy?
     static var sampleConfig = "surf.conf"
     static var DefaultConfig = "Default.conf"
-    //let kSelect = "kSelectConf"
-    
-    //var groupIdentifier = ""
-    
+
     static let report:SFVPNStatistics = SFVPNStatistics.shared
     
     public static var groupIdentifier = ""
@@ -190,15 +177,19 @@ public class SKit {
     static let LimitSpeedTotal:UInt = 20*1024*1024//LimitSpeedSimgle //1MB/s
     static var packettunnelprovier:NEPacketTunnelProvider?
     static var confirmMessage:Set<String> = []
+    public static var debugEnable:Bool = false
+    static var packetProcessor:PacketProcessor?
     public static func prepareTunnel(provier:NEPacketTunnelProvider,reset:Bool,pendingStartCompletion: (@escaping (Error?) ->Void)){
         SKit.log("SKit prepareTunnel",level: .Info)
-        let setting = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "240.89.6.4")
+        let setting = NEPacketTunnelNetworkSettings(tunnelRemoteAddress:vpnServer )
         let ipv4 = NEIPv4Settings(addresses: [tunIP], subnetMasks: ["255.255.255.0"])// iPhone @2007 MacWorld
         self.packettunnelprovier = provier
         setting.ipv4Settings = ipv4
         var includedRoutes = [NEIPv4Route]()
         //includedRoutes.append(NEIPv4Route(destinationAddress: "0.0.0.0", subnetMask: "0.0.0.0"))
-        
+        if packetProcessor == nil{
+            packetProcessor = PacketProcessor.init(p: provier)
+        }
         let defaultRoute = NEIPv4Route.default()
         let dest = defaultRoute.destinationAddress as String
         if reset {
@@ -220,9 +211,7 @@ public class SKit {
         route.gatewayAddress = tunIP
         includedRoutes.append(route)
         
-        //        route = NEIPv4Route(destinationAddress: "0.0.0.0", subnetMask: "0.0.0.0")
-        //        route.gatewayAddress = tunIP
-        //        includedRoutes.append(route)
+ 
         setting.ipv4Settings?.includedRoutes = includedRoutes
         
         
@@ -231,8 +220,7 @@ public class SKit {
         
         
         
-        //todo
-       // SFSettingModule.setting.
+       SKit.log("loading.. proxys", level: .Info)
         
         
         
@@ -242,7 +230,6 @@ public class SKit {
                 let ip = proxy.serverIP
                 
                 route = NEIPv4Route(destinationAddress:ip, subnetMask: "255.255.255.255")
-                //NSLog("%@ %@ %@",proxy.proxyName,proxy.serverAddress, proxy.serverIP)
                 route.gatewayAddress = NEIPv4Route.default().gatewayAddress
                 excludedRoutes.append(route)
             }else {
@@ -258,7 +245,7 @@ public class SKit {
         }
         if  ProxyGroupSettings.share.proxyChain {
             SKit.log("Proxy Chain Enable",level:.Info)
-            //ProxyChain.shared.proxy = ProxyGroupSettings.share.chainProxy
+           
         }
         let ips = query("dns.weixin.qq.com")
         if  !ips.isEmpty {
@@ -288,13 +275,11 @@ public class SKit {
         }
         let dnsSetting =  SFDNSManager.manager.tunDNSSetting()
         setting.dnsSettings = NEDNSSettings(servers: dnsSetting)
-        if let _ = setting.dnsSettings{
-            //SKit.log("dns setting: \(d)",level: .Info)
-            
-            
+        if let d = setting.dnsSettings{
+            SKit.log("dns setting: \(d)",level: .Info)
         }
         
-        //mylog("dns " + dns)
+        
         
         //setting.tunnelOverheadBytes = 150
         setting.mtu = 1500
@@ -347,8 +332,6 @@ public class SKit {
         
         provier.setTunnelNetworkSettings(setting) {  error in
             pendingStartCompletion(error)
-            
-           
             
         }
     }
@@ -421,16 +404,54 @@ public class SKit {
         if level != AxLoggerLevel.Debug {
             AxLogger.log(msg,level:level)
         }
-        os_log("SKit: %@", log: .default, type: .debug, msg)
+        if debugEnable {
+            #if os(iOS)
+                if #available(iOSApplicationExtension 10.0, *) {
+                    os_log("SKit: %@", log: .default, type: .debug, msg)
+                } else {
+                    print(msg)
+                    // Fallback on earlier versions
+                }
+            #elseif os(OSX)
+                if #available(OSXApplicationExtension 10.12, *) {
+                    os_log("SKit: %@", log: .default, type: .debug, msg)
+                } else {
+                    print(msg)
+                    // Fallback on earlier versions
+                }
+                
+            #endif
+            
+            
+        }
     }
     static func log(_ msg:String,items: Any...,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
        
         if level != AxLoggerLevel.Debug {
             AxLogger.log(msg,level:level)
         }
+        if debugEnable {
+            #if os(iOS)
+                if #available(iOSApplicationExtension 10.0, *) {
+                    os_log("SKit: %@", log: .default, type: .debug, msg)
+                } else {
+                    print(msg)
+                    // Fallback on earlier versions
+                }
+            #elseif os(OSX)
+                if #available(OSXApplicationExtension 10.12, *) {
+                    os_log("SKit: %@", log: .default, type: .debug, msg)
+                } else {
+                    print(msg)
+                    // Fallback on earlier versions
+                }
+                
+            #endif
+            
+            
+        }
         
-        os_log("SKit: %@", log: .default, type: .debug, msg)
-       // print(msg)
+       
         
        
     }
@@ -452,8 +473,10 @@ public class SKit {
         }
         
         
-        
-        ProxyGroupSettings.share.config = config
+        if !config.isEmpty {
+             ProxyGroupSettings.share.config = config
+        }
+       
         loadConfig(configPath: config)
 
         return true

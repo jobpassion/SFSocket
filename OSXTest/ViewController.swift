@@ -15,6 +15,7 @@ import XRuler
 class ViewController: NSViewController {
 
     
+    @IBOutlet weak var memoryUsed: NSTextField!
     
     func testHTTP(){
         let x = "http,192.168.11.131,8000,,"
@@ -52,6 +53,7 @@ class ViewController: NSViewController {
         // Do any additional setup after loading the view.
     }
 
+    
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.

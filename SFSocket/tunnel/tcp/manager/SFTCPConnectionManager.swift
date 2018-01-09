@@ -14,53 +14,6 @@ import lwip
 import AxLogger
 import XRuler
 import XProxy
-class LWIPTraffic {
-    var sport:UInt16 = 0
-    var lwipInputSpeed:UInt = 0
-    var lwipInputTime:Date = Date()
-    var lwipDrop:Bool = false
-    func updateLwipInput(_ c:UInt) {
-        if c > 0 {
-            let now = Date()
-            let ts = now.timeIntervalSince(lwipInputTime as Date)
-            let msec = UInt(ts*100000) //ms
-            if msec == 0 {
-                lwipInputSpeed = c
-            }else {
-                lwipInputSpeed = c / msec
-            }
-            //NSLog("#############%d,%d",msec,lwipInputSpeed)
-            
-            if lwipInputSpeed > SKit.LimitLWIPInputSpeedSimgle {
-                //NSLog("############# speed too fast")
-                lwipDrop = true
-            }else {
-                let memoryUsed = reportMemoryUsed()
-                if memoryUsed > UInt64(SKit.memoryLimitUesedSize) * UInt64(SKit.physicalMemorySize*6 + 3) {
-                    #if os(iOS)
-                        if checkJB() {
-                            lwipDrop = false
-                        }else {
-                            lwipDrop = true
-                        }
-                        
-                        
-                    #else
-                        lwipDrop = false
-                    #endif
-                }else {
-                    lwipDrop = false
-                }
-                
-            }
-            //            #if DEBUG
-            //           //SKit.log("\(url) speed: \(msec)/\(recvSpped) ms \n",level:.Trace)
-            //            #endif
-            lwipInputTime = now
-        }
-        
-    }
-}
 
 public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     open func lwipInitFinish() {
@@ -100,7 +53,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     var networkingScheduledTask :DispatchWorkItem =  DispatchWorkItem.init {
         
     }
-    var lwipInputSpeed : [UInt16:LWIPTraffic] = [:]
+   
     
     override init() {
         //var token: dispatch_once_t = 0
@@ -199,7 +152,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         
         saveConnectionInfo(ref)
         connections.removeValue(forKey: sport)
-        lwipInputSpeed.removeValue(forKey: sport)
+        
         
     }
     
@@ -207,7 +160,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         
         DispatchQueue.main.async(execute:{[unowned self] in
             if let p = self.provider {
-                p.writeDatagrams(packets: data,proto: AF_INET)
+                p.writeDatagram(packets: data,proto: AF_INET)
             }
             
         })
@@ -366,7 +319,7 @@ extension SFTCPConnectionManager{
             self.closeAllConnection()
             
             self.ruleTestResult.removeAll()
-            self.lwipInputSpeed.removeAll()
+           
             SKit.log("[SFTCPConnectionManager] Connection clean Done!",level: .Notify)
         }
         //

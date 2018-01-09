@@ -8,7 +8,7 @@
 
 import Foundation
 import AxLogger
-func memoryUsed() -> String {
+public func memoryUsed() -> String {
     let mem:UInt64 =  reportMemoryUsed()
     return memoryString(mem)
 }

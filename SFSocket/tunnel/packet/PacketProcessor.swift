@@ -13,7 +13,8 @@ public class PacketProcessor {
     /// Write packets and associated protocols to the UTUN interface.
     public var complete:(()->Void)?
     public var provider:PacketProcessorProtocol?
-   
+    var packetsQueue:[Data] = []
+    var processIng:Bool = false
     public init(){
         
     }
@@ -24,7 +25,7 @@ public class PacketProcessor {
     }
     public init(p:PacketProcessorProtocol,output:@escaping (([Data], [NSNumber]) -> ())) {
         self.provider = p
-        SKit.logX("todo set UDPManager.shared.udpStack.outputFunc ", level: .Info)
+       
         UDPManager.shared.udpStack.outputFunc = output
     }
     public func sendPackets(_ packets: [Data], protocols: [NSNumber]) {
@@ -48,7 +49,7 @@ public class PacketProcessor {
                 
                 
                 let ipacket =  IPv4Packet(PacketData:packet)
-                SKit.logX("incoming: \(ipacket.description)", level: .Info)
+                SKit.logX("incoming " + ipacket.description, level: .Info)
                 switch Int32(ipacket.proto) {
                 case IPPROTO_UDP:
                     
@@ -84,7 +85,7 @@ public class PacketProcessor {
                             }
                             //drop
                         }else {
-                            SKit.log("UDP:\(ipacket.description) not support ,drop", level: .Trace)
+                            SKit.log("UDP:not support ,drop " + ipacket.description, level: .Trace)
                         }
                         
                     }
@@ -107,40 +108,44 @@ public class PacketProcessor {
                     
                 //break
                 case IPPROTO_ICMP:
-                    SKit.log("IPPROTO_ICMP packet found drop \(ipacket.description)",level: .Warning)
+                    SKit.log("IPPROTO_ICMP packet found drop " + ipacket.description,level: .Warning)
                     break
                 default:
-                    SKit.log("\(ipacket.proto) packet found drop ",level: .Warning)
+                    SKit.log("packet found drop ",level: .Warning)
                     break
                 }
-                
-                //AxLogger.log("write to tun length:\(0) src:\(src) dst: \(dst) sendPackets packet packet data \(packet)" + (desc as! String) as String)
             }else if protocols[index].int32Value == AF_INET6{
                 SKit.log("IPv6 packet currently don't support ...",level: .Info)
             }
-            
-            
-            
-            
         }
         //          逻辑有点复杂，每次写一个packet 太浪费CPU
         //            dispatch_async(dispatch_get_main_queue()){[unowned self] in
         //                    self.sendingPackets()
         //                }
-        
+        processIng = true
         manager.device_read_handler_sendPackets3( packets) {[unowned self] (error) in
-            self.provider?.didProcess()
             
+            let  protocols = [NSNumber](repeating: NSNumber.init(value: AF_INET), count: self.packetsQueue.count)
+            
+            self.provider?.writeDatagrams(packet: self.packetsQueue, proto: protocols)
+            self.packetsQueue.removeAll()
+            self.provider?.didProcess()
+            self.processIng = false
         }
     }
 }
 
 extension PacketProcessor:OutgoingConnectorDelegate,TCPManagerProtocol {
-    public func writeDatagrams(packets: Data, proto: Int32){
-        provider?.writeDatagrams(packet: packets, proto: proto)
+    public func writeDatagram(packets: Data, proto: Int32){
+        if processIng {
+            packetsQueue.append(packets)
+        }else {
+            provider?.writeDatagram(packet: packets, proto: proto)
+        }
+        
     }
     public func serverDidQuery(_ targetTunnel: SFUDPConnector, data : Data, close:Bool){
-        provider?.writeDatagrams(packet: data, proto: AF_INET)
+        provider?.writeDatagram(packet: data, proto: AF_INET)
         UDPManager.shared.serverDidQuery(targetTunnel, data: data, close: close)
     }
     public func serverDidClose(_ targetTunnel: SFUDPConnector){

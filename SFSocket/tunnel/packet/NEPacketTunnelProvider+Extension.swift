@@ -90,10 +90,8 @@ extension NEPacketTunnelProvider{
     /// Write packets and associated protocols to the UTUN interface.
     public func processPackets(packets: [Data], protocols: [NSNumber]) {
        //process todo
-        SKit.logX("todo", level: .Error)
-        self.packetFlow.readPackets {[unowned self] inPackets, inProtocols in
-            self.processPackets(packets: inPackets, protocols: inProtocols)
-        }
+        
+        SKit.packetProcessor?.sendPackets(packets, protocols: protocols)
     }
     public func startHandlingPackets() {
         
@@ -107,8 +105,7 @@ extension NEPacketTunnelProvider{
 }
 
 extension NEPacketTunnelProvider:PacketProcessorProtocol {
-    
-    public func writeDatagrams(packet: Data, proto: Int32){
+    public func writeDatagram(packet: Data, proto: Int32) {
         if packet.count > 0 {
             
             
@@ -122,7 +119,15 @@ extension NEPacketTunnelProvider:PacketProcessorProtocol {
             
         }
     }
+    
+    public func writeDatagrams(packet: [Data], proto: [NSNumber]) {
+        packetFlow.writePackets(packet, withProtocols: proto)
+    }
+    
+    
+   
     public func didProcess() {
+        //after process packets ,call this func
         self.startHandlingPackets()
     }
 
