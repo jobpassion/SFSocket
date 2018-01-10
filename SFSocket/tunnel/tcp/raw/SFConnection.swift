@@ -165,7 +165,7 @@ class SFConnection: Connection ,TCPCientDelegate{
         var j:SFRuleResult
         SKit.log("\(cIDString) Find Rule For  DEST:   " ,items:  dest ,level:  .Debug)
         
-        if let r = SFTCPConnectionManager.manager.findRuleResult(dest){
+        if let r = SFTCPConnectionManager.shared.findRuleResult(dest){
             j = r
             reqInfo.rule = r.result
             findProxy(j,cache: false)

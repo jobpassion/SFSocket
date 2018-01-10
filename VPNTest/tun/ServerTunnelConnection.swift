@@ -33,8 +33,8 @@ class ServerTunnelConnection: Connection {
     public override init(connectionIdentifier: Int, parentTunnel: Tunnel) {
         
         super.init(connectionIdentifier: connectionIdentifier, parentTunnel: parentTunnel)
-         self.processor.provider = self
-        //UDPManager.shared.udpStack.outputFunc = self.generateOutputBlock()
+        self.processor.provider = self
+        
     }
     /// Send an "open result" message with optionally the tunnel settings.
     func sendOpenResult(result: TunnelConnectionOpenResult, extraProperties: [String: Any] = [:]) {
@@ -317,22 +317,4 @@ extension ServerTunnelConnection:PacketProcessorProtocol{
         
     }
 
-    func writeDatagrams(packet: Data, proto: Int32){
-        
-        
-        
-    }
-  
-    
-    public func generateOutputBlock() -> ([Data], [NSNumber]) -> () {
-        return { [weak self] packets, versions in
-            if let strong = self {
-                if packets.count == Tunnel.maximumPacketsPerMessage {
-                    strong.tunnel?.sendPackets(packets , protocols: versions, forConnection: strong.identifier)
-                }
-                
-            }
-
-        }
-    }
 }

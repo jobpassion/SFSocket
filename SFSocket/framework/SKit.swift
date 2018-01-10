@@ -224,7 +224,7 @@ public class SKit {
         
        SKit.log("loading" + ProxyGroupSettings.share.config,level:.Info)
         if !ProxyGroupSettings.share.config.isEmpty {
-            loadConfig(configPath: ProxyGroupSettings.share.config)
+            SFSettingModule.setting.config(ProxyGroupSettings.share.config)
         }
         for proxy in ProxyGroupSettings.share.proxys {
             let type = proxy.serverAddress.validateIpAddr ()
@@ -299,7 +299,7 @@ public class SKit {
             
             proxySettings.httpsServer = NEProxyServer(address: loopbackAddr, port: httpsocketProxyPort)
             proxySettings.httpsEnabled = true
-            SKit.startGCDProxy(port: Int32(httpsocketProxyPort), dispatchQueue: SFTCPConnectionManager.shared().dispatchQueue, socketQueue: SFTCPConnectionManager.shared().socketQueue)
+            SKit.startGCDProxy(port: Int32(httpsocketProxyPort), dispatchQueue: SFTCPConnectionManager.shared.dispatchQueue, socketQueue: SFTCPConnectionManager.shared.socketQueue)
         }else {
             if SFSettingModule.setting.mode == .tunnel {
                 
@@ -380,27 +380,7 @@ public class SKit {
         AxLogger.log("Device sleep!!!",level: .Notify)
         completionHandler()
     }
-    static public func loadConfig(configPath:String){
-        
-        var path:String
-        if fm.fileExists(atPath: configPath) {
-            path = configPath
-        }else {
-            let    fn = ProxyGroupSettings.share.config
-           
-            if fn == "Default.conf" {
-                let bundle = Bundle.init(for: SKit.self)
-                
-                path = bundle.bundleURL.appendingPathComponent(fn).path
-            }else {
-                path = groupContainerURL().appendingPathComponent(fn).path
-                
-            }
-        }
-         
-        SFSettingModule.setting.config(path)
-        
-    }
+ 
     static func logX(_ msg:String,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
         
         if level != AxLoggerLevel.Debug {
@@ -478,8 +458,8 @@ public class SKit {
         if !config.isEmpty {
              ProxyGroupSettings.share.config = config
         }
+        SFSettingModule.setting.config(config)
        
-        loadConfig(configPath: config)
 
         return true
 
@@ -513,9 +493,9 @@ public class SKit {
             completionHandler?("no data from app".data(using: .utf8))
             return
         }
-        //NSLog("33333")
+        
         //NSLog("handleAppMessage " + (messageString as String))
-        if SFTCPConnectionManager.manager.lwip_init_finished == false {
+        if SFTCPConnectionManager.shared.lwip_init_finished == false {
             NSLog("Warning lwip not ready")
         }
         //NSLog("#####Got a message from the app \(reportMemory())")
@@ -541,14 +521,14 @@ public class SKit {
                 
             case .RECNETREQ:
                 //AxLogger.log("RECNETREQ RPC Request",level: .Debug)
-                let responseData = SFTCPConnectionManager.manager.recentRequestData()
+                let responseData = SFTCPConnectionManager.shared.recentRequestData()
                 
                 completionHandler?(responseData)
             case .RULERESULT:
-                let responseData = SFTCPConnectionManager.manager.ruleResultData()
+                let responseData = SFTCPConnectionManager.shared.ruleResultData()
                 completionHandler?(responseData)
             case .STATUS:
-                let responseData = report.resport(memory: reportMemoryUsed(), count: SFTCPConnectionManager.manager.connections.count)
+                let responseData = report.report(memory: reportMemoryUsed(), count: SFTCPConnectionManager.shared.connections.count)
                 completionHandler?(responseData)
             case .CHANGEPROXY:
                 guard  let selectIndex = packet.last else {return }
@@ -562,7 +542,7 @@ public class SKit {
                 }
                 
                 //AxLogger.log(message,level: .Info)
-                SFTCPConnectionManager.manager.clearRule()
+                SFTCPConnectionManager.shared.clearRule()
                 //AxLogger.log("Rule Test Results clean",level: .Info)
                 completionHandler?(message.data(using: .utf8, allowLossyConversion: false))
             case .FLOWS:
@@ -591,13 +571,13 @@ public class SKit {
             }
         }
     }
-//    func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
-//
-//        //        DispatchQueue.main.async {
-//        //
-//        //
-//        //
-//        //        }
+    func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+
+        //        DispatchQueue.main.async {
+        //
+        //
+        //
+        //        }
 //        Answers.logCustomEvent(withName: "VPN",
 //                               customAttributes: [
 //                                "Stop": "OK",
@@ -626,72 +606,10 @@ public class SKit {
 //        AxLogger.log("A.BIG.T Stopped", level: .Info)
 //
 //        _exit(0)
-//
-//
-//    }
+
+
+    }
     
 }
-//should delete
-extension SFVPNStatistics {
-    public func resport(memory:UInt64,count:Int) ->Data{
-        reportTime = Date()
-        memoryUsed = memory
 
-        var status:[String:AnyObject] = [:]
-        status["start"] =  NSNumber.init(value: startDate.timeIntervalSince1970)
-        status["sessionStartTime"] =  NSNumber.init(value: sessionStartTime.timeIntervalSince1970)
-        status["report_date"] =  NSNumber.init(value: reportTime.timeIntervalSince1970)
-        //status["runing"] = NSNumber.init(double:runing)
-        status["total"] = totalTraffice.resp() as AnyObject?
-        status["last"] = lastTraffice.resp() as AnyObject?
-        status["max"] = maxTraffice.resp() as AnyObject?
-        status["memory"] = NSNumber.init(value: memoryUsed) //memoryUsed)
-
-
-        status["finishedCount"] = NSNumber.init(value: finishedCount) //
-        status["workingCount"] = NSNumber.init(value: count) //
-
-        status["cell"] = cellTraffice.resp() as AnyObject?
-        status["wifi"] = wifiTraffice.resp() as AnyObject?
-        status["direct"] = directTraffice.resp() as AnyObject?
-        status["proxy"] = proxyTraffice.resp() as AnyObject?
-        status["netflow"] = netflow.resp() as AnyObject
-        let j = JSON(status)
-
-
-
-
-        //print("recentRequestData \(j)")
-        var data:Data
-        do {
-            try data = j.rawData()
-        }catch let error  {
-            //AxLogger.log("ruleResultData error \(error.localizedDescription)")
-            //let x = error.localizedDescription
-            //let err = "report error"
-            data =  error.localizedDescription.data(using: .utf8)!// NSData()
-        }
-        return data
-    }
-    public func flowData(memory:UInt64) ->Data{
-        reportTime = Date()
-        memoryUsed = memory
-
-        var status:[String:AnyObject] = [:]
-
-        status["netflow"] = netflow.resp() as AnyObject
-        let j = JSON(status)
-
-        var data:Data
-        do {
-            try data = j.rawData()
-        }catch let error  {
-            //AxLogger.log("ruleResultData error \(error.localizedDescription)")
-            //let x = error.localizedDescription
-            //let err = "report error"
-            data =  error.localizedDescription.data(using: .utf8)!// NSData()
-        }
-        return data
-    }
-}
 

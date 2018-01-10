@@ -7,7 +7,8 @@
 //
 
 import Foundation
-
+//  network<----PacketProcessor
+//  utun<-------PacketProcessor
 public protocol  PacketProcessorProtocol :class {
     //write data to socket/tun
     func writeDatagram(packet: Data, proto: Int32)

@@ -107,9 +107,6 @@ extension NEPacketTunnelProvider{
 extension NEPacketTunnelProvider:PacketProcessorProtocol {
     public func writeDatagram(packet: Data, proto: Int32) {
         if packet.count > 0 {
-            
-            
-            //UDPManager.shared.serverDidQuery(targetTunnel, data: data, close: close)
             var packets = [Data]()
             var protocols = [NSNumber]()
             packets.append(packet)
@@ -134,20 +131,5 @@ extension NEPacketTunnelProvider:PacketProcessorProtocol {
  
 }
 extension NEPacketTunnelProvider{
-    public func reportTask() {
-        let report = SFVPNStatistics.shared
-        report.lastTraffice.tx = report.currentTraffice.tx
-        report.lastTraffice.rx = report.currentTraffice.rx
-        var snapShot = SFTraffic()
-        snapShot.tx = report.currentTraffice.tx
-        snapShot.rx = report.currentTraffice.rx
-        report.netflow.update(snapShot, type: .total)
-        
-        report.currentTraffice.tx = 0
-        report.currentTraffice.rx = 0
-        report.totalTraffice.addRx(x: Int(report.lastTraffice.rx))
-        report.totalTraffice.addTx(x: Int(report.lastTraffice.tx))
-        
-        report.updateMax()
-    }
+
 }

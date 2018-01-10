@@ -20,11 +20,9 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         lwip_init_finished = true
     }
     
-    public static let manager:SFTCPConnectionManager = SFTCPConnectionManager()
+    public static let shared:SFTCPConnectionManager = SFTCPConnectionManager()
     
-    internal static func shared() -> SFTCPConnectionManager{
-        return manager
-    }
+   
     
     public var dispatchQueue:DispatchQueue// = dispatch_queue_create("com.yarshure.dispatch_queue", DISPATCH_QUEUE_SERIAL);
     var socketQueue:DispatchQueue //= dispatch_queue_create("com.yarshure.dispatch_queue_socket", DISPATCH_QUEUE_SERIAL);
@@ -336,7 +334,7 @@ extension SFTCPConnectionManager{
     func startWithInterval(_ interval:Double) {
         self.firsttime = true
         self.cancel()
-        self.dispatch_timer =  DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue: SFTCPConnectionManager.manager.dispatchQueue)
+        self.dispatch_timer =  DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue: SFTCPConnectionManager.shared.dispatchQueue)
         
         
         let interval: Double = 1.0
@@ -438,7 +436,7 @@ extension SFTCPConnectionManager{
     public func recentRequestData() ->Data{
         
         var result:[String:AnyObject] = [:]
-        let count:Int = connections.count
+        var count:Int = connections.count
         
         var reqs:[AnyObject] = []
         for (_,value) in connections {
@@ -447,6 +445,16 @@ extension SFTCPConnectionManager{
             reqs.append(o as AnyObject)
            
         }
+        if let p = SKit.proxy {
+            let proxyInfos = p.runningRequests()
+            count += proxyInfos.count
+            for info in proxyInfos {
+                let o = info.respObj()
+                
+                reqs.append(o as AnyObject)
+            }
+        }
+        
         result["count"] = NSNumber.init(value: count)
         result["session"] = SFEnv.session.idenString() as AnyObject?
         result["data"] = reqs as AnyObject?
@@ -533,14 +541,4 @@ extension SFTCPConnectionManager{
     }
 }
 
-extension SFTCPConnectionManager {
-    func startProxyServer(){
-        #if os(iOS)
-//            let dispatchQueue = DispatchQueue(label:"com.yarshure.httpproxy");
-//            dispatchQueue.async {
-//                startserver(0)
-//            }
-        #endif
-    }
 
-}
