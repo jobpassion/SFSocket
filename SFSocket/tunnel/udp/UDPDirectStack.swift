@@ -22,7 +22,10 @@ func == (left: ConnectInfo, right: ConnectInfo) -> Bool {
 /// This stack tranmits UDP packets directly.
 open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
     public func didDisconnect(_ socket: RawSocketProtocol, error: Error?) {
-        fatalError("todo")
+        guard let (connectInfo, _) = findSocket(connectInfo: nil, socket: socket) else {
+            return
+        }
+        activeSockets.removeValue(forKey: connectInfo)
         SKit.log("UDP didDisconnect", items: "", level: .Notify)
     }
     
