@@ -12,17 +12,7 @@ import AxLogger
 import Xcon
 import XRuler
 class SFTCPConnection: SFConnection {
-//    override internal init(tcp:SFPcb, host:UInt32,port:UInt16, m:SFTCPConnectionManager){
-//        pcb = tcp
-//        sID = SFConnectionID++
-//        
-//        local_addr = IPAddr(i: 0,p: 0)
-//        remote_addr = IPAddr(i: 0, p: 0)
-//        pcbinfo(pcb,&local_addr.ip,&remote_addr.ip,&local_addr.port,&remote_addr.port)
-//        manager = m
-//        connector = DirectConnector.connectorWithSelectorPolicy("", targetHostname: local_addr.ipString(), targetPort: local_addr.port)
-//        super.init()
-//    }
+
     var reqHeader:SFHTTPHeader?
     var respHeader:SFHTTPHeader?
     var domainName:String = ""
@@ -54,10 +44,8 @@ class SFTCPConnection: SFConnection {
     override func configLwip() {
         config_tcppcb(pcb, self)
         configConnection()
-        reqInfo.sTime = Date() as Date
-        //change to use db
-        //SFTCPConnectionManager.manager.addReqInfo(self.reqInfo)
-       //SKit.log("\(cIDString) ",level:.Debug)
+        reqInfo.sTime = Date()
+        
     }
     override func configConnection(){
         SKit.log("\(cIDString) \(reqInfo.url) configConnection" ,level: .Trace)
@@ -136,10 +124,19 @@ class SFTCPConnection: SFConnection {
             bufArray.append(d)
         }
         
-        processData("\(cIDString)  incomingData")
-    }
-    func processData(_ reason:String) {
         client_send_to_socks()
+    }
+    override func client_send_to_socks(){
+        let st = (reqInfo.status == .Established) || (reqInfo.status == .Transferring)
+        if !st {
+            return
+        }
+        if bufArray.isEmpty {
+            client_socks_recv_initiate()
+        }else {
+            super.client_send_to_socks()
+        }
+        
     }
     override func client_socks_recv_initiate(){
         
@@ -163,58 +160,27 @@ class SFTCPConnection: SFConnection {
         
         
     }
-    override func client_send_to_socks(){
-        let st = (reqInfo.status == .Established) || (reqInfo.status == .Transferring)
-        if st  {
-            if bufArray.count > 0{
-                SKit.log("\(cIDString):\(reqInfo.url) now sending data buffer count:\(bufArray.count)",level: .Debug)
-                super.client_send_to_socks()
-                
-            }else {
-                //if rTag == 0 {
-                    client_socks_recv_initiate()
-                //}
-                
-            }
-        }
-    }
+    
     override func didWriteData(_ data: Data?, withTag: Int, from: Xcon){
-       SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
+        SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
         //这里有个问题socket send len maybe not equal lwip read length
         reqInfo.status = .Transferring
         let x = Int64(withTag)
         if let len = bufArrayInfo[x] {
             
             reqInfo.updateSendTraffic(len)
+            reqInfo.activeTime = Date()
             bufArrayInfo.removeValue(forKey: x)
             client_socks_send_handler_done(len)
+            
         }
-        
-        reqInfo.activeTime = Date() 
         tag += 1
+        //continue send
+        client_send_to_socks()
         
-        processData("didWriteData")
     }
 
-    override func  didReadData(_ data: Data, withTag: Int, from: Xcon) {
-        
-        reqInfo.status = .Transferring
-        SKit.log("\(cIDString) didReadData \(reqInfo.url):\(data.count)",level:  .Debug)
-        //reqInfo.updateSpeed(UInt(data.length),stat: true)
-        reqInfo.updaterecvTraffic(data.count)
-        
-        rTag += 1
-
-        
-        data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
-            socks_recv_bufArray.append(ptr)
-        }
-        //memory not dealloc socks_recv_bufArray.append(data)? 
-        #if LOGGER
-        reqInfo.recvData.appendData(data)
-        #endif
-        client_socks_recv_handler_done(data.count)
-    }
+  
     override func checkStatus() {
         //SKit.log("\(cIDString) header queue:\(reqHeaderQueue.count) index:\(requestIndex) ",level: .Debug)
         
@@ -231,31 +197,7 @@ class SFTCPConnection: SFConnection {
             }
             
         }
-        
-        
-        
-        
-        //super.checkStatus()
-    }
-    override func memoryWarning(_ level:DispatchSource.MemoryPressureEvent) {
-        if reqInfo.waitingRule {
-            if reqInfo.ruleTiming > 1 {
-                SKit.log("\(reqInfo.host) memoryWarning Wait Rule \(reqInfo.ruleTiming)",level: .Warning)
-            }
-        }else {
-            let close = reqInfo.shouldClose()
-            if close {
-                    SKit.log("\(reqInfo.host) memoryWarning \(reqInfo.idleTimeing) will close recv:\(socks_recv_bufArray) && send:\(bufArray.count)",level: .Warning)
-                    client_free_socks()
-                
-            }else {
-                SKit.log("\(reqInfo.host) memoryWarning  \(reqInfo.ruleTiming) :recv:\(socks_recv_bufArray) && send:\(bufArray.count)",level: .Warning)
-                //client_dealloc()
-                SKit.log("\(cIDString) \(reqInfo.host)   will close recv:\(socks_recv_bufArray.count) send: \(bufArray.count)",level: .Warning)
-                client_free_socks()
-            }
-        }
-        
+
     }
 
 }

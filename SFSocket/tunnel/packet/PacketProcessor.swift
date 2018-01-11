@@ -111,15 +111,18 @@ public class PacketProcessor {
         //            dispatch_async(dispatch_get_main_queue()){[unowned self] in
         //                    self.sendingPackets()
         //                }
-        processIng = true
+        //processIng = true
         manager.device_read_handler_sendPackets3( packets) {[unowned self] (error) in
             
-            let  protocols = [NSNumber](repeating: NSNumber.init(value: AF_INET), count: self.packetsQueue.count)
+            if self.processIng {
+                let  protocols = [NSNumber](repeating: NSNumber.init(value: AF_INET), count: self.packetsQueue.count)
+                
+                self.provider?.writeDatagrams(packet: self.packetsQueue, proto: protocols)
+                self.packetsQueue.removeAll()
+                self.provider?.didProcess()
+                self.processIng = false
+            }
             
-            self.provider?.writeDatagrams(packet: self.packetsQueue, proto: protocols)
-            self.packetsQueue.removeAll()
-            self.provider?.didProcess()
-            self.processIng = false
         }
     }
 }

@@ -262,7 +262,7 @@ extension SFTCPConnectionManager{
         //        let xport = dport.byteSwapped
         //        let yport = dport.bigEndian
         var c:SFConnection
-        SKit.log("\(srcip.pointee) \(dstip.pointee) \(sport.pointee) \(dport.pointee) incomming tcp", level: .Info)
+        SKit.log("incomming tcp :\(srcip.pointee):\(sport.pointee) \(dstip.pointee):\(dport.pointee) ", level: .Info)
         let ip:UInt32 =  inet_addr(SKit.proxyIpAddr.cString(using: String.Encoding.utf8)!)  //0x030000f0
         
         if isHTTP(tcp,ip) {
