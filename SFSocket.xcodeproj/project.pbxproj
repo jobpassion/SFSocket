@@ -110,7 +110,6 @@
 		697DF07D1FFDF56100C6A64C /* PacketProcessorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DF07C1FFDF56100C6A64C /* PacketProcessorProtocol.swift */; };
 		697DF07E1FFDF56100C6A64C /* PacketProcessorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DF07C1FFDF56100C6A64C /* PacketProcessorProtocol.swift */; };
 		697DF0A41FFF59E900C6A64C /* Opt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0D2771DD5975800227353 /* Opt.swift */; };
-		697DF0C11FFFB91300C6A64C /* lwip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 697DF0BC1FFFB8A700C6A64C /* lwip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */; };
 		6994E0171DEFBE9E009394F9 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6994E0161DEFBE9E009394F9 /* Rule.swift */; };
 		6994E0181DEFBE9E009394F9 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6994E0161DEFBE9E009394F9 /* Rule.swift */; };
@@ -169,33 +168,26 @@
 			remoteGlobalIDString = 69B954F11DDF81CF006AF669;
 			remoteInfo = SFSocketOSX;
 		};
-		697DF0B91FFFB8A700C6A64C /* PBXContainerItemProxy */ = {
+		69E96BC4200902980060659A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
+			containerPortal = 69E96BBE200902980060659A /* lwip.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 69091B9C1DD4BE910060CCB9;
 			remoteInfo = lwip;
 		};
-		697DF0BB1FFFB8A700C6A64C /* PBXContainerItemProxy */ = {
+		69E96BC6200902980060659A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
+			containerPortal = 69E96BBE200902980060659A /* lwip.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 69B954951DDF74E0006AF669;
 			remoteInfo = lwipOSX;
 		};
-		697DF0BD1FFFB8A700C6A64C /* PBXContainerItemProxy */ = {
+		69E96BC8200902980060659A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
+			containerPortal = 69E96BBE200902980060659A /* lwip.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6927ADCD1DE14C0F0027EF7A;
 			remoteInfo = macOSTest;
-		};
-		697DF0BF1FFFB8BE00C6A64C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 69B954941DDF74E0006AF669;
-			remoteInfo = lwipOSX;
 		};
 		69FC1B1B1DDC00A100EF8AAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -233,7 +225,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				697DF0C11FFFB91300C6A64C /* lwip.framework in Embed Frameworks */,
 				6904B0DB1FFD2F1D000B64F3 /* SFSocket.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -311,7 +302,6 @@
 		697DF0791FFDEF9600C6A64C /* PacketProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketProcessor.swift; sourceTree = "<group>"; };
 		697DF07C1FFDF56100C6A64C /* PacketProcessorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketProcessorProtocol.swift; sourceTree = "<group>"; };
 		697DF07F1FFE086500C6A64C /* VPNTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VPNTest.entitlements; sourceTree = "<group>"; };
-		697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = lwip.xcodeproj; path = ../../../liblwip/lwip.xcodeproj; sourceTree = "<group>"; };
 		69803E091DD95D8C0047112C /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		69803E0A1DD95D920047112C /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
 		698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NEPacketTunnelProvider+Extension.swift"; sourceTree = "<group>"; };
@@ -348,6 +338,7 @@
 		69C7DC601FE364FF00FB7FA2 /* mac.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = mac.xcconfig; sourceTree = "<group>"; };
 		69CC44781EB199A8002C10DC /* BinaryConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryConvertible.swift; sourceTree = "<group>"; };
 		69E470AE1E67AADE00AE11FB /* SocksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocksTest.swift; sourceTree = "<group>"; };
+		69E96BBE200902980060659A /* lwip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = lwip.xcodeproj; path = ../liblwip/lwip.xcodeproj; sourceTree = "<group>"; };
 		69FC1AFD1DDBFAB000EF8AAC /* SFSocketTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFSocketTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69FC1AFF1DDBFAB000EF8AAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69FC1B011DDBFAB000EF8AAC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -597,16 +588,6 @@
 			path = dns;
 			sourceTree = "<group>";
 		};
-		697DF0B41FFFB8A700C6A64C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				697DF0BA1FFFB8A700C6A64C /* lwip.framework */,
-				697DF0BC1FFFB8A700C6A64C /* lwip.framework */,
-				697DF0BE1FFFB8A700C6A64C /* macOSTest.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		69803E081DD95D4F0047112C /* Framework */ = {
 			isa = PBXGroup;
 			children = (
@@ -671,7 +652,7 @@
 			isa = PBXGroup;
 			children = (
 				69AD9CCD200458A100C01011 /* README.md */,
-				697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */,
+				69E96BBE200902980060659A /* lwip.xcodeproj */,
 				69803E091DD95D8C0047112C /* Cartfile */,
 				69803E0A1DD95D920047112C /* Cartfile.resolved */,
 				69803E081DD95D4F0047112C /* Framework */,
@@ -716,6 +697,16 @@
 				69AD9CCE20048CA700C01011 /* debug.xcconfig */,
 			);
 			path = SFSocket;
+			sourceTree = "<group>";
+		};
+		69E96BBF200902980060659A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				69E96BC5200902980060659A /* lwip.framework */,
+				69E96BC7200902980060659A /* lwip.framework */,
+				69E96BC9200902980060659A /* macOSTest.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		69FC1AFE1DDBFAB000EF8AAC /* SFSocketTest */ = {
@@ -806,7 +797,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				697DF0C01FFFB8BE00C6A64C /* PBXTargetDependency */,
 			);
 			name = SFSocketOSX;
 			productName = SFSocketOSX;
@@ -952,8 +942,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 697DF0B41FFFB8A700C6A64C /* Products */;
-					ProjectRef = 697DF0B31FFFB8A700C6A64C /* lwip.xcodeproj */;
+					ProductGroup = 69E96BBF200902980060659A /* Products */;
+					ProjectRef = 69E96BBE200902980060659A /* lwip.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -969,25 +959,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		697DF0BA1FFFB8A700C6A64C /* lwip.framework */ = {
+		69E96BC5200902980060659A /* lwip.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = lwip.framework;
-			remoteRef = 697DF0B91FFFB8A700C6A64C /* PBXContainerItemProxy */;
+			remoteRef = 69E96BC4200902980060659A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		697DF0BC1FFFB8A700C6A64C /* lwip.framework */ = {
+		69E96BC7200902980060659A /* lwip.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = lwip.framework;
-			remoteRef = 697DF0BB1FFFB8A700C6A64C /* PBXContainerItemProxy */;
+			remoteRef = 69E96BC6200902980060659A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		697DF0BE1FFFB8A700C6A64C /* macOSTest.app */ = {
+		69E96BC9200902980060659A /* macOSTest.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = macOSTest.app;
-			remoteRef = 697DF0BD1FFFB8A700C6A64C /* PBXContainerItemProxy */;
+			remoteRef = 69E96BC8200902980060659A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1275,11 +1265,6 @@
 			isa = PBXTargetDependency;
 			target = 69B954F11DDF81CF006AF669 /* SFSocketOSX */;
 			targetProxy = 6928061C1EFA7B79007FCF6A /* PBXContainerItemProxy */;
-		};
-		697DF0C01FFFB8BE00C6A64C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = lwipOSX;
-			targetProxy = 697DF0BF1FFFB8BE00C6A64C /* PBXContainerItemProxy */;
 		};
 		69FC1B1C1DDC00A100EF8AAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

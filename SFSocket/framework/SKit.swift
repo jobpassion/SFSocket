@@ -323,7 +323,7 @@ public class SKit {
                 }catch let e as NSError {
                     SKit.log("Now use autoproxy!!!!! \(e)",level:.Info)
                 }
-                
+                SFVPNStatistics.shared.startReporting()
                 
             }
             
