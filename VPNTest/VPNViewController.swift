@@ -25,6 +25,10 @@ class VPNViewController: NSViewController {
 //        _ = server.open()
         // Do any additional setup after loading the view.
     }
+    @IBAction func reqGet(_ sender: Any) {
+       let d =  SFTCPConnectionManager.shared.recentRequestData()
+        print(d as NSData)
+    }
     func updateUI() {
         memoryUsedLabel.objectValue = memoryUsed()
     }
