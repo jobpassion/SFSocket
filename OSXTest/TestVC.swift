@@ -15,7 +15,7 @@ class TestVC: NSViewController {
         // Do view setup here.
         
         
-        SKit.startGCDProxy(port: 10081)
+        //SKit.startGCDProxy(port: 10081)
         
     }
     

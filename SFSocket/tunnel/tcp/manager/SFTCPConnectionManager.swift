@@ -317,7 +317,8 @@ extension SFTCPConnectionManager{
             self.closeAllConnection()
             
             self.ruleTestResult.removeAll()
-           
+            //clear connection
+            SKit.proxy?.cellToWill()
             SKit.log("[SFTCPConnectionManager] Connection clean Done!",level: .Notify)
         }
         //

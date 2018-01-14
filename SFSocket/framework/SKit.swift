@@ -66,7 +66,7 @@ func queryDNS(_ domains:[String]) ->[String]{
     }
     return records
 }
-func query(_ domain:String) ->[String] {
+public func query(_ domain:String) ->[String] {
     var results:[String] = []
     
     let host = CFHostCreateWithName(nil,domain as CFString).takeRetainedValue()

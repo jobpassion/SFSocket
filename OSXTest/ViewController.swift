@@ -14,6 +14,7 @@ import Xcon
 import XRuler
 class ViewController: NSViewController {
 
+    var tunManager = Tunmanager()
     
     @IBOutlet weak var memoryUsed: NSTextField!
     
@@ -46,6 +47,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         
         prepare()
+        _ = tunManager.open()
 //        testaead()
 //        testsnappy()
         
