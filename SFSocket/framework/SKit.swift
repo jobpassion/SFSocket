@@ -175,7 +175,7 @@ public class SKit {
     static var memoryLimitUesedSize:UInt = 1*1024*1024
     static let physicalMemorySize = physicalMemory()
     static let LimitSpeedTotal:UInt = 20*1024*1024//LimitSpeedSimgle //1MB/s
-    static var packettunnelprovier:NEPacketTunnelProvider?
+    static var packettunnelprovier:NEPacketTunnelProvider? //alert message use
     static var confirmMessage:Set<String> = []
     public static var debugEnable:Bool = false
     static var packetProcessor:PacketProcessor?
@@ -195,9 +195,9 @@ public class SKit {
         if reset {
             if dest == "0.0.0.0" && defaultRoute.gatewayAddress == nil{
                 includedRoutes.append(defaultRoute)
-                //SKit.log("default router: \(defaultRoute.destinationAddress) \(defaultRoute.gatewayAddress)",level:.Debug)
+              
             }else {
-                //SKit.log("default router####: \(defaultRoute.destinationAddress) \(defaultRoute.gatewayAddress)",level:.Debug)
+                
             }
         }else {
             includedRoutes.append(defaultRoute)

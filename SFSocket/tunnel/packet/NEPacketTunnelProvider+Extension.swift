@@ -91,7 +91,7 @@ extension NEPacketTunnelProvider{
     public func processPackets(packets: [Data], protocols: [NSNumber]) {
        //process todo
         
-        SKit.packetProcessor?.sendPackets(packets, protocols: protocols)
+        SKit.packetProcessor!.sendPackets(packets, protocols: protocols)
     }
     public func startHandlingPackets() {
         
