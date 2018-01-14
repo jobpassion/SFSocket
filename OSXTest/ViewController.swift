@@ -14,7 +14,9 @@ import Xcon
 import XRuler
 class ViewController: NSViewController {
 
+    var tunManager = Tunmanager()
     
+    @IBOutlet weak var memoryUsed: NSTextField!
     
     func testHTTP(){
         let x = "http,192.168.11.131,8000,,"
@@ -45,6 +47,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         
         prepare()
+        _ = tunManager.open()
 //        testaead()
 //        testsnappy()
         
@@ -52,6 +55,7 @@ class ViewController: NSViewController {
         // Do any additional setup after loading the view.
     }
 
+    
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.

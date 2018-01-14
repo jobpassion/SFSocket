@@ -8,8 +8,9 @@
 
 import Foundation
 import NetworkExtension
+import XProxy
 public class UDPManager {
-    public static let shared = UDPManager()
+    
     public let udpStack = UDPDirectStack()
     public var clientTree:AVLTree = AVLTree<UInt16,SFUDPConnector>()
     public  var udpClientIndex:[UInt16] = []

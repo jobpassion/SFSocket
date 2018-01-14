@@ -32,12 +32,12 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
     }
     func start() {
         
-        socket = GCDAsyncUdpSocket.init(delegate: self, delegateQueue: SFTCPConnectionManager.manager.dispatchQueue)
+        socket = GCDAsyncUdpSocket.init(delegate: self, delegateQueue: SFTCPConnectionManager.shared.dispatchQueue)
         
         do {
             //try socket?.connectToHost("192.168.11.1", onPort: 53)
             socket?.setDelegate(self)
-            socket?.setDelegateQueue(SFTCPConnectionManager.manager.dispatchQueue)
+            socket?.setDelegateQueue(SFTCPConnectionManager.shared.dispatchQueue)
             
             let message = String.init(format: "start udp %@:%d", targetHost ,dstPort)
             SKit.log(message,level: .Trace)
@@ -114,7 +114,7 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
         //let clientPort = udp.sourcePort
         _ = udp.destinationPort
         if let s = socket {
-            SFTCPConnectionManager.manager.socketQueue.async(execute: { 
+            SFTCPConnectionManager.shared.socketQueue.async(execute: {
                 s.send(udp.payloadData() as Data, withTimeout: 10, tag: 0)
             })
             

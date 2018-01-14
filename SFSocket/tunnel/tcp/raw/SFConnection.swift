@@ -120,6 +120,7 @@ class SFConnection: Connection ,TCPCientDelegate{
         manager = m
         
         super.init(i:info)
+        SKit.logX(self.cIDString + " TCP src:" + local_addr.ipString() + " \(local_addr.port)" , level: .Info)
     }
     deinit {
 
@@ -138,8 +139,6 @@ class SFConnection: Connection ,TCPCientDelegate{
         if reqInfo.idleTimeing > 15 {
             SKit.log("\(cIDString) idle", items:reqInfo.idleTimeing,level: .Trace)
         }
-
-        
     }
     func socketQueue() ->DispatchQueue{
         return (manager!.socketQueue)
@@ -165,7 +164,7 @@ class SFConnection: Connection ,TCPCientDelegate{
         var j:SFRuleResult
         SKit.log("\(cIDString) Find Rule For  DEST:   " ,items:  dest ,level:  .Debug)
         
-        if let r = SFTCPConnectionManager.manager.findRuleResult(dest){
+        if let r = SFTCPConnectionManager.shared.findRuleResult(dest){
             j = r
             reqInfo.rule = r.result
             findProxy(j,cache: false)
@@ -459,8 +458,7 @@ class SFConnection: Connection ,TCPCientDelegate{
         case .event_ERROR:
             reqInfo.status = .Complete
             reqInfo.closereason =  .closedError
-//            reqInfo.socks_closed = true
-//            reqInfo.socks_up = false
+
             client_free_socks()
         case .event_UP:
             assert(!reqInfo.socks_up)
@@ -469,27 +467,17 @@ class SFConnection: Connection ,TCPCientDelegate{
             reqInfo.estTime = Date() as Date
             
             configClient_sent_func(pcb)
-//            if !reqInfo.client_closed {
-//                
-//            }
+
             reqInfo.socks_up = true
             reqInfo.status = .Transferring
-//            if reqInfo.status != .Complete {
-//                client_socks_recv_initiate()
-//            }
-//            client_socks_recv_initiate()
-            client_send_to_socks()
-//            if (!reqInfo.client_closed) {
-//                client_socks_recv_initiate()
-//            }
 
+            //firt send
+            client_send_to_socks()
         case .event_ERROR_CLOSED:
             if reqInfo.estTime != reqInfo.sTime{
                 //assert(reqInfo.socks_up)
             }
-            // reqInfo.socks_up = false
-            //reqInfo.status = .Complete
-            //reqInfo.socks_closed = true
+            
             reqInfo.socks_closed = true
             client_free_socks()
             break
@@ -498,55 +486,6 @@ class SFConnection: Connection ,TCPCientDelegate{
         //debugLog("client_socks_handler")
     }
     
-//}
-//extension SFConnection {
-    
-    
-//    func connector(connector:Connector , didWriteDataWithTag  _tag:Int64) ->Void{
-//       //NSLog("\(cIDString) currrent tag: \(tag) == \(_tag)")
-//        if _tag == tag {
-//            //let d = bufArray.removeFirst()
-//            let len = bufArrayInfo[tag]
-//            client_socks_send_handler_done(len!)
-//            bufArrayInfo.removeValueForKey(tag)
-//            tag += 1
-//        } else {
-//           //SKit.log("\(cIDString) currrent tag: \(tag) != \(_tag)",level: .Debug)
-//        }
-//        
-//    }
-//    func connector(connector:Connector,shouldTimeoutReadWithTag tag: Int, elapsed: NSTimeInterval, bytesDone length: UInt) -> NSTimeInterval
-//    {
-//        let ts = reqInfo.idleTimeing
-//        var timeout:NSTimeInterval = HTTP_CONNECTION_TIMEOUT
-//        if reqInfo.mode == .TCP {
-//            timeout = TCP_CONNECTION_TIMEOUT
-//        }else if reqInfo.mode == .HTTPS{
-//            timeout = HTTPS_CONNECTION_TIMEOUT
-//        }
-//        if reqInfo.status == .Complete {
-//            return 0.0
-//        }else {
-//            
-//            if  ts > timeout {
-//                //active < 3.0 没读也没写
-//                // NSLog("00 ReqID %d ts :%.2f timeout", reqInfo.reqID,ts)
-//                debugLog("\(cIDString) time Readnow")
-//                return 0.0
-//            }else {
-//                // 读timeout
-//                let x = elapsed + 2.0
-//                if x > timeout {
-//                    debugLog("\(cIDString) time Readnow")
-//                    //NSLog("01 ReqID %d ts :%.2f timeout", reqInfo.reqID,ts)
-//                    return 0.0
-//                }else {
-//                    return x
-//                }
-//            }
-//        }
-//        
-//    }
 
  
 
@@ -841,7 +780,7 @@ class SFConnection: Connection ,TCPCientDelegate{
     }
 
     func client_free_socks(){
-        SKit.log( "\(cIDString) \(reqInfo.url) + \(reqInfo.closereason.description)  client_free_socks ",level: .Verbose)
+        SKit.log( "\(cIDString) \(reqInfo.url)  \(reqInfo.closereason.description)  client_free_socks ",level: .Verbose)
         //assert(!reqInfo.socks_closed)
         //可能是网络错误或者结束，或者lwip 链接结束了
         //这里比较复杂，导致connection 不被释放
@@ -859,11 +798,10 @@ class SFConnection: Connection ,TCPCientDelegate{
             if  reqInfo.status != .Complete {
                 if reqInfo.socks_up && reqInfo.socks_closed == false {
                     let e = NSError.init(domain: "com.yarshure.surf", code: 0, userInfo: ["reason":"client_free_socks"])
-                    self.connector!.delegate = nil
-                    SKit.log("\(self.reqInfo.url) \(e.localizedDescription) ",level: .Verbose)
-                    //reqInfo.status = .Complete
-                    //self.connector!.disconnectWithError(e)
-                    self.connector!.forceDisconnect(0)
+                    
+                    SKit.log(cIDString + " \(self.reqInfo.url) \(e.localizedDescription) ",level: .Verbose)
+                    
+                    self.connector!.forceDisconnect(UInt32(reqInfo.reqID))
                 }
                 
                 
@@ -931,8 +869,7 @@ class SFConnection: Connection ,TCPCientDelegate{
                 return
             }
             guard let connector = connector  else {return }
-            //SKit.log("\(cIDString) writing to Host:\(h):\(p) tag:\(tag)   length \(d.length)",level: .Trace)
-            //NSLog("%@ will send data tag:%d", reqInfo.url,tag)
+            
             //至少有1个？
             if !bufArray.isEmpty{
                // fatalError("xxxx")
@@ -945,30 +882,7 @@ class SFConnection: Connection ,TCPCientDelegate{
             
         }
     }
-//    func shaduleCheckTask(ts:NSTimeInterval) {
-//        if reqInfo.status == .Complete {
-//            if let c = connector {
-//                c.disconnectWithError(NSError.init(domain: "com.abigt.tcp", code: 1, userInfo: ["reason":"Close"]))
-//            }else {
-//                client_handle_freed_client()
-//                
-//            }
-//        }else {
-//            
-//            if  ts > TCP_CONNECTIPN_TIMEPUT {
-//               //SKit.log("\(reqInfo.url) not active 30s !!!!",level:.Warning)
-//                if let c = connector {
-//                    c.disconnectWithError(NSError.init(domain: "com.abigt.tcp", code: 1, userInfo: ["reason":"Close"]))
-//                }else {
-//                    client_handle_freed_client()
-//                    //client_dealloc()
-//                }
-//            } else {
-//                //SKit.log(msg)
-//                
-//            }
-//        }
-//    }
+
     func client_handle_freed_client(){
         //from client_err_func
         //assert(!reqInfo.client_closed)
@@ -1139,18 +1053,29 @@ class SFConnection: Connection ,TCPCientDelegate{
     }
     
     override func didReadData(_ data: Data, withTag: Int, from: Xcon) {
-        SKit.log("\(cIDString) socket didReadData", level: .Debug)
-        if socks_recv_bufArray.count != 0{
-            fatalError()
+        
+        reqInfo.status = .Transferring
+        SKit.log("\(cIDString) didReadData \(reqInfo.url):\(data.count)",level:  .Debug)
+        //reqInfo.updateSpeed(UInt(data.length),stat: true)
+        reqInfo.updaterecvTraffic(data.count)
+        
+        rTag += 1
+        
+        
+        data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
+            socks_recv_bufArray.append(ptr)
         }
-        socks_recv_bufArray.append(data)
+        //memory not dealloc socks_recv_bufArray.append(data)?
+        #if LOGGER
+            reqInfo.recvData.appendData(data)
+        #endif
         client_socks_recv_handler_done(data.count)
     }
     
     override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
         SKit.log("\(cIDString) socket didWriteData \(tag)", level: .Debug)
         if self.tag == tag {
-            //let d = bufArray.removeFirst()
+            
             let len = bufArrayInfo[tag]
             client_socks_send_handler_done(len!)
             bufArrayInfo.removeValue(forKey: tag)

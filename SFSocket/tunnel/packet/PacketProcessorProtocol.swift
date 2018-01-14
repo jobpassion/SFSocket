@@ -7,10 +7,12 @@
 //
 
 import Foundation
-
+//  network<----PacketProcessor
+//  utun<-------PacketProcessor
 public protocol  PacketProcessorProtocol :class {
     //write data to socket/tun
-    func writeDatagrams(packet: Data, proto: Int32)
+    func writeDatagram(packet: Data, proto: Int32)
+    func writeDatagrams(packet: [Data], proto: [NSNumber])
     //PacketProcessor process finish will call this funcation
     func didProcess()
 }

@@ -22,27 +22,46 @@ func == (left: ConnectInfo, right: ConnectInfo) -> Bool {
 /// This stack tranmits UDP packets directly.
 open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
     public func didDisconnect(_ socket: RawSocketProtocol, error: Error?) {
-        fatalError("todo")
+        guard let (connectInfo, _) = findSocket(connectInfo: nil, socket: socket) else {
+            return
+        }
+        activeSockets.removeValue(forKey: connectInfo)
+        SKit.log("UDP didDisconnect", items: "", level: .Notify)
     }
     
     public func didReadData(_ data: Data, withTag: Int, from: RawSocketProtocol) {
-        fatalError("todo")
+        guard let (connectInfo, _) = findSocket(connectInfo: nil, socket: from) else {
+            return
+        }
+        
+        let packet = IPPacket()
+        packet.sourceAddress = connectInfo.destinationAddress
+        packet.destinationAddress = connectInfo.sourceAddress
+        let udpParser = UDPProtocolParser()
+        udpParser.sourcePort = connectInfo.destinationPort
+        udpParser.destinationPort = connectInfo.sourcePort
+        udpParser.payload = data
+        packet.protocolParser = udpParser
+        packet.transportProtocol = .udp
+        packet.buildPacket()
+        
+        outputFunc([packet.packetData], [NSNumber(value: AF_INET as Int32)])
     }
     
     public func didWriteData(_ data: Data?, withTag: Int, from: RawSocketProtocol) {
-        fatalError("todo")
+        SKit.logX("didWriteData ", level: .Info)
     }
     
     public func didConnect(_ socket: RawSocketProtocol) {
-        fatalError("todo")
+       SKit.logX("udp socket connected", level: .Info)
     }
     
     public func disconnect(becauseOf error: Error?) {
-        fatalError("todo")
+        SKit.logX("disconnect", level: .Info)
     }
     
     public func forceDisconnect(becauseOf error: Error?) {
-        fatalError("todo")
+        SKit.logX("forceDisconnect", level: .Info)
     }
     
     fileprivate var activeSockets: [ConnectInfo: RawSocketProtocol] = [:]
@@ -103,7 +122,7 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
         }
         
         guard let (_, socket) = findOrCreateSocketForPacket(packet) else {
-            SKit.log("udp socket  creat error, no packettunnelprovider? or real error", level: .Debug)
+            
             return
         }
         
@@ -130,16 +149,21 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
                 return
             }
             //MARK :fixme
-//            guard let index = self.activeSockets.index(where: { (arg) -> Bool in
-//
-//                let (connectInfo, sock) = arg
-//                return socket == sock
-//            }) else {
-//                result = nil
-//                return
-//            }
+            //RawSocketProtocol no == able
+            guard let index = self.activeSockets.index(where: { (arg) -> Bool in
+
+                let (connectInfo, sock) = arg
+                let ss = sock as! NSObject
+                let st = socket as! NSObject
+                
+                return  ss == st
+               
+            }) else {
+                result = nil
+                return
+            }
             
-            //result = self.activeSockets[index]
+            result = self.activeSockets[index]
         }
         return result
     }
@@ -153,15 +177,20 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
             return (connectInfo, socket)
         }
         
-        guard ConnectRequest(ipAddress: connectInfo.destinationAddress, port: connectInfo.destinationPort) != nil else {
+        guard  let request = ConnectRequest(ipAddress: connectInfo.destinationAddress, port: connectInfo.destinationPort)  else {
             return nil
         }
         
        var udpSocket = RawSocketFactory.getRawSocket(type: .GCD, tcp: false)
-            //NWUDPSocket(host: request.host, port: request.port) todo test
-          
+        udpSocket.queue = DispatchQueue.main
         udpSocket.delegate = self
-        
+        do {
+            try udpSocket.connectTo(request.host, port: UInt16(request.port), enableTLS: false, tlsSettings: nil)
+            
+        }catch let e {
+            SKit.logX(request.host + "\(request.port) connect error :\(e.localizedDescription)", level: .Error)
+        }
+
         queue.sync {
             self.activeSockets[connectInfo] = udpSocket
         }
@@ -170,32 +199,14 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
     
     // This shoule be called by the timer, so is already on `queue`.
     fileprivate func cleanUpTimeoutSocket() {
-        //MARK: fixme
-//        for (connectInfo, socket) in activeSockets {
-//            if socket.lastActive.addingTimeInterval(TimeInterval(Opt.UDPSocketActiveTimeout)).compare(Date()) == .orderedAscending {
-//                var s = socket
-//                s.delegate = nil
-//                activeSockets.removeValue(forKey: connectInfo)
-//            }
-//        }
-    }
-    
-    open func didReceiveData(_ data: Data, from: NWUDPSocket) {
-        guard let (connectInfo, _) = findSocket(connectInfo: nil, socket: from) else {
-            return
+       
+        for (connectInfo, socket) in activeSockets {
+            if socket.lastActive.addingTimeInterval(TimeInterval(Opt.UDPSocketActiveTimeout)).compare(Date()) == .orderedAscending {
+                var s = socket
+                s.delegate = nil
+                activeSockets.removeValue(forKey: connectInfo)
+            }
         }
-        
-        let packet = IPPacket()
-        packet.sourceAddress = connectInfo.destinationAddress
-        packet.destinationAddress = connectInfo.sourceAddress
-        let udpParser = UDPProtocolParser()
-        udpParser.sourcePort = connectInfo.destinationPort
-        udpParser.destinationPort = connectInfo.sourcePort
-        udpParser.payload = data
-        packet.protocolParser = udpParser
-        packet.transportProtocol = .udp
-        packet.buildPacket()
-        
-        outputFunc([packet.packetData], [NSNumber(value: AF_INET as Int32)])
     }
+ 
 }

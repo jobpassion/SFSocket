@@ -234,7 +234,7 @@ open class ClientTunnel: Tunnel {
 	}
 
 	/// Handle a message received from the tunnel server.
-	override func handleMessage(_ commandType: TunnelCommand, properties: [String: AnyObject], connection: Connection?) -> Bool {
+	override func handleMessage(_ commandType: TunnelCommand, properties: [String: Any], connection: Connection?) -> Bool {
 		var success = true
 
 		switch commandType {

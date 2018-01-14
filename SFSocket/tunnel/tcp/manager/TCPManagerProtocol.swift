@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol  TCPManagerProtocol: class{
-    func writeDatagrams(packets : Data,proto:Int32)
+    func writeDatagram(packets : Data,proto:Int32)
 }

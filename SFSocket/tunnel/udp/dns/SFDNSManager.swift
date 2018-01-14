@@ -112,8 +112,8 @@ open class SFDNSManager {
         
         var result:[DNSServer] = setUpConfig(nil)
         //MARK --fixme
-//        if let r = SFSettingModule.setting.rule, let g = r.general{
-//             result  = setUpConfig(g.dnsserver)
+//        if let dns = SFSettingModule.setting.custormDNS{
+//             result  = setUpConfig(dns)
 //        }else {
 //           
 //        }

@@ -14,64 +14,15 @@ import lwip
 import AxLogger
 import XRuler
 import XProxy
-class LWIPTraffic {
-    var sport:UInt16 = 0
-    var lwipInputSpeed:UInt = 0
-    var lwipInputTime:Date = Date()
-    var lwipDrop:Bool = false
-    func updateLwipInput(_ c:UInt) {
-        if c > 0 {
-            let now = Date()
-            let ts = now.timeIntervalSince(lwipInputTime as Date)
-            let msec = UInt(ts*100000) //ms
-            if msec == 0 {
-                lwipInputSpeed = c
-            }else {
-                lwipInputSpeed = c / msec
-            }
-            //NSLog("#############%d,%d",msec,lwipInputSpeed)
-            
-            if lwipInputSpeed > SKit.LimitLWIPInputSpeedSimgle {
-                //NSLog("############# speed too fast")
-                lwipDrop = true
-            }else {
-                let memoryUsed = reportMemoryUsed()
-                if memoryUsed > UInt64(SKit.memoryLimitUesedSize) * UInt64(SKit.physicalMemorySize*6 + 3) {
-                    #if os(iOS)
-                        if checkJB() {
-                            lwipDrop = false
-                        }else {
-                            lwipDrop = true
-                        }
-                        
-                        
-                    #else
-                        lwipDrop = false
-                    #endif
-                }else {
-                    lwipDrop = false
-                }
-                
-            }
-            //            #if DEBUG
-            //           //SKit.log("\(url) speed: \(msec)/\(recvSpped) ms \n",level:.Trace)
-            //            #endif
-            lwipInputTime = now
-        }
-        
-    }
-}
 
 public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     open func lwipInitFinish() {
         lwip_init_finished = true
     }
     
-    public static let manager:SFTCPConnectionManager = SFTCPConnectionManager()
+    public static let shared:SFTCPConnectionManager = SFTCPConnectionManager()
     
-    internal static func shared() -> SFTCPConnectionManager{
-        return manager
-    }
+   
     
     public var dispatchQueue:DispatchQueue// = dispatch_queue_create("com.yarshure.dispatch_queue", DISPATCH_QUEUE_SERIAL);
     var socketQueue:DispatchQueue //= dispatch_queue_create("com.yarshure.dispatch_queue_socket", DISPATCH_QUEUE_SERIAL);
@@ -100,7 +51,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     var networkingScheduledTask :DispatchWorkItem =  DispatchWorkItem.init {
         
     }
-    var lwipInputSpeed : [UInt16:LWIPTraffic] = [:]
+   
     
     override init() {
         //var token: dispatch_once_t = 0
@@ -190,7 +141,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         
         saveConnectionInfo(ref)
         connections.removeValue(forKey: sport)
-        lwipInputSpeed.removeValue(forKey: sport)
+        
         
     }
     
@@ -198,7 +149,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         
         DispatchQueue.main.async(execute:{[unowned self] in
             if let p = self.provider {
-                p.writeDatagrams(packets: data,proto: AF_INET)
+                p.writeDatagram(packets: data,proto: AF_INET)
             }
             
         })
@@ -302,7 +253,7 @@ extension SFTCPConnectionManager{
         //        let xport = dport.byteSwapped
         //        let yport = dport.bigEndian
         var c:SFConnection
-        SKit.log("\(srcip.pointee) \(dstip.pointee) \(sport.pointee) \(dport.pointee) incomming tcp", level: .Info)
+        SKit.log("incomming tcp :\(srcip.pointee):\(sport.pointee) \(dstip.pointee):\(dport.pointee) ", level: .Info)
         let ip:UInt32 =  inet_addr(SKit.proxyIpAddr.cString(using: String.Encoding.utf8)!)  //0x030000f0
         
         if isHTTP(tcp,ip) {
@@ -357,7 +308,8 @@ extension SFTCPConnectionManager{
             self.closeAllConnection()
             
             self.ruleTestResult.removeAll()
-            self.lwipInputSpeed.removeAll()
+            //clear connection
+            SKit.proxy?.cellToWill()
             SKit.log("[SFTCPConnectionManager] Connection clean Done!",level: .Notify)
         }
         //
@@ -374,7 +326,7 @@ extension SFTCPConnectionManager{
     func startWithInterval(_ interval:Double) {
         self.firsttime = true
         self.cancel()
-        self.dispatch_timer =  DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue: SFTCPConnectionManager.manager.dispatchQueue)
+        self.dispatch_timer =  DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue: SFTCPConnectionManager.shared.dispatchQueue)
         
         
         let interval: Double = 1.0
@@ -476,7 +428,7 @@ extension SFTCPConnectionManager{
     public func recentRequestData() ->Data{
         
         var result:[String:AnyObject] = [:]
-        let count:Int = connections.count
+        var count:Int = connections.count
         
         var reqs:[AnyObject] = []
         for (_,value) in connections {
@@ -485,6 +437,16 @@ extension SFTCPConnectionManager{
             reqs.append(o as AnyObject)
            
         }
+        if let p = SKit.proxy {
+            let proxyInfos = p.runningRequests()
+            count += proxyInfos.count
+            for info in proxyInfos {
+                let o = info.respObj()
+                
+                reqs.append(o as AnyObject)
+            }
+        }
+        
         result["count"] = NSNumber.init(value: count)
         result["session"] = SFEnv.session.idenString() as AnyObject?
         result["data"] = reqs as AnyObject?
@@ -571,14 +533,4 @@ extension SFTCPConnectionManager{
     }
 }
 
-extension SFTCPConnectionManager {
-    func startProxyServer(){
-        #if os(iOS)
-//            let dispatchQueue = DispatchQueue(label:"com.yarshure.httpproxy");
-//            dispatchQueue.async {
-//                startserver(0)
-//            }
-        #endif
-    }
 
-}

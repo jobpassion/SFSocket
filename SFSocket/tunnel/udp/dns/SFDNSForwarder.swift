@@ -14,9 +14,7 @@ import CocoaAsyncSocket
 import Xcon
 import AxLogger
 import XFoundation
-//
-//let dispatchQueue = dispatch_queue_create("DNSServer", nil);
-//let socketQueue = dispatch_queue_create("com.abigt.socket.dns", nil);
+
 open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
     
 //    var decrypt_ctx:SEContextRef =  SEContextRef.alloc(1)//enc_ctx_create()//
@@ -113,12 +111,10 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
         }
         guard let dnsSetting = dnsSetting else {return}
         SKit.log("\(cIdString) use dns server:\(dnsSetting.ipaddr)",level: .Debug)
-        socket = GCDAsyncUdpSocket.init(delegate: self, delegateQueue: SFTCPConnectionManager.manager.dispatchQueue)
+        socket = GCDAsyncUdpSocket.init(delegate: self, delegateQueue: SFTCPConnectionManager.shared.dispatchQueue)
         let port:UInt16 = 53
         do {
-            //try socket?.connectToHost("192.168.11.1", onPort: 53)
-            socket?.setDelegate(self)
-            socket?.setDelegateQueue(SFTCPConnectionManager.manager.dispatchQueue)
+            
             if config() {
                 
                 if let proxy = proxy {
@@ -231,7 +227,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
         }else {
             if let s = socket {
                 startTime = Date()
-                let socketQ = SFTCPConnectionManager.manager.socketQueue
+                let socketQ = SFTCPConnectionManager.shared.socketQueue
                 socketQ.async(execute: { 
                      s.send(packet.rawData, withTimeout: 0.5, tag: Int(packet.identifier))
                 })
