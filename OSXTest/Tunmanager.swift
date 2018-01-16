@@ -24,17 +24,14 @@ class Tunmanager: NSObject {
     
     /// A flag indicating if reads from the UTUN interface are suspended.
     var isSuspended = false
-     var processor:PacketProcessor = PacketProcessor()
+    /// PacketProcessor
+    var processor:PacketProcessor = PacketProcessor()
     func open() ->Bool {
-        guard setupVirtualInterface(address: "10.10.0.1") else {
+        guard setupVirtualInterface(address: "240.7.1.9") else {
             return false
         }
         processor.provider = self
-        //tunnelAddress = address
-//        TSIPStack.stack.outputBlock = { ps,ns in
-//            simpleTunnelLog("tun recv\(ps as [NSData])")
-//            self.sendPackets(packets:ps as [NSData] , protocols: ns)
-//        }
+      
         return false
     }
     /// Create a UTUN interface.
@@ -187,20 +184,11 @@ class Tunmanager: NSObject {
 //
     /// Close the connection.
     func closeConnection() {
-        //super.closeConnection(direction)
+   
 
         utunSource!.cancel()
         utunName = nil
-//        if currentCloseDirection == .All {
-//            if utunSource != nil {
-//                dispatch_source_cancel(utunSource!)
-//            }
-//            // De-allocate the address.
-//            if tunnelAddress != nil {
-//                ServerTunnel.configuration.addressPool?.deallocateAddress(tunnelAddress!)
-//            }
-//            utunName = nil
-//        }
+
     }
 //
     /// Stop reading packets from the UTUN interface.
