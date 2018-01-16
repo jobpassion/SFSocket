@@ -148,7 +148,7 @@ class SFConnection: Connection ,TCPCientDelegate{
         return (manager!.dispatchQueue)
     }
     func setUpConnector(_ host:String,port:UInt16){
-        guard let c = Xcon.socketFromProxy(reqInfo.proxy, targetHost: host, Port: port, sID: reqInfo.reqID, delegate: self, queue: self.delegateQueue()) else {
+        guard let c = Xcon.socketFromProxy(reqInfo.proxy, targetHost: host, Port: port, delegate: self, queue: self.delegateQueue(),sessionID: UInt32(reqInfo.reqID)) else {
             fatalError("")
         }
         
