@@ -27,7 +27,7 @@ class ViewController: NSViewController {
     }
     func prepare(){
         SKit.proxyIpAddr = "240.7.1.10"
-       
+        SKit.debugEnable = true
         SKit.dnsAddr = "218.75.4.130"
         SKit.proxyHTTPSIpAddr = "240.7.1.11"
         SKit.xxIpAddr = "240.7.1.12"

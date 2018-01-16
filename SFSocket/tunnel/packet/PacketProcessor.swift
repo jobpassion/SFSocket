@@ -119,10 +119,10 @@ public class PacketProcessor {
                 
                 self.provider?.writeDatagrams(packet: self.packetsQueue, proto: protocols)
                 self.packetsQueue.removeAll()
-                self.provider?.didProcess()
+               
                 self.processIng = false
             }
-            
+            self.provider?.didProcess()
         }
     }
 }

@@ -148,14 +148,14 @@ class Tunmanager: NSObject {
                 protocols.append(NSNumber(value: protocolNumber))
                 packets.append(NSData(bytes: &buffer, length: readCount - MemoryLayout.size(ofValue: protocolNumber)))
 
-            }else {
+            }else  {
                 //UDP
             }
             
             // Buffer up packets so that we can include multiple packets per message. Once we reach a per-message maximum send a "packets" message.
             if packets.count == 32 {
                 //fixme
-                simpleTunnelLog("Got packets")
+                simpleTunnelLog("Got packets \(packets.count)")
                 processor.sendPackets(packets as [Data], protocols: protocols)
                
                 packets = [NSData]()
@@ -166,7 +166,7 @@ class Tunmanager: NSObject {
         
         // If there are unsent packets left over, send them now.
         if packets.count > 0 {
-            simpleTunnelLog("Got packets \(packets)")
+            simpleTunnelLog("read finished Got packets \(packets.count)")
             
             processor.sendPackets(packets as [Data], protocols: protocols)
             //tunnel?.sendPackets(packets, protocols: protocols, forConnection: identifier)
