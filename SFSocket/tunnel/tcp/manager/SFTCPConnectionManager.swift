@@ -52,6 +52,36 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         
     }
    
+    public func client_sent_func(_ client: UnsafeMutableRawPointer!) {
+        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
+        let connection:SFConnection = unmanaged.takeUnretainedValue()
+        connection.client_sent_func()
+    }
+    
+    public func client_handle_freed_client(_ client: UnsafeMutableRawPointer!, error err: Int32) {
+        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
+        let connection:SFConnection = unmanaged.takeUnretainedValue()
+        connection.client_handle_freed_client()
+    }
+    
+    public func client_free_client(_ client: UnsafeMutableRawPointer!) {
+        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
+        let connection:SFConnection = unmanaged.takeUnretainedValue()
+        connection.client_free_client()
+    }
+    
+    public func incomingData(_ d: Data!, len: Int, client: UnsafeMutableRawPointer!) {
+        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
+        let connection:SFConnection = unmanaged.takeUnretainedValue()
+        connection.incomingData(d, len: len)
+    }
+    
+    public func didSendBufferLen(_ buf_used: Int, client: UnsafeMutableRawPointer!) {
+        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
+        let connection:SFConnection = unmanaged.takeUnretainedValue()
+        connection.didSendBufferLen(buf_used)
+    }
+    
     
     override init() {
         //var token: dispatch_once_t = 0
@@ -68,7 +98,9 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         //let lowPriorityAttr:dispatch_queue_attr_t = dispatch_queue_attr_make_with_qos_class (DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND,-1);
         socketQueue =  DispatchQueue(label:"com.yarshure.socketqueue")
         super.init()
-        setupStack(self)
+        setupStackWithFin(self) {
+            //init finished
+        }
         //dispatch_once(&token) {
         
         

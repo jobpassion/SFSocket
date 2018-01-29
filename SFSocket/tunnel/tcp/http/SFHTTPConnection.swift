@@ -59,7 +59,7 @@ class SFHTTPConnection: SFHTTPRequest {
     override func configLwip() {
         //incomingData(NSData,len: 0) //init status
         httpStat = .httpReqHeader
-        config_tcppcb(pcb, self)
+        config_tcppcb(pcb, Unmanaged.passUnretained(self).toOpaque())
         
         
     }

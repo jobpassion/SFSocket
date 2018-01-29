@@ -272,12 +272,19 @@ open class Tunnel: NSObject {
     
     /// Process a message payload.
     func handlePacket(_ packetData: Data) -> Bool {
-        let properties: [String: Any]
-        do {
-            properties = try PropertyListSerialization.propertyList(from: packetData, options: PropertyListSerialization.MutabilityOptions(), format: nil) as! [String: Any]
+        var properties: [String: Any] = [:]
+        _ = autoreleasepool {  
+            do {
+                
+                properties = try PropertyListSerialization.propertyList(from: packetData, options: PropertyListSerialization.MutabilityOptions(), format: nil) as! [String: Any]
+            }
+            catch {
+                simpleTunnelLog("Failed to create the message properties from the packet")
+                
+            }
+           
         }
-        catch {
-            simpleTunnelLog("Failed to create the message properties from the packet")
+        if properties.count == 0 {
             return false
         }
         

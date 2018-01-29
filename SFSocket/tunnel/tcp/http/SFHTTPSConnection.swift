@@ -17,7 +17,7 @@ class SFHTTPSConnection: SFHTTPRequest {
         //incomingData(NSData(),len: 0) //init status
         httpStat = .httpReqHeader
         //reqInfo.mode = .HTTPS
-        config_tcppcb(pcb, self)
+        config_tcppcb(pcb, Unmanaged.passUnretained(self).toOpaque())
         reqInfo.sTime = Date() as Date
         //change to db 
         //SFTCPConnectionManager.manager.addReqInfo(self.reqInfo)

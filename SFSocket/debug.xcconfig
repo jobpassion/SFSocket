@@ -6,5 +6,8 @@
 //  Copyright © 2018年 Kong XiangBo. All rights reserved.
 //
 OTHER_LDFLAGS = $(inherited)  -framework XProxy   -framework lwip -framework SystemKitiOS -framework Reachability
-FRAMEWORK_SEARCH_PATHS = $(inherited) "/Users/yarshure/github/surf/Carthage/Build/iOS"
-LIBRARY_SEARCH_PATHS = $(inherited) "/Users/yarshure/github/surf/Carthage/Build/iOS"
+//FRAMEWORK_SEARCH_PATHS = $(inherited) "/Users/yarshure/github/surf/Carthage/Build/iOS"
+//LIBRARY_SEARCH_PATHS = $(inherited) "/Users/yarshure/github/surf/Carthage/Build/iOS"
+
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PROJECT_DIR)/Carthage/Build/iOS/"
+LIBRARY_SEARCH_PATHS = $(inherited) "$(PROJECT_DIR)/Carthage/Build/iOS/"

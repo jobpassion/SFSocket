@@ -44,7 +44,7 @@ enum ERR_KEY:Int8{
 let LWIP_ASYNC_TCP_OUT = false
 let LWIP_ASYNC_TCP_Recved = false
 
-class SFConnection: Connection ,TCPCientDelegate{
+class SFConnection: Connection {
     
 
 
@@ -382,7 +382,7 @@ class SFConnection: Connection ,TCPCientDelegate{
         
     }
     func configLwip() {
-        config_tcppcb(pcb, self)
+        config_tcppcb(pcb, Unmanaged.passUnretained(self).toOpaque())
     }
     func setUpConnector() {
         
@@ -552,18 +552,14 @@ class SFConnection: Connection ,TCPCientDelegate{
         assert(reqInfo.socks_up)
         guard let c = connector else {return}
         let  _ = SFEnv.SOCKS_RECV_BUF_SIZE
-//        if c.mode == .TCP{
-//            buf_size = TCP_CLIENT_SOCKS_RECV_BUF_SIZE_UInt
-//        }else {
-//            buf_size = CLIENT_SOCKS_RECV_BUF_SIZE_UInt
-//        }
+
         if reqInfo.status !=  .RecvWaiting {
             SKit.log("\(cIDString)  reading....",level:.Trace)
             c.readDataWithTag(rTag)
             
         }else {
             SKit.log("\(cIDString)  recv waiting length:\(socks_recv_bufArray.count)",level:.Trace)
-            // debugLog("\(cIDString) recv waiting")
+           
         }
         
         
@@ -765,7 +761,7 @@ class SFConnection: Connection ,TCPCientDelegate{
                 // 这里会挂掉吗？ 如果挂掉就要好好计算这个数值了
                 tcp_recved(pcb, UInt16(len))
                 //client_tcp_received(len)
-                client_send_to_socks()
+                //client_send_to_socks()
             }
             
         }
@@ -876,8 +872,8 @@ class SFConnection: Connection ,TCPCientDelegate{
                 bufArray.removeAll()
             }
             bufArrayInfo[tag] = sendData.count
-            sendingTag = tag
             
+            client_socks_send_handler_done(sendData.count)
             connector.writeData(sendData, withTag: Int(tag))
             
         }
@@ -1073,16 +1069,25 @@ class SFConnection: Connection ,TCPCientDelegate{
     }
     
     override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
-        SKit.log("\(cIDString) socket didWriteData \(tag)", level: .Debug)
-        if self.tag == tag {
-            
-            let len = bufArrayInfo[tag]
-            client_socks_send_handler_done(len!)
-            bufArrayInfo.removeValue(forKey: tag)
-            tag += 1
-        } else {
-            SKit.log("\(cIDString) currrent tag: \(tag) != \(self.tag)",level: .Debug)
+        reqInfo.activeTime = Date()
+        
+        let t = self.sendingTag
+        if let len = bufArrayInfo[t] {
+            client_socks_send_handler_done(len)
+            bufArrayInfo.removeValue(forKey: t)
+            SKit.log("\(cIDString) socket didWriteData \(t) found bufArrayInfo", level: .Debug)
+        }else {
+            SKit.log("\(cIDString) currrent tag: \(withTag) != \(self.sendingTag)",level: .Debug)
         }
+//        if self.sendingTag == 0 {
+//            //第一次write 后开始read?
+//            client_socks_recv_initiate()
+//        }
+       
+       
+        tag += 1
+        self.sendingTag = tag
+        client_send_to_socks()
     }
     
     override func didConnect(_ socket: Xcon) {
