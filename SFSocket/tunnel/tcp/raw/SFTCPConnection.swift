@@ -131,18 +131,7 @@ class SFTCPConnection: SFConnection {
         if !st {
             return
         }
-        
-        if bufArray.isEmpty {
-            //client_socks_recv_initiate()
-            if self.sendingTag == 0 {
-                //第一次write 后开始read?
-                client_socks_recv_initiate()
-            }
-            
-        }else {
-            
-            super.client_send_to_socks()
-        }
+        super.client_send_to_socks()
         
     }
     override func client_socks_recv_initiate(){
@@ -168,33 +157,7 @@ class SFTCPConnection: SFConnection {
         
     }
     
-//    override func didWriteData(_ data: Data?, withTag: Int, from: Xcon){
-//        SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
-//        //这里有个问题socket send len maybe not equal lwip read length
-//        reqInfo.status = .Transferring
-//        let x = Int64(withTag)
-//        if let len = bufArrayInfo[x] {
-//            
-//            reqInfo.updateSendTraffic(len)
-//            reqInfo.activeTime = Date()
-//            bufArrayInfo.removeValue(forKey: x)
-//            client_socks_send_handler_done(len)
-//            
-//        }else {
-//            SKit.logX("not found bufArrayInfo", level: .Error)
-//        }
-//        if tag == 0 {
-//            //第一次write 后开始read?
-//            client_socks_recv_initiate()
-//        }
-//        tag += 1
-//        //continue send
-//        // data incoming,auto send
-//        //client_send_to_socks()
-//        
-//    }
 
-  
     override func checkStatus() {
         //SKit.log("\(cIDString) header queue:\(reqHeaderQueue.count) index:\(requestIndex) ",level: .Debug)
         

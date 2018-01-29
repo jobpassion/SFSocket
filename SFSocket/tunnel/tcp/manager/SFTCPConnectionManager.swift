@@ -16,9 +16,7 @@ import XRuler
 import XProxy
 
 public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
-    open func lwipInitFinish() {
-        lwip_init_finished = true
-    }
+    
     
     public static let shared:SFTCPConnectionManager = SFTCPConnectionManager()
     
@@ -99,7 +97,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         socketQueue =  DispatchQueue(label:"com.yarshure.socketqueue")
         super.init()
         setupStackWithFin(self) {
-            //init finished
+            self.lwip_init_finished = true
         }
         //dispatch_once(&token) {
         

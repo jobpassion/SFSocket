@@ -469,6 +469,7 @@ class SFConnection: Connection {
 
             //firt send
             client_send_to_socks()
+            client_socks_recv_initiate()
         case .event_ERROR_CLOSED:
             if reqInfo.estTime != reqInfo.sTime{
                 //assert(reqInfo.socks_up)
