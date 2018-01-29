@@ -371,11 +371,7 @@ class SFConnection: Connection {
         
     }
     func configConnection(){
-//        connector = DirectConnector.connectorWithSelectorPolicy("", targetHostname: local_addr.ipString(), targetPort: local_addr.port)
-//        config_tcppcb(pcb, self)
-//        connector.manager = self
-//
-//        connector.start()
+
     }
     
     func findProxy() {

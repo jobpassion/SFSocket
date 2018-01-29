@@ -170,27 +170,6 @@
 			remoteGlobalIDString = 69B954F11DDF81CF006AF669;
 			remoteInfo = SFSocketOSX;
 		};
-		69E96BC4200902980060659A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69E96BBE200902980060659A /* lwip.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 69091B9C1DD4BE910060CCB9;
-			remoteInfo = lwip;
-		};
-		69E96BC6200902980060659A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69E96BBE200902980060659A /* lwip.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 69B954951DDF74E0006AF669;
-			remoteInfo = lwipOSX;
-		};
-		69E96BC8200902980060659A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 69E96BBE200902980060659A /* lwip.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6927ADCD1DE14C0F0027EF7A;
-			remoteInfo = macOSTest;
-		};
 		69FC1B1B1DDC00A100EF8AAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 69C298851DD593FF00E4C3BD /* Project object */;
@@ -342,7 +321,6 @@
 		69C7DC601FE364FF00FB7FA2 /* mac.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = mac.xcconfig; sourceTree = "<group>"; };
 		69CC44781EB199A8002C10DC /* BinaryConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryConvertible.swift; sourceTree = "<group>"; };
 		69E470AE1E67AADE00AE11FB /* SocksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocksTest.swift; sourceTree = "<group>"; };
-		69E96BBE200902980060659A /* lwip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = lwip.xcodeproj; path = ../liblwip/lwip.xcodeproj; sourceTree = "<group>"; };
 		69FC1AFD1DDBFAB000EF8AAC /* SFSocketTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFSocketTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69FC1AFF1DDBFAB000EF8AAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69FC1B011DDBFAB000EF8AAC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -658,7 +636,6 @@
 			isa = PBXGroup;
 			children = (
 				69AD9CCD200458A100C01011 /* README.md */,
-				69E96BBE200902980060659A /* lwip.xcodeproj */,
 				69803E091DD95D8C0047112C /* Cartfile */,
 				69803E0A1DD95D920047112C /* Cartfile.resolved */,
 				69803E081DD95D4F0047112C /* Framework */,
@@ -703,16 +680,6 @@
 				69AD9CCE20048CA700C01011 /* debug.xcconfig */,
 			);
 			path = SFSocket;
-			sourceTree = "<group>";
-		};
-		69E96BBF200902980060659A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				69E96BC5200902980060659A /* lwip.framework */,
-				69E96BC7200902980060659A /* lwip.framework */,
-				69E96BC9200902980060659A /* macOSTest.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		69FC1AFE1DDBFAB000EF8AAC /* SFSocketTest */ = {
@@ -946,12 +913,6 @@
 			mainGroup = 69C298841DD593FF00E4C3BD;
 			productRefGroup = 69C2988F1DD593FF00E4C3BD /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 69E96BBF200902980060659A /* Products */;
-					ProjectRef = 69E96BBE200902980060659A /* lwip.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				69C2988D1DD593FF00E4C3BD /* SFSocket */,
@@ -963,30 +924,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		69E96BC5200902980060659A /* lwip.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = lwip.framework;
-			remoteRef = 69E96BC4200902980060659A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		69E96BC7200902980060659A /* lwip.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = lwip.framework;
-			remoteRef = 69E96BC6200902980060659A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		69E96BC9200902980060659A /* macOSTest.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = macOSTest.app;
-			remoteRef = 69E96BC8200902980060659A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		694719831EE528F60059BEF8 /* Resources */ = {
