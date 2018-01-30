@@ -134,29 +134,7 @@ class SFTCPConnection: SFConnection {
         super.client_send_to_socks()
         
     }
-    override func client_socks_recv_initiate(){
-        
-//        assert(!reqInfo.client_closed)
-//        assert(!reqInfo.socks_closed)
-//        assert(reqInfo.socks_up)
-        guard let c = connector else {
-            AxLogger.log("connector disconnected client_socks_recv_initiate", level: .Trace)
-            return
-        }
-        
-        
-        if reqInfo.status !=  .RecvWaiting {
-            //多次读event 
-             SKit.log("\(cIDString) readData tag:\(rTag)",level: .Debug)
-            c.readDataWithTag(rTag)
-        }else {
-            SKit.log("\(cIDString)  recv waiting length:\(socks_recv_bufArray.count)",level:.Trace)
-            // debugLog("\(cIDString) recv waiting")
-        }
-        
-        
-    }
-    
+
 
     override func checkStatus() {
         //SKit.log("\(cIDString) header queue:\(reqHeaderQueue.count) index:\(requestIndex) ",level: .Debug)

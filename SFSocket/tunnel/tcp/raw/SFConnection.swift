@@ -550,7 +550,7 @@ class SFConnection: Connection {
         guard let c = connector else {return}
         let  _ = SFEnv.SOCKS_RECV_BUF_SIZE
 
-        if reqInfo.status !=  .RecvWaiting {
+        if reqInfo.status !=  .RecvWaiting  {
             SKit.log("\(cIDString)  reading....",level:.Trace)
             c.readDataWithTag(rTag)
             
@@ -707,7 +707,9 @@ class SFConnection: Connection {
                     }
                 }else {
                     reqInfo.status = .Transferring
-                    client_socks_recv_initiate()
+                    
+                    //disable 
+                    //client_socks_recv_initiate()
                 }
                 
             }
@@ -718,8 +720,9 @@ class SFConnection: Connection {
             }
             let error = client_socks_recv_send_out()
             if  error < -9 {
-                fatalError("send_out fail")
+                
                 SKit.log("\(cIDString) client_socks_recv_send_out error:\(error)",level: .Error)
+                fatalError("send_out fail")
                 client_abort_client()
             }
         }
@@ -727,7 +730,7 @@ class SFConnection: Connection {
     func client_socks_recv_handler_done(_ len:Int){
 
        
-        // if client was closed, stop receiving
+        //after first recv ,continue
         client_socks_recv_initiate()
         if len > 0 {
             let slen = client_socks_recv_send_out()
