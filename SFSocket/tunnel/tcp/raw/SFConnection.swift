@@ -47,7 +47,7 @@ let LWIP_ASYNC_TCP_Recved = false
 class SFConnection: Connection {
     
 
-
+    var penDingAck:[Int] = []
     
     public func didSendBufferLen(_ buf_used: Int) {
             SKit.log("didSendBufferLen error", level: .Info)
@@ -728,22 +728,14 @@ class SFConnection: Connection {
 
        
         // if client was closed, stop receiving
-        
+        client_socks_recv_initiate()
         if len > 0 {
             let slen = client_socks_recv_send_out()
             if  slen < 0 {
                SKit.log("\(cIDString) client_socks_recv_send_out error \(slen)",level: .Error)
             
             }
-        }else {
-            if reqInfo.status !=  .RecvWaiting{
-                client_socks_recv_initiate()
-            }else {
-                //SKit.log("\(cIDString) status:\(reqInfo.status) ",level: .Debug)
-                SKit.log("\(cIDString) status:\(reqInfo.status) waitting",level: .Verbose)
-            }
         }
-
     }
     func client_socks_send_handler_done(_ len:Int){
         //which thread? not stable, maybe EXC_BAD_ACCESS
@@ -858,9 +850,7 @@ class SFConnection: Connection {
             }
             
             
-            if tag == sendingTag {
-                return
-            }
+         
             guard let connector = connector  else {return }
             
             //至少有1个？
@@ -868,9 +858,9 @@ class SFConnection: Connection {
                // fatalError("xxxx")
                 bufArray.removeAll()
             }
-            bufArrayInfo[tag] = sendData.count
+           
+            penDingAck.append(sendData.count)
             
-            client_socks_send_handler_done(sendData.count)
             connector.writeData(sendData, withTag: Int(tag))
             
         }
@@ -1068,18 +1058,8 @@ class SFConnection: Connection {
     override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
         reqInfo.activeTime = Date()
         
-        let t = self.sendingTag
-        if let len = bufArrayInfo[t] {
-            client_socks_send_handler_done(len)
-            bufArrayInfo.removeValue(forKey: t)
-            SKit.log("\(cIDString) socket didWriteData \(t) found bufArrayInfo", level: .Debug)
-        }else {
-            SKit.log("\(cIDString) currrent tag: \(withTag) != \(self.sendingTag)",level: .Debug)
-        }
-//        if self.sendingTag == 0 {
-//            //第一次write 后开始read?
-//            client_socks_recv_initiate()
-//        }
+        let len = penDingAck.remove(at: 0)
+        client_socks_send_handler_done(len)
        
        
         tag += 1
@@ -1093,7 +1073,10 @@ class SFConnection: Connection {
         reqInfo.interfaceCell  = socket.useCell ? 1: 0
         //MARK: todo set ipaddr local/remote
        //reqInfo.localIPaddress = socket.sourceIPAddress!
-       // reqInfo.remoteIPaddress = socket.destinationIPAddress!
+        if let r = socket.remote {
+            reqInfo.remoteIPaddress = r.hostname
+        }
+        
         SKit.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
         client_socks_handler(.event_UP)
     }

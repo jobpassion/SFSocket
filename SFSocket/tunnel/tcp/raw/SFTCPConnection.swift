@@ -120,7 +120,7 @@ class SFTCPConnection: SFConnection {
             reqInfo.closereason = .clientReject
             return
         } else {
-            SKit.log("\(cIDString)  incomingData  \(reqInfo.url) \(d.count)",level:  .Debug)
+            SKit.log("\(cIDString)  incomingData  \(reqInfo.url) \(d.count)",level:  .Trace)
             bufArray.append(d)
         }
         
