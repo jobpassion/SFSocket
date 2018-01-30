@@ -13,6 +13,7 @@ import AxLogger
 import Xcon
 import XProxy
 import XFoundation
+
 public class RequestHelper{
     static public let shared = RequestHelper()
     
@@ -121,12 +122,36 @@ public class RequestHelper{
     public func openForApp(_ session:String) ->URL?{
         
         let p = groupContainerURL().appendingPathComponent("Log/" + session + "/")
-        open(p.path,readonly: true,session: "")
+        open(p.path,readonly: true,session: session)
        
         return p
         
     }
-    public func  query() -> [SFRequestInfo] {
+    public func  query(_ mode:String = "",host:String = "",agent:String = "") -> [SFRequestInfo] {
+        let  result = fetchAll()
+        let new = result.filter { req -> Bool in
+            if req.url.isEmpty {
+                return false
+            }
+            if mode == req.mode.rawValue {
+                return true
+            }
+            if let _ = req.host.range(of: host) {
+                return true
+            }
+            
+            if let header = req.reqHeader,let _ = header.app.range(of: agent) {
+                return true
+            }
+            
+            
+            return false
+        }
+
+        return new
+    }
+    
+    public func  fetchAll() -> [SFRequestInfo] {
         var result:[SFRequestInfo] = []
         
         
@@ -196,63 +221,15 @@ public class RequestHelper{
                     req.remoteIPaddress = row["remoteIP"]
                     
                     
-
-                    
                 }
                 
             }
-            
-
         }catch let e {
             print(e.localizedDescription)
         }
         
         return result
     }
-    func test(){
-        
-//        let url = applicationDocumentsDirectory.appendingPathComponent("test.sqlite")
-//        let db = try! Connection(url.path!)
-//        
-//        db.trace { print($0) }
-//        
-//        let users = Table("users")
-//        
-//        let id = Expression<Int64>("id")
-//        let email = Expression<String>("email")
-//        let name = Expression<String?>("name")
-//        
-//        try! db.run(users.create { t in
-//            t.column(id, primaryKey: true)
-//            t.column(email, unique: true, check: email.like("%@%"))
-//            t.column(name)
-//            })
-//        
-//        let rowid = try! db.run(users.insert(email <- "alice@mac.com"))
-//        let alice = users.filter(id == rowid)
-//        
-//        for user in try! db.prepare(users) {
-//            print("id: \(user[id]), email: \(user[email])")
-//        }
-//        
-//        let emails = VirtualTable("emails")
-//        
-//        let subject = Expression<String?>("subject")
-//        let body = Expression<String?>("body")
-//        
-//        try! db.run(emails.create(.FTS4(subject, body)))
-//        
-//        try! db.run(emails.insert(
-//            subject <- "Hello, world!",
-//            body <- "This is a hello world message."
-//            ))
-//        
-//        let row = db.pluck(emails.match("hello"))
-//        
-//        let query = try! db.prepare(emails.match("hello"))
-//        for row in query {
-//            print(row[subject])
-//        }
-    }
+    
     
 }

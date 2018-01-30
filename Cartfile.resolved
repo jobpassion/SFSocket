@@ -1,5 +1,5 @@
 git "git@bitbucket.org:yarshure/XProxy" "017e772e05206d17af9d12cfe0348bbdad942207"
-git "git@bitbucket.org:yarshure/xcon.git" "2309e238dd7a3ffe80e6e77017049228c8c45720"
+git "git@bitbucket.org:yarshure/xcon.git" "0fded0660f9d6c773479955f6b0672ae8ee0bc56"
 github "Hearst-DD/ObjectMapper" "0c116f44b5d052892146bcb94ad6c690b3dec40d"
 github "SwiftyJSON/SwiftyJSON" "4.0.0"
 github "ashleymills/Reachability.swift" "v3.0"

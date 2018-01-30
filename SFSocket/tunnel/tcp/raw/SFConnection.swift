@@ -637,7 +637,7 @@ class SFConnection: Connection {
                 //queue = 'com.yarshure.dispatchqueue', stop reason = EXC_BAD_ACCESS (code=1, address=0x302e312f610001bb)
                 
                 let err = tcp_output(pcb)
-                SKit.log("\(cIDString) tcp_output ... \(err):\(socks_sendout_length)",level:.Error)
+                SKit.log("\(cIDString) tcp_output ... \(err):\(socks_sendout_length)",level:.Trace)
                 if err != 0 {
                     fatalError("tcp_output error")
                     SKit.log("\(cIDString) tcp_output error",level:.Error)
@@ -648,7 +648,7 @@ class SFConnection: Connection {
             }else {
                 
                 let err = tcp_output(pcb)
-                SKit.log("\(cIDString) no buffer tcp_output ... \(err):\(socks_sendout_length)",level:.Error)
+                SKit.log("\(cIDString) no buffer tcp_output ... \(err):\(socks_sendout_length)",level:.Trace)
                 result = Int(err)
             }
             
@@ -709,7 +709,7 @@ class SFConnection: Connection {
                     reqInfo.status = .Transferring
                     
                     //disable 
-                    //client_socks_recv_initiate()
+                    client_socks_recv_initiate()
                 }
                 
             }
@@ -729,11 +729,11 @@ class SFConnection: Connection {
     }
     func client_socks_recv_handler_done(_ len:Int){
 
-       
-        //after first recv ,continue
-        client_socks_recv_initiate()
+
         if len > 0 {
             let slen = client_socks_recv_send_out()
+            //after first recv ,continue
+            //client_socks_recv_initiate()
             if  slen < 0 {
                SKit.log("\(cIDString) client_socks_recv_send_out error \(slen)",level: .Error)
             
@@ -1047,10 +1047,13 @@ class SFConnection: Connection {
         
         rTag += 1
         
-        
-        data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
-            socks_recv_bufArray.append(ptr)
+        //bug here,not
+        autoreleasepool {
+            data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
+                socks_recv_bufArray.append(ptr)
+            }
         }
+        
         //memory not dealloc socks_recv_bufArray.append(data)?
         #if LOGGER
             reqInfo.recvData.appendData(data)
