@@ -1,6 +1,7 @@
 import Foundation
 import AxLogger
 import XSocket
+import XProxy
 struct ConnectInfo: Hashable {
     let sourceAddress: IPv4Address
     let sourcePort: XPort
@@ -152,7 +153,7 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
             //RawSocketProtocol no == able
             guard let index = self.activeSockets.index(where: { (arg) -> Bool in
 
-                let (connectInfo, sock) = arg
+                let (_, sock) = arg
                 let ss = sock as! NSObject
                 let st = socket as! NSObject
                 
@@ -207,6 +208,13 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
                 activeSockets.removeValue(forKey: connectInfo)
             }
         }
+    }
+    func write(info:ConnectInfo)  {
+        let req = SFRequestInfo.init(rID:UInt(info.sourcePort.value))
+        req.url = info.destinationAddress.description + ":" + String(info.destinationPort.value)
+        req.mode = .UDP
+        
+        RequestHelper.shared.saveReqInfo(req)
     }
  
 }

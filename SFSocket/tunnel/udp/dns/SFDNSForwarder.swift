@@ -14,7 +14,7 @@ import CocoaAsyncSocket
 import Xcon
 import AxLogger
 import XFoundation
-
+import XProxy
 open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
     
 //    var decrypt_ctx:SEContextRef =  SEContextRef.alloc(1)//enc_ctx_create()//
@@ -163,15 +163,7 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
         
         let inden = packet.identifier
         waittingQueriesMap[Int(queryIDCounter)] = inden
-        //waittingQueriesTimeMap[inden] = Date()
-        //SKit.log("inden:\(inden) clientPort:\(clientPort)",level: .Debug)
-        //SKit.log("\(packet.queryDomains),waittingQueriesMap \(waittingQueriesMap)",level: .Debug)
-        //let packet:DNSPacket = DNSPacket.init(packetData: data)
-        //crash there
-        //queries.append(packet)
-        
-        
-        //SKit.log("\(packet.rawData)")
+      
         SKit.log("\(cIdString) DNSFORWARDER now send query \(packet.queryDomains.first!)",level: .Verbose)
         if (queryIDCounter == UInt16(UINT16_MAX)) {
             queryIDCounter = 0
@@ -195,35 +187,9 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
             
         }
         
-        //let  queryID:UInt16 = queryIDCounter++;
-        //data.replaceBytesInRange(NSMakeRange(0, 2), withBytes: queryID)
-        
-        //[data replaceBytesInRange:NSMakeRange(0, 2) withBytes:&queryID];
-        //how to send data
-        //waittingQueriesMap[queryID] = data
-        //socket?.sendData(data, toHost: "192.168.0.245", port: 53, withTimeout: 10, tag: 0)
-       //SKit.log("send dns request data: \(packet.rawData)",level: .Trace)
-        
         activeTime = Date()
         if let _ = proxy {
-//            let temp = NSMutableData()
-//            let head = buildHead()
-//            temp.appendData(head)
-//            temp.appendData(packet.rawData)
-//            brealloc(sbuf,temp.length,CLIENT_SOCKS_RECV_BUF_SIZE)
-//            buffer_t_copy(sbuf,UnsafePointer(temp.bytes),temp.length)
-//            var  len = buffer_t_len(sbuf)
-//            let ret = ss_encrypt(sbuf,encrypt_ctx,len)
-//            if ret != 0 {
-//                //abort()
-//                //SKit.log("\(cccIdString) ss_encrypt error ",level: .Error)
-//            }
-//            len = buffer_t_len(sbuf)
-//            let result = NSData.init(bytes: buffer_t_buffer(sbuf), length: len)
-//
-//            if let s = socket {
-//                s.sendData(result, withTimeout: 0.5, tag: Int(packet.identifier))
-//            }
+
         }else {
             if let s = socket {
                 startTime = Date()
@@ -268,30 +234,14 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
         }
         
         var srcip:UInt32 = 0//0xc0a800f5//0b01 // 00f5
-        //var dstip:UInt32 = 0xf0070109 //bigEndian//= 0xc0a80202
-        //if let c = clientAddress {
-            //c.getBytes(&dstip, length: 4)
-        //    address.copyBytes(to: &UInt8(srcip), from: r)
+      
         let buffer = UnsafeMutableBufferPointer(start: &srcip, count: 1)
         _ = address.copyBytes(to: buffer , from: r)
-        //}
+       
         
         var data:Data?
         if let p = proxy {
-//            buffer_t_copy(rbuf,UnsafePointer(tempdata.bytes),tempdata.length)
-//            let ret = ss_decrypt(rbuf, decrypt_ctx,tempdata.length)
-//            //let x = tag+1
-//            if ret != 0  {
-//                //SKit.log("\(ccIdString) ss_decrypt error ",level: .Error)
-//                //self.readDataWithTimeout(0.1, length: 2048, tag: x)
-//                logStream.write("DNS decrypt error!")
-//            }else {
-//                let len = buffer_t_len(rbuf)
-//                let result  = NSData.init(bytes: buffer_t_buffer(rbuf), length: len)
-//                //SKit.log("\(ccIdString) decrypt \(out)",level: .Debug)
-//                //let type:SOCKS5HostType = .IPV4
-//                data = result.subdataWithRange(NSMakeRange(7, result.length-7))
-//            }
+
             SKit.log("\(p.serverAddress)",level: .Trace)
             //NSLog("dns packet 333")
         }else {
@@ -327,43 +277,23 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
             packet = DNSPacket.init(data: cacheData)
         }else {
             packet = DNSPacket.init(data: data)
-        }
-        //NSLog("DNS 222")
-        let inden = packet.identifier
-        if packet.finished == false {
             if var c = cacheData {
                 c.append(data)
             }else {
                 cacheData = Data()
                 cacheData?.append(data)
             }
-            
-        }else {
+        }
+  
+        let inden = packet.identifier
+    
+        if packet.finished {
             SKit.log("DNSFORWARDER  \(packet.queryDomains.first!) Finished",level: .Debug)
-//            if let rData = waittingQueriesTimeMap[inden]{
-//                waittingQueriesTimeMap.removeValue(forKey: inden)
-//                let now = Date()
-//                let second = now.timeIntervalSince(rData)
-//                // debugLog("DNS Response Fin" + packet.queryDomains.first!)
-//                let message = String.init(format:"DNS Response Fin %@ use %.2f second",packet.queryDomains.first!, second)
-//                SKit.log(message,level: .Trace)
-//            }
             
-            //NSLog("DNS %@",packet.queryDomains)
-            //SKit.log("domains answer:\(packet.queryDomains) iden :\(inden) clientPort:\(cPort) use second:\(second)",level: .Debug)
-            //        waittingQueriesTimeMap.removeValueForKey(inden)
             waittingQueriesMap.removeValue(forKey: Int(inden))
             cacheData?.count = 0
-            
-           // NSLog("DNS Response Fin %@", packet.queryDomains.first!,packet.answerDomains)
-           
+            write(packet: packet)
         }
-        
-        
-        
-        
-        
-        
         let d = SFData()
         d.append(h!)
         //可能经过代理
@@ -375,11 +305,9 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
         let ulen = data.count + 8
         d.append(UInt16(ulen).bigEndian)
         d.append(UInt16(0))
-        //        d.appendBytes(&(a.bigEndian), length: sizeof(a))
-        //        d.appendBytes(&(srcport?.bigEndian) ,length: 2)
+     
         d.append(data)
-        //SKit.log("\(cIdString) buffer:\(d.data as NSData)", level: .Debug)
-        //waittingQueriesMap.removeValueForKey(inden)
+
         if let delegate = self.delegate {
             SKit.log("\(cIdString) IPPacket write to tune\(d.description)", level: .Debug)
             delegate.serverDidQuery(self, data: d.data,close:  packet.finished)
@@ -435,20 +363,28 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
     }
     
     deinit {
-        if let _ = proxy {
-//            bfree(sbuf)
-//            sbuf.dealloc(1)
-//            bfree(rbuf)
-//            rbuf.dealloc(1)
-//            free_enc_ctx(encrypt_ctx)
-//            free_enc_ctx(decrypt_ctx)
-        }
+        
         if let s = socket {
             s.setDelegate( nil)
-            
-            //s = nil
         }
         SKit.log("DNS-Server deinit",level: .Debug)
     }
     
+}
+extension SFDNSForwarder {
+    func write(packet:DNSPacket)  {
+        let req = SFRequestInfo.init(rID: UInt(reqID))
+        req.url = packet.queryDomains.first!
+        req.mode = .DNS
+        let x = packet.ipString.map { $0 + "\r\n" }
+        
+        var str:String = "DNS/1.1 200 OK\r\n"
+        for (idx,yy) in x.enumerated(){
+            str += "IP\(idx): "
+            str += yy
+        }
+        str += "\r\n\r\n"
+        req.respHeader = SFHTTPResponseHeader.init(data: str.data(using: .utf8)!)
+        RequestHelper.shared.saveReqInfo(req)
+    }
 }

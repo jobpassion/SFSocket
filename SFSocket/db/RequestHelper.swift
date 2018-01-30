@@ -178,6 +178,9 @@ public class RequestHelper{
                     req.status = SFConnectionStatus(rawValue:row["status"])!
                     req.closereason = SFConnectionCompleteReason(rawValue:row["closereason"])!
                     req.url = row["url"]
+                    if req.url.isEmpty {
+                        continue
+                    }
                     req.app = row["app"]
                     req.sTime = Date.init(timeIntervalSince1970: row["start"])
                     result.append(req)
