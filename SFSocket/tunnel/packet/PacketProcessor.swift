@@ -43,7 +43,7 @@ public class PacketProcessor {
 
                 
                 let ipacket =  IPv4Packet(PacketData:packet)
-                SKit.logX("incoming " + ipacket.description, level: .Info)
+                SKit.logX("incoming " + ipacket.description, level: .Trace)
                 switch Int32(ipacket.proto) {
                 case IPPROTO_UDP:
 

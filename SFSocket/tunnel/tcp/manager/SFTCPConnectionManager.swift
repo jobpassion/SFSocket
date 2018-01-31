@@ -92,7 +92,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         //
         //        }
         //let highPriorityAttr:dispatch_queue_attr_t = dispatch_queue_attr_make_with_qos_class (DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE,-1);
-        dispatchQueue = DispatchQueue(label: "com.yarshure.dispatchqueue")
+        dispatchQueue =  DispatchQueue.main//DispatchQueue(label: "com.yarshure.dispatchqueue")
         //let lowPriorityAttr:dispatch_queue_attr_t = dispatch_queue_attr_make_with_qos_class (DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND,-1);
         socketQueue =  DispatchQueue(label:"com.yarshure.socketqueue")
         super.init()

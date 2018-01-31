@@ -707,9 +707,6 @@ class SFConnection: Connection {
                     }
                 }else {
                     reqInfo.status = .Transferring
-                    
-                    //disable 
-                    client_socks_recv_initiate()
                 }
                 
             }
@@ -719,6 +716,9 @@ class SFConnection: Connection {
                 reqInfo.status =  .RecvWaiting
             }
             let error = client_socks_recv_send_out()
+            if socks_recv_bufArray.isEmpty {
+                client_socks_recv_initiate()
+            }
             if  error < -9 {
                 
                 SKit.log("\(cIDString) client_socks_recv_send_out error:\(error)",level: .Error)
@@ -733,7 +733,11 @@ class SFConnection: Connection {
         if len > 0 {
             let slen = client_socks_recv_send_out()
             //after first recv ,continue
-            //client_socks_recv_initiate()
+            //
+            if socks_recv_bufArray.isEmpty {
+                client_socks_recv_initiate()
+            }
+            
             if  slen < 0 {
                SKit.log("\(cIDString) client_socks_recv_send_out error \(slen)",level: .Error)
             
@@ -1080,9 +1084,17 @@ class SFConnection: Connection {
         //MARK: todo set ipaddr local/remote
        //reqInfo.localIPaddress = socket.sourceIPAddress!
         if let r = socket.remote {
+            
             reqInfo.remoteIPaddress = r.hostname
         }
-        
+        if let l = socket.local {
+            reqInfo.localIPaddress = l.hostname
+            if l.hostname == SFNetworkInterfaceManager.WiFiIPAddress {
+                reqInfo.interfaceCell = 1
+            }else {
+                reqInfo.interfaceCell = 0
+            }
+        }
         SKit.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
         client_socks_handler(.event_UP)
     }
