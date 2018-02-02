@@ -9,6 +9,7 @@
 import Foundation
 import Darwin
 import DarwinCore
+import XRuler
 public class DNSServer :CustomStringConvertible {
     public var ipaddr:String
     public var system:Bool = false

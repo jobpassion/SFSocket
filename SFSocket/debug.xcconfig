@@ -11,3 +11,4 @@ OTHER_LDFLAGS = $(inherited)  -framework XProxy   -framework lwip -framework Sys
 
 FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PROJECT_DIR)/Carthage/Build/iOS/"
 LIBRARY_SEARCH_PATHS = $(inherited) "$(PROJECT_DIR)/Carthage/Build/iOS/"
+

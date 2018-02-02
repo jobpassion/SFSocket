@@ -548,7 +548,7 @@ class SFConnection: Connection {
         assert(!reqInfo.socks_closed)
         assert(reqInfo.socks_up)
         guard let c = connector else {return}
-        let  _ = SFEnv.SOCKS_RECV_BUF_SIZE
+        
 
         if reqInfo.status !=  .RecvWaiting  {
             SKit.log("\(cIDString)  reading....",level:.Trace)
@@ -706,7 +706,9 @@ class SFConnection: Connection {
                         
                     }
                 }else {
+                    
                     reqInfo.status = .Transferring
+                    client_socks_recv_initiate()
                 }
                 
             }
@@ -1090,9 +1092,9 @@ class SFConnection: Connection {
         if let l = socket.local {
             reqInfo.localIPaddress = l.hostname
             if l.hostname == SFNetworkInterfaceManager.WiFiIPAddress {
-                reqInfo.interfaceCell = 1
-            }else {
                 reqInfo.interfaceCell = 0
+            }else {
+                reqInfo.interfaceCell = 1
             }
         }
         SKit.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
