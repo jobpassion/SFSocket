@@ -43,12 +43,10 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     var tcpOperating:Bool = false
     public var lwip_init_finished = false
     var dispatch_timer : DispatchSourceTimer! = nil
-    //private var timer:NSTimer?
+    
     var firsttime = true
     var once : Bool = false
-    var networkingScheduledTask :DispatchWorkItem =  DispatchWorkItem.init {
-        
-    }
+    var networkingScheduledTask :DispatchWorkItem!
    
     public func client_sent_func(_ client: UnsafeMutableRawPointer!) {
         let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
@@ -82,52 +80,24 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     
     
     override init() {
-        //var token: dispatch_once_t = 0
-        
-        //start()
-        
-        //        dispatch_async(dispatchQueue) { [unowned self] () -> Void in
-        //            //reopen()
-        //            init_lwip()//lwip_init
-        //
-        //        }
-        //let highPriorityAttr:dispatch_queue_attr_t = dispatch_queue_attr_make_with_qos_class (DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE,-1);
+      
         dispatchQueue =  DispatchQueue.main//DispatchQueue(label: "com.yarshure.dispatchqueue")
-        //let lowPriorityAttr:dispatch_queue_attr_t = dispatch_queue_attr_make_with_qos_class (DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND,-1);
         socketQueue =  DispatchQueue(label:"com.yarshure.socketqueue")
         super.init()
         setupStackWithFin(self) {
             self.lwip_init_finished = true
+            self.start()
         }
         //dispatch_once(&token) {
         
         
         self.installMemoryWarning()
+        
         //}
     }
-    //    func addSocketConnection(s:SFHTTPSocketConnection) {
-    //        socketConnection.append(s)
-    //    }
+
     public func start(){
-        
-        
-        
-        
-        //DispatchWorkItem(flags: .assignCurrentContext)
-        networkingScheduledTask = DispatchWorkItem.init(block: { [unowned self] () ->(Void) in
-            //print("************** \(NSDate()) ***********")
-            //networkingScheduledTask()
-            //
-            if !self.tcpOperating{
-                //self.checkConnectionStatus()
-                self.tcpOperating = true
-                tcp_tmr()
-                
-                self.tcpOperating = false
-            }
-            
-        })
-        
+    
         self.startWithInterval(SKit.lwip_timer_second)
         
     }
@@ -324,13 +294,7 @@ extension SFTCPConnectionManager{
         
         //usleep(50)
     }
-    func tcp_timer_handler(_ t:Timer){
-        self.dispatchQueue.async {[weak self] () -> Void in
-            //tcp_tmr();
-            _ = self!.networkingScheduledTask
-        }
-        
-    }
+ 
     public func cleanConnection() {
         SKit.log("[SFTCPConnectionManager] Connection :\(connections.count)",level: .Notify)
         //self.cancel()
@@ -356,24 +320,19 @@ extension SFTCPConnectionManager{
     func startWithInterval(_ interval:Double) {
         self.firsttime = true
         self.cancel()
-        self.dispatch_timer =  DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue: SFTCPConnectionManager.shared.dispatchQueue)
+        self.dispatch_timer =  DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags.init(rawValue: 0), queue: dispatchQueue)
         
         
-        let interval: Double = 1.0
         
-        let delay = DispatchTime.now()
         
-        dispatch_timer.schedule(deadline: delay, repeating: interval, leeway: .nanoseconds(0))
+        let deadline = DispatchTime.now()
         
-        dispatch_timer.setEventHandler { [unowned self] in
-            if self.firsttime {
-                self.firsttime = false
-                return
-            }
-            _ = self.networkingScheduledTask
-            if self.once {
-                self.cancel()
-            }
+        dispatch_timer.schedule(deadline: deadline, repeating: interval, leeway: .nanoseconds(0))
+        
+        dispatch_timer.setEventHandler {  
+           tcp_tmr()
+           
+            
         }
         dispatch_timer.setCancelHandler {//[unowned self] in
             SKit.log("dispatch_timer cancel", level: .Info)

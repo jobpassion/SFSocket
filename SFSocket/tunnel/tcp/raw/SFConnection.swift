@@ -545,7 +545,7 @@ class SFConnection: Connection {
             return
         }
         assert(!reqInfo.client_closed)
-        assert(!reqInfo.socks_closed)
+      
         assert(reqInfo.socks_up)
         guard let c = connector else {return}
         
@@ -628,35 +628,31 @@ class SFConnection: Connection {
         //不稳定, 下载大文件的时候错误
         //重要raw TCP
 
-        if !manager.tcpOperating {
-            manager.tcpOperating = true
-            if noBufferAvaliable == false {
-                //bug
-                //EXC_BAD_ACCESS
-                //MARK: - todo fixme
-                //queue = 'com.yarshure.dispatchqueue', stop reason = EXC_BAD_ACCESS (code=1, address=0x302e312f610001bb)
+  
+        if noBufferAvaliable == false && socks_sendout_length > 0 {
+            //bug
+            //EXC_BAD_ACCESS
+            //MARK: - todo fixme
+            //queue = 'com.yarshure.dispatchqueue', stop reason = EXC_BAD_ACCESS (code=1, address=0x302e312f610001bb)
+            
+            let err = tcp_output(pcb)
+            SKit.log("\(cIDString) tcp_output ... \(err):\(socks_sendout_length)",level:.Trace)
+            if err != 0 {
                 
-                let err = tcp_output(pcb)
-                SKit.log("\(cIDString) tcp_output ... \(err):\(socks_sendout_length)",level:.Trace)
-                if err != 0 {
-                    fatalError("tcp_output error")
-                    SKit.log("\(cIDString) tcp_output error",level:.Error)
-                    client_abort_client()
-                    return -1
-                }
-                
-            }else {
-                
-                let err = tcp_output(pcb)
-                SKit.log("\(cIDString) no buffer tcp_output ... \(err):\(socks_sendout_length)",level:.Trace)
-                result = Int(err)
+                SKit.log("\(cIDString) tcp_output error",level:.Error)
+                client_abort_client()
+                fatalError("tcp_output error")
+                return -1
             }
             
-            manager.tcpOperating = false
-            
         }else {
-            SKit.log("\(cIDString) tcpOperating  ",level:.Debug)
+            
+            let err = tcp_output(pcb)
+            SKit.log("\(cIDString) no buffer tcp_output ... \(err):\(socks_sendout_length)",level:.Trace)
+            result = Int(err)
         }
+            
+           
         
         if socks_sendout_length > 0 {
             //reset to size
@@ -1071,6 +1067,7 @@ class SFConnection: Connection {
         reqInfo.activeTime = Date()
         
         let len = penDingAck.remove(at: 0)
+        reqInfo.updateSendTraffic(len)
         client_socks_send_handler_done(len)
        
        
@@ -1085,6 +1082,7 @@ class SFConnection: Connection {
         reqInfo.interfaceCell  = socket.useCell ? 1: 0
         //MARK: todo set ipaddr local/remote
        //reqInfo.localIPaddress = socket.sourceIPAddress!
+        //bug?
         if let r = socket.remote {
             
             reqInfo.remoteIPaddress = r.hostname
