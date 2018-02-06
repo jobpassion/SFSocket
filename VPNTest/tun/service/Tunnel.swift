@@ -8,50 +8,6 @@
 
 import Foundation
 
-/// Command types in the SimpleTunnel protocol
-public enum TunnelCommand: Int, CustomStringConvertible {
-    case data = 1
-    case suspend = 2
-    case resume = 3
-    case close = 4
-    case dns = 5
-    case open = 6
-    case openResult = 7
-    case packets = 8
-    case fetchConfiguration = 9
-    
-    public var description: String {
-        switch self {
-        case .data: return "Data"
-        case .suspend: return "Suspend"
-        case .resume: return "Resume"
-        case .close: return "Close"
-        case .dns: return "DNS"
-        case .open: return "Open"
-        case .openResult: return "OpenResult"
-        case .packets: return "Packets"
-        case .fetchConfiguration: return "FetchConfiguration"
-        }
-    }
-}
-
-/// Keys in SimpleTunnel message dictionaries.
-public enum TunnelMessageKey: String {
-    case Identifier = "identifier"
-    case Command = "command"
-    case Data = "data"
-    case CloseDirection = "close-type"
-    case DNSPacket = "dns-packet"
-    case DNSPacketSource = "dns-packet-source"
-    case ResultCode = "result-code"
-    case TunnelType = "tunnel-type"
-    case Host = "host"
-    case Port = "port"
-    case Configuration = "configuration"
-    case Packets = "packets"
-    case Protocols = "protocols"
-    case AppProxyFlowType = "app-proxy-flow-type"
-}
 
 /// The layer at which the tunnel tunnels traffic.
 public enum TunnelLayer: Int {

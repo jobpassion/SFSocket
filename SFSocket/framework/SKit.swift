@@ -190,7 +190,7 @@ public class SKit {
         
        SKit.log("loading.. proxys", level: .Info)
         
-       SKit.log("loading" + ProxyGroupSettings.share.config,level:.Info)
+       SKit.log("loading... " + ProxyGroupSettings.share.config,level:.Info)
         if !ProxyGroupSettings.share.config.isEmpty {
             SFSettingModule.setting.config(ProxyGroupSettings.share.config)
         }

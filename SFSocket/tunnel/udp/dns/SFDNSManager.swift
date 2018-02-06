@@ -110,13 +110,14 @@ open class SFDNSManager {
     }
     func updateSetting() ->[DNSServer]{
         
-        var result:[DNSServer] = setUpConfig(nil)
+        var result:[DNSServer] 
         //MARK --fixme
-//        if let dns = SFSettingModule.setting.custormDNS{
-//             result  = setUpConfig(dns)
-//        }else {
-//           
-//        }
+        let custom = SFSettingModule.setting.custormDNS()
+        if  !custom.isEmpty{
+             result  = setUpConfig(custom)
+        }else {
+             result =  setUpConfig(nil)
+        }
         settings = result
         
         //SFNetworkInterfaceManager.instances.updateIPAddress()
