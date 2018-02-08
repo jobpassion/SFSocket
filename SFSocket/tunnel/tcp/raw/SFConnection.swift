@@ -72,6 +72,12 @@ class SFConnection: Connection {
     
    
     //var ipaddr
+    func client_poll(){
+        if !socks_recv_bufArray.isEmpty {
+           SKit.logX("client_socks_recv_send_out..", level: .Debug)
+           let r = client_socks_recv_send_out()
+        }
+    }
     func sendBufferSize() -> Int {
         var size:Int = 0
         for d in bufArray {
@@ -250,6 +256,8 @@ class SFConnection: Connection {
     
     func findIPaddress() {
         //这货有bug
+        //可能存在长时间无响应问题
+        
         let d = DNSResolver()
         d.hostname = reqInfo.host
         d.querey(reqInfo.host) {[weak self] (record) in
@@ -482,51 +490,7 @@ class SFConnection: Connection {
         }
         //debugLog("client_socks_handler")
     }
-    
 
- 
-
-
-//extension SFConnection {
-    func client_tcp_output() {
-        guard let m  = manager else { return }
-        if LWIP_ASYNC_TCP_OUT {
-            m.dispatchQueue.async {  [unowned self] () -> Void in
-                                    //还是会挂掉
-                    if !m.tcpOperating {
-                        m.tcpOperating = true
-                        let err = tcp_output(self.pcb)
-                        if err != 0 {
-                           //SKit.log("\(self.cIDString) tcp_output error:\(err)",level:.Error)
-                            self.client_abort_client()
-                            //return -1
-                        }
-                    }
-                    
-                    
-                
-                
-            }
-
-            
-            
-        }else {
-            if !m.tcpOperating {
-                m.tcpOperating = true
-                //have problem
-                let err = tcp_output(pcb)
-                if err != 0 {
-                   //SKit.log("\(cIDString) tcp_output error:\(err)",level: .Error)
-                    client_abort_client()
-                    //return -1
-                }
-                m.tcpOperating = false
-            }
-            
-
-        }
-        
-    }
     func client_tcp_received(_ len:Int) {
         tcp_recved(self.pcb, UInt16(len))
         guard let m = manager else {return}
@@ -585,7 +549,8 @@ class SFConnection: Connection {
                     noBufferAvaliable = true
                     break
                 }
-                //will failure here todo fix it
+                //
+                //FIXME: will failure here todo fix it
                 if tcp_write_check(pcb) <  0  {
                    SKit.log("\(cIDString) lwip write check failure \(reqInfo.url)  will fix ",level: .Debug)
                     fatalError("tcp_write_check failure")
@@ -632,7 +597,7 @@ class SFConnection: Connection {
         if noBufferAvaliable == false && socks_sendout_length > 0 {
             //bug
             //EXC_BAD_ACCESS
-            //MARK: - todo fixme
+            //FIXME: - todo fixme
             //queue = 'com.yarshure.dispatchqueue', stop reason = EXC_BAD_ACCESS (code=1, address=0x302e312f610001bb)
             
             let err = tcp_output(pcb)
@@ -658,7 +623,8 @@ class SFConnection: Connection {
             //reset to size
             let r = Range(0 ..< socks_sendout_length)
             if socks_sendout_length <= socks_recv_bufArray.count {
-                socks_recv_bufArray.replaceSubrange(r, with: Data())
+                //socks_recv_bufArray.replaceSubrange(r, with: Data())
+                socks_recv_bufArray.removeSubrange(r)
                 socks_sendout_length = 0
             }else {
                 fatalError("crashed!!!")
@@ -714,9 +680,7 @@ class SFConnection: Connection {
                 reqInfo.status =  .RecvWaiting
             }
             let error = client_socks_recv_send_out()
-            if socks_recv_bufArray.isEmpty {
-                client_socks_recv_initiate()
-            }
+            
             if  error < -9 {
                 
                 SKit.log("\(cIDString) client_socks_recv_send_out error:\(error)",level: .Error)
@@ -730,11 +694,7 @@ class SFConnection: Connection {
 
         if len > 0 {
             let slen = client_socks_recv_send_out()
-            //after first recv ,continue
-            //
-            if socks_recv_bufArray.isEmpty {
-                client_socks_recv_initiate()
-            }
+            //after first recv ,continu
             
             if  slen < 0 {
                SKit.log("\(cIDString) client_socks_recv_send_out error \(slen)",level: .Error)

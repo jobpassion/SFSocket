@@ -21,8 +21,4 @@ class VLog {
         
     }
 }
-public func simpleTunnelLog(_ message: String) {
-    
-    os_log("VPN: %@", log: .default, type: .debug, message)
-}
 

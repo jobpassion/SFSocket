@@ -18,6 +18,8 @@ import XProxy
 public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     
     
+    
+    
     public static let shared:SFTCPConnectionManager = SFTCPConnectionManager()
     
    
@@ -48,6 +50,16 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     var once : Bool = false
     var networkingScheduledTask :DispatchWorkItem!
    
+    public func client_poll(_ client: UnsafeMutableRawPointer!) {
+        if client != nil {
+            let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
+            let connection:SFConnection = unmanaged.takeUnretainedValue()
+            connection.client_poll()
+        }else {
+            
+        }
+        
+    }
     public func client_sent_func(_ client: UnsafeMutableRawPointer!) {
         let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
         let connection:SFConnection = unmanaged.takeUnretainedValue()

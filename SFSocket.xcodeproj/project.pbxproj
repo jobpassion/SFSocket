@@ -99,6 +99,7 @@
 		695F6E881E900E1A00C72E5E /* UDPPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695F6E4E1E900E1A00C72E5E /* UDPPacket.swift */; };
 		696FACE9200B1FDA00DCFC07 /* Tunmanager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696FACE8200B1FDA00DCFC07 /* Tunmanager.swift */; };
 		697044BB2029D57500BFB642 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0E71FFDBCAD000B64F3 /* util.swift */; };
+		697044BC2029F4E500BFB642 /* VLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0DE1FFD3567000B64F3 /* VLog.swift */; };
 		697DF07A1FFDEF9600C6A64C /* PacketProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DF0791FFDEF9600C6A64C /* PacketProcessor.swift */; };
 		697DF07B1FFDEF9600C6A64C /* PacketProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DF0791FFDEF9600C6A64C /* PacketProcessor.swift */; };
 		697DF07D1FFDF56100C6A64C /* PacketProcessorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DF07C1FFDF56100C6A64C /* PacketProcessorProtocol.swift */; };
@@ -1035,6 +1036,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				696FACE9200B1FDA00DCFC07 /* Tunmanager.swift in Sources */,
+				697044BC2029F4E500BFB642 /* VLog.swift in Sources */,
 				6947198A1EE528F60059BEF8 /* ViewController.swift in Sources */,
 				69BCD1F21F56A81700D05C62 /* TestVC.swift in Sources */,
 				697044BB2029D57500BFB642 /* util.swift in Sources */,
