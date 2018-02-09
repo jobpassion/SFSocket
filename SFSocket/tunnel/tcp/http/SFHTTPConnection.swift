@@ -844,7 +844,7 @@ class SFHTTPConnection: SFHTTPRequest {
         
     }
     override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
-        SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Debug)
+        SKit.log("\(cIDString) didWriteDataWithTag \(withTag) \(tag)",level: .Trace)
         //NSLog("currrent tag: \(tag) == \(_tag)")
         guard let _ = reqInfo.reqHeader else {return}
         let currentReq:SFRequestInfo = reqInfo

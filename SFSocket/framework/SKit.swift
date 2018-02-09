@@ -159,8 +159,13 @@ public class SKit {
             packetProcessor = PacketProcessor.init(p: provier)
         }
         let defaultRoute = NEIPv4Route.default()
+        if let g = defaultRoute.gatewayAddress{
+            SKit.logX("Route gatewayAddress:\(g)", level: .Info)
+        }
+        
         let dest = defaultRoute.destinationAddress as String
         if reset {
+            SKit.logX("Route default dest:\(dest)", level: .Info)
             if dest == "0.0.0.0" && defaultRoute.gatewayAddress == nil{
                 includedRoutes.append(defaultRoute)
               
@@ -351,55 +356,55 @@ public class SKit {
  
     static func logX(_ msg:String,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
         
-//        if level != AxLoggerLevel.Debug {
-//            AxLogger.log(msg,level:level)
-//        }
-//        if debugEnable {
-//            #if os(iOS)
-//                if #available(iOSApplicationExtension 10.0, *) {
-//                    os_log("SKit: %@", log: .default, type: .debug, msg)
-//                } else {
-//                    print(msg)
-//                    // Fallback on earlier versions
-//                }
-//            #elseif os(OSX)
-//                if #available(OSXApplicationExtension 10.12, *) {
-//                    os_log("SKit: %@", log: .default, type: .debug, msg)
-//                } else {
-//                    print(msg)
-//                    // Fallback on earlier versions
-//                }
-//
-//            #endif
-//
-//
-//        }
+        if level != AxLoggerLevel.Debug {
+            AxLogger.log(msg,level:level)
+        }
+        if debugEnable {
+            #if os(iOS)
+                if #available(iOSApplicationExtension 10.0, *) {
+                    os_log("SKit: %@", log: .default, type: .debug, msg)
+                } else {
+                    print(msg)
+                    // Fallback on earlier versions
+                }
+            #elseif os(OSX)
+                if #available(OSXApplicationExtension 10.12, *) {
+                    os_log("SKit: %@", log: .default, type: .debug, msg)
+                } else {
+                    print(msg)
+                    // Fallback on earlier versions
+                }
+
+            #endif
+
+
+        }
     }
     static func log(_ msg:String,items: Any...,level:AxLoggerLevel , category:String="default",file:String=#file,line:Int=#line,ud:[String:String]=[:],tags:[String]=[],time:Date=Date()){
        
-//        if level != AxLoggerLevel.Debug {
-//            AxLogger.log(msg,level:level)
-//        }
-//        if debugEnable {
-//            #if os(iOS)
-//                if #available(iOSApplicationExtension 10.0, *) {
-//                    os_log("SKit: %@", log: .default, type: .debug, msg)
-//                } else {
-//                    print(msg)
-//                    // Fallback on earlier versions
-//                }
-//            #elseif os(OSX)
-//                if #available(OSXApplicationExtension 10.12, *) {
-//                    os_log("SKit: %@", log: .default, type: .debug, msg)
-//                } else {
-//                    print(msg)
-//                    // Fallback on earlier versions
-//                }
-//
-//            #endif
-//
-//
-//        }
+        if level != AxLoggerLevel.Debug {
+            AxLogger.log(msg,level:level)
+        }
+        if debugEnable {
+            #if os(iOS)
+                if #available(iOSApplicationExtension 10.0, *) {
+                    os_log("SKit: %@", log: .default, type: .debug, msg)
+                } else {
+                    print(msg)
+                    // Fallback on earlier versions
+                }
+            #elseif os(OSX)
+                if #available(OSXApplicationExtension 10.12, *) {
+                    os_log("SKit: %@", log: .default, type: .debug, msg)
+                } else {
+                    print(msg)
+                    // Fallback on earlier versions
+                }
+
+            #endif
+
+
+        }
 //
        
         
