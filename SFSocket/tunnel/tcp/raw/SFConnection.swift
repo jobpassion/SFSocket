@@ -1011,11 +1011,17 @@ class SFConnection: Connection {
         rTag += 1
         
         //bug here,not
-        autoreleasepool {
-            data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
-                socks_recv_bufArray.append(ptr)
-            }
+        if socks_recv_bufArray.isEmpty {
+            socks_recv_bufArray = data
+        }else {
+//            data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
+//                socks_recv_bufArray.append(ptr)
+//            }
+             socks_recv_bufArray = data
         }
+//        autoreleasepool {
+//           
+//        }
         
         //memory not dealloc socks_recv_bufArray.append(data)?
         #if LOGGER
@@ -1027,7 +1033,7 @@ class SFConnection: Connection {
     override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
         reqInfo.activeTime = Date()
         
-        if penDingAck.isEmpty {
+        if !penDingAck.isEmpty {
             let len = penDingAck.remove(at: 0)
             reqInfo.updateSendTraffic(len)
             client_socks_send_handler_done(len)

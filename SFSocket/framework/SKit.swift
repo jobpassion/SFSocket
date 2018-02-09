@@ -287,6 +287,7 @@ public class SKit {
             
         }
         
+        
         SFSettingModule.setting.updateProxySetting(setting: proxySettings)
         
         if SFSettingModule.setting.socksProxyEnable  {
