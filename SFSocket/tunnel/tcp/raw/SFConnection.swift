@@ -74,8 +74,9 @@ class SFConnection: Connection {
     //var ipaddr
     func client_poll(){
         if !socks_recv_bufArray.isEmpty {
-           SKit.logX("client_socks_recv_send_out..", level: .Debug)
+           
            let r = client_socks_recv_send_out()
+           SKit.logX("client_socks_recv_send_out..\(r)", level: .Debug)
         }
     }
     func sendBufferSize() -> Int {
@@ -1026,9 +1027,12 @@ class SFConnection: Connection {
     override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
         reqInfo.activeTime = Date()
         
-        let len = penDingAck.remove(at: 0)
-        reqInfo.updateSendTraffic(len)
-        client_socks_send_handler_done(len)
+        if penDingAck.isEmpty {
+            let len = penDingAck.remove(at: 0)
+            reqInfo.updateSendTraffic(len)
+            client_socks_send_handler_done(len)
+        }
+        
        
        
         tag += 1
@@ -1039,6 +1043,7 @@ class SFConnection: Connection {
     override func didConnect(_ socket: Xcon) {
         SKit.log("\(cIDString) Connect OK with Socket", level: .Info)
     
+       // if let path = SKit.provider.default
         reqInfo.interfaceCell  = socket.useCell ? 1: 0
         //MARK: todo set ipaddr local/remote
        //reqInfo.localIPaddress = socket.sourceIPAddress!

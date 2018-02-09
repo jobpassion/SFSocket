@@ -2,7 +2,11 @@ import Foundation
 import AxLogger
 import XSocket
 import XProxy
-struct ConnectInfo: Hashable {
+struct ConnectInfo: Hashable,CustomStringConvertible {
+    var description: String{
+        return sourceAddress.description + ":" + sourcePort.description + "||" + destinationAddress.description + ":" + destinationPort.description
+    }
+    
     let sourceAddress: IPv4Address
     let sourcePort: XPort
     let destinationAddress: IPv4Address
@@ -50,7 +54,7 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
     }
     
     public func didWriteData(_ data: Data?, withTag: Int, from: RawSocketProtocol) {
-        SKit.logX("didWriteData ", level: .Info)
+        SKit.logX("UDP didWriteData ", level: .Trace)
     }
     
     public func didConnect(_ socket: RawSocketProtocol) {
@@ -204,7 +208,9 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
         for (connectInfo, socket) in activeSockets {
             if socket.lastActive.addingTimeInterval(TimeInterval(Opt.UDPSocketActiveTimeout)).compare(Date()) == .orderedAscending {
                 var s = socket
+                SKit.logX("remove \(connectInfo.description) closeing", level: .Notify)
                 s.delegate = nil
+                s.forceDisconnect(becauseOf: nil)
                 activeSockets.removeValue(forKey: connectInfo)
             }
         }

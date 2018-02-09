@@ -38,7 +38,9 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
             return connections.count
         }
     }
-    
+    func setupClient(_ pcb:SFPcb,client: UnsafeMutableRawPointer!){
+        
+    }
     var ruleResultDynamic:[SFRuleResult] = []
     var ruleTestResult:[SFRuleResult] = []
     //var socketConnection:[SFHTTPSocketConnection] = []
@@ -50,7 +52,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     var once : Bool = false
     var networkingScheduledTask :DispatchWorkItem!
    
-    public func client_poll(_ client: UnsafeMutableRawPointer!) {
+    @objc public func client_poll(_ client: UnsafeMutableRawPointer!) {
         if client != nil {
             let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
             let connection:SFConnection = unmanaged.takeUnretainedValue()
@@ -60,31 +62,31 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
         }
         
     }
-    public func client_sent_func(_ client: UnsafeMutableRawPointer!) {
+    @objc public func client_sent_func(_ client: UnsafeMutableRawPointer!) {
         let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
         let connection:SFConnection = unmanaged.takeUnretainedValue()
         connection.client_sent_func()
     }
     
-    public func client_handle_freed_client(_ client: UnsafeMutableRawPointer!, error err: Int32) {
+    @objc public func client_handle_freed_client(_ client: UnsafeMutableRawPointer!, error err: Int32) {
         let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
         let connection:SFConnection = unmanaged.takeUnretainedValue()
         connection.client_handle_freed_client()
     }
     
-    public func client_free_client(_ client: UnsafeMutableRawPointer!) {
+    @objc public func client_free_client(_ client: UnsafeMutableRawPointer!) {
         let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
         let connection:SFConnection = unmanaged.takeUnretainedValue()
         connection.client_free_client()
     }
     
-    public func incomingData(_ d: Data!, len: Int, client: UnsafeMutableRawPointer!) {
+    @objc public func incomingData(_ d: Data!, len: Int, client: UnsafeMutableRawPointer!) {
         let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
         let connection:SFConnection = unmanaged.takeUnretainedValue()
         connection.incomingData(d, len: len)
     }
     
-    public func didSendBufferLen(_ buf_used: Int, client: UnsafeMutableRawPointer!) {
+    @objc public func didSendBufferLen(_ buf_used: Int, client: UnsafeMutableRawPointer!) {
         let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
         let connection:SFConnection = unmanaged.takeUnretainedValue()
         connection.didSendBufferLen(buf_used)
