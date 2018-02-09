@@ -160,10 +160,10 @@ public class SKit {
         }
         let defaultRoute = NEIPv4Route.default()
         if let g = defaultRoute.gatewayAddress{
-            SKit.logX("Route gatewayAddress:\(g)", level: .Info)
+            SKit.logX("Route default:gatewayAddress:\(g)", level: .Info)
         }
         
-        let dest = defaultRoute.destinationAddress as String
+        let dest = defaultRoute.destinationAddress 
         if reset {
             SKit.logX("Route default dest:\(dest)", level: .Info)
             if dest == "0.0.0.0" && defaultRoute.gatewayAddress == nil{
@@ -184,14 +184,15 @@ public class SKit {
         route.gatewayAddress = tunIP
         includedRoutes.append(route)
         
- 
         setting.ipv4Settings?.includedRoutes = includedRoutes
         
         
         var excludedRoutes = [NEIPv4Route]()
         
         
-        
+        route = NEIPv4Route(destinationAddress: vpnServer, subnetMask: "255.255.255.255")
+        route.gatewayAddress = defaultRoute.gatewayAddress
+        excludedRoutes.append(route)
         
        SKit.log("loading.. proxys", level: .Info)
         
@@ -236,7 +237,7 @@ public class SKit {
             route.gatewayAddress = NEIPv4Route.default().gatewayAddress
             excludedRoutes.append(route)
         }
-        
+        excludedRoutes.append(contentsOf:  SFSettingModule.setting.exclulesRoute())
         setting.ipv4Settings?.excludedRoutes = excludedRoutes
         
         let dnsservers =  SFDNSManager.manager.updateSetting()
@@ -282,10 +283,11 @@ public class SKit {
                 proxySettings.httpsEnabled = true
             }
             
-            SFSettingModule.setting.updateProxySetting(setting: proxySettings)
+            
             
         }
         
+        SFSettingModule.setting.updateProxySetting(setting: proxySettings)
         
         if SFSettingModule.setting.socksProxyEnable  {
             proxySettings.autoProxyConfigurationEnabled = true
@@ -302,9 +304,10 @@ public class SKit {
             
         }
         
-        proxySettings.excludeSimpleHostnames = true
+        
         setting.proxySettings  = proxySettings
         
+        //SKit.logX("setting\(setting)", level: .Info)
         provier.setTunnelNetworkSettings(setting) {  error in
             pendingStartCompletion(error)
             
