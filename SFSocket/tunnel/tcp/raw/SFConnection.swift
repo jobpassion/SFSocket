@@ -824,8 +824,8 @@ class SFConnection: Connection {
                // fatalError("xxxx")
                 bufArray.removeAll()
             }
-           
-            penDingAck.append(sendData.count)
+            let count = sendData.count
+            penDingAck.append(count)
             
             connector.writeData(sendData, withTag: Int(tag))
             
@@ -1037,6 +1037,8 @@ class SFConnection: Connection {
             let len = penDingAck.remove(at: 0)
             reqInfo.updateSendTraffic(len)
             client_socks_send_handler_done(len)
+        }else {
+            SKit.logX("error not found penDingAck len", level: .Error)
         }
         
        
