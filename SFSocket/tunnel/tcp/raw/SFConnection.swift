@@ -1052,15 +1052,13 @@ class SFConnection: Connection {
             
             reqInfo.remoteIPaddress = r.hostname
         }
+        var ipaddress:String = ""
         if let l = socket.local {
             reqInfo.localIPaddress = l.hostname
-            if  SFNetworkInterfaceManager.ipForType(l.hostname) == .cell{
-                reqInfo.interfaceCell = 1
-            }
-        }else {
-            if SFEnv.hwType = .cell {
-                reqInfo.interfaceCell = 1
-            }
+            ipaddress = l.hostname
+        }
+        if  SFNetworkInterfaceManager.ipForType(ipaddress) == .cell{
+            reqInfo.interfaceCell = 1
         }
         SKit.log("\(reqInfo.url) routing \(reqInfo.interfaceCell)",level: .Trace)
         client_socks_handler(.event_UP)
