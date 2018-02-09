@@ -1044,7 +1044,7 @@ class SFConnection: Connection {
         SKit.log("\(cIDString) Connect OK with Socket", level: .Info)
     
        // if let path = SKit.provider.default
-        reqInfo.interfaceCell  = socket.useCell ? 1: 0
+        reqInfo.interfaceCell  = 0
         //MARK: todo set ipaddr local/remote
        //reqInfo.localIPaddress = socket.sourceIPAddress!
         //bug?
@@ -1054,9 +1054,11 @@ class SFConnection: Connection {
         }
         if let l = socket.local {
             reqInfo.localIPaddress = l.hostname
-            if l.hostname == SFNetworkInterfaceManager.WiFiIPAddress {
-                reqInfo.interfaceCell = 0
-            }else {
+            if  SFNetworkInterfaceManager.ipForType(l.hostname) == .cell{
+                reqInfo.interfaceCell = 1
+            }
+        }else {
+            if SFEnv.hwType = .cell {
                 reqInfo.interfaceCell = 1
             }
         }
