@@ -15,14 +15,9 @@ import AxLogger
 import XRuler
 import XProxy
 
-public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
-    
-    
-    
+public class SFTCPConnectionManager {
     
     public static let shared:SFTCPConnectionManager = SFTCPConnectionManager()
-    
-   
     
     public var dispatchQueue:DispatchQueue// = dispatch_queue_create("com.yarshure.dispatch_queue", DISPATCH_QUEUE_SERIAL);
     var socketQueue:DispatchQueue //= dispatch_queue_create("com.yarshure.dispatch_queue_socket", DISPATCH_QUEUE_SERIAL);
@@ -38,9 +33,7 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
             return connections.count
         }
     }
-    func setupClient(_ pcb:SFPcb,client: UnsafeMutableRawPointer!){
-        
-    }
+    
     var ruleResultDynamic:[SFRuleResult] = []
     var ruleTestResult:[SFRuleResult] = []
     //var socketConnection:[SFHTTPSocketConnection] = []
@@ -52,62 +45,74 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     var once : Bool = false
     var networkingScheduledTask :DispatchWorkItem!
    
-    @objc public func client_poll(_ client: UnsafeMutableRawPointer!) {
-        if client != nil {
-            let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
-            let connection:SFConnection = unmanaged.takeUnretainedValue()
-            connection.client_poll()
-        }else {
-            
-        }
+
+    var listener:SFPcb!
+    func setupLWIP(){
+        listener  = init_lwip(outputFunc(), inputFunc())
+        let argu = Unmanaged.passUnretained(self).toOpaque()
+        tcp_arg(listener, argu)
+        tcp_accept(listener, acceptFunc())
+        
+        self.lwip_init_finished = true
         
     }
-    @objc public func client_sent_func(_ client: UnsafeMutableRawPointer!) {
-        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
-        let connection:SFConnection = unmanaged.takeUnretainedValue()
-        connection.client_sent_func()
+    func outputFunc() ->netif_output_fn {
+        return { xnetif,p,addr in
+            guard let p = p  else {
+                return err_t(ERR_BUF)
+            }
+            if p.pointee.next != nil{
+                let payload =  p.pointee.payload
+                let data = Data.init(bytes: payload!, count: Int(p.pointee.len))
+                SFTCPConnectionManager.shared.writeDatagrams(data)
+            }else {
+                var result:Data = Data()
+                var pp = p
+                while(pp.pointee.next != nil){
+                    let payload =  pp.pointee.payload
+                    let data = Data.init(bytes: payload!, count: Int(pp.pointee.len))
+                    result.append(data)
+                    pp = pp.pointee.next
+                }
+                SFTCPConnectionManager.shared.writeDatagrams(result)
+            }
+            
+            return err_t(ERR_OK)
+        }
     }
-    
-    @objc public func client_handle_freed_client(_ client: UnsafeMutableRawPointer!, error err: Int32) {
-        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
-        let connection:SFConnection = unmanaged.takeUnretainedValue()
-        connection.client_handle_freed_client()
+    func inputFunc() ->netif_input_fn{
+        return  { buff ,xnetif in
+            var ip_version:UInt8 = 0
+            if buff!.pointee.len > 0 {
+                ip_version = buff!.pointee.payload.bindMemory(to: UInt8.self, capacity: 1).pointee >> 4
+            }
+            if ip_version == 4 {
+                return ip_input(buff,xnetif)
+            }
+            pbuf_free(buff!)
+            return err_t(ERR_OK)
+        }
     }
-    
-    @objc public func client_free_client(_ client: UnsafeMutableRawPointer!) {
-        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
-        let connection:SFConnection = unmanaged.takeUnretainedValue()
-        connection.client_free_client()
+    func acceptFunc() ->tcp_accept_fn{
+        return { arg,newpcb,err in
+            let unmanaged:Unmanaged<SFTCPConnectionManager>  =   Unmanaged.fromOpaque(arg!)
+            let connection:SFTCPConnectionManager = unmanaged.takeUnretainedValue()
+            tcp_accepted_c(connection.listener)
+            connection.incomingTCP(newpcb!)
+            return err_t(ERR_OK)
+        }
     }
-    
-    @objc public func incomingData(_ d: Data!, len: Int, client: UnsafeMutableRawPointer!) {
-        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
-        let connection:SFConnection = unmanaged.takeUnretainedValue()
-        connection.incomingData(d, len: len)
-    }
-    
-    @objc public func didSendBufferLen(_ buf_used: Int, client: UnsafeMutableRawPointer!) {
-        let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(client)
-        let connection:SFConnection = unmanaged.takeUnretainedValue()
-        connection.didSendBufferLen(buf_used)
-    }
-    
-    
-    override init() {
+    init() {
       
         dispatchQueue =  DispatchQueue.main//DispatchQueue(label: "com.yarshure.dispatchqueue")
         socketQueue =  DispatchQueue(label:"com.yarshure.socketqueue")
-        super.init()
-        setupStackWithFin(self) {
-            self.lwip_init_finished = true
-            self.start()
-        }
-        //dispatch_once(&token) {
         
+        
+        setupLWIP()
+        self.start()
         
         self.installMemoryWarning()
-        
-        //}
+    
     }
 
     public func start(){
@@ -262,6 +267,7 @@ extension SFTCPConnectionManager{
         defer { sport.deallocate(capacity: 1) }
         defer { dport.deallocate(capacity: 1) }
 
+        
         pcbinfo(tcp,srcip,dstip, sport,dport)
         
         //        let xport = dport.byteSwapped

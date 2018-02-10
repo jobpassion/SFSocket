@@ -107,7 +107,66 @@ class SFConnection: Connection {
         }
     }
    
-   
+    func configLwip(){
+        let client = Unmanaged.passUnretained(self).toOpaque()
+        nagle_disable(pcb)
+        tcp_arg(pcb, client)
+        tcp_err(pcb, errorFunc())
+        tcp_recv(pcb, recvFunc())
+        tcp_poll(pcb, pollFunc(), 1)
+        tcp_sent(pcb, sentFunc())
+    }
+    func sentFunc() ->tcp_sent_fn{
+        return { arg,pcb ,len in
+            guard let arg = arg else {return Int8(ERR_ARG) }
+            let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(arg)
+            
+            let client:SFConnection = unmanaged.takeUnretainedValue()
+            client.client_sent_func(Int(len))
+            return Int8(ERR_OK)
+        }
+    }
+    func errorFunc() ->tcp_err_fn {
+        return { arg,err in
+             guard let arg = arg else {return  }
+            let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(arg)
+            
+            let client:SFConnection = unmanaged.takeUnretainedValue()
+            client.client_handle_freed_client(err)
+            
+        }
+    }
+    func recvFunc() ->tcp_recv_fn {
+        return { arg,pcb,buffer,err  in
+            guard let arg = arg else {return Int8(ERR_ARG) }
+            let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(arg)
+            let client:SFConnection = unmanaged.takeUnretainedValue()
+            
+            if buffer != nil {
+                let tot_len:UInt16 = buffer!.pointee.tot_len
+                let buff = UnsafeMutableRawPointer.allocate(bytes: Int(tot_len), alignedTo: 1)
+                pbuf_copy_partial(buffer, buff, tot_len, 0)
+                
+                let d:UnsafeMutablePointer<UInt8> = buff.assumingMemoryBound(to: UInt8.self)
+                let data = Data.init(bytes: d, count: Int(tot_len))
+                client.incomingData(data, len:  Int(tot_len))
+            }else {
+                client.client_free_client()
+                return Int8(ERR_ARG)
+            }
+            pbuf_free(buffer)
+            return Int8(ERR_OK)
+        }
+    }
+    func pollFunc() -> tcp_poll_fn {
+        return { arg ,pcb in
+            guard let arg = arg else {return Int8(ERR_ARG) }
+            let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(arg)
+            let client:SFConnection = unmanaged.takeUnretainedValue()
+            client.client_poll()
+            return Int8(ERR_OK)
+        }
+    }
     internal init(tcp:SFPcb, host:UInt32,port:UInt16, m:SFTCPConnectionManager){
         pcb = tcp
         
@@ -386,9 +445,7 @@ class SFConnection: Connection {
     func findProxy() {
         
     }
-    func configLwip() {
-        config_tcppcb(pcb, Unmanaged.passUnretained(self).toOpaque())
-    }
+  
     func setUpConnector() {
         
     }
@@ -471,7 +528,7 @@ class SFConnection: Connection {
             reqInfo.activeTime = Date() as Date
             reqInfo.estTime = Date() as Date
             
-            configClient_sent_func(pcb)
+            
 
             reqInfo.socks_up = true
             reqInfo.status = .Transferring
@@ -635,7 +692,7 @@ class SFConnection: Connection {
        
         return result
     }
-    public func client_sent_func(){
+    public func client_sent_func(_ len:Int = 0){
 
       
         assert(!reqInfo.client_closed)
@@ -832,7 +889,7 @@ class SFConnection: Connection {
         }
     }
 
-    func client_handle_freed_client(){
+    func client_handle_freed_client(_ err:Int8 = 0){
         //from client_err_func
         //assert(!reqInfo.client_closed)
         
