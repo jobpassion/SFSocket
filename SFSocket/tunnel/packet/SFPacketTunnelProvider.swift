@@ -87,21 +87,7 @@ public class SFPacketTunnelProvider: NEPacketTunnelProvider {
         }
         
         
-        #if os(iOS)
-            
-            DispatchQueue.main.async {
-                autoreleasepool {
-                    Fabric.with([Crashlytics.self])
-                    Fabric.with([Answers.self])
-                    Answers.logCustomEvent(withName: "VPN",
-                                           customAttributes: [
-                                            "Started": "",
-                                            
-                                            ])
-                }
-                
-            }
-        #endif
+       
         
     }
     func vpnStartFinish() {
@@ -164,13 +150,7 @@ public class SFPacketTunnelProvider: NEPacketTunnelProvider {
     }
     
     func networkchanged() {
-        #if os(iOS)
-            Answers.logCustomEvent(withName: "VPN",
-                                   customAttributes: [
-                                    "NetworkChange": "OK",
-                                    
-                                    ])
-        #endif
+        
         
         if reasserting == false {
             
