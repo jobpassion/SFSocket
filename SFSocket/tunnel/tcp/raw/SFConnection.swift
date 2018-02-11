@@ -130,10 +130,8 @@ class SFConnection: Connection {
         return { arg,err in
              guard let arg = arg else {return  }
             let unmanaged:Unmanaged<SFConnection>  =   Unmanaged.fromOpaque(arg)
-            
             let client:SFConnection = unmanaged.takeUnretainedValue()
             client.client_handle_freed_client(err)
-            
         }
     }
     func recvFunc() ->tcp_recv_fn {

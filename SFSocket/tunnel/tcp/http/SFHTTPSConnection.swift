@@ -244,7 +244,7 @@ class SFHTTPSConnection: SFHTTPRequest {
             reqInfo.estTime = Date()
             SKit.log("\(cIDString) ESTABLISHED \(reqInfo.connectionTiming)",level: .Trace)
             reqInfo.status = .Established
-            configClient_sent_func(pcb)
+           
             reqInfo.socks_up = true
             
             _ = sendFakeCONNECTResponse()

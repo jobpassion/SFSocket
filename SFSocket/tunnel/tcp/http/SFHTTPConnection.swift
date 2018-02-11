@@ -619,30 +619,21 @@ class SFHTTPConnection: SFHTTPRequest {
             reqInfo.activeTime = Date() as Date
             reqInfo.estTime = Date() as Date
             
-            //            if !reqInfo.client_closed {
-            //                configClient_sent_func(pcb)
-            //            }
-            configClient_sent_func(pcb)
+           
             reqInfo.socks_up = true
-            //SKit.log("\(cIDString) ESTABLISHED \(reqInfo.connectionTiming)",level: .Debug)
+            
             if let header = reqInfo.reqHeader {
                 if header.method == .CONNECT{
                     _ = sendFakeCONNECTResponse()
                 }
             }
-            //NSLog("%@ Established", reqInfo.url)
+           
             reqInfo.status = .Established
             
-            //client_socks_recv_initiate()
             client_send_to_socks()
-            //            if (!reqInfo.client_closed) {
-            //                client_socks_recv_initiate()
-            //            }
-        //prcessData("ESTABLISHED")
+          
         case .event_ERROR_CLOSED:
-            //SKit.log("\(cIDString) \(reqInfo.transferTiming) RemoteClosed",level: .Debug)
-            //protocol error
-            //assert(reqInfo.socks_up)
+          
             reqInfo.status = .Complete
             //reqInfo.socks_up = false
             reqInfo.socks_closed = true
