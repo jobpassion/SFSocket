@@ -133,3 +133,17 @@ extension NEPacketTunnelProvider:PacketProcessorProtocol {
 extension NEPacketTunnelProvider{
 
 }
+extension NWPathStatus:CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .invalid:
+            return "invalid"
+        case .satisfiable:
+            return "satisfiable"
+        case .satisfied:
+            return "satisfied"
+        default:
+            return "unsatisfied"
+        }
+    }
+}
