@@ -31,7 +31,7 @@ func readPathFromFile() ->String {
     }
     return ""
 }
-public class SFPacketTunnelProvider: NEPacketTunnelProvider {
+open  class SFPacketTunnelProvider: NEPacketTunnelProvider {
 
     
     var pendingStartCompletion:((Error?) ->Void)?
@@ -101,7 +101,7 @@ public class SFPacketTunnelProvider: NEPacketTunnelProvider {
         
         self.addObserver(self, forKeyPath: "defaultPath", options: .initial, context: nil)
     }
-    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         if let path = keyPath,  path == "defaultPath"{
             
@@ -201,7 +201,7 @@ public class SFPacketTunnelProvider: NEPacketTunnelProvider {
             self.reasserting = false
         })
     }
-    override public func startTunnel(options: [String : NSObject]? = nil, completionHandler: @escaping (Error?) -> Void) {
+    public func start(options: [String : NSObject]? = nil, completionHandler: @escaping (Error?) -> Void) {
         
         
         let session = SFEnv.session.startTime
@@ -249,15 +249,15 @@ public class SFPacketTunnelProvider: NEPacketTunnelProvider {
         SKit.log("VPN SESSION starting",level: .Info)
     }
     
-    override public func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+    override open func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
         //framework should save data
         _exit(0)
         
     }
-    override public func wake() {
+    override open func wake() {
         SKit.log("Device wake!!!",level: .Notify)
     }
-    override public func sleep(completionHandler: @escaping () -> Void) {
+    override open func sleep(completionHandler: @escaping () -> Void) {
         
         // Add code here to get ready to sleep.
         SKit.log("Device sleep!!!",level: .Notify)
@@ -266,7 +266,7 @@ public class SFPacketTunnelProvider: NEPacketTunnelProvider {
     }
     /// Handle IPC messages from the app.
     
-    override public func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
+    override open func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
         SKit.handleAppMessage(messageData, completionHandler: completionHandler)
         
     }
