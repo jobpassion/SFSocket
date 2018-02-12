@@ -41,7 +41,7 @@ open  class SFPacketTunnelProvider: NEPacketTunnelProvider {
     var lastPath:NWPath?
     var startTimes = 0
     
-    override init() {
+    public override init() {
         
         NSLog("init ################1111")
         
