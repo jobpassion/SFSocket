@@ -432,6 +432,7 @@ class SFConnection: Connection {
                     if let header  = SFHTTPResponseHeader.init(data: d){
                         reqInfo.respHeader = header
                     }
+                    reqInfo.updaterecvTraffic(d.count)
                     socks_recv_bufArray.append(d)
                     // 有问题sock_up = false
                     client_socks_recv_handler_done(d.count)
@@ -571,7 +572,7 @@ class SFConnection: Connection {
                        break
                     }
                    SKit.log("\(cIDString) tcp_write error \(err)",level: .Error)
-                    //send
+                    //send,bug
                     if err < -9 {
                         fatalError("pcb error")
                         SKit.log("\(cIDString) tcp_pcb error  ",level: .Error)
@@ -622,10 +623,15 @@ class SFConnection: Connection {
         
         if socks_sendout_length > 0 {
             //reset to size
-            let r = Range(0 ..< socks_sendout_length)
-            if socks_sendout_length <= socks_recv_bufArray.count {
+            //let r = Range(0 ..< socks_sendout_length)
+            if socks_sendout_length == socks_recv_bufArray.count {
+                socks_recv_bufArray.count = 0
+                socks_sendout_length = 0
+                return result
+            }
+            if socks_sendout_length < socks_recv_bufArray.count {
                 //socks_recv_bufArray.replaceSubrange(r, with: Data())
-                socks_recv_bufArray.removeSubrange(r)
+                socks_recv_bufArray = socks_recv_bufArray.subdata(in: socks_sendout_length..<socks_recv_bufArray.count)
                 socks_sendout_length = 0
             }else {
                 fatalError("crashed!!!")
@@ -1004,30 +1010,31 @@ class SFConnection: Connection {
     override func didReadData(_ data: Data, withTag: Int, from: Xcon) {
         
         reqInfo.status = .Transferring
+        
         SKit.log("\(cIDString) didReadData \(reqInfo.url):\(data.count)",level:  .Debug)
+        
         //reqInfo.updateSpeed(UInt(data.length),stat: true)
         reqInfo.updaterecvTraffic(data.count)
         
         rTag += 1
         
         //bug here,not
-        if socks_recv_bufArray.isEmpty {
-            socks_recv_bufArray = data
-        }else {
-//            data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
-//                socks_recv_bufArray.append(ptr)
-//            }
-             socks_recv_bufArray = data
+        autoreleasepool {
+            data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
+                socks_recv_bufArray.append(ptr)
+            }
+            client_socks_recv_handler_done(data.count)
         }
-//        autoreleasepool {
-//           
+
+        
+
+//        if socks_recv_bufArray.isEmpty {
+//            socks_recv_bufArray = data
+//        }else {
+//             socks_recv_bufArray.append(data)
 //        }
         
-        //memory not dealloc socks_recv_bufArray.append(data)?
-        #if LOGGER
-            reqInfo.recvData.appendData(data)
-        #endif
-        client_socks_recv_handler_done(data.count)
+      
     }
     
     override func didWriteData(_ data: Data?, withTag: Int, from: Xcon) {
