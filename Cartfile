@@ -1,7 +1,6 @@
-github "Hearst-DD/ObjectMapper" "0c116f44b5d052892146bcb94ad6c690b3dec40d"
 github "networkextension/liblwip" "0.3"
 github "networkextension/SystemKit" "56d5ff28f862f39f6e0a8aefe3964b75ade0dd31"
 github "ashleymills/Reachability.swift" ~> 3.0
 
-github "dongyifan/siren.git "master"
+github "dongyifan/siren.git" "master"
 github "groue/GRDB.swift.git" "v3.3.0"
