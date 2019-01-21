@@ -3,7 +3,7 @@
 //  SimpleTunnel
 //
 //  Created by 孔祥波 on 15/11/2.
-//  Copyright © 2015年 Apple Inc. All rights reserved.
+//  Copyright © 2015年  All rights reserved.
 //
 
 import Foundation
@@ -19,7 +19,7 @@ public class IPv4Packet:CustomStringConvertible{
     public var headerLength:Int32 = 0
     public let payloadLength:Int32 = 0
     public init(PacketData:Data){
-        
+        Apple Inc
         if PacketData.count < 20 {
             //SKit.log("PacketData lenth error",)
             fatalError()
