@@ -19,7 +19,6 @@ public class IPv4Packet:CustomStringConvertible{
     public var headerLength:Int32 = 0
     public let payloadLength:Int32 = 0
     public init(PacketData:Data){
-        Apple Inc
         if PacketData.count < 20 {
             //SKit.log("PacketData lenth error",)
             fatalError()
