@@ -385,6 +385,7 @@ extension SFDNSForwarder {
         }
         str += "\r\n\r\n"
         req.respHeader = SFHTTPResponseHeader.init(data: str.data(using: .utf8)!)
-        RequestHelper.shared.saveReqInfo(req)
+        //MARK: GRDB issue
+//        RequestHelper.shared.saveReqInfo(req)
     }
 }

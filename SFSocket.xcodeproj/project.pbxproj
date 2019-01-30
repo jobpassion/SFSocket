@@ -52,8 +52,6 @@
 		69116B301E96823E007C2FBA /* TCPManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B2E1E96823E007C2FBA /* TCPManagerProtocol.swift */; };
 		69116B381E968749007C2FBA /* SKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B371E968749007C2FBA /* SKit.swift */; };
 		69116B391E968749007C2FBA /* SKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B371E968749007C2FBA /* SKit.swift */; };
-		69116B3B1E9695F4007C2FBA /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B3A1E9695F4007C2FBA /* RequestHelper.swift */; };
-		69116B3C1E9695F4007C2FBA /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B3A1E9695F4007C2FBA /* RequestHelper.swift */; };
 		692128561E9CBA6C00560DEC /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692128551E9CBA6C00560DEC /* NetworkExtension.framework */; };
 		6928061A1EFA7B79007FCF6A /* SFSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B954F21DDF81CF006AF669 /* SFSocket.framework */; };
 		6928061B1EFA7B79007FCF6A /* SFSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 69B954F21DDF81CF006AF669 /* SFSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -828,7 +826,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Kong XiangBo";
 				TargetAttributes = {
 					6904B1011FFDCE83000B64F3 = {
@@ -1065,7 +1063,6 @@
 				69116B271E9681BB007C2FBA /* SFHTTPRequest.swift in Sources */,
 				69C1ED771DF5A4DD0019AFFC /* DNSSessionMatchResult.swift in Sources */,
 				69B955031DDF8201006AF669 /* IPPacket.swift in Sources */,
-				69116B3C1E9695F4007C2FBA /* RequestHelper.swift in Sources */,
 				695F6E7E1E900E1A00C72E5E /* SFUDPConnector.swift in Sources */,
 				69BF6C571DE57E74000ABF09 /* Atomic.swift in Sources */,
 				695F6E761E900E1A00C72E5E /* SFTunConst.swift in Sources */,
@@ -1145,7 +1142,6 @@
 				695F6E671E900E1A00C72E5E /* SFFunc.swift in Sources */,
 				69116B281E9681BB007C2FBA /* SFHTTPSConnection.swift in Sources */,
 				69116B241E9681BB007C2FBA /* SFHTTPConnection.swift in Sources */,
-				69116B3B1E9695F4007C2FBA /* RequestHelper.swift in Sources */,
 				69BF6C681DE57FDB000ABF09 /* Utils.swift in Sources */,
 				69116B261E9681BB007C2FBA /* SFHTTPRequest.swift in Sources */,
 				69BF6C621DE57F7B000ABF09 /* HTTPHeader.swift in Sources */,
@@ -1475,6 +1471,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1482,6 +1479,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1531,6 +1529,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1538,6 +1537,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

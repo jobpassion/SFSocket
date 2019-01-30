@@ -423,12 +423,12 @@ public class SKit {
         
         ProxyGroupSettings.share.historyEnable = true
         if ProxyGroupSettings.share.historyEnable {
-            
-            let helper = RequestHelper.shared
-            let session = SFEnv.session.idenString()
+            //MARK: GRDB issue
+            //let helper = RequestHelper.shared
+            //let session = SFEnv.session.idenString()
           
             
-            helper.open( session,readonly: false,session: session)
+            //helper.open( session,readonly: false,session: session)
         }
         
         
@@ -447,7 +447,7 @@ public class SKit {
             proxy = XProxy()
         }
         proxy?.startGCDProxy(port: port, dispatchQueue: dispatchQueue, socketQueue: socketQueue){ info in
-            RequestHelper.shared.saveReqInfo(info);
+            //RequestHelper.shared.saveReqInfo(info);
         }
     }
     static public func stopGCDProxy(){

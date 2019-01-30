@@ -219,8 +219,8 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
         let req = SFRequestInfo.init(rID:UInt(info.sourcePort.value))
         req.url = info.destinationAddress.description + ":" + String(info.destinationPort.value)
         req.mode = .UDP
-        
-        RequestHelper.shared.saveReqInfo(req)
+        //MARK: GRDB issue
+        //RequestHelper.shared.saveReqInfo(req)
     }
  
 }

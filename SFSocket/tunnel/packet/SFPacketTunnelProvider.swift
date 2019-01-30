@@ -234,12 +234,12 @@ open  class SFPacketTunnelProvider: NEPacketTunnelProvider {
         
         
         if ProxyGroupSettings.share.historyEnable {
+            //MARK: GRDB issue
+            //let helper = RequestHelper.shared
+            //let session = SFEnv.session.idenString()
             
-            let helper = RequestHelper.shared
-            let session = SFEnv.session.idenString()
             
-            
-            helper.open( session,readonly: false,session: session)
+            //helper.open( session,readonly: false,session: session)
         }
         
         //}
