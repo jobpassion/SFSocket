@@ -35,7 +35,7 @@ class SFHTTPRequest: SFConnection{
         
     }
     func checkBufferHaveData(_ buffer:Data,data:Data) -> Range<Data.Index>? {
-        let r = buffer.range(of: data , options: Data.SearchOptions.init(rawValue: 0), in: Range(0 ..< buffer.count))
+        let r = buffer.range(of: data , options: Data.SearchOptions.init(rawValue: 0), in: 0 ..< buffer.count)
         return r
     }
     func httpArgu() ->Bool{

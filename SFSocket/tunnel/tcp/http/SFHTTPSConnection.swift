@@ -43,10 +43,10 @@ class SFHTTPSConnection: SFHTTPRequest {
                //SKit.log("\(cIDString) connection init",level: .Debug)
                 return
             case .httpReqHeader:
-                let r = d.range(of: hData, options: Data.SearchOptions.init(rawValue: 0), in: Range(0 ..< len))
+                let r = d.range(of: hData, options: Data.SearchOptions.init(rawValue: 0), in: 0 ..< len)
                 if let r = r {
                     // body found
-                    headerData.append( d.subdata(in: Range(0 ..< r.lowerBound)))
+                    headerData.append( d.subdata(in: 0 ..< r.lowerBound))
                     reqInfo.reqHeader = SFHTTPRequestHeader(data: headerData)
                     
                     if let reqHeader = reqInfo.reqHeader {
@@ -73,7 +73,7 @@ class SFHTTPSConnection: SFHTTPRequest {
                         //                            return
                         //                        }
                         if r.lowerBound + 4 < len {
-                            let d = d.subdata(in: Range(r.lowerBound+4 ..< len))
+                            let d = d.subdata(in: r.lowerBound+4 ..< len)
                             bufArray.append(d)
                             //need test
                            //SKit.log("\(cIDString) reqbody:\(bufArray)",level: .Debug)

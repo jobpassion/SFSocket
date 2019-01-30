@@ -105,11 +105,11 @@ class SFHTTPConnection: SFHTTPRequest {
     
     func processBufer(_ d:Data,req:SFRequestInfo,enqueue:Bool) -> Bool {
         let len = d.count
-        let r = d.range(of:hData, options: Data.SearchOptions.init(rawValue: 0), in: Range(0 ..< len))
+        let r = d.range(of:hData, options: Data.SearchOptions.init(rawValue: 0), in: 0 ..< len)
         if let r = r {
             // body found
             
-            headerData.append( d.subdata(in: Range(0 ..< r.lowerBound)))
+            headerData.append( d.subdata(in: 0 ..< r.lowerBound))
             SKit.log("\(cIDString) header-- \(headerData as Data)", level: .Debug)
             //MARK: - todo fixme
             guard let reqHeader   = SFHTTPRequestHeader(data: headerData as Data) else {
@@ -152,7 +152,7 @@ class SFHTTPConnection: SFHTTPRequest {
             }
             // 头数据优先进发送队列，body再进
             if r.lowerBound + 4 < len {
-                let body = d.subdata(in: Range(r.lowerBound+4 ..< len ))
+                let body = d.subdata(in: r.lowerBound+4 ..< len )
                 //need test
                 bufArray.append(body)
                 
@@ -211,7 +211,7 @@ class SFHTTPConnection: SFHTTPRequest {
                         SKit.log("\(cIDString) \(reqInfo.url) ####### CONNECT don't need send header",level: .Error)
                     }
                     if recvHeaderData.count != 0 {
-                        recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
+                        recvHeaderData.replaceSubrange(0 ..< recvHeaderData.endIndex, with: Data())
                     }
                     updateReq(req)
                     reqInfo = req
@@ -226,7 +226,7 @@ class SFHTTPConnection: SFHTTPRequest {
                     SKit.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
                     let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                     if recvHeaderData.count != 0 {
-                        recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
+                        recvHeaderData.replaceSubrange(0 ..< recvHeaderData.endIndex, with: Data())
                     }
                     updateReq(req)
                     reqInfo = req
@@ -238,7 +238,7 @@ class SFHTTPConnection: SFHTTPRequest {
                     SKit.log("\(cIDString) HTTP keep-alive create SFRequestInfo",level: .Warning)
                     let req   = SFRequestInfo.init(rID: reqInfo.reqID, sID:requestIndex )
                     if recvHeaderData.count != 0 {
-                        recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
+                        recvHeaderData.replaceSubrange(0 ..< recvHeaderData.endIndex, with: Data())
                     }
                     updateReq(req)
                     reqInfo = req
@@ -384,7 +384,7 @@ class SFHTTPConnection: SFHTTPRequest {
                 SKit.log("\(cIDString) find HTTP and hData length: \(r2.lowerBound)",level: .Debug)
                
                 //let left = recvHeaderData.length - len
-                return Range( r1.lowerBound ..< r2.lowerBound)
+                return r1.lowerBound ..< r2.lowerBound
             }else {
                 SKit.log("\(cIDString) only find HTTP \(r1.lowerBound) \(recvHeaderData)",level: .Debug)
             }
@@ -448,7 +448,7 @@ class SFHTTPConnection: SFHTTPRequest {
                 currentReq.respHeader  = x
                 
                 
-                let left = recvHeaderData.subdata(in: Range(used_length ..< recvHeaderData.count))
+                let left = recvHeaderData.subdata(in: used_length ..< recvHeaderData.count)
                 
                 
                 
@@ -470,12 +470,12 @@ class SFHTTPConnection: SFHTTPRequest {
                 if left.count - used > 0 {
                     
                     
-                    let x  = left.subdata(in: Range(used ..< left.count))
+                    let x  = left.subdata(in: used ..< left.count)
                     recvHeaderData = x
                     
                     SKit.log("\(cIDString) have new header \(recvHeaderData)",level: .Debug)
                 }else {
-                    recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
+                    recvHeaderData.replaceSubrange(0 ..< recvHeaderData.endIndex, with: Data())
                 }
                 
                 SKit.log("\(cIDString) used \(used_length)",level: .Verbose)
@@ -501,10 +501,10 @@ class SFHTTPConnection: SFHTTPRequest {
                 }
                 if recvHeaderData.count - used > 0 {
                     
-                    let x  = recvHeaderData.subdata(in:Range(used ..< recvHeaderData.count))
+                    let x  = recvHeaderData.subdata(in:used ..< recvHeaderData.count)
                     recvHeaderData = x
                 }else {
-                    recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
+                    recvHeaderData.replaceSubrange(0 ..< recvHeaderData.endIndex, with: Data())
                 }
                 //h.bodyLeftLength -= data.length
             }else  if h.mode == .ContentLength{ //fixed reqInfo error bug
@@ -523,10 +523,10 @@ class SFHTTPConnection: SFHTTPRequest {
                     SKit.log("\(cIDString) \(requestIndex) unFin left \(currentReq.respHeader!.bodyLeftLength)",level: .Debug)
                 }
                 if recvHeaderData.count - used > 0 {
-                    let x  = recvHeaderData.subdata(in: Range(used ..< recvHeaderData.count))
+                    let x  = recvHeaderData.subdata(in: used ..< recvHeaderData.count)
                     recvHeaderData = x
                 }else {
-                    recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
+                    recvHeaderData.replaceSubrange(0 ..< recvHeaderData.endIndex, with: Data())
                 }
                 
             }else {
@@ -543,7 +543,7 @@ class SFHTTPConnection: SFHTTPRequest {
                 SKit.log("\(cIDString) recv buffer too bigger length:\(recvHeaderData.count) will clear cache",level: .Error)
             }
             
-            recvHeaderData.replaceSubrange(Range(0 ..< recvHeaderData.endIndex), with: Data())
+            recvHeaderData.replaceSubrange(0 ..< recvHeaderData.endIndex, with: Data())
         }
     }
     func connect(){

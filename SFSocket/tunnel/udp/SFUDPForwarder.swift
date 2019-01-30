@@ -127,11 +127,11 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
         SKit.log("UDP-\(reqID) recv data len:\(tempdata.count)", level: .Trace)
         var r:Range<Data.Index>
         if address.count == 4{
-            r = Range(0 ..< 4)
+            r = 0 ..< 4
         }else {
             //10020035 c0a800f5 00000000 00000000 这个是ipv6?
             //addr = address.subdataWithRange(NSMakeRange(4, 4))
-            r = Range(4 ..< 8)
+            r = 4 ..< 8
         }
         
         var srcip:UInt32 = 0//0xc0a800f5//0b01 // 00f5
@@ -156,10 +156,10 @@ class SFUDPForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate {
                 while used < total {
                     var buffer:Data
                     if total - used > data_len {
-                        buffer = data.subdata(in: Range(used ..< used + data_len))
+                        buffer = data.subdata(in: used ..< used + data_len)
                         used += data_len
                     }else {
-                        buffer = data.subdata(in: Range(used ..< total ))
+                        buffer = data.subdata(in: used ..< total )
                         used += total - used
                     }
                     writePacketData(buffer)

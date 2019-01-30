@@ -257,10 +257,10 @@ extension SFTCPConnectionManager{
         let  dstip:UnsafeMutablePointer<UInt32> =  UnsafeMutablePointer<UInt32>.allocate(capacity: 1)
         let   sport:UnsafeMutablePointer<UInt16> =  UnsafeMutablePointer<UInt16>.allocate(capacity: 1)
         let   dport:UnsafeMutablePointer<UInt16> =  UnsafeMutablePointer<UInt16>.allocate(capacity: 1)
-        defer { srcip.deallocate(capacity: 1) }
-        defer { dstip.deallocate(capacity: 1) }
-        defer { sport.deallocate(capacity: 1) }
-        defer { dport.deallocate(capacity: 1) }
+        defer { srcip.deallocate() }
+        defer { dstip.deallocate() }
+        defer { sport.deallocate() }
+        defer { dport.deallocate() }
 
         pcbinfo(tcp,srcip,dstip, sport,dport)
         

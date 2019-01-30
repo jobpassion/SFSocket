@@ -559,7 +559,7 @@ class SFConnection: Connection {
                     break
                 }
                 //have bug here
-                let to = socks_recv_bufArray.subdata(in: Range(socks_sendout_length ..< socks_sendout_length + Int(to_write))) as NSData
+                let to = socks_recv_bufArray.subdata(in: socks_sendout_length ..< socks_sendout_length + Int(to_write)) as NSData
              
                 let err = tcp_write(pcb,to.bytes,UInt16(to_write), 0x01)
                 

@@ -21,9 +21,9 @@ public  class UDPPacket:NSObject{
     public init(PacketData:Data){
         //debugLog("UDPPacket init")
         _rawData = PacketData
-        var p = Data(_rawData.subdata(in: Range( 0 ..< 2)))
+        var p = Data(_rawData.subdata(in: 0 ..< 2))
         sourcePort = p.to(type: UInt16.self).byteSwapped
-        p = Data(_rawData.subdata(in: Range( 2 ..< 2+2)))
+        p = Data(_rawData.subdata(in:  2 ..< 2+2))
         let dp = p.to(type: UInt16.self)
         //MARM: bug here
         destinationPort = UInt16(dp).byteSwapped
@@ -31,7 +31,7 @@ public  class UDPPacket:NSObject{
     }
     public func payloadData() -> Data{
         
-        let d = Data(_rawData.subdata(in: Range(8 ..< _rawData.count)))
+        let d = Data(_rawData.subdata(in: 8 ..< _rawData.count))
         return d
         
         

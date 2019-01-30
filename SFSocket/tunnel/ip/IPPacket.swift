@@ -21,7 +21,7 @@ open class IPPacket {
      
      - returns: The version of the packet. Returns `nil` if failed to parse the packet.
      */
-    open static func peekIPVersion(_ data: Data) -> IPVersion? {
+    public static func peekIPVersion(_ data: Data) -> IPVersion? {
         guard data.count >= 20 else {
             return nil
         }
@@ -37,7 +37,7 @@ open class IPPacket {
      
      - returns: The protocol of the packet. Returns `nil` if failed to parse the packet.
      */
-    open static func peekProtocol(_ data: Data) -> TransportProtocol? {
+    public static func peekProtocol(_ data: Data) -> TransportProtocol? {
         guard data.count >= 20 else {
             return nil
         }
@@ -52,7 +52,7 @@ open class IPPacket {
      
      - returns: The source IP address of the packet. Returns `nil` if failed to parse the packet.
      */
-    open static func peekSourceAddress(_ data: Data) -> IPv4Address? {
+    public static func peekSourceAddress(_ data: Data) -> IPv4Address? {
         guard data.count >= 20 else {
             return nil
         }
@@ -67,7 +67,7 @@ open class IPPacket {
      
      - returns: The destination IP address of the packet. Returns `nil` if failed to parse the packet.
      */
-    open static func peekDestinationAddress(_ data: Data) -> IPv4Address? {
+    public static func peekDestinationAddress(_ data: Data) -> IPv4Address? {
         guard data.count >= 20 else {
             return nil
         }
@@ -84,7 +84,7 @@ open class IPPacket {
      
      - note: Only TCP and UDP packet has port field.
      */
-    open static func peekSourcePort(_ data: Data) -> XPort? {
+    public static func peekSourcePort(_ data: Data) -> XPort? {
         guard let proto = peekProtocol(data) else {
             return nil
         }
@@ -112,7 +112,7 @@ open class IPPacket {
      
      - note: Only TCP and UDP packet has port field.
      */
-    open static func peekDestinationPort(_ data: Data) -> XPort? {
+    public static func peekDestinationPort(_ data: Data) -> XPort? {
         guard let proto = peekProtocol(data) else {
             return nil
         }
@@ -265,7 +265,7 @@ open class IPPacket {
     }
     
     func buildPacket() {
-        packetData = NSMutableData(length: Int(headerLength) + protocolParser.bytesLength) as Data!
+        packetData = NSMutableData(length: Int(headerLength) + protocolParser.bytesLength) as Data?
         
         // set header
         setPayloadWithUInt8(headerLength / 4 + version.rawValue << 4, at: 0)

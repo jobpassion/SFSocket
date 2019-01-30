@@ -27,13 +27,13 @@ public class IPv4Packet:CustomStringConvertible{
         
         var p = Data(_rawData.subdata(in: 0..<1))
         ihl = UInt8(p.to(type: UInt8.self) ^ 0x40)
-        p = Data(_rawData.subdata(in: Range( 9 ..< 10)))
+        p = Data(_rawData.subdata(in:  9 ..< 10))
         proto = p.to(type: UInt8.self)
-        srcIP = Data(_rawData.subdata(in: Range(12 ..< 16)))
+        srcIP = Data(_rawData.subdata(in: 12 ..< 16))
         //leak
-        dstIP = Data(_rawData.subdata(in: Range( 16 ..<  20)))
+        dstIP = Data(_rawData.subdata(in:  16 ..<  20))
         
-        p = Data(_rawData.subdata(in: Range( 0 ..< 1)))
+        p = Data(_rawData.subdata(in:  0 ..< 1))
         let len = p.data2Int(len: 1) & 0x0F
         headerLength = len * 4
         
@@ -71,7 +71,7 @@ public class IPv4Packet:CustomStringConvertible{
         }
     }
     public func payloadData() ->Data{
-        return Data(_rawData.subdata(in: Range(Int(headerLength) ..< _rawData.count)))
+        return Data(_rawData.subdata(in: Int(headerLength) ..< _rawData.count))
     }
     open var description: String {
         return "src \(srcIP.toIPString()):\(sp) dst \(dstIP.toIPString()):\(dp))"

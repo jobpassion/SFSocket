@@ -155,7 +155,7 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
             }
             //MARK :fixme
             //RawSocketProtocol no == able
-            guard let index = self.activeSockets.index(where: { (arg) -> Bool in
+            guard let index = self.activeSockets.firstIndex(where: { (arg) -> Bool in
 
                 let (_, sock) = arg
                 let ss = sock as! NSObject

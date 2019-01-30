@@ -226,11 +226,11 @@ open  class SFDNSForwarder:SFUDPConnector, GCDAsyncUdpSocketDelegate{
        //SKit.log("\(cIdString) recv:\(tempdata as NSData)", level: .Debug)
         var r:Range<Data.Index>
         if address.count == 4{
-            r = Range(0..<4)
+            r = 0..<4
         }else {
             //10020035 c0a800f5 00000000 00000000 这个是ipv6?
             //addr = address.subdataWithRange(NSMakeRange(4, 4))
-            r = Range(4 ..<  4 + 4)
+            r = 4 ..<  4 + 4
         }
         
         var srcip:UInt32 = 0//0xc0a800f5//0b01 // 00f5

@@ -154,12 +154,12 @@ class OutputStream: OutputStreamType {
     }
     
     // stderr
-    open static func stderr() -> OutputStream {
+    public static func stderr() -> OutputStream {
         return OutputStream(Darwin.stderr)
     }
     
     // stdout
-    open static func stdout() -> OutputStream {
+    public static func stdout() -> OutputStream {
         return OutputStream(Darwin.stdout)
     }
     
