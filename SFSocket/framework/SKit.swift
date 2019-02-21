@@ -447,7 +447,7 @@ public class SKit {
             proxy = XProxy()
         }
         proxy?.startGCDProxy(port: port, dispatchQueue: dispatchQueue, socketQueue: socketQueue){ info in
-            //RequestHelper.shared.saveReqInfo(info);
+            RequestHelper.shared.saveReqInfo(info);
         }
     }
     static public func stopGCDProxy(){
