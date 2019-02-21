@@ -103,6 +103,8 @@
 		697DF07D1FFDF56100C6A64C /* PacketProcessorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DF07C1FFDF56100C6A64C /* PacketProcessorProtocol.swift */; };
 		697DF07E1FFDF56100C6A64C /* PacketProcessorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DF07C1FFDF56100C6A64C /* PacketProcessorProtocol.swift */; };
 		697DF0A41FFF59E900C6A64C /* Opt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0D2771DD5975800227353 /* Opt.swift */; };
+		698776BF221CF70E00A9A7E5 /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B3A1E9695F4007C2FBA /* RequestHelper.swift */; };
+		698776C0221CF70F00A9A7E5 /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69116B3A1E9695F4007C2FBA /* RequestHelper.swift */; };
 		698F37861E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F37851E97334200F98C90 /* NEPacketTunnelProvider+Extension.swift */; };
 		6994E0171DEFBE9E009394F9 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6994E0161DEFBE9E009394F9 /* Rule.swift */; };
 		6994E0181DEFBE9E009394F9 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6994E0161DEFBE9E009394F9 /* Rule.swift */; };
@@ -1065,6 +1067,7 @@
 				69B955031DDF8201006AF669 /* IPPacket.swift in Sources */,
 				695F6E7E1E900E1A00C72E5E /* SFUDPConnector.swift in Sources */,
 				69BF6C571DE57E74000ABF09 /* Atomic.swift in Sources */,
+				698776C0221CF70F00A9A7E5 /* RequestHelper.swift in Sources */,
 				695F6E761E900E1A00C72E5E /* SFTunConst.swift in Sources */,
 				69BF6C631DE57F7B000ABF09 /* HTTPHeader.swift in Sources */,
 				695F6E881E900E1A00C72E5E /* UDPPacket.swift in Sources */,
@@ -1134,6 +1137,7 @@
 				695F6E631E900E1A00C72E5E /* SFDNSManager.swift in Sources */,
 				695F6E4F1E900E1A00C72E5E /* DNSCache.swift in Sources */,
 				692DD5B81DD5CF120079493D /* Checksum.swift in Sources */,
+				698776BF221CF70E00A9A7E5 /* RequestHelper.swift in Sources */,
 				695F6E5D1E900E1A00C72E5E /* Regex.swift in Sources */,
 				69116B2C1E9681BB007C2FBA /* SFTCPConnectionManager.swift in Sources */,
 				692DD5B41DD5CEA30079493D /* ConnectRequest.swift in Sources */,

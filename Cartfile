@@ -1,5 +1,5 @@
 github "networkextension/liblwip" "0.3"
 github "networkextension/SystemKit" "Swift5"
 github "ashleymills/Reachability.swift" ~> 4.0
-
+git "file:///tmp/GRDB_project_name_temp" "patched-for-carthage"
 github "yarshure/XProxy" "Swift5"
