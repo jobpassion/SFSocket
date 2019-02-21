@@ -140,10 +140,10 @@ public class SFTCPConnectionManager:NSObject,TCPStackDelegate {
     }
     func saveConnectionInfo(_ ref:Connection) {
         if ProxyGroupSettings.share.historyEnable {
-//disable write db GRDB not support Swift5
-//            let helper = RequestHelper.shared
-//            let info = ref.reqInfo
-//            helper.saveReqInfo(info)
+            //MARK: GRDB 
+            let helper = RequestHelper.shared
+            let info = ref.reqInfo
+            helper.saveReqInfo(info)
             
         }
     }

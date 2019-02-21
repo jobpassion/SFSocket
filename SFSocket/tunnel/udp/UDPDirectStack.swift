@@ -220,7 +220,7 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
         req.url = info.destinationAddress.description + ":" + String(info.destinationPort.value)
         req.mode = .UDP
         //MARK: GRDB issue
-        //RequestHelper.shared.saveReqInfo(req)
+        RequestHelper.shared.saveReqInfo(req)
     }
  
 }
