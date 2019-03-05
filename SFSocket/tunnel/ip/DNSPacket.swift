@@ -128,11 +128,14 @@ class DNSPacket: NSObject {
         
         rawData = data
         super.init()
-        let value = rawData.withUnsafeBytes { (ptr: UnsafePointer<UInt16>)  in
-            return ptr
+        var bytes:UnsafePointer<UInt16>!
+        _ = rawData.withUnsafeBytes { ptr   in
+            
+            let x = ptr.bindMemory(to: UInt16.self )
+            bytes =   x.baseAddress
         }
         
-        let bytes:UnsafePointer<UInt16> =  UnsafePointer<UInt16>.init(value)
+        
         var p:UnsafePointer<UInt16> = bytes
         var ptr:UnsafePointer<UInt8>?
         

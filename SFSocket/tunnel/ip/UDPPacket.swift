@@ -11,7 +11,9 @@ import NetworkExtension
 
 extension Data {
     public func to<T>(type: T.Type) -> T {
-        return self.withUnsafeBytes { $0.pointee }
+        return self.withUnsafeBytes { ptrBuffer in
+            let x = ptrBuffer.bindMemory(to: type)
+            return x.baseAddress!.pointee}
     }
 }
 public  class UDPPacket:NSObject{

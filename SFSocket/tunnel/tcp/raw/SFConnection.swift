@@ -291,27 +291,11 @@ class SFConnection: Connection {
         let q  = DispatchQueue(label:"com.abigt.dns")
         let hostName = self.reqInfo.host
         q.async { [weak self] in
-            let host = CFHostCreateWithName(nil,hostName as CFString).takeRetainedValue()
-            //NSLog("getIPFromDNS %@", hostName)
-            //let d = NSDate()
-            var result:String?
-            CFHostStartInfoResolution(host, .addresses, nil)
-            var success: DarwinBoolean = false
-            if let addresses = CFHostGetAddressing(host, &success)?.takeUnretainedValue() as NSArray?,
-                let theAddress = addresses.firstObject as? NSData {
-                var hostname = [CChar](repeating: 0, count: Int(256))
-                let p = theAddress as Data
-                let value = p.withUnsafeBytes { (ptr: UnsafePointer<sockaddr>)  in
-                    return ptr
-                }
-                if getnameinfo(value, socklen_t(theAddress.length),
-                               &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
-                     result = String(cString:hostname)
-                    
-                }
-            }
+            
+            
+            let ips = query(hostName)
             if let s = self {
-                if let result = result {
+                if let result = ips.first {
                     let queue = s.manager!.dispatchQueue
                     //s.findIPRule(result)
                     queue.async{

@@ -246,7 +246,7 @@ open class IPPacket {
             }
             self.protocolParser = parser
         default:
-            SKit.log("Can not parse packet header of type  yet",items: transportProtocol,level: .Error)
+            SKit.log("Can not parse packet header of type  yet",items: transportProtocol as Any,level: .Error)
             return nil
         }
     }

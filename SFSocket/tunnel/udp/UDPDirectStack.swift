@@ -12,8 +12,16 @@ struct ConnectInfo: Hashable,CustomStringConvertible {
     let destinationAddress: IPv4Address
     let destinationPort: XPort
     
+  
+    
     var hashValue: Int {
-        return sourceAddress.hashValue &+ sourcePort.hashValue &+ destinationAddress.hashValue &+ destinationPort.hashValue
+//        return sourceAddress.hashValue &+ sourcePort.hashValue &+ destinationAddress.hashValue &+ destinationPort.hashValue
+        var hasher = Hasher()
+        self.hash(into: &hasher)
+        return hasher.finalize()
+    }
+    func hash(into hasher: inout Hasher) {
+        return hasher.combine(sourceAddress.hashValue &+ sourcePort.hashValue &+ destinationAddress.hashValue &+ destinationPort.hashValue)
     }
 }
 
@@ -141,6 +149,7 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
         
         queue.sync {
             if connectInfo != nil {
+                //MARK: fixme crash
                 guard let sock = self.activeSockets[connectInfo!] else {
                     result = nil
                     return
@@ -189,15 +198,16 @@ open class UDPDirectStack: IPStackProtocol, RawSocketDelegate {
        var udpSocket = RawSocketFactory.getRawSocket(type: .GCD, tcp: false)
         udpSocket.queue = DispatchQueue.main
         udpSocket.delegate = self
+       
+        //MARK: fixme
+        queue.sync {
+            self.activeSockets[connectInfo] = udpSocket
+        }
         do {
             try udpSocket.connectTo(request.host, port: UInt16(request.port), enableTLS: false, tlsSettings: nil)
             
         }catch let e {
             SKit.logX(request.host + "\(request.port) connect error :\(e.localizedDescription)", level: .Error)
-        }
-
-        queue.sync {
-            self.activeSockets[connectInfo] = udpSocket
         }
         return (connectInfo, udpSocket)
     }

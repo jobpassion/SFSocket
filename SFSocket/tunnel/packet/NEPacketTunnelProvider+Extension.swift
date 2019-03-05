@@ -55,6 +55,8 @@ extension NEPacketTunnelProvider{
             /*! @const NEProviderStopReasonConnectionFailed Failed to establish connection. */
         case .connectionFailed:
             reasonString = "Failed to establish connection."
+        @unknown default:
+            reasonString = "unknown"
         }
         alertMessage(message: "stoping: \(reasonString)",reason: reason)
         //#displayMessage
