@@ -513,7 +513,7 @@ class SFConnection: Connection {
     }
     
     func client_socks_recv_send_out() ->Int{
-        guard let manager  = manager  else {fatalError("no manager")}
+        guard let _  = manager  else {fatalError("no manager")}
         var result:Int = 0
         var noBufferAvaliable:Bool = false
         if socks_recv_bufArray.count > 0{
@@ -558,15 +558,17 @@ class SFConnection: Connection {
                    SKit.log("\(cIDString) tcp_write error \(err)",level: .Error)
                     //send,bug
                     if err < -9 {
-                        fatalError("pcb error")
                         SKit.log("\(cIDString) tcp_pcb error  ",level: .Error)
+                        SKit.log("\(cIDString) tcp_write write error ",level: .Error)
+                        fatalError("pcb error")
+                        
                         //tcp_recv(pcb,nil)
                         //bug??
-                        client_abort_client()
-                        SKit.log("\(cIDString) tcp_write write error ",level: .Error)
+                        //client_abort_client()
+                        
                        
                         
-                        return Int(err)
+                        //return Int(err)
                     }
                     
                 }
@@ -593,7 +595,7 @@ class SFConnection: Connection {
                 SKit.log("\(cIDString) tcp_output error",level:.Error)
                 client_abort_client()
                 fatalError("tcp_output error")
-                return -1
+                //return -1
             }
             
         }else {
@@ -676,7 +678,7 @@ class SFConnection: Connection {
                 
                 SKit.log("\(cIDString) client_socks_recv_send_out error:\(error)",level: .Error)
                 fatalError("send_out fail")
-                client_abort_client()
+                //client_abort_client()
             }
         }
     }
@@ -1004,8 +1006,8 @@ class SFConnection: Connection {
         
         //bug here,not
         autoreleasepool {
-            data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
-                socks_recv_bufArray.append(ptr)
+            for p in data.regions {
+                socks_recv_bufArray.append(p)
             }
             client_socks_recv_handler_done(data.count)
         }

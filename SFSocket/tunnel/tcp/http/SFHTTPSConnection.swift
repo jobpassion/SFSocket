@@ -292,16 +292,12 @@ class SFHTTPSConnection: SFHTTPRequest {
         #if LOGGER
             reqInfo.recvData.append(data)
         #endif
-//        if socks_recv_bufArray.count == 0 {
-//            socks_recv_bufArray = data
-//        }else {
-//            socks_recv_bufArray.append(data)
-//        }
+
         let count = data.count
-        data.enumerateBytes { (ptr:UnsafeBufferPointer<UInt8>,index: Data.Index, flag:inout Bool) in
-            socks_recv_bufArray.append(ptr)
+        for p in data.regions {
+            socks_recv_bufArray.append(p)
         }
-       
+      
         client_socks_recv_handler_done(count)
         //processData("didReadData")
         
