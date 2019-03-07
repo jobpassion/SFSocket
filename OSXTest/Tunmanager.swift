@@ -53,9 +53,10 @@ class Tunmanager: NSObject {
         // Connect the socket to the UTUN kernel control.
         var socketAddressControl = sockaddr_ctl(sc_len: UInt8(MemoryLayout<sockaddr_ctl>.size), sc_family: UInt8(AF_SYSTEM), ss_sysaddr: UInt16(AF_SYS_CONTROL), sc_id: controlIdentifier, sc_unit: 0, sc_reserved: (0, 0, 0, 0, 0))
         
+        let len = socklen_t(MemoryLayout.size(ofValue: socketAddressControl))
         let connectResult = withUnsafePointer(to: &socketAddressControl) {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
-                connect(utunSocket, $0, socklen_t(MemoryLayout.size(ofValue: socketAddressControl)))
+                connect(utunSocket, $0, len)
             }
 
            // connect(utunSocket, UnsafePointer<sockaddr>($0), socklen_t(MemoryLayout.size(ofValue: socketAddressControl)))
@@ -78,7 +79,7 @@ class Tunmanager: NSObject {
         let resultCode = getsockopt(utunSocket, SYSPROTO_CONTROL, getUTUNNameOption(), &buffer, &bufferSize)
         if  resultCode < 0 {
             let errorString = String(cString: strerror(errno))
-            simpleTunnelLog("getsockopt failed while getting the utun interface name: \(errorString)")
+            simpleTunnelLog("getsockopt failed while getting the utun interface name: \(errorString), do you run as root?")
             return nil
         }
         return String(cString: &buffer)
@@ -222,12 +223,13 @@ class Tunmanager: NSObject {
             
             var buffer:UnsafeMutableRawPointer?
             
-            var ptr :UnsafePointer<Any>?
             
-            packet.withUnsafeBytes({ (p:UnsafePointer) -> Void in
-                ptr = p
+            
+            packet.withUnsafeBytes({ (p:UnsafeRawBufferPointer) -> Void in
+               
+                buffer = UnsafeMutableRawPointer.init(mutating: p.baseAddress)
             })
-            buffer = UnsafeMutableRawPointer.init(mutating: ptr)
+            
             var iovecList = [ iovec(iov_base: &protocolNumber, iov_len: MemoryLayout.size(ofValue: protocolNumber)), iovec(iov_base: buffer, iov_len: packet.count) ]
             
             let writeCount = writev(utunSocket, &iovecList, Int32(iovecList.count))

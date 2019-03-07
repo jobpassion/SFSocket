@@ -23,19 +23,19 @@ import XSocket
 //    }
 //}
 public extension String {
-    public func to(index:Int) ->String{
+    func to(index:Int) ->String{
         return String(self[..<self.index(self.startIndex, offsetBy:index)])
         
     }
-    public func to(index:String.Index) ->String{
+    func to(index:String.Index) ->String{
         return String(self[..<index])
         
     }
-    public func from(index:Int) ->String{
+    func from(index:Int) ->String{
         return String(self[self.index(self.startIndex, offsetBy:index)...])
         
     }
-    public func from(index:String.Index) ->String{
+    func from(index:String.Index) ->String{
         return String(self[index...])
         
     }
